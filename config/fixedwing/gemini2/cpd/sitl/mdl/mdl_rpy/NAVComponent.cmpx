@@ -9,17 +9,17 @@
 	
 	<RHAPSODY-MODEL>
 	<IComponent type="e">
-			<_id type="a">GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</_id>
+			<_id type="a">GUID 9df8a15a-0cfd-4156-8463-cbce1f178e7c</_id>
 			<_myState type="a">8192</_myState>
-			<_name type="a">VMComponent</_name>
-			<_modifiedTimeWeak type="a">10.20.2022::15:50:39</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.20.2022::16:11:16</_modifiedTime>
+			<_name type="a">NAVComponent</_name>
+			<_modifiedTimeWeak type="a">10.21.2022::1:24:17</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.21.2022::1:40:40</_modifiedTime>
 			<_lastID type="a">1</_lastID>
 			<m_buildType type="a">Executable</m_buildType>
 			<m_configActive type="r">
 				<ICodeGenConfigInfoHandle type="e">
 					<_hm2Class type="a">ICodeGenConfigInfo</_hm2Class>
-					<_hid type="a">GUID d940f583-0a72-4771-b6f5-512d12ce7a82</_hid>
+					<_hid type="a">GUID ea0ff085-a496-47ba-b8f6-603475400f5b</_hid>
 				</ICodeGenConfigInfoHandle>
 			</m_configActive>
 			<VariationPoints type="c">
@@ -30,30 +30,29 @@
 				<IRPYRawContainer type="e">
 				</IRPYRawContainer>
 			</SelectedVariants>
-			<weakCGTime type="a">10.20.2022::15:50:39</weakCGTime>
-			<strongCGTime type="a">10.20.2022::15:50:39</strongCGTime>
+			<weakCGTime type="a">10.21.2022::1:24:17</weakCGTime>
+			<strongCGTime type="a">10.20.2022::16:4:32</strongCGTime>
 			<AggregatesList type="e">
-				<value>GUID 4440e7ba-3dc8-415c-9a1c-5d7243411735</value>
-				<value>GUID d940f583-0a72-4771-b6f5-512d12ce7a82</value>
+				<value>GUID a34d150b-ffa9-4ebc-9e8e-9ef22b1d4788</value>
+				<value>GUID ea0ff085-a496-47ba-b8f6-603475400f5b</value>
 			</AggregatesList>
 		</IComponent>
 		<IFolder type="e">
-			<_id type="a">GUID 4440e7ba-3dc8-415c-9a1c-5d7243411735</_id>
+			<_id type="a">GUID a34d150b-ffa9-4ebc-9e8e-9ef22b1d4788</_id>
 			<_myState type="a">8192</_myState>
-			<_rmmServerID type="a">-1</_rmmServerID>
 			<_name type="a">Files</_name>
-			<_modifiedTimeWeak type="a">10.20.2022::15:50:39</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.20.2022::15:50:39</_modifiedTime>
-			<m_path type="a">../../../../../../../private/apps/va/vm/fsw/generated</m_path>
+			<_modifiedTimeWeak type="a">10.20.2022::16:4:32</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.20.2022::16:4:32</_modifiedTime>
+			<m_path type="a">../../../../../../../private/apps/nav/fsw/generated</m_path>
 			<Elements type="c">
 				<IRPYRawContainer type="e">
 					
 						<IHandle type="e">
 							<_hm2Class type="a">ISubsystem</_hm2Class>
-							<_hfilename type="a">.\..\..\..\..\..\..\..\..\private\apps\va\vm\mdl\VM.sbsx</_hfilename>
+							<_hfilename type="a">.\..\..\..\..\..\..\..\..\private\apps\nav\mdl\nav_rpy\NAV.sbsx</_hfilename>
 							<_hsubsystem type="a">apps</_hsubsystem>
-							<_hname type="a">VM</_hname>
-							<_hid type="a">GUID f062ab3e-96b7-4f5c-9346-ccc9e7714e1c</_hid>
+							<_hname type="a">NAV</_hname>
+							<_hid type="a">GUID 41a74863-a65f-4857-8000-caa1d72e5670</_hid>
 						</IHandle>
 					
 				</IRPYRawContainer>
@@ -64,7 +63,7 @@
 			</Files>
 		</IFolder>
 		<ICodeGenConfigInfo type="e">
-			<_id type="a">GUID d940f583-0a72-4771-b6f5-512d12ce7a82</_id>
+			<_id type="a">GUID ea0ff085-a496-47ba-b8f6-603475400f5b</_id>
 			<_myState type="a">8192</_myState>
 			<_properties type="p"><IPropertyContainer type="e">
 				<Subjects type="c">
@@ -88,6 +87,21 @@
 										</Properties>
 									</IPropertyMetaclass>
 									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Operation</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AnimAllowInvocation</_Name>
+													<_Value type="a">All</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">None, Public, Protected, All</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
 								</IRPYRawContainer>
 							</Metaclasses>
 						</IPropertySubject>
@@ -96,10 +110,9 @@
 				</Subjects>
 			</IPropertyContainer>
 			</_properties>
-			<_rmmServerID type="a">-1</_rmmServerID>
 			<_name type="a">DefaultConfig</_name>
-			<_modifiedTimeWeak type="a">10.13.2022::16:49:47</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.13.2022::16:49:47</_modifiedTime>
+			<_modifiedTimeWeak type="a">10.21.2022::1:24:17</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.21.2022::1:24:17</_modifiedTime>
 			<_scopeType type="a">Explicit</_scopeType>
 			<_instrumentation type="a">Animation</_instrumentation>
 			<_timeModel type="a">RealTime</_timeModel>
@@ -115,8 +128,8 @@
 				<IRPYRawContainer type="e">
 				</IRPYRawContainer>
 			</InitialInstances>
-			<weakCGTime type="a">10.13.2022::16:49:47</weakCGTime>
-			<strongCGTime type="a">10.13.2022::16:49:47</strongCGTime>
+			<weakCGTime type="a">10.21.2022::1:24:17</weakCGTime>
+			<strongCGTime type="a">10.21.2022::1:24:17</strongCGTime>
 			<AnimScopeElements type="c">
 				<IRPYRawContainer type="e">
 				</IRPYRawContainer>
@@ -124,43 +137,40 @@
 			<m_allInAnimScope type="a">1</m_allInAnimScope>
 			<m_generateUsecases type="a">0</m_generateUsecases>
 			<AggregatesList type="e">
-				<value>GUID fbf3c2d0-c704-4acb-b385-3f3e35e7ec34</value>
-				<value>GUID e6a09dda-af21-4509-ae8c-bda880cd6e9d</value>
-				<value>GUID 4f347861-5470-4f3e-bc69-997fa4fc05d8</value>
+				<value>GUID 937667b3-4105-4781-96ef-9df24fdef6ee</value>
+				<value>GUID dbdfd0d5-e2ee-4f80-b1ad-5866dd4296b5</value>
+				<value>GUID 8ced1978-41a3-48c2-9193-8ab2478841c8</value>
 			</AggregatesList>
 		</ICodeGenConfigInfo>
 		<IMHyperLink type="e">
-			<_id type="a">GUID fbf3c2d0-c704-4acb-b385-3f3e35e7ec34</_id>
-			<_rmmServerID type="a">-1</_rmmServerID>
+			<_id type="a">GUID 937667b3-4105-4781-96ef-9df24fdef6ee</_id>
 			<_modifiedTimeWeak type="a">1.2.1990::0:0:0</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.12.2022::20:53:48</_modifiedTime>
+			<_modifiedTime type="a">10.20.2022::15:49:58</_modifiedTime>
 			<_dependsOn type="r">
 				<INObjectHandle type="e">
 				</INObjectHandle>
 			</_dependsOn>
 			<_linkDispName type="a">Edit Makefile</_linkDispName>
 			<_linkType type="a">FREE</_linkType>
-			<_linkTarget type="a">VMComponent.mak</_linkTarget>
+			<_linkTarget type="a">NAVComponent.mak</_linkTarget>
 			<isConfigurationFileHyperLink type="a">1</isConfigurationFileHyperLink>
 		</IMHyperLink>
 		<IMHyperLink type="e">
-			<_id type="a">GUID e6a09dda-af21-4509-ae8c-bda880cd6e9d</_id>
-			<_rmmServerID type="a">-1</_rmmServerID>
+			<_id type="a">GUID dbdfd0d5-e2ee-4f80-b1ad-5866dd4296b5</_id>
 			<_modifiedTimeWeak type="a">1.2.1990::0:0:0</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.12.2022::20:53:48</_modifiedTime>
+			<_modifiedTime type="a">10.20.2022::15:49:58</_modifiedTime>
 			<_dependsOn type="r">
 				<INObjectHandle type="e">
 				</INObjectHandle>
 			</_dependsOn>
 			<_linkDispName type="a">Edit Main File</_linkDispName>
 			<_linkType type="a">FREE</_linkType>
-			<_linkTarget type="a">MainVMComponent</_linkTarget>
+			<_linkTarget type="a">MainNAVComponent</_linkTarget>
 			<isConfigurationFileHyperLink type="a">1</isConfigurationFileHyperLink>
 		</IMHyperLink>
 		<IFolder type="e">
-			<_id type="a">GUID 4f347861-5470-4f3e-bc69-997fa4fc05d8</_id>
+			<_id type="a">GUID 8ced1978-41a3-48c2-9193-8ab2478841c8</_id>
 			<_myState type="a">73728</_myState>
-			<_rmmServerID type="a">-1</_rmmServerID>
 			<_name type="a">DefaultConfig</_name>
 			<_modifiedTimeWeak type="a">10.13.2022::16:49:47</_modifiedTimeWeak>
 			<_modifiedTime type="a">10.13.2022::16:49:47</_modifiedTime>

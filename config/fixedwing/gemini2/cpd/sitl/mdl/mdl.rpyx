@@ -12,8 +12,8 @@
 			<_id type="a">GUID 1b07d5d7-347a-419a-98b1-37ee5b4aa36a</_id>
 			<_myState type="a">8192</_myState>
 			<_name type="a">mdl</_name>
-			<_modifiedTimeWeak type="a">10.13.2022::16:39:19</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.13.2022::16:39:19</_modifiedTime>
+			<_modifiedTimeWeak type="a">10.21.2022::1:51:8</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.21.2022::1:59:2</_modifiedTime>
 			<_lastID type="a">2</_lastID>
 			<_UserColors type="w">
 				<IRPYRawContainer type="e">
@@ -45,8 +45,8 @@
 			<_component type="r">
 				<IHandle type="e">
 					<_hm2Class type="a">IComponent</_hm2Class>
-					<_hname type="a">VMComponent</_hname>
-					<_hid type="a">GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</_hid>
+					<_hname type="a">NAVComponent</_hname>
+					<_hid type="a">GUID 9df8a15a-0cfd-4156-8463-cbce1f178e7c</_hid>
 				</IHandle>
 			</_component>
 			<Multiplicities type="c">
@@ -89,6 +89,7 @@
 				<value>GUID f88530b4-de6c-45b0-9718-32176ed12254</value>
 				<value>GUID 360de7e3-082b-4c36-9826-cdbfc6f91f2d</value>
 				<value>GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</value>
+				<value>GUID 9df8a15a-0cfd-4156-8463-cbce1f178e7c</value>
 			</AggregatesList>
 		</IProject>
 		<IProfile type="e">
@@ -114,10 +115,81 @@
 		<IDiagram type="e">
 			<_id type="a">GUID 360de7e3-082b-4c36-9826-cdbfc6f91f2d</_id>
 			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">Format</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Object</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">DefaultSize</_Name>
+													<_Value type="a">0,34,84,148</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Fill.FillColor</_Name>
+													<_Value type="a">255,255,255</_Value>
+													<_Type type="a">Color</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Font.Font</_Name>
+													<_Value type="a">Tahoma</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Font.Size</_Name>
+													<_Value type="a">8</_Value>
+													<_Type type="a">Int</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Font.Weight@Child.NameCompartment@Name</_Name>
+													<_Value type="a">700</_Value>
+													<_Type type="a">Int</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Line.LineColor</_Name>
+													<_Value type="a">109,163,217</_Value>
+													<_Type type="a">Color</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Line.LineStyle</_Name>
+													<_Value type="a">0</_Value>
+													<_Type type="a">Int</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">Line.LineWidth</_Name>
+													<_Value type="a">1</_Value>
+													<_Type type="a">Int</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
 			<_name type="a">Model1</_name>
 			<_modifiedTimeWeak type="a">1.2.1990::0:0:0</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.11.2022::22:56:28</_modifiedTime>
-			<_lastModifiedTime type="a">10.11.2022::22:56:28</_lastModifiedTime>
+			<_modifiedTime type="a">10.21.2022::1:51:8</_modifiedTime>
+			<_lastModifiedTime type="a">10.21.2022::1:51:8</_lastModifiedTime>
 			<m_hReferencedDiagram type="r">
 				<IHandle type="e">
 				</IHandle>
@@ -240,6 +312,10 @@
 		<IComponent type="e">
 			<fileName type="a">VMComponent</fileName>
 			<_id type="a">GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</_id>
+		</IComponent>
+		<IComponent type="e">
+			<fileName type="a">NAVComponent</fileName>
+			<_id type="a">GUID 9df8a15a-0cfd-4156-8463-cbce1f178e7c</_id>
 		</IComponent>
 		
 	</RHAPSODY-MODEL>

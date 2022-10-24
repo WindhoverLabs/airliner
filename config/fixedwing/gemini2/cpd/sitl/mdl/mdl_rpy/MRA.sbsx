@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>109.0.1</version>
+	<lang>C++</lang>
+	<BuildNo>202006101734</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<ISubsystem type="e">
+			<_id type="a">GUID c49d22de-ac16-403f-9df6-c821330b6879</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">MRA</_name>
+			<_modifiedTimeWeak type="a">10.19.2022::22:39:26</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.19.2022::22:48:39</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">10.19.2022::22:39:26</weakCGTime>
+			<strongCGTime type="a">10.19.2022::17:13:46</strongCGTime>
+			<_defaultComposite type="s">GUID 9c7d9fac-4a4f-423a-9eaa-9f5037b34aaf</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">1.2.1990::0:0:0</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID 9c7d9fac-4a4f-423a-9eaa-9f5037b34aaf</value>
+				<value>GUID 06e06a98-2fc3-4696-8c43-c913628bdd7f</value>
+			</AggregatesList>
+		</ISubsystem>
+		<IClass type="e">
+			<_id type="a">GUID 9c7d9fac-4a4f-423a-9eaa-9f5037b34aaf</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">10.19.2022::17:16:6</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.19.2022::17:16:6</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">10.19.2022::17:16:6</weakCGTime>
+			<strongCGTime type="a">1.2.1990::0:0:0</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+			<AggregatesList type="e">
+				<value>GUID 13a2d7ea-0ad3-44d2-ac10-0fcb2e419226</value>
+			</AggregatesList>
+		</IClass>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 13a2d7ea-0ad3-44d2-ac10-0fcb2e419226</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">MRA_AppMain</_name>
+			<_modifiedTimeWeak type="a">10.19.2022::17:16:6</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.19.2022::17:16:6</_modifiedTime>
+			<_virtual type="a">0</_virtual>
+			<Args type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Args>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">MRA oMRA;%0D
+%0D
+oMRA.AppMain();</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 6542e241-05d7-4f47-a229-07e62d3a944f</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IType type="e">
+			<_id type="a">GUID 6542e241-05d7-4f47-a229-07e62d3a944f</_id>
+			<_myState type="a">8192</_myState>
+			<_modifiedTimeWeak type="a">1.2.1990::0:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">1.2.1990::0:0:0</_modifiedTime>
+			<_declaration type="a">extern &quot;C&quot; void</_declaration>
+			<_kind type="a">Language</_kind>
+		</IType>
+		<IClass type="e">
+			<_id type="a">GUID 06e06a98-2fc3-4696-8c43-c913628bdd7f</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">MRA</_name>
+			<_modifiedTimeWeak type="a">10.19.2022::22:41:27</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.19.2022::22:41:27</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">10.19.2022::22:41:27</weakCGTime>
+			<strongCGTime type="a">10.19.2022::17:13:2</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+			<AggregatesList type="e">
+				<value>GUID 57d01634-fff7-4da2-914c-d051423bedc3</value>
+			</AggregatesList>
+		</IClass>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 57d01634-fff7-4da2-914c-d051423bedc3</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">AppMain</_name>
+			<_modifiedTimeWeak type="a">10.19.2022::22:41:27</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.19.2022::22:41:27</_modifiedTime>
+			<_virtual type="a">0</_virtual>
+			<Args type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Args>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">int32 status;%0D
+%0D
+/* Register the application with Executive Services */%0D
+(void) CFE_ES_RegisterApp();%0D
+if(status != CFE_SUCCESS)%0D
+{%0D
+    (void) CFE_ES_WriteToSysLog(&quot;Failed to register the app (0x%2508X)\n&quot;, (unsigned int)status);%0D
+}%0D
+%0D
+/* Start Performance Log entry */%0D
+CFE_ES_PerfLogEntry(0);%0D
+%0D
+startBehavior();%0D
+%0D
+while(1)%0D
+{%0D
+    OS_TaskDelay(10000);%0D
+}%0D
+%0D
+CFE_ES_ExitApp(0);</_bodyData>
+			</IBody>
+			</_itsBody>
+		</IPrimitiveOperation>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

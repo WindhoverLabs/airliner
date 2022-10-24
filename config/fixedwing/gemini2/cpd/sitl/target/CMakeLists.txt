@@ -238,11 +238,11 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sens
 )
 
-buildliner_add_app(
-    vm
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/va/vm/fsw/for_build
-)
+# buildliner_add_app(
+#     vm
+#     EMBEDDED
+#     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/va/vm/fsw/for_build
+# )
 
 buildliner_add_app(
     ld
@@ -254,8 +254,8 @@ buildliner_add_app(
 buildliner_add_app(
     nav
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/nav
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/nav/fsw/for_build
+    # CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/nav
 )
 
 buildliner_add_app(
