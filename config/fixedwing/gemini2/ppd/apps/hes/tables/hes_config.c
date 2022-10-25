@@ -30,7 +30,7 @@
 **    ObjSize - size of the entire table
 **
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef =
+static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
 {
     "HES_ConfigTbl", "HES.CONFIG_TBL", "HES default config table",
     "hes_config.tbl", (sizeof(HES_ConfigTblEntry_t) * HES_CONFIG_TABLE_MAX_ENTRIES)
