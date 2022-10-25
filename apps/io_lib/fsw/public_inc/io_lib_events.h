@@ -31,18 +31,17 @@ extern "C" {
 /* Event IDs */
 typedef enum
 {
-    IO_LIB_RESERVED_EID             = 0,
-    IO_LIB_INF_EID                  = 1,
-    IO_LIB_ERR_EID                  = 2,
-    IO_LIB_FORMAT_INF_EID           = 3,
-    IO_LIB_SERVICE_INF_EID          = 4,
-    IO_LIB_FORMAT_ERR_EID           = 5,
-    IO_LIB_SERVICE_ERR_EID          = 6,
-    IO_LIB_TRANS_UDP_EID            = 7,
-    IO_LIB_TRANS_RS422_EID          = 8,
-    IO_LIB_TRANS_SELECT_EID         = 9,
-    IO_LIB_COP1_EID                 = 10,
-    IO_LIB_TM_SDLP_EID              = 11,
+    IO_LIB_INF_EID                  = 201,
+    IO_LIB_ERR_EID                  = 202,
+    IO_LIB_FORMAT_INF_EID           = 203,
+    IO_LIB_SERVICE_INF_EID          = 204,
+    IO_LIB_FORMAT_ERR_EID           = 205,
+    IO_LIB_SERVICE_ERR_EID          = 206,
+    IO_LIB_TRANS_UDP_EID            = 207,
+    IO_LIB_TRANS_RS422_EID          = 208,
+    IO_LIB_TRANS_SELECT_EID         = 209,
+    IO_LIB_COP1_EID                 = 210,
+    IO_LIB_TM_SDLP_EID              = 211,
     IO_LIB_EVT_CNT 
 } IO_LIB_Events_t;
 
