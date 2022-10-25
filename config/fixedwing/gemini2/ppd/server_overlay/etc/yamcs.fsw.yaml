@@ -111,11 +111,12 @@ dataLinks:
           stream: tm_realtime
           #stripEncapsulationHeader: false
           #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
-          packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+          packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.cfs.CfsPacketPreprocessor
           packetPreprocessorArgs:
             byteOrder: LITTLE_ENDIAN
             #errorDetection:
             #tcoService:
+            checkForSequenceDiscontinuity: false
             timestampFormat: CFE_SB_TIME_32_16_SUBS
             timeEncoding:
               epoch: CUSTOM

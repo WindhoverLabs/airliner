@@ -729,7 +729,7 @@ void HES_ProcessCVT() {
 
     HES_filterAngles(euler, 0, &(HES_AppData.HkTlm.rollDegrees), -1);
     HES_filterAngles(euler, 2, &(HES_AppData.HkTlm.headingDegrees), 1);
-    printf("euler2 = %f, headDeg = %f, phase = %d\n", euler[2], HES_AppData.HkTlm.headingDegrees, HES_AppData.CVT.filtered_euler_phase[2]);
+//    printf("euler2 = %f, headDeg = %f, phase = %d\n", euler[2], HES_AppData.HkTlm.headingDegrees, HES_AppData.CVT.filtered_euler_phase[2]);
 
     wind_n = 
         HES_AppData.CVT.filtered_vel_n
