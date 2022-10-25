@@ -240,14 +240,22 @@ void Test_VM_ProcessCmdPipe_Reset(void)
 
     /* Verify results */
     if ((oVM.HkTlm.usCmdCnt == 0) && (oVM.HkTlm.usCmdErrCnt == 0)
-        && (oVM.HkTlm.WakeupCount == 0) && (oVM.HkTlm.BatteryStatusMsgCount == 0)
-        && (oVM.HkTlm.TelemetryStatusMsgCount == 0) && (oVM.HkTlm.SubsystemInfoMsgCount == 0)
-        && (oVM.HkTlm.VehicleAttitudeMsgCount == 0) && (oVM.HkTlm.VehicleLocalPositionMsgCount == 0)
-        && (oVM.HkTlm.VehicleLandDetectedMsgCount == 0) && (oVM.HkTlm.MissionResultMsgCount == 0)
-        && (oVM.HkTlm.ManualControlSetpointMsgCount == 0) && (oVM.HkTlm.PositionSetpointTripletMsgCount == 0)
-        && (oVM.HkTlm.SafetyMsgCount == 0) && (oVM.HkTlm.SensorCorrectionMsgCount == 0)
-        && (oVM.HkTlm.VehicleControlModeMsgCount == 0) && (oVM.HkTlm.SensorCombinedMsgCount == 0)
-        && (oVM.HkTlm.VehicleCommandMsgCount == 0) && (oVM.HkTlm.VehicleGlobalPositionMsgCount == 0)
+        && (oVM.HkTlm.WakeupCount == 0)
+        && (oVM.HkTlm.BatteryStatusMsgCount == 0)
+        && (oVM.HkTlm.TelemetryStatusMsgCount == 0)
+        && (oVM.HkTlm.SubsystemInfoMsgCount == 0)
+        && (oVM.HkTlm.VehicleAttitudeMsgCount == 0)
+        && (oVM.HkTlm.VehicleLocalPositionMsgCount == 0)
+        && (oVM.HkTlm.VehicleLandDetectedMsgCount == 0)
+        && (oVM.HkTlm.MissionResultMsgCount == 0)
+        && (oVM.HkTlm.ManualControlSetpointMsgCount == 0)
+        && (oVM.HkTlm.PositionSetpointTripletMsgCount == 0)
+        && (oVM.HkTlm.SafetyMsgCount == 0)
+        && (oVM.HkTlm.SensorCorrectionMsgCount == 0)
+        && (oVM.HkTlm.VehicleControlModeMsgCount == 0)
+        && (oVM.HkTlm.SensorCombinedMsgCount == 0)
+        && (oVM.HkTlm.VehicleCommandMsgCount == 0)
+        && (oVM.HkTlm.VehicleGlobalPositionMsgCount == 0)
         && (oVM.HkTlm.VehicleGpsPositionMsgCount == 0))
     {
         UtAssert_True(TRUE, "ProcessCmdPipe, Reset");
@@ -316,8 +324,73 @@ void Test_VM_ProcessCmdPipe_VehicleArm(void)
 
     /* Verify results */
     UtAssert_True(oVMut.HkTlm.usCmdCnt == 1, "ProcessCmdPipe, VehicleArm");
-    UtAssert_EventSent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
-             expectedEvent, "ProcessCmdPipe, VehicleArm EventSent");
+    UtAssert_EventSent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID,
+                       CFE_EVS_INFORMATION, expectedEvent,
+                       "ProcessCmdPipe, VehicleArm EventSent");
+}
+
+
+/**
+ * Test VM ProcessCmdPipe, Fail VehicleArm
+ */
+void Test_VM_ProcessCmdPipe_Fail_VehicleArm(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsg;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsg, VM_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)VM_VEHICLE_ARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                        (void *)&Test_VM_ProcessCmdPipe_GetPSPTimeHook);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_EMERGENCY;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Arming transition. [ARM] Command rejected.");
+
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail VehicleArm");
+    // issue #249
+    UtAssert_EventSent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+             expectedEvent, "ProcessCmdPipe, Fail_VehicleArm EventSent");
 }
 
 
@@ -380,8 +453,71 @@ void Test_VM_ProcessCmdPipe_VehicleDisarm(void)
 
     /* Verify results */
     UtAssert_True(oVMut.HkTlm.usCmdCnt == 2, "ProcessCmdPipe, VehicleDisarm");
-    UtAssert_EventSent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
-             expectedEvent, "ProcessCmdPipe, VehicleDisarm EventSent");
+    UtAssert_EventSent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID,
+                       CFE_EVS_INFORMATION, expectedEvent,
+                       "ProcessCmdPipe, VehicleDisarm EventSent");
+}
+
+
+/**
+ * Test VM ProcessCmdPipe, Fail VehicleDisarm
+ */
+void Test_VM_ProcessCmdPipe_Fail_VehicleDisarm(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgDisarm;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsgDisarm, VM_CMD_MID, sizeof(CmdMsgDisarm), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgDisarm, (uint16)VM_VEHICLE_DISARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgDisarm, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgDisarm, sizeof(CmdMsgDisarm));
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                        (void *)&Test_VM_ProcessCmdPipe_GetPSPTimeHook);
+
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_NONE;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process Command Pipe */
+    oVMut.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Arming transition. [DISARM] Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail VehicleDisarm");
+    // issue #249
+    UtAssert_EventSent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID,
+                       CFE_EVS_INFORMATION, expectedEvent,
+                       "ProcessCmdPipe, Fail_VehicleDisarm EventSent");
 }
 
 
@@ -461,6 +597,63 @@ void Test_VM_ProcessCmdPipe_SetNavManual(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavManual
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavManual(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgMan;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsgMan, VM_CMD_MID, sizeof(CmdMsgMan), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgMan, (uint16)VM_SET_NAV_MANUAL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgMan, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgMan, sizeof(CmdMsgMan));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+         "Illegal Nav transition [MANUAL -> MANUAL].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavManual");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavManual EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavAltctl
  */
 void Test_VM_ProcessCmdPipe_SetNavAltctl(void)
@@ -526,6 +719,84 @@ void Test_VM_ProcessCmdPipe_SetNavAltctl(void)
     UtAssert_True(oVMut.HkTlm.usCmdCnt == 2, "ProcessCmdPipe, SetNavAltctl");
     UtAssert_EventSent(VM_NAVSN_ENTERED_ALTCTL_INFO_EID, CFE_EVS_INFORMATION,
              expectedEvent, "ProcessCmdPipe, SetNavAltctl EventSent");
+}
+
+
+/**
+ * Test VM ProcessCmdPipe, Fail SetNavAltctl
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAltctl(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgArm;
+    VM_NoArgCmd_t  CmdMsgAcro;
+    VM_NoArgCmd_t  CmdMsgAlt;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
+
+    CFE_SB_InitMsg ((void*)&CmdMsgAcro, VM_CMD_MID, sizeof(CmdMsgAcro), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgAcro, (uint16)VM_SET_NAV_ACRO_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgAcro, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgAcro, sizeof(CmdMsgAcro));
+
+    CFE_SB_InitMsg ((void*)&CmdMsgAlt, VM_CMD_MID, sizeof(CmdMsgAlt), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgAlt, (uint16)VM_SET_NAV_ALTCTL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgAlt, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgAlt, sizeof(CmdMsgAlt));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_NONE;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+    oVMut.SensorCombinedMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.SensorCombinedMsg.MagInvalid = FALSE;
+    oVMut.SensorCombinedMsg.AccInvalid = FALSE;
+    oVMut.VehicleLocalPositionMsg.Z_Valid = FALSE;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [ACRO -> ALTCTL].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 2) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAltctl");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAltctl EventSent");
 }
 
 
@@ -601,6 +872,84 @@ void Test_VM_ProcessCmdPipe_SetNavPosctl(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavPosctl
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavPosctl(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgArm;
+    VM_NoArgCmd_t  CmdMsgAlt;
+    VM_NoArgCmd_t  CmdMsgPos;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
+
+    CFE_SB_InitMsg ((void*)&CmdMsgAlt, VM_CMD_MID, sizeof(CmdMsgAlt), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgAlt, (uint16)VM_SET_NAV_ALTCTL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgAlt, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgAlt, sizeof(CmdMsgAlt));
+
+    CFE_SB_InitMsg ((void*)&CmdMsgPos, VM_CMD_MID, sizeof(CmdMsgPos), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgPos, (uint16)VM_SET_NAV_POSCTL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgPos, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgPos, sizeof(CmdMsgPos));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_NONE;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+    oVMut.VehicleLocalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oVMut.VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oVMut.VehicleLocalPositionMsg.XY_Valid = FALSE;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [ALTCTL -> POSCTL].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 2) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavPosctl");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavPosctl EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavAutoLoiter
  */
 void Test_VM_ProcessCmdPipe_SetNavAutoLoiter(void)
@@ -623,7 +972,8 @@ void Test_VM_ProcessCmdPipe_SetNavAutoLoiter(void)
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
     CFE_SB_InitMsg ((void*)&CmdMsgLoiter, VM_CMD_MID, sizeof(CmdMsgLoiter), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgLoiter, (uint16)VM_SET_NAV_AUTO_LOITER_CC);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgLoiter,
+                       (uint16)VM_SET_NAV_AUTO_LOITER_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgLoiter, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgLoiter, sizeof(CmdMsgLoiter));
 
@@ -674,6 +1024,88 @@ void Test_VM_ProcessCmdPipe_SetNavAutoLoiter(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavAutoLoiter
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAutoLoiter(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgArm;
+    VM_NoArgCmd_t  CmdMsgPos;
+    VM_NoArgCmd_t  CmdMsgLoiter;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
+
+    CFE_SB_InitMsg((void*)&CmdMsgPos, VM_CMD_MID, sizeof(CmdMsgPos), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgPos, (uint16)VM_SET_NAV_POSCTL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgPos, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgPos, sizeof(CmdMsgPos));
+
+    CFE_SB_InitMsg((void*)&CmdMsgLoiter, VM_CMD_MID, sizeof(CmdMsgLoiter), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgLoiter,
+                       (uint16)VM_SET_NAV_AUTO_LOITER_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgLoiter, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgLoiter, sizeof(CmdMsgLoiter));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_NONE;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+    oVMut.VehicleLocalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oVMut.VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oVMut.VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oVMut.VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oVMut.SensorCombinedMsg.MagTimestamp = 0;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    // issue: #248
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [POSCTL -> AUTORTL].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 2) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAutoLoiter");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAutoLoiter EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavAutoRtl
  */
 void Test_VM_ProcessCmdPipe_SetNavAutoRtl(void)
@@ -696,7 +1128,8 @@ void Test_VM_ProcessCmdPipe_SetNavAutoRtl(void)
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
     CFE_SB_InitMsg ((void*)&CmdMsgRtl, VM_CMD_MID, sizeof(CmdMsgRtl), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgRtl, (uint16)VM_SET_NAV_AUTO_RTL_CC);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgRtl,
+                       (uint16)VM_SET_NAV_AUTO_RTL_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgRtl, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgRtl, sizeof(CmdMsgRtl));
 
@@ -743,6 +1176,65 @@ void Test_VM_ProcessCmdPipe_SetNavAutoRtl(void)
     UtAssert_True(oVMut.HkTlm.usCmdCnt == 2, "ProcessCmdPipe, SetNavAutoRtl");
     UtAssert_EventSent(VM_NAVSN_ENTERED_RTL_INFO_EID, CFE_EVS_INFORMATION,
              expectedEvent, "ProcessCmdPipe, SetNavAutoRtl EventSent");
+}
+
+
+/**
+ * Test VM ProcessCmdPipe, Fail SetNavAutoRtl
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAutoRtl(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgRtl;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsgRtl, VM_CMD_MID, sizeof(CmdMsgRtl), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgRtl,
+                      (uint16)VM_SET_NAV_AUTO_RTL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgRtl, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgRtl, sizeof(CmdMsgRtl));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    // issue: #248
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [MANUAL -> AUTOLTR].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAutoRtl");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAutoRtl EventSent");
 }
 
 
@@ -816,6 +1308,89 @@ void Test_VM_ProcessCmdPipe_SetNavAcro(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavAcro
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAcro(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgArm;
+    VM_NoArgCmd_t  CmdMsgStab;
+    VM_NoArgCmd_t  CmdMsgAcro;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
+
+    CFE_SB_InitMsg((void*)&CmdMsgStab, VM_CMD_MID, sizeof(CmdMsgStab), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgStab,
+                      (uint16)VM_SET_NAV_STABILIZE_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgStab, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgStab, sizeof(CmdMsgStab));
+
+    CFE_SB_InitMsg ((void*)&CmdMsgAcro, VM_CMD_MID, sizeof(CmdMsgAcro), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgAcro, (uint16)VM_SET_NAV_ACRO_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgAcro, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgAcro, sizeof(CmdMsgAcro));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.VehicleGlobalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_NONE;
+    oVMut.SafetyMsg.SafetySwitchAvailable = FALSE;
+    oVMut.SensorCombinedMsg.MagTimestamp = VM_Test_GetTimeUs();
+    oVMut.SensorCombinedMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.SensorCombinedMsg.AccTimestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleAttitudeMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleLocalPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleLandDetectedMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.VehicleGpsPositionMsg.Timestamp = VM_Test_GetTimeUs();
+    oVMut.SensorCombinedMsg.MagInvalid = TRUE;
+
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [STAB -> ACRO].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 2) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAcro");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAcro EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavStabilize
  */
 void Test_VM_ProcessCmdPipe_SetNavStabilize(void)
@@ -832,13 +1407,14 @@ void Test_VM_ProcessCmdPipe_SetNavStabilize(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
 
-    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
-    CFE_SB_InitMsg ((void*)&CmdMsgStab, VM_CMD_MID, sizeof(CmdMsgStab), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgStab, (uint16)VM_SET_NAV_STABILIZE_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgStab, VM_CMD_MID, sizeof(CmdMsgStab), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgStab,
+                      (uint16)VM_SET_NAV_STABILIZE_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgStab, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgStab, sizeof(CmdMsgStab));
 
@@ -889,6 +1465,64 @@ void Test_VM_ProcessCmdPipe_SetNavStabilize(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavStabilize
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavStabilize(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgStab;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsgStab, VM_CMD_MID, sizeof(CmdMsgStab), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgStab,
+                      (uint16)VM_SET_NAV_STABILIZE_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgStab, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgStab, sizeof(CmdMsgStab));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [MANUAL -> STAB].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                   "ProcessCmdPipe, Fail SetNavStabilize");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavStabilize EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavRattitude
  */
 void Test_VM_ProcessCmdPipe_SetNavRattitude(void)
@@ -905,13 +1539,14 @@ void Test_VM_ProcessCmdPipe_SetNavRattitude(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
 
-    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
-    CFE_SB_InitMsg ((void*)&CmdMsgRatt, VM_CMD_MID, sizeof(CmdMsgRatt), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgRatt, (uint16)VM_SET_NAV_RATTITUDE_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgRatt, VM_CMD_MID, sizeof(CmdMsgRatt), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgRatt,
+                      (uint16)VM_SET_NAV_RATTITUDE_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgRatt, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgRatt, sizeof(CmdMsgRatt));
 
@@ -962,6 +1597,64 @@ void Test_VM_ProcessCmdPipe_SetNavRattitude(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavRattitude
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavRattitude(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgRatt;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsgRatt, VM_CMD_MID, sizeof(CmdMsgRatt), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgRatt,
+                     (uint16)VM_SET_NAV_RATTITUDE_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgRatt, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgRatt, sizeof(CmdMsgRatt));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [MANUAL -> RATT].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavRattitude");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavRattitude EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavAutoTakeoff
  */
 void Test_VM_ProcessCmdPipe_SetNavAutoTakeoff(void)
@@ -978,13 +1671,14 @@ void Test_VM_ProcessCmdPipe_SetNavAutoTakeoff(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
 
-    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
-    CFE_SB_InitMsg ((void*)&CmdMsgTakeoff, VM_CMD_MID, sizeof(CmdMsgTakeoff), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgTakeoff, (uint16)VM_SET_NAV_AUTO_TAKEOFF_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgTakeoff, VM_CMD_MID, sizeof(CmdMsgTakeoff), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgTakeoff,
+                      (uint16)VM_SET_NAV_AUTO_TAKEOFF_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgTakeoff, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgTakeoff, sizeof(CmdMsgTakeoff));
 
@@ -1035,6 +1729,64 @@ void Test_VM_ProcessCmdPipe_SetNavAutoTakeoff(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavAutoTakeoff
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAutoTakeoff(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgTakeoff;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsgTakeoff, VM_CMD_MID, sizeof(CmdMsgTakeoff), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgTakeoff,
+                      (uint16)VM_SET_NAV_AUTO_TAKEOFF_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgTakeoff, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgTakeoff, sizeof(CmdMsgTakeoff));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [MANUAL -> AUTOTAKOF].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAutoTakeoff");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAutoTakeoff EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SetNavAutoLand
  */
 void Test_VM_ProcessCmdPipe_SetNavAutoLand(void)
@@ -1051,13 +1803,14 @@ void Test_VM_ProcessCmdPipe_SetNavAutoLand(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
 
-    CFE_SB_InitMsg ((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgArm, VM_CMD_MID, sizeof(CmdMsgArm), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgArm, (uint16)VM_VEHICLE_ARM_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgArm, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgArm, sizeof(CmdMsgArm));
 
-    CFE_SB_InitMsg ((void*)&CmdMsgLand, VM_CMD_MID, sizeof(CmdMsgLand), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsgLand, (uint16)VM_SET_NAV_AUTO_LAND_CC);
+    CFE_SB_InitMsg((void*)&CmdMsgLand, VM_CMD_MID, sizeof(CmdMsgLand), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgLand,
+                      (uint16)VM_SET_NAV_AUTO_LAND_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgLand, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsgLand, sizeof(CmdMsgLand));
 
@@ -1108,6 +1861,64 @@ void Test_VM_ProcessCmdPipe_SetNavAutoLand(void)
 
 
 /**
+ * Test VM ProcessCmdPipe, Fail SetNavAutoLand
+ */
+void Test_VM_ProcessCmdPipe_Fail_SetNavAutoLand(void)
+{
+    VM             oVMut;
+
+    int32          CmdPipe;
+    uint64         timestamp;
+    VM_NoArgCmd_t  CmdMsgLand;
+    char           expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsgLand, VM_CMD_MID, sizeof(CmdMsgLand), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsgLand,
+                      (uint16)VM_SET_NAV_AUTO_LAND_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsgLand, (CFE_SB_PipeId_t)CmdPipe);
+    VM_Test_PrintCmdMsg((void*)&CmdMsgLand, sizeof(CmdMsgLand));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    /* Execute the function being tested */
+    /* Emulate AppMain() */
+    oVMut.InitApp();
+    oVMut.ArmingSM.FSM.InitComplete();
+    oVMut.NavigationSM.FSM.trInitComplete();
+    oVMut.Initialization();
+    oVMut.SetHomePosition();
+
+    /* Emulate VM_WAKEUP_MID handler */
+    oVMut.Execute();
+
+    timestamp = VM_Test_GetTimeUs();
+    oVMut.ActuatorArmedMsg.Timestamp = timestamp;
+    oVMut.VehicleStatusMsg.Timestamp = timestamp;
+    oVMut.VehicleManagerStateMsg.Timestamp = timestamp;
+    oVMut.VehicleControlModeMsg.Timestamp = timestamp;
+
+    oVMut.ArmingSM.DoAction();
+    oVMut.NavigationSM.DoAction();
+
+    /* Process VM_SEND_HK_MID */
+    oVMut.RcvSchPipeMsg(VM_SCH_PIPE_PEND_TIME);
+
+    sprintf(expectedEvent, "%s",
+            "Illegal Nav transition [MANUAL -> AUTOLND].  Command rejected.");
+
+    /* Verify results */
+    UtAssert_True((oVMut.HkTlm.usCmdCnt == 0) && (oVMut.HkTlm.usCmdErrCnt >= 1),
+                  "ProcessCmdPipe, Fail SetNavAutoLand");
+    UtAssert_EventSent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
+             expectedEvent, "ProcessCmdPipe, Fail_SetNavAutoLand EventSent");
+}
+
+
+/**
  * Test VM ProcessCmdPipe, SendConfigurationHook
  */
 int32 Test_VM_ProcessCmdPipe_SendConfigurationHook(CFE_SB_Msg_t *MsgPtr)
@@ -1122,7 +1933,7 @@ int32 Test_VM_ProcessCmdPipe_SendConfigurationHook(CFE_SB_Msg_t *MsgPtr)
     VM_ConfigTlm_t      ConfigTlm;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
-    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    MsgId = (((MsgPtr->Hdr).StreamId[0] << 8) + ((MsgPtr->Hdr).StreamId[1]));
 
     pBuff = (unsigned char *)MsgPtr;
     printf("###SendConfigurationHook(msgLen %u)", msgLen);
@@ -1140,18 +1951,39 @@ int32 Test_VM_ProcessCmdPipe_SendConfigurationHook(CFE_SB_Msg_t *MsgPtr)
 
     switch(MsgId)
     {
-        case VM_CONFIG_TLM_MID:     // check this
+        case VM_CONFIG_TLM_MID:
         {
             SendConfHook_MsgId = VM_CONFIG_TLM_MID;
             printf("Sent VM_CONFIG_TLM_MID\n");
             memcpy((void *)&ConfigTlm, (void *)MsgPtr, sizeof(ConfigTlm));
-            // Display
+
+            printf("ConfigTlm.ConfigTbl.COM_RC_IN_MODE: %lu\n",
+                    ConfigTlm.ConfigTbl.COM_RC_IN_MODE);
+            printf("ConfigTlm.ConfigTbl.COM_ARM_SWISBTN: %lu\n",
+                    ConfigTlm.ConfigTbl.COM_ARM_SWISBTN);
+            printf("ConfigTlm.ConfigTbl.COM_RC_ARM_HYST: %lu\n",
+                    ConfigTlm.ConfigTbl.COM_RC_ARM_HYST);
+            printf("ConfigTlm.ConfigTbl.MAV_SYS_ID: %lu\n",
+                    ConfigTlm.ConfigTbl.MAV_SYS_ID);
+            printf("ConfigTlm.ConfigTbl.MAV_COMP_ID: %lu\n",
+                    ConfigTlm.ConfigTbl.MAV_COMP_ID);
+            printf("ConfigTlm.ConfigTbl.COM_RC_LOSS_T: %f\n",
+                    ConfigTlm.ConfigTbl.COM_RC_LOSS_T);
+            printf("ConfigTlm.ConfigTbl.COM_LOW_BAT_ACT: %lu\n",
+                    ConfigTlm.ConfigTbl.COM_LOW_BAT_ACT);
+            printf("ConfigTlm.ConfigTbl.COM_HOME_H_T: %f\n",
+                    ConfigTlm.ConfigTbl.COM_HOME_H_T);
+            printf("ConfigTlm.ConfigTbl.COM_HOME_V_T: %f\n",
+                    ConfigTlm.ConfigTbl.COM_HOME_V_T);
+            printf("ConfigTlm.ConfigTbl.HOME_POS_ALT_PADDING: %f\n",
+                    ConfigTlm.ConfigTbl.HOME_POS_ALT_PADDING);
+            printf("ConfigTlm.ConfigTbl.VEHICLE_TYPE: %d\n",
+                    ConfigTlm.ConfigTbl.VEHICLE_TYPE);
             break;
         }
         default:
         {
-            SendConfHook_MsgId = MsgId;
-            printf("Sent MID: %u\n", MsgId);
+            printf("Sent MID: 0x%04X\n", MsgId);
             break;
         }
     }
@@ -1164,13 +1996,15 @@ int32 Test_VM_ProcessCmdPipe_SendConfigurationHook(CFE_SB_Msg_t *MsgPtr)
 void Test_VM_ProcessCmdPipe_SendConfiguration(void)
 {
     int32          CmdPipe;
+    uint64         timestamp;
     VM_NoArgCmd_t  CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(VM_CMD_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&CmdMsg, VM_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)VM_SEND_CONFIGURATION_CC);
+    CFE_SB_InitMsg((void*)&CmdMsg, VM_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)VM_SEND_CONFIGURATION_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
     VM_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -1179,7 +2013,7 @@ void Test_VM_ProcessCmdPipe_SendConfiguration(void)
 
     SendConfHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                          (void*)&Test_VM_ProcessCmdPipe_SendConfigurationHook);
+                     (void*)&Test_VM_ProcessCmdPipe_SendConfigurationHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
@@ -1249,44 +2083,78 @@ void VM_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_VM_ProcessCmdPipe_VehicleArm,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_VehicleArm");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_VehicleArm,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_VehicleArm");
     UtTest_Add(Test_VM_ProcessCmdPipe_VehicleDisarm,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_VehicleDisarm");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_VehicleDisarm,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_VehicleDisarm");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavManual,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavManual");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavManual,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavManual");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAltctl,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAltctl");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAltctl,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAltctl");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavPosctl,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavPosctl");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavPosctl,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavPosctl");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAutoLoiter,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAutoLoiter");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAutoLoiter,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAutoLoiter");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAutoRtl,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAutoRtl");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAutoRtl,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAutoRtl");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAcro,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAcro");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAcro,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAcro");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavStabilize,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavStabilize");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavStabilize,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavStabilize");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavRattitude,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavRattitude");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavRattitude,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavRattitude");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAutoTakeoff,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAutoTakeoff");
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAutoTakeoff,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAutoTakeoff");
     UtTest_Add(Test_VM_ProcessCmdPipe_SetNavAutoLand,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SetNavAutoLand");
-#if 0
+    UtTest_Add(Test_VM_ProcessCmdPipe_Fail_SetNavAutoLand,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_ProcessCmdPipe_Fail_SetNavAutoLand");
     UtTest_Add(Test_VM_ProcessCmdPipe_SendConfiguration,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_ProcessCmdPipe_SendConfiguration");
-#endif
 
     UtTest_Add(Test_VM_VerifyCmdLength_Fail_CmdLength,
                VM_Test_Setup, VM_Test_TearDown,

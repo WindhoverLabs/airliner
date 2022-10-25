@@ -53,7 +53,7 @@
 
 #include <unistd.h>
 
-int32 hookCalledCount = 0;
+CFE_SB_MsgId_t SendHkhook_MsgId = 0;
 CFE_SB_MsgId_t ProcessNewDataHook_MsgId = 0;
 
 
@@ -733,7 +733,8 @@ void Test_VM_VM_AppMain_Nominal(void)
 void Test_VM_AppMain_Fail_RegisterApp(void)
 {
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX,
+                            CFE_ES_ERR_APP_REGISTER, 1);
 
     /* Execute the function being tested */
     oVM.AppMain();
@@ -746,7 +747,8 @@ void Test_VM_AppMain_Fail_RegisterApp(void)
 void Test_VM_AppMain_Fail_InitApp(void)
 {
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX,
+                             CFE_EVS_APP_NOT_REGISTERED, 1);
 
     /* Execute the function being tested */
     oVM.AppMain();
@@ -759,7 +761,8 @@ void Test_VM_AppMain_Fail_InitApp(void)
 void Test_VM_AppMain_Fail_AcquireConfigPtrs(void)
 {
     /* fail the register app */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 2);
 
     /* Execute the function being tested */
     oVM.AppMain();
@@ -773,7 +776,8 @@ void Test_VM_AppMain_InvalidSchMessage(void)
 {
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* The following will emulate behavior of receiving a SCH message to send HK */
+    /* The following will emulate behavior of receiving a SCH message
+       to send HK */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
 
@@ -853,9 +857,131 @@ void Test_VM_AppMain_SchPipeReadError(void)
  */
 int32 Test_VM_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
-    /* TODO:  Test the contents of your HK message here. */
+    unsigned char       *pBuff = NULL;
+    uint16              msgLen = 0;
+    int                 i = 0;
+    CFE_SB_MsgId_t      MsgId = 0;
+    time_t              localTime;
+    struct tm           *loc_time;
+    CFE_TIME_SysTime_t  TimeFromMsg;
+    VM_HkTlm_t          HkTlm;
 
-    hookCalledCount++;
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    MsgId = (((MsgPtr->Hdr).StreamId[0] << 8) + ((MsgPtr->Hdr).StreamId[1]));
+
+    pBuff = (unsigned char *)MsgPtr;
+    printf("###SendHK_SendMsgHook(msgLen %u)", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = VM_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    switch(MsgId)
+    {
+        case VM_HK_TLM_MID:
+        {
+            SendHkhook_MsgId = VM_HK_TLM_MID;
+            printf("Sent VM_HK_TLM_MID\n");
+            memcpy((void *)&HkTlm, (void *)MsgPtr, sizeof(HkTlm));
+
+            printf("usCmdCnt: %u\n", HkTlm.usCmdCnt);
+            printf("usCmdErrCnt: %u\n", HkTlm.usCmdErrCnt);
+            printf("ArmingState: %lu\n", HkTlm.ArmingState);
+            printf("NavState: %lu\n", HkTlm.NavState);
+            printf("WakeupCount: %lu\n", HkTlm.WakeupCount);
+            printf("BatteryStatusMsgCount: %lu\n",
+                    HkTlm.BatteryStatusMsgCount);
+            printf("TelemetryStatusMsgCount: %lu\n",
+                    HkTlm.TelemetryStatusMsgCount);
+            printf("SubsystemInfoMsgCount: %lu\n",
+                    HkTlm.SubsystemInfoMsgCount);
+            printf("VehicleAttitudeMsgCount: %lu\n",
+                    HkTlm.VehicleAttitudeMsgCount);
+            printf("VehicleLocalPositionMsgCount: %lu\n",
+                    HkTlm.VehicleLocalPositionMsgCount);
+            printf("VehicleLandDetectedMsgCount: %lu\n",
+                    HkTlm.VehicleLandDetectedMsgCount);
+            printf("MissionResultMsgCount: %lu\n",
+                    HkTlm.MissionResultMsgCount);
+            printf("ManualControlSetpointMsgCount: %lu\n",
+                    HkTlm.ManualControlSetpointMsgCount);
+            printf("PositionSetpointTripletMsgCount: %lu\n",
+                    HkTlm.PositionSetpointTripletMsgCount);
+            printf("SafetyMsgCount: %lu\n",
+                    HkTlm.SafetyMsgCount);
+            printf("SensorCorrectionMsgCount: %lu\n",
+                    HkTlm.SensorCorrectionMsgCount);
+            printf("SensorCombinedMsgCount: %lu\n",
+                    HkTlm.SensorCombinedMsgCount);
+            printf("VehicleCommandMsgCount: %lu\n",
+                    HkTlm.VehicleCommandMsgCount);
+            printf("VehicleGlobalPositionMsgCount: %lu\n",
+                    HkTlm.VehicleGlobalPositionMsgCount);
+            printf("VehicleGpsPositionMsgCount: %lu\n",
+                    HkTlm.VehicleGpsPositionMsgCount);
+            printf("VehicleControlModeMsgCount: %lu\n",
+                    HkTlm.VehicleControlModeMsgCount);
+            printf("NotInitialized: %u\n", HkTlm.NotInitialized);
+
+            localTime = VM_Test_GetTimeFromTimestamp(HkTlm.BootTimestamp);
+            loc_time = localtime(&localTime);
+            printf("BootTimestamp: %s", asctime(loc_time));
+
+            printf("StatusFlags.SensorsInitialized: %u\n",
+                    HkTlm.StatusFlags.SensorsInitialized);
+            printf("StatusFlags.ReturnToHomeSet: %u\n",
+                    HkTlm.StatusFlags.ReturnToHomeSet);
+            printf("StatusFlags.HomePositionValid: %u\n",
+                    HkTlm.StatusFlags.HomePositionValid);
+            printf("StatusFlags.UsbPowerConnected: %u\n",
+                    HkTlm.StatusFlags.UsbPowerConnected);
+            printf("StatusFlags.RcSignalFoundOnce: %u\n",
+                    HkTlm.StatusFlags.RcSignalFoundOnce);
+            printf("StatusFlags.RcSignalLostModeIsCmded: %u\n",
+                    HkTlm.StatusFlags.RcSignalLostModeIsCmded);
+            printf("StatusFlags.RcInputIsTemporarilyBlocked: %u\n",
+                    HkTlm.StatusFlags.RcInputIsTemporarilyBlocked);
+
+            printf("LocalPositionIsValid: %u\n", HkTlm.LocalPositionIsValid);
+            printf("PrevLanded: %u\n", HkTlm.PrevLanded);
+            printf("PrevInFlight: %u\n", HkTlm.PrevInFlight);
+            printf("StickOffCounter: %lu\n", HkTlm.StickOffCounter);
+            printf("StickOnCounter: %lu\n", HkTlm.StickOnCounter);
+            printf("LastSpManArmSwitch: %lu\n", HkTlm.LastSpManArmSwitch);
+            printf("LowBatteryVoltageActionsDone: %u\n",
+                    HkTlm.LowBatteryVoltageActionsDone);
+            printf("CriticalBatteryVoltageActionsDone: %u\n",
+                    HkTlm.CriticalBatteryVoltageActionsDone);
+            printf("EmergencyBatteryVoltageActionsDone: %u\n",
+                    HkTlm.EmergencyBatteryVoltageActionsDone);
+
+            localTime = VM_Test_GetTimeFromTimestamp(HkTlm.RCSignalLostTimestamp);
+            loc_time = localtime(&localTime);
+            printf("RCSignalLostTimestamp: %s", asctime(loc_time));
+
+            printf("ArmingStateChanged: %u\n", HkTlm.ArmingStateChanged);
+
+            printf("PreviousModes.inPosCtl: %u\n", HkTlm.PreviousModes.inPosCtl);
+            printf("PreviousModes.inRtl: %u\n", HkTlm.PreviousModes.inRtl);
+            printf("PreviousModes.inLoiter: %u\n", HkTlm.PreviousModes.inLoiter);
+            printf("PreviousModes.inManual: %u\n", HkTlm.PreviousModes.inManual);
+            printf("PreviousModes.inTakeoff: %u\n", HkTlm.PreviousModes.inTakeoff);
+            printf("PreviousModes.inAltCtl: %u\n", HkTlm.PreviousModes.inAltCtl);
+            break;
+        }
+        default:
+        {
+            printf("Sent Msg ID (0x%04X)\n", MsgId);
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
@@ -865,16 +991,17 @@ int32 Test_VM_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_VM_AppMain_Nominal_SendHK(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate behavior of receiving a SCH message
+       to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,                 // check this
-                              (void*)&Test_VM_AppMain_Nominal_SendHK_SendMsgHook);
+    SendHkhook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                    (void*)&Test_VM_AppMain_Nominal_SendHK_SendMsgHook);
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                               (void *)&Test_VM_GetPSPTimeHook);
 
@@ -882,7 +1009,8 @@ void Test_VM_AppMain_Nominal_SendHK(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
+    UtAssert_True(SendHkhook_MsgId == VM_HK_TLM_MID,
+                   "AppMain_Nominal_SendHK");
 
 }
 
@@ -892,7 +1020,8 @@ void Test_VM_AppMain_Nominal_SendHK(void)
  */
 void Test_VM_AppMain_Nominal_Wakeup(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate behavior of receiving a SCH message
+       to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_WAKEUP_MID, 1);
 
@@ -946,7 +1075,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_BATTERY_STATUS_MID;
             printf("Received PX4_BATTERY_STATUS_MID\n");
-            memcpy((void *)&BatteryStatus, (void *)dataMsgPtr, sizeof(BatteryStatus));
+            memcpy((void *)&BatteryStatus, (void *)dataMsgPtr,
+                   sizeof(BatteryStatus));
             localTime = VM_Test_GetTimeFromTimestamp(BatteryStatus.Timestamp);
             loc_time = localtime(&localTime);
             printf("BatteryStatus.Timestamp: %s", asctime(loc_time));
@@ -971,7 +1101,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_TELEMETRY_STATUS_MID;
             printf("Received PX4_TELEMETRY_STATUS_MID\n");
-            memcpy((void *)&TelemetryStatus, (void *)dataMsgPtr, sizeof(TelemetryStatus));
+            memcpy((void *)&TelemetryStatus, (void *)dataMsgPtr,
+                   sizeof(TelemetryStatus));
             localTime = VM_Test_GetTimeFromTimestamp(TelemetryStatus.Timestamp);
             loc_time = localtime(&localTime);
             printf("TelemetryStatus.Timestamp: %s", asctime(loc_time));
@@ -983,7 +1114,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_SUBSYSTEM_INFO_MID;
             printf("Received PX4_SUBSYSTEM_INFO_MID\n");
-            memcpy((void *)&SubsystemInfo, (void *)dataMsgPtr, sizeof(SubsystemInfo));
+            memcpy((void *)&SubsystemInfo, (void *)dataMsgPtr,
+                   sizeof(SubsystemInfo));
             localTime = VM_Test_GetTimeFromTimestamp(SubsystemInfo.Timestamp);
             loc_time = localtime(&localTime);
             printf("SubsystemInfo.Timestamp: %s", asctime(loc_time));
@@ -1008,7 +1140,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_VEHICLE_ATTITUDE_MID;
             printf("Received PX4_VEHICLE_ATTITUDE_MID\n");
-            memcpy((void *)&VehicleAttitude, (void *)dataMsgPtr, sizeof(VehicleAttitude));
+            memcpy((void *)&VehicleAttitude, (void *)dataMsgPtr,
+                   sizeof(VehicleAttitude));
             localTime = VM_Test_GetTimeFromTimestamp(VehicleAttitude.Timestamp);
             loc_time = localtime(&localTime);
             printf("VehicleAttitude.Timestamp: %s", asctime(loc_time));
@@ -1096,7 +1229,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_SENSOR_CORRECTION_MID;
             printf("Received PX4_SENSOR_CORRECTION_MID\n");
-            memcpy((void *)&SensorCorrection, (void *)dataMsgPtr, sizeof(SensorCorrection));
+            memcpy((void *)&SensorCorrection, (void *)dataMsgPtr,
+                   sizeof(SensorCorrection));
             localTime = VM_Test_GetTimeFromTimestamp(SensorCorrection.Timestamp);
             loc_time = localtime(&localTime);
             printf("SensorCorrection.Timestamp: %s", asctime(loc_time));
@@ -1121,7 +1255,8 @@ int32 Test_VM_AppMain_ProcessDataPipeHook(void *dst, void *src, uint32 size)
 
             ProcessNewDataHook_MsgId = PX4_SENSOR_COMBINED_MID;
             printf("Received PX4_SENSOR_COMBINED_MID\n");
-            memcpy((void *)&SensorCombined, (void *)dataMsgPtr, sizeof(SensorCombined));
+            memcpy((void *)&SensorCombined, (void *)dataMsgPtr,
+                   sizeof(SensorCombined));
             localTime = VM_Test_GetTimeFromTimestamp(SensorCombined.Timestamp);
             loc_time = localtime(&localTime);
             printf("SensorCombined.Timestamp: %s", asctime(loc_time));
@@ -1281,7 +1416,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleGlobalPosition(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1302,8 +1438,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleGlobalPosition(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_GLOBAL_POSITION_MID) &&
-                  (oVM.HkTlm.VehicleGlobalPositionMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_GLOBAL_POSITION_MID)
+                  && (oVM.HkTlm.VehicleGlobalPositionMsgCount == 1),
                   "ProcessDataPipe - VehicleGlobalPosition");
 }
 
@@ -1319,11 +1455,13 @@ void Test_VM_AppMain_ProcessDataPipe_TelemetryStatus(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_TELEMETRY_STATUS_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_TELEMETRY_STATUS_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
-    /* The following will emulate the behavior of receiving a SCH message */
+    /* The following will emulate the behavior of receiving
+       a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_WAKEUP_MID, 1);
 
@@ -1340,8 +1478,8 @@ void Test_VM_AppMain_ProcessDataPipe_TelemetryStatus(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_TELEMETRY_STATUS_MID) &&
-                  (oVM.HkTlm.TelemetryStatusMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_TELEMETRY_STATUS_MID)
+                  && (oVM.HkTlm.TelemetryStatusMsgCount == 1),
                   "ProcessDataPipe - TelemetryStatus");
 }
 
@@ -1357,7 +1495,8 @@ void Test_VM_AppMain_ProcessDataPipe_SubsystemInfo(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SUBSYSTEM_INFO_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SUBSYSTEM_INFO_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1395,7 +1534,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleGpsPosition(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_GPS_POSITION_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_GPS_POSITION_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1416,8 +1556,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleGpsPosition(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_GPS_POSITION_MID) &&
-                  (oVM.HkTlm.VehicleGpsPositionMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_GPS_POSITION_MID)
+                 && (oVM.HkTlm.VehicleGpsPositionMsgCount == 1),
                   "ProcessDataPipe - VehicleGpsPosition");
 }
 
@@ -1433,7 +1573,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleAttitude(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_ATTITUDE_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_ATTITUDE_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1454,8 +1595,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleAttitude(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_ATTITUDE_MID) &&
-                  (oVM.HkTlm.VehicleAttitudeMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_ATTITUDE_MID)
+                  && (oVM.HkTlm.VehicleAttitudeMsgCount == 1),
                   "ProcessDataPipe - VehicleAttitude");
 }
 
@@ -1471,7 +1612,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleLocalPosition(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LOCAL_POSITION_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_LOCAL_POSITION_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1492,8 +1634,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleLocalPosition(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_LOCAL_POSITION_MID) &&
-                  (oVM.HkTlm.VehicleLocalPositionMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_LOCAL_POSITION_MID)
+                 && (oVM.HkTlm.VehicleLocalPositionMsgCount == 1),
                   "ProcessDataPipe - VehicleLocalPosition");
 }
 
@@ -1509,7 +1651,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleLandDetected(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_LAND_DETECTED_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1530,8 +1673,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleLandDetected(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_LAND_DETECTED_MID) &&
-                  (oVM.HkTlm.VehicleLandDetectedMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_LAND_DETECTED_MID)
+                 && (oVM.HkTlm.VehicleLandDetectedMsgCount == 1),
                   "ProcessDataPipe - VehicleLandDetected");
 }
 
@@ -1585,7 +1728,8 @@ void Test_VM_AppMain_ProcessDataPipe_ManualControlSetpoint(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_MANUAL_CONTROL_SETPOINT_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1606,8 +1750,8 @@ void Test_VM_AppMain_ProcessDataPipe_ManualControlSetpoint(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_MANUAL_CONTROL_SETPOINT_MID) &&
-                  (oVM.HkTlm.ManualControlSetpointMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_MANUAL_CONTROL_SETPOINT_MID)
+                 && (oVM.HkTlm.ManualControlSetpointMsgCount == 1),
                   "ProcessDataPipe - ManualControlSetpoint");
 }
 
@@ -1623,7 +1767,8 @@ void Test_VM_AppMain_ProcessDataPipe_PositionSetpointTriplet(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_POSITION_SETPOINT_TRIPLET_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_POSITION_SETPOINT_TRIPLET_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1644,8 +1789,8 @@ void Test_VM_AppMain_ProcessDataPipe_PositionSetpointTriplet(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_POSITION_SETPOINT_TRIPLET_MID) &&
-                  (oVM.HkTlm.PositionSetpointTripletMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_POSITION_SETPOINT_TRIPLET_MID)
+                 && (oVM.HkTlm.PositionSetpointTripletMsgCount == 1),
                   "ProcessDataPipe - PositionSetpointTriplet");
 }
 
@@ -1699,7 +1844,8 @@ void Test_VM_AppMain_ProcessDataPipe_SensorCorrection(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_CORRECTION_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_CORRECTION_MID,
+                    sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1720,8 +1866,8 @@ void Test_VM_AppMain_ProcessDataPipe_SensorCorrection(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_SENSOR_CORRECTION_MID) &&
-                  (oVM.HkTlm.SensorCorrectionMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_SENSOR_CORRECTION_MID)
+                 && (oVM.HkTlm.SensorCorrectionMsgCount == 1),
                   "ProcessDataPipe - SensorCorrection");
 }
 
@@ -1737,7 +1883,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleControlMode(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1758,8 +1905,8 @@ void Test_VM_AppMain_ProcessDataPipe_VehicleControlMode(void)
     oVM.AppMain();
 
     /* Verify results */
-    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_CONTROL_MODE_MID) &&
-                  (oVM.HkTlm.VehicleControlModeMsgCount == 1),
+    UtAssert_True((ProcessNewDataHook_MsgId == PX4_VEHICLE_CONTROL_MODE_MID)
+                 && (oVM.HkTlm.VehicleControlModeMsgCount == 1),
                   "ProcessDataPipe - VehicleControlMode");
 }
 
@@ -1775,7 +1922,8 @@ void Test_VM_AppMain_ProcessDataPipe_SensorCombined(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("VM_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_COMBINED_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_COMBINED_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = VM_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1844,7 +1992,8 @@ void Test_VM_AppMain_Execute(void)
  **************************************************************************/
 void VM_App_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_VM_InitEvent_Fail_Register, VM_Test_Setup, VM_Test_TearDown,
+    UtTest_Add(Test_VM_InitEvent_Fail_Register,
+               VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_InitEvent_Fail_Register");
 
     UtTest_Add(Test_VM_InitPipe_Fail_CreateSCHPipe,

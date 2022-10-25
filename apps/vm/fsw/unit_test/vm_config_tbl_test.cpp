@@ -85,7 +85,8 @@ void Test_VM_InitConfigTbl_Fail_ValidateConfigTbl(void)
     int32 expected = -1;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to load Config Table (0x%08X)", (unsigned int)-1);
+    sprintf(expectedEvent, "Failed to load Config Table (0x%08X)",
+            (unsigned int)-1);
 
     /* Execute the function being tested */
     result = oVM.InitApp();
