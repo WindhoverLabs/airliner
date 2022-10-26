@@ -2416,12 +2416,6 @@ void FPC::UpdateParamsFromTable(void)
 
         ConfigTblPtr->PSP_OFF_RADIANS = ConfigTblPtr->PSP_OFF_RADIANS;
 
-        /* check if negative value for 2/3 of flare altitude is set for throttle cut */
-        if(ConfigTblPtr->LND_TLALT < 0.0f)
-        {
-            ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
-        }
-
         _l1_control.set_l1_damping(ConfigTblPtr->L1_DAMPING);
         _l1_control.set_l1_period(ConfigTblPtr->L1_PERIOD);
         _l1_control.set_l1_roll_limit(ConfigTblPtr->R_LIM_RADIANS);

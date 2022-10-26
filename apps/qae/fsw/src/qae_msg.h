@@ -155,6 +155,8 @@ typedef struct
     PX4_VehicleAttitudeMsg_t VehicleAttitudeMsg;
     /** \brief A copy of the control state message */
     PX4_ControlStateMsg_t ControlStateMsg;
+    /** \brief All core sensor data received flag. */
+    osalbool           ReceivedCoreData;
 } QAE_HkTlm_t;
 
 

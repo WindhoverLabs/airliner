@@ -192,4 +192,9 @@
 #define CF_GND_TO_PPD_PDU_MID                 PPD_CMD_MSG(  111 ) /* 0x6f */
 #define CF_GND_TO_CPD_PDU_MID                 CPD_CMD_MSG(  112 ) /* 0x70 */
 
+
+#define TO_CUSTOM_HK_TLM_MID                      TLM_MSG(  113 )  /* 0x71 */
+#define CI_CUSTOM_HK_TLM_MID                      TLM_MSG(  114 )  /* 0x72 */
+
+
 #endif

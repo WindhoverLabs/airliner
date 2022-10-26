@@ -304,6 +304,32 @@ typedef enum {
 */
     QAE_CFGTBL_VALIDATION_ERR_EID       = 16,
 
+/** \brief <tt> 'All core sensor data received.' </tt>
+**  \event <tt> 'All core sensor data received.' </tt>
+**
+**  \par Type: INFORMATION
+**
+**  \par Cause:
+**
+**  This event message is issued when all core sensor data has been 
+**  received.
+**
+*/
+    QAE_INIT_CORE_DATA_INF_EID          = 17,
+
+/** \brief <tt> 'Sensors not ready (SM=%u SG=%u SA=%u).' </tt>
+**  \event <tt> 'Sensors not ready (SM=%u SG=%u SA=%u).' </tt>
+**
+**  \par Type: INFORMATION
+**
+**  \par Cause:
+**
+**  This event message is issued when all core sensor data has not yet
+**  been received.
+**
+*/
+    QAE_NOT_INIT_CORE_DATA_INF_EID      = 18,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     QAE_EVT_CNT
 

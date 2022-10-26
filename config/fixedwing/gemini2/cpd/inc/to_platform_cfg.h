@@ -6,7 +6,6 @@ extern "C" {
 #endif
 
 #include "cfe_platform_cfg.h"
-#include "to_platform_cfg.h"
 #include "priorities.h"
 
 /*
@@ -15,6 +14,15 @@ extern "C" {
 
 #define TO_CUSTOM_BURST_LENGTH         (4)
 #define TO_CUSTOM_BURST_DELAY          (1)
+
+#define TO_CUSTOM_TF_SIZE   1000
+#define TO_CUSTOM_TF_OVERFLOW_SIZE TO_CUSTOM_TF_SIZE
+#define TO_CUSTOM_TF_IDLE_SIZE TO_CUSTOM_TF_SIZE
+
+#define TO_CUSTOM_NUM_CHNL      2
+#define TO_CUSTOM_TF_SCID       0
+#define TO_CUSTOM_TF_ERR_CTRL   0
+#define TO_CUSTOM_TF_RANDOMIZE  0
 
 
 /** \tocfg Child task flags
