@@ -31,37 +31,17 @@
  *
  *****************************************************************************/
 
-#ifndef ASPD4525_TEST_UTILS_H
-#define ASPD4525_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "aspd4525_app.h"
-
-extern ASPD4525_AppData_t  ASPD4525_AppData;
+#ifndef ASPD4525_STUBS_HPP
+#define ASPD4525_STUBS_HPP
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*
- * Function Definitions
- */
-
-void ASPD4525_Test_Setup(void);
-void ASPD4525_Test_TearDown(void);
-
-void ASPD4525_Test_PrintCmdMsg(void *pMsg, uint32 size);
-
-time_t ASPD4525_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
-time_t ASPD4525_Test_GetTimeFromTimestamp(uint64 timestamp);
-
+uint64 PX4LIB_GetPX4TimeUs(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* ASPD4525_TEST_UTILS_H */
-
+#endif /* ASPD4525_STUBS_HPP */
