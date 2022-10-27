@@ -120,6 +120,8 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {HMC5883_DIAG_TLM_MID,                 1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ADSBR_HK_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ASPD4525_HK_TLM_MID,                  1, TO_PQUEUE_CPD_HK_IDX        },
+        {TO_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
+        {CI_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
 
 //        {PX4_ACTUATOR_ARMED_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //		{PX4_ACTUATOR_CONTROLS_0_MID,          1, TO_PQUEUE_CPD_HIGH_IDX    },

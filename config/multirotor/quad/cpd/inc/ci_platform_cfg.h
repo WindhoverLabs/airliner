@@ -7,9 +7,21 @@ extern "C" {
 
 #include "priorities.h"
 
-#define CI_CUSTOM_BUFFER_SIZE          (2000)
-#define CI_CUSTOM_CLTU_BUFF_SIZE       (2000)
-#define CI_CUSTOM_TF_BUFF_SIZE         (2000)
+
+#define CI_CUSTOM_CLTU_RANDOM_UDP    0
+#define CI_CUSTOM_CLTU_RANDOM_SERIAL 0
+
+#define CI_CUSTOM_CLTU_BUFF_SIZE 1000
+#define CI_CUSTOM_TF_BUFF_SIZE 1000
+#define CI_CUSTOM_BUFFER_SIZE 1000
+
+#define CI_CUSTOM_TASK_STACK_PTR NULL
+#define CI_CUSTOM_TASK_STACK_SIZE 0x4000
+#define CI_CUSTOM_TASK_PRIO 118
+
+#define CI_CUSTOM_TF_CHANNELS 1
+
+#define CI_CUSTOM_CLTU_RANDOM    0
 
 /*
 ** ci Platform Configuration Parameter Definitions
