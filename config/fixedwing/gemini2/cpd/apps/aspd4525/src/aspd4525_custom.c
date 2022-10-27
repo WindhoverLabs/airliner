@@ -20,8 +20,8 @@
 #define ASPD4525_SED_STATUS_PIPE_NAME          ("IIC1_STATUS")
 
 /* Message IDs. */
-#define IIC_CMD_MSG_ID                       (0x183a)
-#define IIC_RESPONSE_MSG_ID                  (0x083b)
+#define IIC_CMD_MSG_ID                       (SEDLIB_IIC_1_CMD_MID)
+#define IIC_RESPONSE_MSG_ID                  (SEDLIB_IIC_1_TLM_MID)
 
 /* Number of retry attempts to wait for a status message. */
 #define ASPD4525_POLL_RETRY_ATTEMPTS           (10)
