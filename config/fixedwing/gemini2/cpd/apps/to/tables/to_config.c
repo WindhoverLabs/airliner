@@ -119,6 +119,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {HMC5883_DIAG_TLM_MID,                 1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ADSBR_HK_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ASPD4525_HK_TLM_MID,                  1, TO_PQUEUE_CPD_HK_IDX        },
+        {HES_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX},
      //   {TO_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
        // {CI_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
 
@@ -160,7 +161,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //          {PX4_INPUT_RC_MID,                     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_LED_CONTROL_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_LOG_MESSAGE_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-          {PX4_MANUAL_CONTROL_SETPOINT_MID,      1, TO_PQUEUE_CPD_HIGH_IDX      },
+    //      {PX4_MANUAL_CONTROL_SETPOINT_MID,      1, TO_PQUEUE_CPD_HIGH_IDX      },
 //        {PX4_MAVLINK_LOG_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_MC_ATT_CTRL_STATUS_MID,           1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID, 1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -214,6 +215,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_VISION_POSITION_ESTIMATE_MID,     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VTOL_VEHICLE_STATUS_MID,          1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_WIND_ESTIMATE_MID,                1, TO_PQUEUE_CPD_PX4LOW_IDX    }
+          {HES_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_CPD_SINGLE_PASS_IDX */

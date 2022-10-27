@@ -175,18 +175,19 @@ ULR_SEND_HK_MIDX				1Hz
 #define RCIN_WAKEUP_MIDX              113
 #define VM_SEND_HK_MIDX               114
 #define VM_WAKEUP_MIDX                115
-
+#define HES_WAKEUP_MIDX               116
 #define BAT_SEND_HK_MIDX              117
 #define BAT_WAKEUP_MIDX               118
 #define ZUSUP_WAKEUP_MIDX             119
 #define ZUSUP_SEND_HK_MIDX            120
-
+#define HES_SEND_HK_MIDX              121
 #define GPS_READ_SENSOR_MIDX          122
 #define GPS_SEND_HK_MIDX              123
 
 #define EA_WAKEUP_MIDX                125
 
 #define EA_SEND_HK_MIDX               127
+
 
 
 /* 250HZ Group  - 22 Activities  */
@@ -371,7 +372,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	CFE_TIME_SEND_HK_MIDX,    SCH_GROUP_NONE },
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -898,7 +899,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_7,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1140,7 +1141,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1415,7 +1416,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_4,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1437,7 +1438,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_6,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1690,7 +1691,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1965,7 +1966,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_4,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1987,7 +1988,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_6,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -2240,7 +2241,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -2515,7 +2516,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_4,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -2548,7 +2549,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_7,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -2790,7 +2791,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
