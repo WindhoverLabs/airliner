@@ -364,6 +364,14 @@ int32 TO_PriorityQueue_Get(TO_ChannelData_t *Channel, uint16 PQueueIdx,
 
         msgID = CFE_SB_GetMsgId(*Msg);
 
+        if(msgID == (CFE_ES_HK_TLM_MID - 0x200))
+        {
+//           printf("CFE_ES_HK_TLM_MID**********\n");
+           (void) CFE_EVS_SendEvent(TO_INIT_APP_INF_EID,
+                         CFE_EVS_INFORMATION,
+                         "CFE_ES_HK_TLM_MID**********");
+        }
+
         /* Check if this is a CFDP message. */
         if(TO_SPACE_TO_GND_PDU_MID == msgID)
         {

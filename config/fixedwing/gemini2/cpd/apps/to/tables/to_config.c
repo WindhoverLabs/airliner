@@ -173,7 +173,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_OUTPUT_PWM_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_PARAMETER_UPDATE_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
         {PX4_POSITION_SETPOINT_TRIPLET_MID,    1, TO_PQUEUE_CPD_HIGH_IDX    },
-        {FROM_PPD(CFE_ES_HK_TLM_MID),               1, TO_PQUEUE_CPD_HIGH_IDX    },
+        {CFE_ES_HK_TLM_MID - CPD_CPU_BASE,               1, TO_PQUEUE_CPD_HIGH_IDX    },
 //        {PX4_PWM_INPUT_MID,                    1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_QSHELL_REQ_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_RC_CHANNELS_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
