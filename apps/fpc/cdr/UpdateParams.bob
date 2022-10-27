@@ -53,6 +53,15 @@
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* L1_PERIOD
+* @unit s
+* @min 12.0
+* @max 50.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update</name>
@@ -67,7 +76,10 @@
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>12.0</minimum>
+        <maximum>50.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_1</name>
@@ -125,6 +137,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* L1_DAMPING
+* Damping factor for L1 control.
+* @min 0.6
+* @max 0.9
+* @decimal 2
+* @increment 0.05
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_40</name>
@@ -139,7 +160,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.6</minimum>
+        <maximum>0.9</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_41</name>
@@ -200,6 +224,20 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_TIME_CONST
+* TECS time 
+* This is the time constant of the TECS control algorithm (in seconds).
+* Smaller values make it faster to respond, larger values make it slower
+* to respond.
+*
+* @unit s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_41</name>
@@ -214,7 +252,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_42</name>
@@ -271,6 +312,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_THRO_CONST
+* TECS Throttle time constant
+* @unit s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_42</name>
@@ -278,14 +329,6 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
-      </widget>
-      <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget</name>
-        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
-        <x>300</x>
-        <format>0</format>
-        <show_units>true</show_units>
-        <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_43</name>
@@ -325,6 +368,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>70</width>
         <visible>false</visible>
       </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_17</name>
@@ -346,6 +400,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_SINK_MIN
+* Minimum descent rate
+* @unit m/s
+* @min 1.0
+* @max 5.0
+* @decimal 
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_43</name>
@@ -360,7 +424,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>5.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_44</name>
@@ -421,6 +488,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_SINK_MAX
+* Maximum descent rate
+* @unit m/s
+* @min 2.0
+* @max 15.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_44</name>
@@ -435,7 +512,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>2.0</minimum>
+        <maximum>15.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_45</name>
@@ -496,6 +576,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_CLMB_MAX
+* Maximum climb rate
+* @unit m/s
+* @min 1.0
+* @max 15.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_45</name>
@@ -510,7 +600,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>15.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_46</name>
@@ -567,6 +660,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* CLMBOUT_DIFF
+* Climbout Altitude difference
+* @unit m
+* @min 0.0
+* @max 150.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_46</name>
@@ -581,7 +684,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>150.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_47</name>
@@ -638,6 +743,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_P
+* Height rate proportional factor
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_47</name>
@@ -652,7 +766,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_48</name>
@@ -709,6 +825,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_FF
+* Height rate feed forward
+*
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_48</name>
@@ -723,7 +849,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_49</name>
@@ -780,6 +908,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_SRATE_P
+* Speed rate P factor
+* @min 0.0
+* @max 2.0
+* @decimal 2
+* @increment 0.01
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_49</name>
@@ -794,7 +931,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_50</name>
@@ -851,6 +990,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_THR_DAMP
+* Throttle damping factor
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 0.1
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_50</name>
@@ -865,7 +1013,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_51</name>
@@ -922,6 +1072,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_INTEG_GAIN
+* Integrator gain
+* @min 0.0
+* @max 2.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_51</name>
@@ -936,7 +1095,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_52</name>
@@ -993,6 +1154,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+T_VERT_ACC
+* Maximum vertical acceleration
+* @unit m/s/s
+* @min 
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_52</name>
@@ -1007,7 +1178,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_53</name>
@@ -1064,6 +1238,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HGT_OMEGA
+* Complementary filter "omega" parameter for height
+* @unit rad/s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_53</name>
@@ -1078,7 +1262,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_54</name>
@@ -1135,6 +1322,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_SPD_OMEGA
+* Complementary filter "omega" parameter for speed
+* @unit rad/s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_54</name>
@@ -1149,7 +1346,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_55</name>
@@ -1206,6 +1406,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_SPDWEIGHT
+* Speed &lt;--&gt; Altitude priority
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 1.0
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_55</name>
@@ -1220,6 +1429,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -1277,6 +1487,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_PTCH_DAMP
+* Pitch damping factor
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 0.1
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_56</name>
@@ -1291,7 +1510,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_57</name>
@@ -1352,6 +1573,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* AIRSPD_MIN
+* Minimum Airspeed
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_57</name>
@@ -1366,7 +1597,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_58</name>
@@ -1427,6 +1660,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* AIRSPD_TRIM
+* Cruise Airspeed
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_58</name>
@@ -1441,7 +1684,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_59</name>
@@ -1502,6 +1747,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* AIRSPD_MAX
+* Maximum Airspeed
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_59</name>
@@ -1516,7 +1771,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_60</name>
@@ -1577,6 +1834,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* ARSP_MODE
+* Airspeed disabled.
+*
+* @group Fixedwing Position Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_60</name>
@@ -1654,6 +1917,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* P_LIM_MIN_RADIANS
+* Negative pitch limit
+* @unit deg
+* @min -60.0
+* @max 0.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_61</name>
@@ -1661,6 +1934,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1679,8 +1957,10 @@ print 'Hello from script'
             <description>Execute Script</description>
           </action>
         </actions>
-        <minimum>-100.0</minimum>
+        <minimum>-60.0</minimum>
+        <maximum>0.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_62</name>
@@ -1690,10 +1970,11 @@ print 'Hello from script'
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
 value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
-   'param': value,
+   'param': math.radians(value),
 });]]></text>
             </script>
           </action>
@@ -1737,6 +2018,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* P_LIM_MAX_RADIANS
+* @unit deg
+* @min 0.0
+* @max 60.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_62</name>
@@ -1744,6 +2034,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1751,7 +2046,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>60.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_63</name>
@@ -1761,10 +2058,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
 value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
-   'param': value,
+   'param': math.radians(value),
 });]]></text>
             </script>
           </action>
@@ -1808,6 +2106,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* R_LIM_RADIANS
+* @unit deg
+* @min 35.0
+* @max 65.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_63</name>
@@ -1815,6 +2122,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1822,7 +2134,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>35.0</minimum>
+        <maximum>65.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_64</name>
@@ -1832,8 +2147,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
-print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -1883,6 +2198,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_MIN
+* @unit norm
+* @min 0.05
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group Fixedwing Position Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_64</name>
@@ -1897,7 +2221,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_65</name>
@@ -1958,6 +2285,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_MAX
+* Throttle limit value before flare
+*
+* It's recommended to set it &gt; 0 to avoid free fall with zero thrust.
+*
+* @unit norm
+* @min 0.05
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group Fixedwing Position Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_65</name>
@@ -1972,7 +2312,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_66</name>
@@ -2029,6 +2372,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_IDLE
+* Idle throttle
+*
+* @unit norm
+* @min 0.0
+* @max 0.4
+* @decimal 2
+* @increment 0.01
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_66</name>
@@ -2043,7 +2397,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>0.4</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_67</name>
@@ -2104,6 +2460,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_CRUISE
+* Cruise throttle
+* @unit norm
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_67</name>
@@ -2118,7 +2484,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_68</name>
@@ -2175,6 +2543,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_SLEW_MAX
+* @min 0.0
+* @max 1.0
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_68</name>
@@ -2189,7 +2563,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_69</name>
@@ -2246,6 +2622,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* THR_ALT_SCL
+* Scale throttle by pressure change
+*
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 0.1
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_69</name>
@@ -2260,7 +2646,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_70</name>
@@ -2317,6 +2705,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* MAN_R_MAX_RADIANS
+*
+* @unit norm
+* @min 0.05
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group Fixedwing Position Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_70</name>
@@ -2324,6 +2722,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2331,7 +2734,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_71</name>
@@ -2341,8 +2747,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2388,6 +2795,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* MAN_P_MAX_RADIANS
+* Max manual pitch
+*
+* Max pitch for manual control in attitude stabilized mode
+*
+* @unit deg
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_71</name>
@@ -2395,6 +2815,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2402,7 +2827,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_72</name>
@@ -2413,7 +2841,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2459,6 +2888,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* RSP_OFF_RADIANS
+* Roll setpoint offset
+* @unit deg
+* @min -90.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_72</name>
@@ -2466,6 +2905,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2473,7 +2917,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_73</name>
@@ -2484,7 +2931,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2530,6 +2977,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* PSP_OFF_RADIANS
+* Pitch setpoint offset
+* @unit deg
+* @min -90.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_73</name>
@@ -2544,7 +3001,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_74</name>
@@ -2601,6 +3061,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_ANG_RADIANS
+* Landing slope angle in degrees
+*
+* @unit deg
+* @min 1.0
+* @max 15.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_74</name>
@@ -2608,6 +3079,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2615,7 +3091,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>15.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_75</name>
@@ -2625,8 +3104,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
+
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2672,6 +3154,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_HVIRT
+* This is "h1" here:https://github.com/WindhoverLabs/airliner/blob/integration/apps/fpc/docs/images/fw_landing.png
+* @group Fixedwing Position Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_75</name>
@@ -2686,7 +3173,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
-        <limits_from_pv>false</limits_from_pv>
+        <maximum>1000.0</maximum>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_76</name>
@@ -2743,6 +3230,18 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_FLALT
+* Landing flare altitude (relative to landing altitude)
+*
+* NOTE: max(FW_LND_FLALT, FW_LND_FL_TIME * |z-velocity|) is taken as the flare altitude
+*
+* @unit m
+* @min 0.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_76</name>
@@ -2757,7 +3256,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1000.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_77</name>
@@ -2814,6 +3315,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_TLALT
+* Landing throttle limit altitude (relative landing altitude)
+*
+* @unit m
+* @min -1.0
+* @max 30.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_77</name>
@@ -2828,7 +3340,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-1.0</minimum>
+        <maximum>30.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_78</name>
@@ -2885,6 +3400,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+*LND_HHDIST
+* Landing heading hold horizontal distance.
+* Set to 0 to disable heading hold.
+* @unit m
+* @min 0
+* @max 30.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_78</name>
@@ -2899,7 +3425,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>30.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_79</name>
@@ -2954,8 +3482,18 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_80</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>170</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_FL_PMIN_RADIANS
+* Flare, minimum pitch
+* @unit deg
+* @min 0
+* @max 15.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_79</name>
@@ -2970,7 +3508,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>15.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_80</name>
@@ -3025,8 +3565,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_81</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>170</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_FL_PMAX_RADIANS
+* Flare, maximum pitch
+*
+* @unit deg
+* @min 0
+* @max 45.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_80</name>
@@ -3041,7 +3592,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>45.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_81</name>
@@ -3098,6 +3651,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* PSP_OFF_RADIANS
+* Pitch setpoint offset
+*
+* @unit deg
+* @min -90.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_82</name>
@@ -3105,6 +3669,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -3112,7 +3681,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-90.0</minimum>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_83</name>
@@ -3123,7 +3695,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -3169,6 +3742,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_AIRSPD_SC
+* Min. airspeed scaling factor for landing
+* @unit norm
+* @min 1.0
+* @max 1.5
+* @decimal 2
+* @increment 0.01
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_81</name>
@@ -3183,7 +3766,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>1.5</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_82</name>
@@ -3224,11 +3810,185 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <visible>false</visible>
       </widget>
     </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_56</name>
+      <macros>
+        <ParamName>T_RLL2THR</ParamName>
+      </macros>
+      <x>2</x>
+      <y>882</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_84</name>
+        <text>$(ParamName)</text>
+        <width>160</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_RLL2THR
+* Roll -&gt; Throttle feedforward
+* @min 0.0
+* @max 20.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_83</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget_1</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>20.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_84</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_45</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_57</name>
+      <macros>
+        <ParamName>LND_USETER</ParamName>
+      </macros>
+      <x>2</x>
+      <y>902</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_85</name>
+        <text>$(ParamName)</text>
+        <width>160</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* LND_USETER
+* Use terrain estimate during landing
+*
+* @boolean
+* @group FW L1 Control
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_84</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget_2</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>20.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_85</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_46</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
-    <x>780</x>
-    <y>20</y>
+    <x>10</x>
+    <y>990</y>
     <width>610</width>
     <height>240</height>
     <font>
@@ -3251,6 +4011,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* RWTO_TKOFF
+* Runway takeoff with landing gear
+*
+* @boolean
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_1</name>
@@ -3322,6 +4089,18 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* RWTO_HDG
+* Specifies which heading should be held during runnway takeoff.
+*
+* 0: airframe heading, 1: heading towards takeoff waypoint
+*
+* @value 0 Airframe
+* @value 1 Waypoint
+* @min 0
+* @max 1
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_2</name>
@@ -3336,6 +4115,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VLong&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -3387,6 +4167,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* NAV_ALT
+* @unit m
+* @min 0.0
+* @max 100.0
+* @decimal 1
+* @increment 1
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_3</name>
@@ -3452,6 +4241,18 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* MAX_THR
+* Max throttle during runway takeoff.
+* (Can be used to test taxi on runway)
+*
+* @unit norm
+* @min 0.0
+* @max 1.0
+* @decimal 
+* @increment 0.01
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_4</name>
@@ -3466,7 +4267,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_5</name>
@@ -3517,6 +4320,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* PSP_RADIANS
+* @unit deg
+* @min 0.0
+* @max 20.0
+* @decimal 1
+* @increment 0.5
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_5</name>
@@ -3525,13 +4337,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <maximum>20.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_6</name>
@@ -3582,6 +4400,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* @unit deg
+* @min 0.0
+* @max 60.0
+* @decimal 1
+* @increment 0.5
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_6</name>
@@ -3590,13 +4416,20 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <maximum>60.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_7</name>
@@ -3607,7 +4440,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });
@@ -3647,6 +4480,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip> /**
+*MAX_ROLL_RADIANS
+*
+* @unit deg
+* @min 0.0
+* @max 60.0
+* @decimal 1
+* @increment 0.5
+* @group Runway Takeoff
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_7</name>
@@ -3655,13 +4498,20 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <maximum>60.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_8</name>
@@ -3672,7 +4522,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });
@@ -3712,6 +4563,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* RWTO_CLMBOUT_DIFF
+* Climbout Altitude difference
+*
+* @unit m
+* @min 0.0
+* @max 150.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_8</name>
@@ -3726,6 +4588,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
+        <minimum>0.05</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -3777,6 +4641,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>169</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* RWTO_AIRSPD_MIN
+* Minimum Airspeed
+*
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_9</name>
@@ -3828,12 +4703,146 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
     </widget>
   </widget>
   <widget type="webbrowser" version="2.0.0">
-    <name>Web Browser_1</name>
+    <name>$(APP)_tuning_guide</name>
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fpc/cdr/resources/pid_tuning_guide_fixedwing.html</url>
-    <x>790</x>
-    <y>260</y>
+    <x>800</x>
+    <y>31</y>
     <width>900</width>
     <height>1020</height>
     <show_toolbar>false</show_toolbar>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>750</x>
+    <y>390</y>
+    <width>1</width>
+    <height>1</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Table Management</name>
+    <x>640</x>
+    <y>1050</y>
+    <width>185</width>
+    <height>148</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_8</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/LoadTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Load Table</text>
+      <x>5</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_9</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/AbortTableLoad.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Abort Table Load</text>
+      <x>5</x>
+      <y>25</y>
+      <width>140</width>
+      <height>20</height>
+      <scripts>
+        <script file="EmbeddedPy">
+          <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+        </script>
+      </scripts>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_10</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/DumpTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump Table</text>
+      <x>5</x>
+      <y>45</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_11</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/ValidateTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Validate Table</text>
+      <x>5</x>
+      <y>65</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_12</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/ActivateTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Activate Table</text>
+      <x>5</x>
+      <y>85</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="slide_button" version="2.0.0">
+    <name>Slide Button</name>
+    <pv_name>loc://$(APP)_show_guide_slide&lt;VBoolean&gt;</pv_name>
+    <label>Show Guide</label>
+    <x>670</x>
+    <y>31</y>
+    <width>130</width>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedPy">
+        <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+
+visible  = PVUtil.getInt(pvs[0])
+tuning_widget_name = widget.getDisplayModel().getEffectiveMacros().getValue("APP") + "_tuning_guide"
+if visible == 1:
+	ScriptUtil.findWidgetByName(widget, tuning_widget_name).setPropertyValue('visible', True )
+else:
+	ScriptUtil.findWidgetByName(widget, tuning_widget_name).setPropertyValue('visible', False)]]></text>
+        <pv_name>$(pv_name)</pv_name>
+      </script>
+    </scripts>
   </widget>
 </display>

@@ -42,7 +42,6 @@ public:
 
 protected:
 	float _coordinated_min_speed;
-	float _max_rate;
 
 	int32_t _coordinated_method;
 

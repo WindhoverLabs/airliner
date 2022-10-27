@@ -453,6 +453,23 @@ public:
      *************************************************************************/
     void UpdateMagDeclination(const float new_declination);
 
+    /************************************************************************/
+    /** \brief Check if all core sensor data has been received.
+     **
+     **  \par Description
+     **       This function checks that gyro, accel, and mag have been
+     **       received.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **  TRUE for success, FALSE for failure.
+     **  \endreturns
+     **
+     *************************************************************************/
+    osalbool ReceivedCoreSensorData(void);
+
 private:
     /************************************************************************/
     /** \brief Initialize the QAE configuration tables.
