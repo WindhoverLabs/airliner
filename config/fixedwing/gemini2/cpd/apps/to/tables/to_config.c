@@ -174,7 +174,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_OUTPUT_PWM_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_PARAMETER_UPDATE_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
         {PX4_POSITION_SETPOINT_TRIPLET_MID,    1, TO_PQUEUE_CPD_HIGH_IDX    },
-        {FROM_PPD(CFE_ES_HK_TLM_MID),               1, TO_PQUEUE_CPD_HIGH_IDX    },
+        {FROM_PPD(CFE_ES_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX    },
 //        {PX4_PWM_INPUT_MID,                    1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_QSHELL_REQ_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_RC_CHANNELS_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -215,7 +215,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_VISION_POSITION_ESTIMATE_MID,     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VTOL_VEHICLE_STATUS_MID,          1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_WIND_ESTIMATE_MID,                1, TO_PQUEUE_CPD_PX4LOW_IDX    }
-          {HES_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX}
+          {FROM_PPD(HES_HK_TLM_MID),                         1, TO_PQUEUE_CPD_HK_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_CPD_SINGLE_PASS_IDX */

@@ -86,8 +86,10 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
         /* 39 */  TO_CPD(SED_CMD_MID),
         /* 40 */  TO_CPD(VC_CMD_MID),
         /* 41 */  TO_CPD(ZUSUP_CMD_MID),
-        /* 42 */  TO_CPD(ASPD4525_CMD_MID)
-    },
+        /* 42 */  TO_CPD(ASPD4525_CMD_MID),
+//        /* 43 */  HES_HK_TLM_MID,
+        /* 43 */  CFE_ES_HK_TLM_MID
+     },
     /* MaxSentMsgsPerWakeup */
     1,
     /* MaxRecvdMsgsPerWakeup */
