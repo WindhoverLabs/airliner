@@ -57,7 +57,7 @@ buildliner_add_app_def(aspd4525
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/platform_inc
 )
 
-buildliner_add_app_unit_test(ASPD4525-UT
+buildliner_add_app_unit_test(aspd4525-ut
     UTASSERT 
     NO_HELGRIND
     NO_MASSIF

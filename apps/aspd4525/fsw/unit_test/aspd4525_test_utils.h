@@ -42,9 +42,13 @@
 
 extern ASPD4525_AppData_t  ASPD4525_AppData;
 
+extern ASPD4525_ConfigTblEntry_t
+                   ASPD4525_ConfigTbl[ASPD4525_CONFIG_TABLE_MAX_ENTRIES];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 /*
  * Function Definitions
@@ -64,4 +68,3 @@ time_t ASPD4525_Test_GetTimeFromTimestamp(uint64 timestamp);
 #endif
 
 #endif /* ASPD4525_TEST_UTILS_H */
-
