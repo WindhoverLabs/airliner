@@ -34,6 +34,8 @@
 #include "aspd4525_app_test.h"
 #include "aspd4525_app.h"
 #include "aspd4525_test_utils.h"
+#include "ut_aspd4525_custom_stubs.h"
+#include "aspd4525_custom_hooks.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -496,12 +498,26 @@ int32 Test_ASPD4525_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_ASPD4525_AppMain_Nominal_SendHK(void)
 {
-    /* The following will emulate behavior of receiving a SCH message
-       to Send Hk message */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, ASPD4525_SEND_HK_MID, 1);
+    ASPD4525_NoArgCmd_t  InMsg;
+    int32                SchPipe;
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    SchPipe = Ut_CFE_SB_CreatePipe(ASPD4525_SCH_PIPE_NAME);
+    CFE_SB_InitMsg ((void *)&InMsg, ASPD4525_SEND_HK_MID, sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void *)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    /* The following will emulate behavior of receiving a SCH message
+       to Wakeup */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, ASPD4525_WAKEUP_MID, 1);
+
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INITDATA_INDEX,
+                                    (void *)&ASPD4525_Custom_InitDataHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INIT_INDEX,
+                                    (void *)&ASPD4525_Custom_InitHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_MEASURE_INDEX,
+                                    (void *)&ASPD4525_Custom_MeasureHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -589,6 +605,13 @@ void Test_ASPD4525_AppMain_Nominal_Wakeup(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, ASPD4525_WAKEUP_MID, 1);
 
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INITDATA_INDEX,
+                                    (void *)&ASPD4525_Custom_InitDataHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INIT_INDEX,
+                                    (void *)&ASPD4525_Custom_InitHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_MEASURE_INDEX,
+                                    (void *)&ASPD4525_Custom_MeasureHook);
+
     WakeupHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                     (void *)&Test_ASPD4525_AppMain_Nominal_WakeupHook);
@@ -612,12 +635,12 @@ void Test_ASPD4525_AppMain_Nominal_Wakeup(void)
 void Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID(void)
 {
     ASPD4525_InData_t  InMsg;
-    int32 DataPipe;
+    int32              DataPipe;
     char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP,
+    /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe("ASPD4525_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(ASPD4525_DATA_PIPE_NAME);
     CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(ASPD4525_InData_t), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InMsg, DataPipe);
 
@@ -635,6 +658,35 @@ void Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID(void)
     UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==3,"Event Count = 3");
     UtAssert_EventSent(ASPD4525_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "AppMain(), ProcessNewData - InvalidMsgID EventSent");
+}
+
+
+/**
+ * Test ASPD4525_ReadDevice()
+ */
+void Test_ASPD4525_ReadDevice(void)
+{
+    boolean bResult = TRUE;
+    int32   iStatus = CFE_SUCCESS;
+
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INITDATA_INDEX,
+                                    (void *)&ASPD4525_Custom_InitDataHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_INIT_INDEX,
+                                    (void *)&ASPD4525_Custom_InitHook);
+    Ut_ASPD4525_Custom_SetFunctionHook(UT_ASPD4525_CUSTOM_MEASURE_INDEX,
+                                    (void *)&ASPD4525_Custom_MeasureHook);
+
+    /* Execute the function being tested */
+    ASPD4525_InitApp();
+
+    ASPD4525_ReadDevice();
+
+    printf("ASPD4525_AppData.sPressureDiffCount: 0x%x\n",
+                                    ASPD4525_AppData.sPressureDiffCount);
+    printf("ASPD4525_AppData.sIemperatureCount: 0x%x\n",
+                                    ASPD4525_AppData.sIemperatureCount);
+    printf("ASPD4525_AppData.ucStatus: %u\n",
+                                    ASPD4525_AppData.ucStatus);
 }
 
 
@@ -710,4 +762,8 @@ void ASPD4525_App_Test_AddTestCases(void)
     UtTest_Add(Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID,
                ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
                "Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID");
+
+    UtTest_Add(Test_ASPD4525_ReadDevice,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_ReadDevice");
 }

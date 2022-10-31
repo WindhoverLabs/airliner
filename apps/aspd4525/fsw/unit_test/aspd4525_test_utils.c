@@ -32,6 +32,7 @@
  *****************************************************************************/
 
 #include "aspd4525_test_utils.h"
+#include "ut_aspd4525_custom_stubs.h"
 
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
@@ -80,10 +81,10 @@ ASPD4525_ConfigTblEntry_t
     }
 };
 
+
 /*
  * Function Definitions
  */
-
 void ASPD4525_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
@@ -98,6 +99,7 @@ void ASPD4525_Test_Setup(void)
     Ut_CFE_ES_Reset();
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
+    Ut_ASPD4525_Custom_Reset();
 
 #if 0
     Ut_CFE_TBL_AddTable(ASPD4525_CONFIG_TABLE_FILENAME,

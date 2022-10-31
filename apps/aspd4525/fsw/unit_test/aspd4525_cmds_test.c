@@ -557,6 +557,36 @@ void Test_ASPD4525_ProcessNewCmds_ASPD4525_SET_AIR_DENSITY_MODE_CC(void)
 }
 
 
+/**
+ * Test ASPD4525 VerifyCmdLength(), Fail CmdLength
+ */
+void Test_ASPD4525_VerifyCmdLength_Fail_CmdLength(void)
+{
+    boolean              bResult = TRUE;
+    boolean              bExpected = FALSE;
+    ASPD4525_NoArgCmd_t  CmdMsg;
+    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg ((void*)&CmdMsg, ASPD4525_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)ASPD4525_NOOP_CC);
+    ASPD4525_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    bResult = ASPD4525_VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, sizeof(CmdMsg) + 5);
+
+    sprintf(expectedEvent, "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+                           "msgLen=%d, expectedLen=%d",
+                           ASPD4525_CMD_MID, ASPD4525_NOOP_CC,
+                           sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+    /* Verify results */
+    UtAssert_True ((bResult == bExpected) &&
+                   (ASPD4525_AppData.HkTlm.usCmdErrCnt == 1),
+                   "VerifyCmdLength, Fail CmdLength");
+    UtAssert_EventSent(ASPD4525_MSGLEN_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "VerifyCmdLength(), Fail CmdLength Event Sent");
+}
+
+
 
 void ASPD4525_Cmds_Test_AddTestCases(void)
 {
@@ -593,4 +623,8 @@ void ASPD4525_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_ASPD4525_ProcessNewCmds_ASPD4525_SET_AIR_DENSITY_MODE_CC,
             ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
             "Test_ASPD4525_ProcessNewCmds_ASPD4525_SET_AIR_DENSITY_MODE_CC");
+
+    UtTest_Add(Test_ASPD4525_VerifyCmdLength_Fail_CmdLength,
+            ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+            "Test_ASPD4525_VerifyCmdLength_Fail_CmdLength");
 } /* end ASPD4525_Cmds_Test_AddTestCases */
