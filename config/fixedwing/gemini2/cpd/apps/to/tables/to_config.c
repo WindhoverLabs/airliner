@@ -215,7 +215,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_VISION_POSITION_ESTIMATE_MID,     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VTOL_VEHICLE_STATUS_MID,          1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_WIND_ESTIMATE_MID,                1, TO_PQUEUE_CPD_PX4LOW_IDX    }
-          {HES_HK_TLM_MID,                         1, TO_PQUEUE_CPD_HK_IDX}
+          {HES_HK_TLM_MID,                         1, TO_PQUEUE_CPD_SINGLE_PASS_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_CPD_SINGLE_PASS_IDX */
