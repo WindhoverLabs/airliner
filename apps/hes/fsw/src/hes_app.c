@@ -660,29 +660,29 @@ void HES_ProcessCVT() {
     HES_AppData.HkTlm.Lat = HES_AppData.CVT.VGlobalPosition.Lat;
     HES_AppData.HkTlm.Lon = HES_AppData.CVT.VGlobalPosition.Lon;
 
-    /*TODO CHange the following code to get stuff from NAV instead of hardcoding values*/
-    HES_AppData.HkTlm.num_way_points = 4;
-    HES_AppData.HkTlm.way_points_valid = TRUE;
+    // /*TODO CHange the following code to get stuff from NAV instead of hardcoding values*/
+    // HES_AppData.HkTlm.num_way_points = 4;
+    // HES_AppData.HkTlm.way_points_valid = TRUE;
 
-    HES_AppData.HkTlm.way_points[0].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[0].Lat = HES_AppData.CVT.VGlobalPosition.Lat - 0.001;
-    HES_AppData.HkTlm.way_points[0].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
-    HES_AppData.HkTlm.way_points[0].radius = 30;
+    // HES_AppData.HkTlm.way_points[0].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[0].Lat = HES_AppData.CVT.VGlobalPosition.Lat - 0.001;
+    // HES_AppData.HkTlm.way_points[0].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
+    // HES_AppData.HkTlm.way_points[0].radius = 30;
 
-    HES_AppData.HkTlm.way_points[1].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[1].Lat = HES_AppData.CVT.VGlobalPosition.Lat + 0.001;
-    HES_AppData.HkTlm.way_points[1].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
-    HES_AppData.HkTlm.way_points[1].radius = 30;
+    // HES_AppData.HkTlm.way_points[1].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[1].Lat = HES_AppData.CVT.VGlobalPosition.Lat + 0.001;
+    // HES_AppData.HkTlm.way_points[1].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
+    // HES_AppData.HkTlm.way_points[1].radius = 30;
 
-    HES_AppData.HkTlm.way_points[2].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[2].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
-    HES_AppData.HkTlm.way_points[2].Lon = HES_AppData.CVT.VGlobalPosition.Lon + 0.001;
-    HES_AppData.HkTlm.way_points[2].radius = 30;
+    // HES_AppData.HkTlm.way_points[2].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[2].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
+    // HES_AppData.HkTlm.way_points[2].Lon = HES_AppData.CVT.VGlobalPosition.Lon + 0.001;
+    // HES_AppData.HkTlm.way_points[2].radius = 30;
 
-    HES_AppData.HkTlm.way_points[3].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[3].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
-    HES_AppData.HkTlm.way_points[3].Lon = HES_AppData.CVT.VGlobalPosition.Lon - 0.001;
-    HES_AppData.HkTlm.way_points[3].radius = 30;
+    // HES_AppData.HkTlm.way_points[3].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[3].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
+    // HES_AppData.HkTlm.way_points[3].Lon = HES_AppData.CVT.VGlobalPosition.Lon - 0.001;
+    // HES_AppData.HkTlm.way_points[3].radius = 30;
 
     HES_AppData.CVT.filtered_vel_d = 
         (HES_VEL_FILTER_COEFF) * (HES_AppData.CVT.VGlobalPosition.VelD) +

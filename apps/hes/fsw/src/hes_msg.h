@@ -230,9 +230,9 @@ typedef struct
     float   Remaining;
     PX4_BatteryWarningSeverity_t Warning;
 
-    HES_WayPoint_t way_points[HES_MAX_WAYPOINTS];
-    uint32 num_way_points;
-    boolean way_points_valid;
+    // HES_WayPoint_t way_points[HES_MAX_WAYPOINTS];
+    // uint32 num_way_points;
+    // boolean way_points_valid;
 
     boolean RcSignalLost;
     boolean EngineFailure;
