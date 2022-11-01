@@ -46,9 +46,12 @@
  * Function Definitions
  */
 
-void LD_Test_Setup(void);
-void LD_Test_TearDown(void);
+void    LD_Test_Setup(void);
+void    LD_Test_TearDown(void);
 
+double  LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl);
+time_t  LD_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t  LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
 #endif /* LD_TEST_UTILS_HPP */

@@ -48,18 +48,36 @@
 #include "ut_cfe_evs_stubs.h"
 
 #include <time.h>
+#include <iostream>
 
 
 extern  LD_ConfigTbl_t LD_ConfigTbl;
 
 
-extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
+extern Ut_CFE_PSP_MEMUTILS_HookTable_t        Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
-                  Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+          Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
 
 extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
 extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
-                  Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
+                Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
+
+
+LD_ConfigTbl_t LD_ConfigTblUnitTest
+{
+    10.0f,            /* LD_Z_VEL_MAX */
+    2.0f,             /* LD_XY_VEL_MAX */
+    10000.0,          /* LD_ALT_MAXe */
+    0.35,             /* LD_LOW_T_THR */
+    0.08,             /* LD_MAN_MIN_THR */
+    0.65,             /* LD_POS_STK_UP_THRES */
+    0.15,             /* LD_POS_STK_DW_THRES */
+    0.5f,             /* LD_LANDSPEED */
+    8.0f,             /* LD_LNDFW_AIRSPD_MAX Airspeed max */
+    8000000,          /* LD_MIN_THR_NO_ALT_TIMEOUT */
+    LD_OP_MODE_AUTO   /* LD_OP_MODE */
+};
+
 
 /*
  * Function Definitions
@@ -78,24 +96,84 @@ void LD_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
+#if 0
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTbl);
+#else
+    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTblUnitTest);
+#endif
 
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
+                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                                 sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void LD_Test_TearDown(void)
 {
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
+                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                                  sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                     sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+double LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl)
+{
+    double checksum = 0.0;
+
+    checksum = (
+        (double)pTbl->LD_Z_VEL_MAX + (double)pTbl->LD_XY_VEL_MAX +
+        (double)pTbl->LD_ALT_MAX + (double)pTbl->LD_LOW_T_THR +
+        (double)pTbl->LD_MAN_MIN_THR + (double)pTbl->LD_POS_STK_UP_THRES +
+        (double)pTbl->LD_POS_STK_DW_THRES + (double)pTbl->LD_LANDSPEED +
+        (double)pTbl->LD_LNDFW_AIRSPD_MAX +
+        (double)pTbl->LD_MIN_THR_NO_ALT_TIMEOUT);
+
+    std::cout.precision(17);
+    std::cout << "\nConfigDataChecksum(with Max precision): " <<
+                 checksum << "\n";
+
+    std::cout.precision(7);
+    std::cout << "\nConfigTable Values:\n";
+    std::cout << "LD_Z_VEL_MAX: " << pTbl->LD_Z_VEL_MAX << "\n";
+    std::cout << "LD_XY_VEL_MAX: " << pTbl->LD_XY_VEL_MAX << "\n";
+    std::cout << "LD_ALT_MAX: " << pTbl->LD_ALT_MAX << "\n";
+    std::cout << "LD_LOW_T_THR: " << pTbl->LD_LOW_T_THR << "\n";
+    std::cout << "LD_MAN_MIN_THR: " << pTbl->LD_MAN_MIN_THR << "\n";
+    std::cout << "LD_POS_STK_UP_THRES: " << pTbl->LD_POS_STK_UP_THRES << "\n";
+    std::cout << "LD_POS_STK_DW_THRES: " << pTbl->LD_POS_STK_DW_THRES << "\n";
+    std::cout << "LD_LANDSPEED: " << pTbl->LD_LANDSPEED << "\n";
+    std::cout << "LD_LNDFW_AIRSPD_MAX: " << pTbl->LD_LNDFW_AIRSPD_MAX << "\n";
+    std::cout << "LD_MIN_THR_NO_ALT_TIMEOUT: " <<
+                  pTbl->LD_MIN_THR_NO_ALT_TIMEOUT << "\n";
+    std::cout << "LD_OP_MODE: " << pTbl->LD_OP_MODE << "\n";
+
+    return checksum;
+}
+
+time_t LD_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
 }
