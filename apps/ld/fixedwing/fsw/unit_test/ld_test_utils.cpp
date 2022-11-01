@@ -96,7 +96,7 @@ void LD_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 0
+#if 1
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTbl);
 #else
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTblUnitTest);
@@ -124,6 +124,23 @@ void LD_Test_TearDown(void)
                                       sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void LD_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
 }
 
 double LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl)

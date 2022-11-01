@@ -49,6 +49,7 @@
 void    LD_Test_Setup(void);
 void    LD_Test_TearDown(void);
 
+void    LD_Test_PrintCmdMsg(void *pMsg, uint32 size);
 double  LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl);
 time_t  LD_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t  LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
