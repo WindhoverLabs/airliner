@@ -31,31 +31,16 @@
 *
 *****************************************************************************/
 
-
-#ifndef LD_TEST_UTILS_H
-#define LD_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "ld_app.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/*
- * Function Definitions
- */
-
-void LD_Test_Setup(void);
-void LD_Test_TearDown(void);
+#ifndef LD_CUSTOM_STUBS_HPP
+#define LD_CUSTOM_STUBS_HPP
 
 
-#ifdef __cplusplus
-}
-#endif
+#include "cfe.h"
 
-#endif /* LD_TEST_UTILS_H */
 
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
+
+
+#endif /* LD_CUSTOM_STUBS_HPP */

@@ -33,8 +33,8 @@
 
 #include "cfe.h"
 #include "ld_app.h"
-#include "ld_test_utils.h"
-#include "ld_app_test.h"
+#include "ld_test_utils.hpp"
+#include "ld_app_test.hpp"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -51,10 +51,10 @@
 
 int32 hookCalledCount = 0;
 
+
 /**************************************************************************
  * Tests for LD_InitEvent()
  **************************************************************************/
-
 /**
  * Test LD_InitEvent() with failed CFE_EVS_Register
  */
@@ -202,7 +202,7 @@ void Test_LD_InitPipe_Fail_CreateDATAPipe(void)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 3);
 
     /* Execute the function being tested */
     result = oLD.InitPipe();
@@ -210,6 +210,217 @@ void Test_LD_InitPipe_Fail_CreateDATAPipe(void)
     /* Verify results */
     UtAssert_True (result == expected, "InitPipe, fail SB create DATA pipe");
 }
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorArmed
+ */
+void Test_LD_InitPipe_Fail_SubscribeExActuatorArmed(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 3);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorArmed");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for Airspeed
+ */
+void Test_LD_InitPipe_Fail_SubscribeExAirspeed(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 4);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for Airspeed");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls0
+ */
+void Test_LD_InitPipe_Fail_SubscribeExActuatorControls0(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 5);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ControlState
+ */
+void Test_LD_InitPipe_Fail_SubscribeExControlState(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 6);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ControlState");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
+ */
+void Test_LD_InitPipe_Fail_SubscribeExBatteryStatus(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 7);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for BatteryStatus");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleAttitude
+ */
+void Test_LD_InitPipe_Fail_SubscribeExVehicleAttitude(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 8);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for VehicleAttitude");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSetpoint
+ */
+void Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 9);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ManualControlSetpoint");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleLocalPosition
+ */
+void Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 10);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for VehicleLocalPosition");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleSensorCombined
+ */
+void Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 11);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for VehicleSensorCombined");
+}
+
+
+/**
+ * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleControlMode
+ */
+void Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode(void)
+{
+    LD oLD;
+
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 12);
+
+    /* Execute the function being tested */
+    result = oLD.InitPipe();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for VehicleControlMode");
+}
+
 
 
 /**************************************************************************
@@ -479,6 +690,26 @@ void LD_App_Test_AddTestCases(void)
                "Test_LD_InitPipe_Fail_SubscribeCMD");
     UtTest_Add(Test_LD_InitPipe_Fail_CreateDATAPipe, LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitPipe_Fail_CreateDATAPipe");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExActuatorArmed, LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitPipe_Fail_SubscribeExActuatorArmed");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExAirspeed, LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitPipe_Fail_SubscribeExAirspeed");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExActuatorControls0, LD_Test_Setup,
+               LD_Test_TearDown, "Test_LD_InitPipe_Fail_SubscribeExActuatorControls0");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExControlState, LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitPipe_Fail_SubscribeExControlState");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExBatteryStatus, LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitPipe_Fail_SubscribeExBatteryStatus");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExVehicleAttitude, LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitPipe_Fail_SubscribeExVehicleAttitude");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint, LD_Test_Setup,
+               LD_Test_TearDown, "Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition, LD_Test_Setup,
+               LD_Test_TearDown, "Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined, LD_Test_Setup,
+               LD_Test_TearDown, "Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined");
+    UtTest_Add(Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode, LD_Test_Setup,
+               LD_Test_TearDown, "Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode");
 
     UtTest_Add(Test_LD_InitData, LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitData");

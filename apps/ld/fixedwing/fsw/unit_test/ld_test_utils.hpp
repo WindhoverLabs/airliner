@@ -31,20 +31,24 @@
 *
 *****************************************************************************/
 
-#include "ld_custom_stubs.h"
+
+#ifndef LD_TEST_UTILS_HPP
+#define LD_TEST_UTILS_HPP
+
+/*
+ * Includes
+ */
+
+#include "ld_app.h"
+
+
+/*
+ * Function Definitions
+ */
+
+void LD_Test_Setup(void);
+void LD_Test_TearDown(void);
 
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}
-
-
-uint64 PX4LIB_GetPX4TimeMs(void)
-{
-    return 0;
-}
-
-
-
+#endif /* LD_TEST_UTILS_HPP */

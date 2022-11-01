@@ -34,16 +34,16 @@ buildliner_add_app_unit_test(ld-ut
 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_app_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_app_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_app_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_cmds_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_cmds_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_config_tbl_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_config_tbl_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_test_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_test_utils.h
-    	${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_custom_stubs.h
-    	${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_custom_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_test_utils.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_custom_stubs.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ld_custom_stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_state_history.cpp

@@ -33,8 +33,8 @@
 
 #include "cfe.h"
 #include "ld_msg.h"
-#include "ld_cmds_test.h"
-#include "ld_test_utils.h"
+#include "ld_cmds_test.hpp"
+#include "ld_test_utils.hpp"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"

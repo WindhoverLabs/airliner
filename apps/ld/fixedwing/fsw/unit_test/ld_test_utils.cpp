@@ -32,9 +32,10 @@
 *****************************************************************************/
 
 #include "cfe.h"
-#include "ld_test_utils.h"
+#include "ld_test_utils.hpp"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_tbl_hooks.h"
@@ -51,6 +52,14 @@
 
 extern  LD_ConfigTbl_t LD_ConfigTbl;
 
+
+extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
+extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
+                  Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+
+extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
+extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
+                  Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
 
 /*
  * Function Definitions
@@ -70,8 +79,23 @@ void LD_Test_Setup(void)
     Ut_OSFILEAPI_Reset();
 
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTbl);
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+                                 sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
-void LD_Test_TearDown(void) {
+void LD_Test_TearDown(void)
+{
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+                                  sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+                                     sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }

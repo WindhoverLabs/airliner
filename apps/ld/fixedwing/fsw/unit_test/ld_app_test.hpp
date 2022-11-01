@@ -31,17 +31,12 @@
 *
 *****************************************************************************/
 
-#ifndef LD_CONFIG_TBL_TEST_H
-#define LD_CONFIG_TBL_TEST_H
+#ifndef LD_APP_TEST_HPP
+#define LD_APP_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-void LD_Config_Tbl_Test_AddTestCases(void);
+void LD_App_Test_AddTestCases(void);
 
-#ifdef __cplusplus
-}
-#endif
 
-#endif /* LD_CONFIG_TBL_TEST_H */
+
+#endif /* LD_APP_TEST_HPP */

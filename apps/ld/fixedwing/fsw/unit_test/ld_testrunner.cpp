@@ -32,9 +32,9 @@
 *****************************************************************************/
 
 #include "uttest.h"
-#include "ld_app_test.h"
-#include "ld_cmds_test.h"
-#include "ld_config_tbl_test.h"
+#include "ld_app_test.hpp"
+#include "ld_cmds_test.hpp"
+#include "ld_config_tbl_test.hpp"
 
 int main(void)
 {   

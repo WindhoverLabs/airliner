@@ -31,18 +31,43 @@
 *
 *****************************************************************************/
 
-#ifndef LD_CMDS_TEST_H
-#define LD_CMDS_TEST_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void LD_Cmds_Test_AddTestCases(void);
+#include "ld_custom_stubs.hpp"
 
 
-#ifdef __cplusplus
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
 }
-#endif
 
-#endif /* LD_CMDS_TEST_H */
+
+uint64 PX4LIB_GetPX4TimeMs(void)
+{
+    uint64          outTime = 0;
+    OS_time_t       localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000))
+              + static_cast<uint64>(static_cast<uint64>(localTime.microsecs)
+              % static_cast<uint64>(1000));
+
+    return outTime;
+}
+
+
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+
+    return delta;
+}

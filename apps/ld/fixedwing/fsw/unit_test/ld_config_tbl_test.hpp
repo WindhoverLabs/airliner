@@ -31,18 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef LD_CUSTOM_STUBS_H
-#define LD_CUSTOM_STUBS_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "cfe.h"
+#ifndef LD_CONFIG_TBL_TEST_HPP
+#define LD_CONFIG_TBL_TEST_HPP
 
 
-#ifdef __cplusplus
-}
-#endif
+void LD_Config_Tbl_Test_AddTestCases(void);
 
-#endif /* LD_CUSTOM_STUBS_H */
+
+#endif /* LD_CONFIG_TBL_TEST_HPP */
