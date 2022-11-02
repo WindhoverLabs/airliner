@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>FPC - UpdateParam</name>
+  <macros>
+    <APP>fpc</APP>
+    <CPUID>cpd</CPUID>
+    <ParamName>Heading</ParamName>
+  </macros>
+  <width>400</width>
+  <height>400</height>
+  <widget type="label" version="2.0.0">
+    <name>$(APP)</name>
+    <class>TITLE</class>
+    <text>FPC - Update Heading</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>550</width>
+    <height>31</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>750</x>
+    <y>390</y>
+    <width>1</width>
+    <height>1</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Update_62</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedPy">
+          <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+
+
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(),"Heading" + "_Input_Widget") ) );
+
+
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_Target_HEADING', {
+   'param': value,
+});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Update</text>
+    <x>80</x>
+    <y>70</y>
+    <width>140</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_62</name>
+    <text>$(ParamName)(degrees)</text>
+    <x>10</x>
+    <y>31</y>
+    <width>120</width>
+    <vertical_alignment>1</vertical_alignment>
+    <tooltip>/**
+* P_LIM_MIN_RADIANS
+* Negative pitch limit
+* @unit deg
+* @min -60.0
+* @max 0.0
+* @decimal 1
+* @increment 0.5
+* @group FW L1 Control
+*/</tooltip>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>$(ParamName)_Input_Widget</name>
+    <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+    <x>130</x>
+    <y>31</y>
+    <width>150</width>
+    <format>0</format>
+    <show_units>true</show_units>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedPy">
+          <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello from script'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+        </script>
+        <description>Execute Script</description>
+      </action>
+    </actions>
+    <maximum>360.0</maximum>
+    <limits_from_pv>false</limits_from_pv>
+    <increment>0.5</increment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Unit_22</name>
+    <text>meters</text>
+    <x>560</x>
+    <y>31</y>
+    <width>70</width>
+    <visible>false</visible>
+  </widget>
+</display>
