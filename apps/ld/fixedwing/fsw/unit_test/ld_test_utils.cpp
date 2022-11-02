@@ -51,9 +51,6 @@
 #include <iostream>
 
 
-extern  LD_ConfigTbl_t LD_ConfigTbl;
-
-
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t        Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
           Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
@@ -67,15 +64,30 @@ LD_ConfigTbl_t LD_ConfigTblUnitTest
 {
     10.0f,            /* LD_Z_VEL_MAX */
     2.0f,             /* LD_XY_VEL_MAX */
-    10000.0,          /* LD_ALT_MAXe */
-    0.35,             /* LD_LOW_T_THR */
-    0.08,             /* LD_MAN_MIN_THR */
-    0.65,             /* LD_POS_STK_UP_THRES */
-    0.15,             /* LD_POS_STK_DW_THRES */
+    10000.0f,         /* LD_ALT_MAX */
+    0.35f,            /* LD_LOW_T_THR */
+    0.08f,            /* LD_MAN_MIN_THR */
+    0.65f,            /* LD_POS_STK_UP_THRES */
+    0.15f,            /* LD_POS_STK_DW_THRES */
     0.5f,             /* LD_LANDSPEED */
-    8.0f,             /* LD_LNDFW_AIRSPD_MAX Airspeed max */
+    8.0f,             /* LD_LNDFW_AIRSPD_MAX */
     8000000,          /* LD_MIN_THR_NO_ALT_TIMEOUT */
     LD_OP_MODE_AUTO   /* LD_OP_MODE */
+};
+
+LD_ConfigTbl_t LD_ConfigTblUnitTest_Invalid
+{
+    LD_Z_VEL_MAX_MAX + 1.0f,                /* LD_Z_VEL_MAX */
+    LD_XY_VEL_MAX_MAX + 1.0f,               /* LD_XY_VEL_MAX */
+    LD_ALT_MAX_MAX + 1.0f,                  /* LD_ALT_MAX */
+    LD_LOW_T_THR_MAX + 1.0f,                /* LD_LOW_T_THR */
+    LD_MAN_MIN_THR_MAX + 1.0f,              /* LD_MAN_MIN_THR */
+    LD_POS_STK_UP_THRES_MAX + 1.0f,         /* LD_POS_STK_UP_THRES */
+    LD_POS_STK_DW_THRES_MAX + 1.0f,         /* LD_POS_STK_DW_THRES */
+    LD_LANDSPEED_MAX + 1.0f,                /* LD_LANDSPEED */
+    8.0f,                                   /* LD_LNDFW_AIRSPD_MAX */
+    LD_MIN_THR_NO_ALT_TIMEOUT_MAX + 1,      /* LD_MIN_THR_NO_ALT_TIMEOUT */
+    LD_OP_MODE_AUTO                         /* LD_OP_MODE */
 };
 
 
@@ -97,10 +109,38 @@ void LD_Test_Setup(void)
     Ut_OSFILEAPI_Reset();
 
 #if 1
-    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTbl);
+    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *)&LD_ConfigTbl);
 #else
-    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *) &LD_ConfigTblUnitTest);
+    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME,
+                                          (void *)&LD_ConfigTblUnitTest);
 #endif
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
+                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void LD_Test_Setup_Invalid(void)
+{
+    /* initialize test environment to default state for every test */
+
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+
+    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *)
+                                           &LD_ConfigTblUnitTest_Invalid);
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
                                    sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
@@ -175,6 +215,24 @@ double LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl)
     std::cout << "LD_OP_MODE: " << pTbl->LD_OP_MODE << "\n";
 
     return checksum;
+}
+
+uint64 LD_Test_GetTimeUs(void)
+{
+    int              iStatus;
+    uint64           outTime = 0;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        outTime = static_cast<uint64>(static_cast<uint64>(time.tv_sec)
+                  * static_cast<uint64>(1000000))
+                  + static_cast<uint64>(static_cast<uint64>(time.tv_nsec)
+                    / static_cast<uint64>(1000));
+    }
+
+    return outTime;
 }
 
 time_t LD_Test_GetTimeFromTimestamp(uint64 timestamp)

@@ -192,9 +192,10 @@ void Test_LD_ProcessCmdPipe_Noop(void)
                            LD_MAJOR_VERSION, LD_MINOR_VERSION,
                            LD_REVISION, LD_MISSION_REV);
      /* Verify results */
-    UtAssert_True(oLD.HkTlm.usCmdCnt == 1, "ProcessCmdPipe, Noop");
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
+                   "ProcessCmdPipe, Noop");
     UtAssert_EventSent(LD_CMD_NOOP_EID, CFE_EVS_INFORMATION, expectedEvent,
-                       "ProcessCmdPipe, Noop Event Sent");
+                   "ProcessCmdPipe, Noop Event Sent");
 }
 
 
@@ -226,7 +227,7 @@ void Test_LD_ProcessCmdPipe_Reset(void)
     oLD.AppMain();
 
     /* Verify results */
-    UtAssert_True(((oLD.HkTlm.usCmdCnt == 0) && (oLD.HkTlm.usCmdErrCnt == 0)),
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) && (oLD.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, Reset");
 }
 
@@ -259,10 +260,233 @@ void Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC(void)
     sprintf(expectedEvent, "%s", "Operational mode changed to auto.");
 
     /* Verify results */
-    UtAssert_True(((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0)),
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, LD_MODE_AUTO_CC");
-    UtAssert_EventSent(LD_MODE_CHANGED_EID, CFE_EVS_INFORMATION, expectedEvent,
-                       "ProcessCmdPipe, LD_MODE_AUTO_CC Event Sent");
+    UtAssert_EventSent(LD_MODE_CHANGED_EID, CFE_EVS_INFORMATION,
+             expectedEvent, "ProcessCmdPipe, LD_MODE_AUTO_CC Event Sent");
+}
+
+
+/**
+ * Test LD ProcessCmdPipe, fail LD_MODE_AUTO_CC_AlreadyAuto
+ */
+void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto(void)
+{
+    LD                 oLD;
+
+    int32              CmdPipe;
+    LD_NoArgCmd_t      CmdMsg;
+    char     expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(LD_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_MODE_AUTO_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "%s", "Command error LD already in auto mode.");
+
+    /* Verify results */
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) && (oLD.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, fail LD_MODE_AUTO_CC_AlreadyAuto");
+    UtAssert_EventSent(LD_MODE_CHANGE_ERROR_EID, CFE_EVS_ERROR,
+             expectedEvent,
+             "ProcessCmdPipe, fail LD_MODE_AUTO_CC_AlreadyAuto Event Sent");
+}
+
+
+/**
+ * Test LD ProcessCmdPipe, fail LD_MODE_AUTO_CC_TblModify
+ */
+void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify(void)
+{
+    LD                 oLD;
+
+    int32              CmdPipe;
+    LD_NoArgCmd_t      CmdMsg;
+    char     expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(LD_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_MODE_AUTO_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MODIFIED_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 1);
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+    oLD.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "CFE_TBL_Modified error (%d)",
+                           (int)CFE_TBL_ERR_INVALID_HANDLE);
+
+    /* Verify results */
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) &&
+                  (oLD.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, fail LD_MODE_AUTO_CC_TblModify");
+    UtAssert_EventSent(LD_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
+             expectedEvent,
+             "ProcessCmdPipe, fail LD_MODE_AUTO_CC_TblModify Event Sent");
+}
+
+
+/**
+ * Test LD ProcessCmdPipe, LD_MODE_MANUAL_CC
+ */
+void Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC(void)
+{
+    LD                 oLD;
+
+    int32              CmdPipe;
+    LD_NoArgCmd_t      CmdMsg;
+    char     expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(LD_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_MODE_MANUAL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "%s", "Operational mode changed to manual.");
+
+    /* Verify results */
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, LD_MODE_MANUAL_CC");
+    UtAssert_EventSent(LD_MODE_CHANGED_EID, CFE_EVS_INFORMATION,
+             expectedEvent, "ProcessCmdPipe, LD_MODE_MANUAL_CC Event Sent");
+}
+
+
+/**
+ * Test LD ProcessCmdPipe, fail LD_MODE_MANUAL_CC_AlreadyManual
+ */
+void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual(void)
+{
+    LD                 oLD;
+
+    int32              CmdPipe;
+    LD_NoArgCmd_t      CmdMsg;
+    char     expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(LD_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_MODE_MANUAL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+    oLD.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "%s",
+            "Command error LD already in manual mode.");
+
+    /* Verify results */
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) &&
+                  (oLD.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_AlreadyManual");
+    UtAssert_EventSent(LD_MODE_CHANGE_ERROR_EID, CFE_EVS_ERROR,
+        expectedEvent,
+        "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_AlreadyManual Event Sent");
+}
+
+
+/**
+ * Test LD ProcessCmdPipe, fail LD_MODE_MANUAL_CC_TblModify
+ */
+void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify(void)
+{
+    LD                 oLD;
+
+    int32              CmdPipe;
+    LD_NoArgCmd_t      CmdMsg;
+    char     expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(LD_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_MODE_MANUAL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MODIFIED_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 1);
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.ProcessCmdPipe();
+
+    sprintf(expectedEvent, "CFE_TBL_Modified error (%d)",
+                           (int)CFE_TBL_ERR_INVALID_HANDLE);
+
+    /* Verify results */
+    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) &&
+                  (oLD.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_TblModify");
+    UtAssert_EventSent(LD_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
+            expectedEvent,
+            "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_TblModify Event Sent");
+}
+
+
+/**
+ * Test LD VerifyCmdLength(), Fail CmdLength
+ */
+void Test_LD_VerifyCmdLength_Fail_CmdLength(void)
+{
+    LD                 oLD;
+
+    bool             bResult = TRUE;
+    bool             bExpected = FALSE;
+    LD_NoArgCmd_t    CmdMsg;
+    char         expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg ((void*)&CmdMsg, LD_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)LD_NOOP_CC);
+
+    LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    bResult = oLD.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
+                                  sizeof(CmdMsg) + 5);
+
+    sprintf(expectedEvent,
+            "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+            "msgLen=%d, expectedLen=%d", LD_CMD_MID, LD_NOOP_CC,
+            sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True ((bResult == bExpected) && (oLD.HkTlm.usCmdErrCnt == 1),
+                   "VerifyCmdLength, Fail CmdLength");
+    UtAssert_EventSent(LD_MSGLEN_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "VerifyCmdLength(), Fail CmdLength Event Sent");
 }
 
 
@@ -287,4 +511,23 @@ void LD_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC");
+    UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto");
+    UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify");
+    UtTest_Add(Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC");
+    UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual,
+            LD_Test_Setup, LD_Test_TearDown,
+            "Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual");
+    UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify");
+
+    UtTest_Add(Test_LD_VerifyCmdLength_Fail_CmdLength,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_VerifyCmdLength_Fail_CmdLength");
 } /* end LD_Cmds_Test_AddTestCases */

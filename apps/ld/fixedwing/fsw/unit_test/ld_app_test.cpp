@@ -306,7 +306,7 @@ void Test_LD_InitPipe_Fail_SubscribeExActuatorControls0(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-                   "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
+                 "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
 }
 
 
@@ -394,7 +394,7 @@ void Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-              "InitPipe, fail CFE_SB_SubscribeEx for ManualControlSetpoint");
+            "InitPipe, fail CFE_SB_SubscribeEx for ManualControlSetpoint");
 }
 
 
@@ -416,7 +416,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-                "InitPipe, fail CFE_SB_SubscribeEx for VehicleLocalPosition");
+             "InitPipe, fail CFE_SB_SubscribeEx for VehicleLocalPosition");
 }
 
 
@@ -438,7 +438,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-              "InitPipe, fail CFE_SB_SubscribeEx for VehicleSensorCombined");
+           "InitPipe, fail CFE_SB_SubscribeEx for VehicleSensorCombined");
 }
 
 
@@ -460,7 +460,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-                "InitPipe, fail CFE_SB_SubscribeEx for VehicleControlMode");
+              "InitPipe, fail CFE_SB_SubscribeEx for VehicleControlMode");
 }
 
 
@@ -564,7 +564,7 @@ void Test_LD_InitApp_Fail_InitConfigTbl(void)
     result = oLD.InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init config table");
+    UtAssert_True(result == expected, "InitApp, fail init config table");
 }
 
 
@@ -585,6 +585,20 @@ void Test_LD_InitApp_Nominal(void)
 
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, nominal");
+}
+
+
+/**************************************************************************
+ * Tests for extern LD_AppMain()
+ **************************************************************************/
+/**
+ * Test LD extern LD_AppMain(), Nominal
+ */
+void Test_LD_LD_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    LD_AppMain();
 }
 
 /**************************************************************************
@@ -647,7 +661,8 @@ void Test_LD_AppMain_Fail_InitApp(void)
     oLD.AppMain();
 
     /* Verify results */
-    UtAssert_True (WriteToSysLog_HookCalledCnt == 3, "AppMain, Fail_InitApp");
+    UtAssert_True(WriteToSysLog_HookCalledCnt == 3,
+                  "AppMain, Fail_InitApp");
 }
 
 
@@ -667,8 +682,9 @@ void Test_LD_AppMain_Fail_AcquireConfigPtrs(void)
     /* Execute the function being tested */
     oLD.AppMain();
 
-    sprintf(expectedEvent, "Failed to get Config table's address (0x%08lX)",
-                           CFE_TBL_ERR_INVALID_HANDLE);
+    sprintf(expectedEvent,
+            "Failed to get Config table's address (0x%08lX)",
+            CFE_TBL_ERR_INVALID_HANDLE);
     /* Verify results */
     UtAssert_EventSent(LD_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
                   expectedEvent, "LD_AppMain(), Fail AcquireConfigPtrs");
@@ -703,7 +719,32 @@ void Test_LD_AppMain_InvalidSchMessage(void)
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal - SendMsg
+ * Test LD_AppMain(), SchPipeError
+ */
+void Test_LD_AppMain_SchPipeError(void)
+{
+    LD oLD;
+
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLD.AppMain();
+
+    sprintf(expectedEvent, "SCH pipe read error (0x%08lX).",
+                            CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "LD_AppMain(), SchPipeError");
+}
+
+
+/**
+ * Hook to support: LD_AppMain(), Nominal_SendHK - SendMsg
  */
 int32 Test_LD_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -804,10 +845,62 @@ void Test_LD_AppMain_Nominal_SendHK(void)
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&Test_LD_GetPSPTimeHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
-
     /* Execute the function being tested */
-    oLD.AppMain();
+    oLD.InitApp();
+
+    /* Fix LocalPosition data */
+    oLD.CVT.VehicleLocalPositionMsg.Timestamp = LD_Test_GetTimeUs();
+    oLD.CVT.VehicleLocalPositionMsg.RefTimestamp = LD_Test_GetTimeUs();
+    oLD.CVT.VehicleLocalPositionMsg.RefLat = 47.397741928975;
+    oLD.CVT.VehicleLocalPositionMsg.RefLon = 8.545593979817;
+    oLD.CVT.VehicleLocalPositionMsg.SurfaceBottomTimestamp =
+                                             LD_Test_GetTimeUs();
+    oLD.CVT.VehicleLocalPositionMsg.X = -1.995731f;
+    oLD.CVT.VehicleLocalPositionMsg.Y = 1.565559f;
+    oLD.CVT.VehicleLocalPositionMsg.Z = -0.826584f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.VX = -0.027511f;
+    oLD.CVT.VehicleLocalPositionMsg.VY = 0.006788f;
+    oLD.CVT.VehicleLocalPositionMsg.VZ = -0.051438f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.AX = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.AY = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.AZ = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.Yaw = 1.547718f;
+    oLD.CVT.VehicleLocalPositionMsg.RefAlt = 490.7512f;
+    oLD.CVT.VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oLD.CVT.VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oLD.CVT.VehicleLocalPositionMsg.EpH = 0.369742f;
+    oLD.CVT.VehicleLocalPositionMsg.EpV = 0.216528f;
+    oLD.CVT.VehicleLocalPositionMsg.EvH = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.EvV = 0.0f;
+    oLD.CVT.VehicleLocalPositionMsg.EstimatorType = 0;
+    oLD.CVT.VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oLD.CVT.VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oLD.CVT.VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oLD.CVT.VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oLD.CVT.VehicleLocalPositionMsg.XY_Global = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.Z_Global = TRUE;
+    oLD.CVT.VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
+    /* Fix Airspeed data */
+    oLD.CVT.AirspeedMsg.Timestamp = LD_Test_GetTimeUs();
+    oLD.CVT.AirspeedMsg.IndicatedAirspeed = 1.0f;
+    oLD.CVT.AirspeedMsg.TrueAirspeed = 1.5f;
+    oLD.CVT.AirspeedMsg.TrueAirspeedUnfiltered = 0.0f;
+    oLD.CVT.AirspeedMsg.AirTemperature = 0.0f;
+    oLD.CVT.AirspeedMsg.Confidence = 0.0f;
+
+    oLD.RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
+    oLD.RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
 
     /* Verify results */
     UtAssert_True (SendHKSendMsgHook_MsgId == LD_HK_TLM_MID,
@@ -817,7 +910,7 @@ void Test_LD_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal - DiagTlm
+ * Hook to support: LD_AppMain(), Nominal_DiagTlm SendMsg
  */
 int32 Test_LD_AppMain_Nominal_DiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -917,7 +1010,7 @@ void Test_LD_AppMain_Nominal_DiagTlm(void)
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal - Wakeup
+ * Hook to support: LD_AppMain(), Nominal_Wakeup SendMsg
  */
 int32 Test_LD_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -1117,6 +1210,30 @@ void Test_LD_AppMain_RcvDataPipeMsg_InvalidMsgID(void)
     /* Verify results */
     UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "AppMain(), RcvDataPipeMsg - InvalidMsgID");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - DataPipeError
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_DataPipeError(void)
+{
+    LD oLD;
+
+    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+    oLD.RcvDataPipeMsg();
+
+    sprintf(expectedEvent, "Data pipe read error (0x%08lX).",
+                            CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "LD_AppMain(), RcvDataPipeMsg - DataPipeError");
 }
 
 
@@ -1673,6 +1790,10 @@ void LD_App_Test_AddTestCases(void)
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitApp_Nominal");
 
+    UtTest_Add(Test_LD_LD_AppMain_Nominal,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_LD_AppMain_Nominal");
+
     UtTest_Add(Test_LD_AppMain_Fail_RegisterApp,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_Fail_RegisterApp");
@@ -1685,6 +1806,9 @@ void LD_App_Test_AddTestCases(void)
     UtTest_Add(Test_LD_AppMain_InvalidSchMessage,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_InvalidSchMessage");
+    UtTest_Add(Test_LD_AppMain_SchPipeError,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_AppMain_SchPipeError");
     UtTest_Add(Test_LD_AppMain_Nominal_SendHK,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_Nominal_SendHK");
@@ -1697,6 +1821,9 @@ void LD_App_Test_AddTestCases(void)
     UtTest_Add(Test_LD_AppMain_RcvDataPipeMsg_InvalidMsgID,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_RcvDataPipeMsg_InvalidMsgID");
+    UtTest_Add(Test_LD_AppMain_RcvDataPipeMsg_DataPipeError,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_AppMain_RcvDataPipeMsg_DataPipeError");
     UtTest_Add(Test_LD_AppMain_RcvDataPipeMsg_ActuatorArmed,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_RcvDataPipeMsg_ActuatorArmed");

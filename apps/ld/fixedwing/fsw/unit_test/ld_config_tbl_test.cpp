@@ -48,15 +48,262 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-void LD_Config_Tbl_Test_Case1(void)
-{
 
+/**************************************************************************
+ * Tests for LD InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test LD InitConfigTbl(), fail TBL Register
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_TblRegister(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32    result = CFE_SUCCESS;
+    int32    expected = CFE_TBL_ERR_NO_ACCESS;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
 }
+
+
+/**
+ * Test LD InitConfigTbl(), fail TBL Load
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_TblLoad(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
+}
+
+
+/**
+ * Test LD InitConfigTbl(), fail TBL Manage
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_TblManage(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
+}
+
+
+/**
+ * Test LD InitConfigTbl(), fail TBL GetAddress
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_TblGetAddress(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
+}
+
+
+/**
+ * Test LD InitConfigTbl(), fail AcquireConfigPtrs
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_AcquireConfigPtrs(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPtrs");
+}
+
+
+/**
+ * Test LD InitConfigTbl(), fail ValidateConfigTbl
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Fail_ValidateConfigTbl(void)
+{
+    LD       oLD;
+
+    int32           result = CFE_SUCCESS;
+    int32           expected = -1;
+    LD_ConfigTbl_t* pConfigTbl = NULL;
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    if(result == CFE_SUCCESS)
+    {
+        pConfigTbl = oLD.ConfigTblPtr;
+
+        pConfigTbl->LD_Z_VEL_MAX = LD_Z_VEL_MAX_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_Z_VEL_MAX)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_Z_VEL_MAX = 10.0f;
+        pConfigTbl->LD_XY_VEL_MAX = LD_XY_VEL_MAX_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_XY_VEL_MAX)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_XY_VEL_MAX = 2.0f;
+        pConfigTbl->LD_ALT_MAX = LD_ALT_MAX_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_ALT_MAX)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_ALT_MAX = 10000.0f;
+        pConfigTbl->LD_LOW_T_THR = LD_LOW_T_THR_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_LOW_T_THR)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_LOW_T_THR = 0.35f;
+        pConfigTbl->LD_MAN_MIN_THR = LD_MAN_MIN_THR_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_MAN_MIN_THR)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_MAN_MIN_THR = 0.08f;
+        pConfigTbl->LD_POS_STK_UP_THRES = LD_POS_STK_UP_THRES_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+            "InitConfigTbl(), fail ValidateConfigTbl(LD_POS_STK_UP_THRES)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_POS_STK_UP_THRES = 0.65f;
+        pConfigTbl->LD_POS_STK_DW_THRES = LD_POS_STK_DW_THRES_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+            "InitConfigTbl(), fail ValidateConfigTbl(LD_POS_STK_DW_THRES)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_POS_STK_DW_THRES = 0.15f;
+        pConfigTbl->LD_LANDSPEED = LD_LANDSPEED_MAX + 1.0f;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                 "InitConfigTbl(), fail ValidateConfigTbl(LD_LANDSPEED)");
+
+        result = CFE_SUCCESS;
+        pConfigTbl->LD_LANDSPEED = 0.5f;
+        pConfigTbl->LD_MIN_THR_NO_ALT_TIMEOUT =
+                                    LD_MIN_THR_NO_ALT_TIMEOUT_MAX + 1;
+        result = oLD.ValidateConfigTbl(pConfigTbl);
+        UtAssert_True(result == expected,
+                      "InitConfigTbl(), "
+                      "fail ValidateConfigTbl(LD_MIN_THR_NO_ALT_TIMEOUT)");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "InitConfigTbl(), fail ValidateConfigTbl");
+    }
+}
+
+
+/**
+ * Test LD InitConfigTbl(), Nominal
+ *   Called InitApp() instead of calling private function InitConfigTbl()
+ */
+void Test_LD_InitConfigTbl_Nominal(void)
+{
+    LD       oLD;
+
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oLD.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitConfigTbl, Nominal");
+}
+
 
 
 void LD_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(LD_Config_Tbl_Test_Case1, LD_Test_Setup, LD_Test_TearDown, "LD_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_TblRegister,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_TblLoad,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_TblLoad");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_TblManage,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_TblGetAddress,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_TblGetAddress");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_AcquireConfigPtrs,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_LD_InitConfigTbl_Fail_ValidateConfigTbl,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Fail_ValidateConfigTbl");
+    UtTest_Add(Test_LD_InitConfigTbl_Nominal,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_InitConfigTbl_Nominal");
 }
-
-
