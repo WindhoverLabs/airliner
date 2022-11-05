@@ -279,7 +279,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mpc/SendHK', {});]]></text>
     <x>294</x>
     <y>42</y>
     <width>504</width>
-    <height>492</height>
+    <height>504</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -318,7 +318,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <x>6</x>
       <y>48</y>
       <width>410</width>
-      <height>396</height>
+      <height>426</height>
       <transparent>true</transparent>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_8</name>
@@ -749,8 +749,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_18</name>
         <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Yaw</pv_name>
-        <x>168</x>
-        <y>360</y>
+        <x>126</x>
+        <y>358</y>
         <width>248</width>
         <height>18</height>
         <background_color>
@@ -772,7 +772,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <widget type="label" version="2.0.0">
         <name>Label_25</name>
         <text>Yaw</text>
-        <x>30</x>
         <y>360</y>
         <width>123</width>
         <vertical_alignment>1</vertical_alignment>
@@ -784,117 +783,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
           </color>
         </border_color>
       </widget>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_8</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
-      <x>174</x>
-      <y>308</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_9</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
-      <x>174</x>
-      <y>288</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_11</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_yaw</pv_name>
-      <x>174</x>
-      <y>328</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_10</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.tecsMode</pv_name>
-      <x>174</x>
-      <y>348</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_16</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lat</pv_name>
-      <x>174</x>
-      <y>368</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_17</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lon</pv_name>
-      <x>174</x>
-      <y>388</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>AppControl_4</name>
@@ -912,117 +800,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_8</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
-      <x>174</x>
-      <y>308</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_9</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
-      <x>174</x>
-      <y>288</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_11</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_yaw</pv_name>
-      <x>174</x>
-      <y>328</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_10</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.tecsMode</pv_name>
-      <x>174</x>
-      <y>348</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_16</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lat</pv_name>
-      <x>174</x>
-      <y>368</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_17</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lon</pv_name>
-      <x>174</x>
-      <y>388</y>
-      <width>248</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <precision>4</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>AppControl_4</name>
@@ -1045,7 +822,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
     <x>294</x>
-    <y>546</y>
+    <y>558</y>
     <width>504</width>
     <height>180</height>
     <font>

@@ -87,6 +87,12 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
         /* 40 */  TO_CPD(VC_CMD_MID),
         /* 41 */  TO_CPD(ZUSUP_CMD_MID)
     },
+    /* MaxSentMsgsPerWakeup */
+    1,
+    /* MaxRecvdMsgsPerWakeup */
+    1,
+    /* MaxLoopsPerWakeup */
+    200
 };
 
 /*

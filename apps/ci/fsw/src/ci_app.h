@@ -128,9 +128,6 @@ typedef struct
     /** \brief Buffer for cmd ingest */
     uint8           IngestBuffer[CI_MAX_CMD_INGEST];
 
-    /** \brief Run flag for ingest loop */
-    boolean			IngestActive;
-
 } CI_AppData_t;
 
 /************************************************************************

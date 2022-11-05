@@ -171,6 +171,35 @@ dataLinks:
         useCop1: true #enable FOP1 (the transmitter part of COP1, see CCSDS 232.1-B-2) for this VC
         clcwStream: "cpd_clcw" #the name of the stream where the CLCW is received from, mandatory if FOP1 is used
         initialClcwWait: 3600 #how many seconds to wait at startup for an initial CLCW, before going to state 6(initial). If not configured or negative, start directly in state 6
+      
+  - name: tc_ppd
+    class: org.yamcs.tctm.UdpTcDataLink
+    stream: tc_realtime
+    host: 192.168.2.153
+    port: 5010
+    enabledAtStartup: false
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorArgs:
+      swapChecksumFc: true
+
+  - name: tm_ppd
+    class: org.yamcs.tctm.UdpTmDataLink
+    stream: tm_realtime
+    port: 5011
+    enabledAtStartup: false 
+    maxLength: 32768 #32KB is the default for CCSDS
+    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      checkSequence: false
+      byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
+      #errorDetection:
+      #tcoService:
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
 
 mdb:
     # Configuration of the active loaders
