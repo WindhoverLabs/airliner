@@ -41,14 +41,7 @@ buildliner_add_app_def(hes
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
-    USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
-    #USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
-    
-    # MSG_OVERRIDES ${CMAKE_CURRENT_SOURCE_DIR}/hes_msg_overrides.json
-
-    # COMMANDER_PLUGIN
-    #     ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
     
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/hes/fsw/mission_inc
