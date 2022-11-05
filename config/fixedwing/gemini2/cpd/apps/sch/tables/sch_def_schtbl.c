@@ -232,7 +232,7 @@ ULR_SEND_HK_MIDX				1Hz
          { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  ASPD4525_WAKEUP_MIDX,      SCH_GROUP_NONE }
 
 #define SCH_50HZ_GROUP_3         \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
+	 { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE }
 
 #define SCH_50HZ_GROUP_4         \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
@@ -372,7 +372,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_9,
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	CFE_TIME_SEND_HK_MIDX,    SCH_GROUP_NONE },
-                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -899,7 +899,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_7,
-                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1438,7 +1438,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_6,
-                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -1988,7 +1988,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_6,
-                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -2549,7 +2549,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_7,
-                { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

@@ -278,7 +278,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mpc/SendHK', {});]]></text>
     <name>Flight</name>
     <x>294</x>
     <y>42</y>
-    <width>504</width>
+    <width>540</width>
     <height>504</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -317,7 +317,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <name>Status</name>
       <x>6</x>
       <y>48</y>
-      <width>410</width>
+      <width>480</width>
       <height>426</height>
       <transparent>true</transparent>
       <widget type="textupdate" version="2.0.0">
@@ -782,6 +782,46 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
           <color red="0" green="128" blue="255">
           </color>
         </border_color>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>AppControl_5</name>
+        <actions>
+          <action type="open_display">
+            <file>UpdateTargetAltitude.bob</file>
+            <macros>
+              <CPUDID>$(CPUID)</CPUDID>
+            </macros>
+            <target>window</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Set</text>
+        <x>374</x>
+        <y>258</y>
+        <width>76</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>AppControl_6</name>
+        <actions>
+          <action type="open_display">
+            <file>UpdateTargetHeading.bob</file>
+            <macros>
+              <CPUDID>$(CPUID)</CPUDID>
+            </macros>
+            <target>window</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Set</text>
+        <x>374</x>
+        <y>278</y>
+        <width>76</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
     </widget>
     <widget type="action_button" version="3.0.0">

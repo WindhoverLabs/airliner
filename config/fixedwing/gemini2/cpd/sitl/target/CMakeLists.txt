@@ -333,3 +333,11 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/fac
 )
 
+buildliner_add_app(
+    hes
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hes/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hes
+    # CONFIG_SOURCES
+    #     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hes/src/hes_custom.c
+)

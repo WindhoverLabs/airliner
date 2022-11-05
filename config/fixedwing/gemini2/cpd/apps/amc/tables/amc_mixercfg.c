@@ -89,9 +89,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                    0.987,  /* Negative Scale */
-                    0.78,  /* Positive Scale */
-                   -0.155,  /* Offset         */
+                    1.0,  /* Negative Scale */
+                    1.0,  /* Positive Scale */
+                    0.0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
             },
@@ -127,7 +127,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             	   PX4_ACTUATOR_CONTROL_PITCH,  /* Control Index */
                    /* Scaler */
                    {
-                	  1.0, /* Negative Scale */
+                      1.0, /* Negative Scale */
                       1.0, /* Positive Scale */
                       0.0, /* Offset            */
                      -1.0, /* Minimum Output */
@@ -151,7 +151,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
            {
                {
             	   0,  /* Control Group */
-				   PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
+		   PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
                    /* Scaler */
                    {
                 	  0.0, /* Negative Scale */
@@ -191,40 +191,40 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
         },
         /* Actuator 5 - Unused */
         {
-			1,   /* Control Count */
-			/* Output Scaler */
-			{
-		               1.0,  /* Negative Scale */
-		               1.0,  /* Positive Scale */
-		               0.0,  /* Offset         */
-		              -1.0,  /* Minimum Output */
-		               1.0   /* Maximum Output */
-			},
-			/* Controls */
-			{
-				{   0,  /* Control Group */
-					7,  /* Control Index */
-					/* Scaler */
-					{
-						 1.0, /* Negative Scale */
-						 1.0, /* Positive Scale */
-						 0.0, /* Offset            */
-						-1.0, /* Minimum Output */
-						 1.0  /* Maximum Output */
-					}
-				}
-			}
+	    1,   /* Control Count */
+		 /* Output Scaler */
+	    {
+		1.0,  /* Negative Scale */
+		1.0,  /* Positive Scale */
+		0.0,  /* Offset         */
+	       -1.0,  /* Minimum Output */
+		1.0   /* Maximum Output */
+	    },
+	    /* Controls */
+	    {
+		{   0,  /* Control Group */
+		    7,  /* Control Index */
+		    /* Scaler */
+		    {
+			1.0, /* Negative Scale */
+			1.0, /* Positive Scale */
+			0.0, /* Offset            */
+		       -1.0, /* Minimum Output */
+			1.0  /* Maximum Output */
+		    }
+		}
+	    }
         },
         /* Actuator 6 - Unused */
         {
             1,   /* Control Count */
             /* Output Scaler */
             {
-				1.0,  /* Negative Scale */
-				1.0,  /* Positive Scale */
-				0.0,  /* Offset         */
-			   -1.0,  /* Minimum Output */
-				1.0   /* Maximum Output */
+	        1.0,  /* Negative Scale */
+		1.0,  /* Positive Scale */
+		0.0,  /* Offset         */
+	       -1.0,  /* Minimum Output */
+		1.0   /* Maximum Output */
             },
             /* Controls */
             {
@@ -246,11 +246,11 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-				1.0,  /* Negative Scale */
-				1.0,  /* Positive Scale */
-				0.0,  /* Offset         */
-			   -1.0,  /* Minimum Output */
-				1.0   /* Maximum Output */
+		1.0,  /* Negative Scale */
+		1.0,  /* Positive Scale */
+		0.0,  /* Offset         */
+	       -1.0,  /* Minimum Output */
+		1.0   /* Maximum Output */
             },
             /* Controls */
             {
@@ -259,8 +259,8 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     /* Scaler */
                     {
                          1.0, /* Negative Scale */
-                         1.05, /* Positive Scale */
-                        -0.17, /* Offset            */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
                         -1.0, /* Minimum Output */
                          1.0  /* Maximum Output */
                     }
@@ -272,11 +272,11 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-				1.0,  /* Negative Scale */
-				1.0,  /* Positive Scale */
-				0.0,  /* Offset         */
-			   -1.0,  /* Minimum Output */
-				1.0   /* Maximum Output */
+		1.0,  /* Negative Scale */
+		1.0,  /* Positive Scale */
+		0.0,  /* Offset         */
+	       -1.0,  /* Minimum Output */
+		1.0   /* Maximum Output */
             },
             /* Controls */
             {
@@ -284,7 +284,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
                     /* Scaler */
                     {
-                	     0.0, /* Negative Scale */
+                         0.0, /* Negative Scale */
                          2.0, /* Positive Scale */
                         -1.0, /* Offset         */
                         -1.0, /* Minimum Output */
@@ -310,7 +310,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     PX4_ACTUATOR_CONTROL_FLAPS,  /* Control Index */
                     /* Scaler */
                     {
-                	    1.0, /* Negative Scale */
+                	1.0, /* Negative Scale */
                         1.0, /* Positive Scale */
                         0.0, /* Offset            */
                         0.0, /* Minimum Output */
@@ -336,7 +336,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     PX4_ACTUATOR_CONTROL_FLAPS,  /* Control Index */
                     /* Scaler */
                     {
-                	    1.0, /* Negative Scale */
+                	1.0, /* Negative Scale */
                         1.0, /* Positive Scale */
                         0.0, /* Offset            */
                         0.0, /* Minimum Output */
