@@ -69,8 +69,8 @@ echo ""
 
 cd "$WORKSPACE_DIR"
 
-echo "$_RUNJAVA" -jar $INSTALL_DIR/product-4.6.6-SNAPSHOT.jar -settings $WORKSPACE_DIR/settings.ini
-exec "$_RUNJAVA" -jar $INSTALL_DIR/product-4.6.6-SNAPSHOT.jar -settings $WORKSPACE_DIR/settings.ini
+echo "$_RUNJAVA" -jar $INSTALL_DIR/product-4.6.10-SNAPSHOT.jar -settings $WORKSPACE_DIR/settings.ini
+exec "$_RUNJAVA" -jar $INSTALL_DIR/product-4.6.10-SNAPSHOT.jar -settings $WORKSPACE_DIR/settings.ini
 
 
 
