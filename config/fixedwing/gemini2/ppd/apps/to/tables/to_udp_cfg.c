@@ -140,6 +140,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FM_FREE_SPACE_TLM_MID,                  1, TO_PQUEUE_PPD_HK_IDX},
         {FM_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
         {FM_OPEN_FILES_TLM_MID,                  1, TO_PQUEUE_PPD_HK_IDX},
+        {HES_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX},
         {HK_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
         {HS_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
         {LC_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
