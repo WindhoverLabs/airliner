@@ -1098,5 +1098,20 @@ modules:
             msgID: 0x0b5b              # TLM_MSG(  347 )
           ASPD4525_HK_TLM_MID:
             msgID: 0x0b5c              # TLM_MSG(  348 )
+      hes:
+        definition: ${PROJECT_SOURCE_DIR}/apps/hes/wh_design.yaml
+        telemetry:
+          HES_HK_TLM_MID:
+            msgID: 0x0b61              # TLM_MSG(  353 )
+        commands:
+          HES_CMD_MID:
+            msgID: 0x1b5d              # CMD_MSG(  349 )
+          HES_WAKEUP_MID:
+            msgID: 0x1b5f              # CMD_MSG(  351 )
+          HES_SEND_HK_MID:
+            msgID: 0x1b5e              # CMD_MSG(  350 )
+        perfids:
+          HES_MAIN_TASK_PERF_ID:
+            id: 124
             
             
