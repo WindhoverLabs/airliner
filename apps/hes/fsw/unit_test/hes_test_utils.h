@@ -53,10 +53,15 @@ extern "C" {
 void HES_Test_Setup(void);
 void HES_Test_TearDown(void);
 
+time_t HES_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+uint64 PX4LIB_GetPX4TimeUs(void);
+uint64 PX4LIB_GetPX4TimeMs(void);
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
+
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* HES_TEST_UTILS_H */
-

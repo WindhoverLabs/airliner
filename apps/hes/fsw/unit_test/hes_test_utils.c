@@ -80,3 +80,12 @@ void HES_Test_Setup(void)
 void HES_Test_TearDown(void) {
     CFE_PSP_MemSet(&HES_AppData, 0x00, sizeof(HES_AppData_t));
 }
+
+time_t HES_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
+}

@@ -49,8 +49,11 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <time.h>
 
-int32 hookCalledCount = 0;
+
+CFE_SB_MsgId_t  SendHK_SendMsgHook_MsgId = 0;
+int32           WriteToSysLog_HookCalledCnt = 0;
 
 /**************************************************************************
  * Tests for HES_InitEvent()
@@ -115,7 +118,8 @@ void Test_HES_InitPipe_Fail_SubscribeWakeup(void)
     result = HES_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
 }
 
 
@@ -135,7 +139,8 @@ void Test_HES_InitPipe_Fail_SubscribeSendHK(void)
     result = HES_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
 }
 
 
@@ -175,7 +180,8 @@ void Test_HES_InitPipe_Fail_SubscribeCMD(void)
     result = HES_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_Subscribe for CMD");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_Subscribe for CMD");
 }
 
 
@@ -196,6 +202,132 @@ void Test_HES_InitPipe_Fail_CreateDATAPipe(void)
 
     /* Verify results */
     UtAssert_True (result == expected, "InitPipe, fail SB create DATA pipe");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for VGlobalPosition
+ */
+void Test_HES_InitPipe_Fail_SubscribeVGlobalPosition(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 3);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for VGlobalPosition");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for VAtt
+ */
+void Test_HES_InitPipe_Fail_SubscribeVAtt(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 4);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for VAtt");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for Airspeed
+ */
+void Test_HES_InitPipe_Fail_SubscribeAirspeed(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 5);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for Airspeed");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for BatteryStatus
+ */
+void Test_HES_InitPipe_Fail_SubscribeBatteryStatus(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 6);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for BatteryStatus");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for VLandDetected
+ */
+void Test_HES_InitPipe_Fail_SubscribeVLandDetected(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 7);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for VLandDetected");
+}
+
+
+/**
+ * Test HES_InitPipe(), fail SubscribeEx for VehicleStatus
+ */
+void Test_HES_InitPipe_Fail_SubscribeVehicleStatus(void)
+{
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 8);
+
+    /* Execute the function being tested */
+    result = HES_InitPipe();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for VehicleStatus");
 }
 
 
@@ -294,24 +426,6 @@ void Test_HES_InitApp_Fail_InitConfigTbl(void)
 
 
 /**
- * Test HES_InitApp(), fail init CDS table
- */
-void Test_HES_InitApp_Fail_InitCDSTbl(void)
-{
-    int32 result = CFE_SUCCESS;
-    int32 expected = CFE_ES_CDS_INVALID_NAME;
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCDS_INDEX, expected, 1);
-
-    /* Execute the function being tested */
-    result = HES_InitApp();
-
-    /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init CDS table");
-}
-
-
-/**
  * Test HES_InitApp(), Nominal
  */
 void Test_HES_InitApp_Nominal(void)
@@ -328,16 +442,39 @@ void Test_HES_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
 /**************************************************************************
  * Tests for HES_AppMain()
  **************************************************************************/
+/**
+ * Test HES AppMain(), WriteToSysLogHook
+ */
+int32 Test_HES_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
+{
+    va_list   Ptr;
+    char      Buf[256];
+
+    WriteToSysLog_HookCalledCnt++;
+
+    va_start(Ptr, StringPtr);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, StringPtr, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_WriteToSysLogHook:\n");
+    printf("%s", Buf);
+
+    return CFE_SUCCESS;
+}
+
+
 /**
  * Test HES_AppMain(), Fail RegisterApp
  */
 void Test_HES_AppMain_Fail_RegisterApp(void)
 {
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX,
+                            CFE_ES_ERR_APP_REGISTER, 1);
 
     /* Execute the function being tested */
     HES_AppMain();
@@ -350,10 +487,18 @@ void Test_HES_AppMain_Fail_RegisterApp(void)
 void Test_HES_AppMain_Fail_InitApp(void)
 {
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX,
+                             CFE_EVS_APP_NOT_REGISTERED, 1);
+
+    WriteToSysLog_HookCalledCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
+               (void*)&Test_HES_AppMain_WriteToSysLogHook);
 
     /* Execute the function being tested */
     HES_AppMain();
+
+    /* Verify results */
+    UtAssert_True (WriteToSysLog_HookCalledCnt == 3, "AppMain, Fail_InitApp");
 }
 
 
@@ -362,11 +507,21 @@ void Test_HES_AppMain_Fail_InitApp(void)
  */
 void Test_HES_AppMain_Fail_AcquireConfigPtrs(void)
 {
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     /* fail the register app */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 2);
 
     /* Execute the function being tested */
     HES_AppMain();
+
+    sprintf(expectedEvent, "Failed to get Config table's address (0x%08X)",
+                           (unsigned int)CFE_TBL_ERR_INVALID_HANDLE);
+
+    /* Verify results */
+    UtAssert_EventSent(HES_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "AppMain(), Fail AcquireConfigPtrs");
 }
 
 
@@ -375,7 +530,9 @@ void Test_HES_AppMain_Fail_AcquireConfigPtrs(void)
  */
 void Test_HES_AppMain_InvalidSchMessage(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to send HK */
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
 
@@ -384,6 +541,11 @@ void Test_HES_AppMain_InvalidSchMessage(void)
     /* Execute the function being tested */
     HES_AppMain();
 
+    sprintf(expectedEvent, "Recvd invalid SCH msgId (0x%04X)", 0);
+
+    /* Verify results */
+    UtAssert_EventSent(HES_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "AppMain(), Invalid Schedule Message");
 }
 
 
@@ -392,9 +554,47 @@ void Test_HES_AppMain_InvalidSchMessage(void)
  */
 int32 Test_HES_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
-    /* TODO:  Test the contents of your HK message here. */
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    HES_HkTlm_t        HkMsg;
 
-    hookCalledCount++;
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = HES_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case HES_HK_TLM_MID:
+        {
+            SendHK_SendMsgHook_MsgId = HES_HK_TLM_MID;
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+            printf("Sent HES_HK_TLM_MID:\n");
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04x)\n", MsgId);
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
@@ -404,22 +604,23 @@ int32 Test_HES_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_HES_AppMain_Nominal_SendHK(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, HES_SEND_HK_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, &Test_HES_AppMain_Nominal_SendHK_SendMsgHook);
+    SendHK_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                    (void *)&Test_HES_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     HES_AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
-
+    UtAssert_True(SendHK_SendMsgHook_MsgId == HES_HK_TLM_MID,
+                  "AppMain_Nominal_SendHK");
 }
 
 
@@ -445,13 +646,13 @@ void Test_HES_AppMain_Nominal_Wakeup(void)
  */
 void Test_HES_AppMain_ProcessNewData_InvalidMsgID(void)
 {
-    HES_InData_t  InMsg;
-    int32 DataPipe;
+    PX4_AirspeedMsg_t  InMsg;
+    int32              DataPipe;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("HES_DATA_PIPE");
-    CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(HES_InData_t), TRUE);
+    CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InMsg, DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -474,53 +675,86 @@ void Test_HES_AppMain_ProcessNewData_InvalidMsgID(void)
  **************************************************************************/
 void HES_App_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_HES_InitEvent_Fail_Register, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitEvent_Fail_Register,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitEvent_Fail_Register");
 
-    UtTest_Add(Test_HES_InitPipe_Fail_CreateSCHPipe, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_CreateSCHPipe,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeWakeup, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeWakeup,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_SubscribeWakeup");
-    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeSendHK, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeSendHK,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_SubscribeSendHK");
-    UtTest_Add(Test_HES_InitPipe_Fail_CreateCMDPipe, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_CreateCMDPipe,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_CreateCMDPipe");
-    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeCMD, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeCMD,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_SubscribeCMD");
-    UtTest_Add(Test_HES_InitPipe_Fail_CreateDATAPipe, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitPipe_Fail_CreateDATAPipe,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitPipe_Fail_CreateDATAPipe");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeVGlobalPosition,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeVGlobalPosition");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeVAtt,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeVAtt");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeAirspeed,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeAirspeed");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeBatteryStatus,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeBatteryStatus");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeVLandDetected,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeVLandDetected");
+    UtTest_Add(Test_HES_InitPipe_Fail_SubscribeVehicleStatus,
+               HES_Test_Setup, HES_Test_TearDown,
+               "Test_HES_InitPipe_Fail_SubscribeVehicleStatus");
 
-    UtTest_Add(Test_HES_InitData, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitData,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitData");
 
-    UtTest_Add(Test_HES_InitApp_Fail_InitEvent, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitApp_Fail_InitEvent,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Fail_InitEvent");
-    UtTest_Add(Test_HES_InitApp_Fail_InitPipe, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitApp_Fail_InitPipe,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Fail_InitPipe");
-    UtTest_Add(Test_HES_InitApp_Fail_InitData, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitApp_Fail_InitData,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Fail_InitData");
-    UtTest_Add(Test_HES_InitApp_Fail_InitConfigTbl, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitApp_Fail_InitConfigTbl,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Fail_InitConfigTbl");
-    UtTest_Add(Test_HES_InitApp_Fail_InitCDSTbl, HES_Test_Setup, HES_Test_TearDown,
-               "Test_HES_InitApp_Fail_InitCDSTbl");
-    UtTest_Add(Test_HES_InitApp_Nominal, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_InitApp_Nominal,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Nominal");
 
-    UtTest_Add(Test_HES_AppMain_Fail_RegisterApp, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_Fail_RegisterApp,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Fail_RegisterApp");
-    UtTest_Add(Test_HES_AppMain_Fail_InitApp, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_Fail_InitApp,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Fail_InitApp");
-    UtTest_Add(Test_HES_AppMain_Fail_AcquireConfigPtrs, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_Fail_AcquireConfigPtrs,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Fail_AcquireConfigPtrs");
-    UtTest_Add(Test_HES_AppMain_InvalidSchMessage, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_InvalidSchMessage,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_InvalidSchMessage");
-    UtTest_Add(Test_HES_AppMain_Nominal_SendHK, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_Nominal_SendHK,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_HES_AppMain_Nominal_Wakeup, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_Nominal_Wakeup,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Nominal_Wakeup");
-    UtTest_Add(Test_HES_AppMain_ProcessNewData_InvalidMsgID, HES_Test_Setup, HES_Test_TearDown,
+    UtTest_Add(Test_HES_AppMain_ProcessNewData_InvalidMsgID,
+               HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_ProcessNewData_InvalidMsgID");
-
 }
-
-

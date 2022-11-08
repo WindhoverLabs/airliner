@@ -58,8 +58,11 @@ buildliner_add_app_unit_test(HES-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/hes_config_tbl_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/hes_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/hes_test_utils.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_app.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_config_utils.c
+
+        ${PX4LIB_LIB_SOURCES}
         
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
