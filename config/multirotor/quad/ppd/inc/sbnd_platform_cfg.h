@@ -84,8 +84,6 @@ extern "C" {
 
 #define SBND_DATA_MID_MAX_MSG_COUNT      (1)
 
-#define SBND_MAX_RECV_MSGS_PER_WAKEUP    (SBND_CONFIG_MAX_MIDS)
-
 /** \brief Pipe depth for the data pipe 
 **
 **  \par Limits:

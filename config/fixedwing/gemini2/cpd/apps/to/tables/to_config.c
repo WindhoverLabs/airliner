@@ -55,7 +55,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
     1,
     {
         /* Message Flows */
-        {AMC_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
+       // {AMC_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
         {BAT_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
         {CF_CONFIG_TLM_MID,                    1, TO_PQUEUE_CPD_HK_IDX        },
         {CF_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
@@ -85,24 +85,23 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {HK_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {HS_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {LC_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
-        {LD_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
+       // {LD_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
         {LD_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {FAC_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
-        {MD_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
+       // {MD_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {MM_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {FPC_DIAG_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {FPC_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
-        {PX4_POSITION_CONTROL_STATUS_MID,      1, TO_PQUEUE_CPD_HK_IDX        },
-        {NAV_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
-        {PE_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
+    //    {PX4_POSITION_CONTROL_STATUS_MID,      1, TO_PQUEUE_CPD_HK_IDX        },
+      //  {NAV_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
+        //{PE_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {PE_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
-        {QAE_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
         {RCIN_HK_TLM_MID,                      1, TO_PQUEUE_CPD_HK_IDX        },
         {SBN_MODULE_HK_TLM_MID,                1, TO_PQUEUE_CPD_HK_IDX        },
         {SBN_TLM_MID,                          1, TO_PQUEUE_CPD_HK_IDX        },
         {SCH_DIAG_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {SCH_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
-        {SENS_HK_TLM_MID,                      1, TO_PQUEUE_CPD_HK_IDX        },
+        //{SENS_HK_TLM_MID,                      1, TO_PQUEUE_CPD_HK_IDX        },
         {TO_DIAG_MSG_FLOW_MID,                 1, TO_PQUEUE_CPD_HIGH_IDX      },
         {TO_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
         {TO_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
@@ -120,8 +119,9 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {HMC5883_DIAG_TLM_MID,                 1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ADSBR_HK_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {ASPD4525_HK_TLM_MID,                  1, TO_PQUEUE_CPD_HK_IDX        },
-        {TO_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
-        {CI_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
+        // {HES_HK_TLM_MID,                         1, TO_PQUEUE_CPD_HK_IDX},
+     //   {TO_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
+       // {CI_CUSTOM_HK_TLM_MID,                 1, TO_PQUEUE_CPD_HK_IDX        },
 
 //        {PX4_ACTUATOR_ARMED_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //		{PX4_ACTUATOR_CONTROLS_0_MID,          1, TO_PQUEUE_CPD_HIGH_IDX    },
@@ -131,7 +131,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_ACTUATOR_DIRECT_MID,              1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //		{PX4_ACTUATOR_OUTPUTS_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_ADC_REPORT_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-        {PX4_AIRSPEED_MID,                     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
+    //    {PX4_AIRSPEED_MID,                     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_ATT_POS_MOCAP_MID,                1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_BATTERY_STATUS_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_CAMERA_TRIGGER_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -161,7 +161,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //          {PX4_INPUT_RC_MID,                     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_LED_CONTROL_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_LOG_MESSAGE_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-          {PX4_MANUAL_CONTROL_SETPOINT_MID,      1, TO_PQUEUE_CPD_HIGH_IDX      },
+    //      {PX4_MANUAL_CONTROL_SETPOINT_MID,      1, TO_PQUEUE_CPD_HIGH_IDX      },
 //        {PX4_MAVLINK_LOG_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_MC_ATT_CTRL_STATUS_MID,           1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID, 1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -174,6 +174,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_OUTPUT_PWM_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_PARAMETER_UPDATE_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
         {PX4_POSITION_SETPOINT_TRIPLET_MID,    1, TO_PQUEUE_CPD_HIGH_IDX    },
+        {FROM_PPD(CFE_ES_HK_TLM_MID),               1, TO_PQUEUE_CPD_HIGH_IDX    },
 //        {PX4_PWM_INPUT_MID,                    1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_QSHELL_REQ_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_RC_CHANNELS_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -190,7 +191,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_SERVORAIL_STATUS_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_SUBSYSTEM_INFO_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_SYSTEM_POWER_MID,                 1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-        {PX4_TECS_STATUS_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
+     //   {PX4_TECS_STATUS_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_TELEMETRY_STATUS_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_TEST_MOTOR_MID,                   1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_TIME_OFFSET_MID,                  1, TO_PQUEUE_CPD_PX4LOW_IDX    },
@@ -198,10 +199,10 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_UAVCAN_PARAMETER_REQUEST_MID,     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_UAVCAN_PARAMETER_VALUE_MID,       1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_ATTITUDE_MID,             1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-        {PX4_VEHICLE_ATTITUDE_SETPOINT_MID,    1, TO_PQUEUE_CPD_PX4LOW_IDX    },
+     //   {PX4_VEHICLE_ATTITUDE_SETPOINT_MID,    1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_COMMAND_ACK_MID,          1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_COMMAND_MID,              1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-        {PX4_VEHICLE_CONTROL_MODE_MID,         1, TO_PQUEUE_CPD_PX4LOW_IDX    },
+      //  {PX4_VEHICLE_CONTROL_MODE_MID,         1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_FORCE_SETPOINT_MID,       1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_GLOBAL_POSITION_MID,      1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID, 1, TO_PQUEUE_CPD_PX4LOW_IDX},
@@ -210,10 +211,11 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_VEHICLE_LOCAL_POSITION_MID,       1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID, 1, TO_PQUEUE_CPD_PX4LOW_IDX },
 //        {PX4_VEHICLE_RATES_SETPOINT_MID,       1, TO_PQUEUE_CPD_PX4LOW_IDX    },
-        {PX4_VEHICLE_STATUS_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
+    //    {PX4_VEHICLE_STATUS_MID,               1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VISION_POSITION_ESTIMATE_MID,     1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_VTOL_VEHICLE_STATUS_MID,          1, TO_PQUEUE_CPD_PX4LOW_IDX    },
 //        {PX4_WIND_ESTIMATE_MID,                1, TO_PQUEUE_CPD_PX4LOW_IDX    }
+          {HES_HK_TLM_MID,                         1, TO_PQUEUE_CPD_SINGLE_PASS_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_CPD_SINGLE_PASS_IDX */
@@ -247,7 +249,8 @@ TO_ChannelTbl_t TO_ConfigTbl =
         /* TO_PQUEUE_PPD_SHELL_IDX */
         {TO_PQUEUE_ENA, 64, TO_PRIORITY_QUEUE_TYPE_FIFO                       },
         /* TO_PQUEUE_PPD_PX4LOW_IDX */
-        {TO_PQUEUE_ENA, 40, TO_PRIORITY_QUEUE_TYPE_FIFO                       }
+        {TO_PQUEUE_ENA, 40, TO_PRIORITY_QUEUE_TYPE_FIFO                       },
+
   }
 };
 
