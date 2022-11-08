@@ -56,6 +56,9 @@ extern "C" {
 #define CF_SEND_HK_MIDX               57
 #define CF_WAKE_UP_REQ_CMD_MIDX       58
 
+#define HES_SEND_HK_MIDX              59
+#define HES_WAKEUP_MIDX               60
+
 #define MM_SEND_HK_MIDX               70
 
 
@@ -141,7 +144,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #3*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -176,7 +179,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
     /* slot #5*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    CFE_ES_SEND_HK_MIDX,      SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -566,7 +569,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #28*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -992,7 +995,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #53*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -1026,7 +1029,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #55*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -1417,7 +1420,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #78*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -1842,7 +1845,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #103*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -1876,7 +1879,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #105*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -2267,7 +2270,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #128*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -2692,7 +2695,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #153*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -2726,7 +2729,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #155*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -3117,7 +3120,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #178*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -3542,7 +3545,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #203*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -3576,7 +3579,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #205*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    HES_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -3967,7 +3970,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #228*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,     HES_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },

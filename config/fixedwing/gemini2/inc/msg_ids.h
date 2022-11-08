@@ -317,4 +317,12 @@
 #define ASPD4525_HK_TLM_MID                       TLM_MSG(  348 )  /* 0x15c */
 
 
+/* HES                                                                      */
+#define HES_CMD_MID                               CMD_MSG(  349 )  /* 0x15d */
+#define HES_SEND_HK_MID                           CMD_MSG(  350 )  /* 0x15e */
+#define HES_WAKEUP_MID                            CMD_MSG(  351 )  /* 0x15f */
+#define HES_OUT_DATA_MID                          TLM_MSG(  352 )  /* 0x160 */
+#define HES_HK_TLM_MID                            TLM_MSG(  353 )  /* 0x161 */
+
+
 #endif

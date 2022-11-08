@@ -274,7 +274,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #115 */
    { { SCH_FIX_HEADER(VM_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #116 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(HES_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } } ,
    /* Command ID #117 */
    { { SCH_FIX_HEADER(BAT_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #118 */
@@ -284,7 +284,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #120 */
    { { SCH_FIX_HEADER(ZUSUP_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #121 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(HES_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #122 */
    { { SCH_FIX_HEADER(GPS_READ_SENSOR_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #123 */
