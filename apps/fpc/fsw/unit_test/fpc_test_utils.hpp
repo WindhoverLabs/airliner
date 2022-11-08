@@ -41,14 +41,6 @@
 #include "fpc_app.h"
 
 
-#if 0
-    #define     FPC_UT_EXTERN_OBJECT
-#endif
-
-#ifdef FPC_UT_EXTERN_OBJECT
-    extern FPC   oFPC;
-#endif
-
 extern "C" void FPC_AppMain();
 extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
 
