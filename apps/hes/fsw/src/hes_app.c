@@ -611,6 +611,38 @@ void Quaternion_ToEuler(float* data, float* euler)
 	euler[2] = atan2f(2.0f * (data[0] * data[3] + data[1] * data[2]), 1.0f - 2.0f * (data[2] * data[2] + data[3] * data[3]));
 }
 
+float HES_mapAnglesRadians(float radians) {
+    float angle = fmod(radians , (M_PI * 2));
+    if (angle>M_PI) {
+        angle -= 2*M_PI;
+    }
+    return angle;
+}
+
+void HES_filterAngles(float* euler, uint8 eulerIndex, float* degrees, int8 sign) {
+    if ((HES_AppData.CVT.filtered_euler[eulerIndex])> ( 2 * (HES_AppData.CVT.filtered_euler_phase[eulerIndex]) + 1) * (M_PI_2)){
+        HES_AppData.CVT.filtered_euler_phase[eulerIndex] ++;
+    }
+
+    if ((HES_AppData.CVT.filtered_euler[eulerIndex])< ( 2 * (HES_AppData.CVT.filtered_euler_phase[eulerIndex]) - 1) * (M_PI_2)){
+        HES_AppData.CVT.filtered_euler_phase[eulerIndex] --;
+    }
+
+    if (((HES_AppData.CVT.filtered_euler_phase[eulerIndex])%2)!=0) {
+        if (euler[eulerIndex]<0) {
+            euler[eulerIndex]+= ((HES_AppData.CVT.filtered_euler_phase[eulerIndex])+1)* M_PI;
+        } else {
+            euler[eulerIndex]+= ((HES_AppData.CVT.filtered_euler_phase[eulerIndex])-1)* M_PI;
+        }
+    } else {
+        euler[eulerIndex]+= (HES_AppData.CVT.filtered_euler_phase[eulerIndex])* M_PI;
+    }
+
+    HES_AppData.CVT.filtered_euler[eulerIndex] = (HES_EULER_FILTER_COEFF) * euler[eulerIndex] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[eulerIndex];
+
+    *degrees = (sign) * (180/M_PI) * (HES_mapAnglesRadians(HES_AppData.CVT.filtered_euler[eulerIndex]));
+}
+
 void HES_ProcessCVT() {
     float euler[3];
     float wind_n, wind_e;
@@ -628,29 +660,29 @@ void HES_ProcessCVT() {
     HES_AppData.HkTlm.Lat = HES_AppData.CVT.VGlobalPosition.Lat;
     HES_AppData.HkTlm.Lon = HES_AppData.CVT.VGlobalPosition.Lon;
 
-    /*TODO CHange the following code to get stuff from NAV instead of hardcoding values*/
-    HES_AppData.HkTlm.num_way_points = 4;
-    HES_AppData.HkTlm.way_points_valid = TRUE;
+    // /*TODO CHange the following code to get stuff from NAV instead of hardcoding values*/
+    // HES_AppData.HkTlm.num_way_points = 4;
+    // HES_AppData.HkTlm.way_points_valid = TRUE;
 
-    HES_AppData.HkTlm.way_points[0].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[0].Lat = HES_AppData.CVT.VGlobalPosition.Lat - 0.001;
-    HES_AppData.HkTlm.way_points[0].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
-    HES_AppData.HkTlm.way_points[0].radius = 30;
+    // HES_AppData.HkTlm.way_points[0].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[0].Lat = HES_AppData.CVT.VGlobalPosition.Lat - 0.001;
+    // HES_AppData.HkTlm.way_points[0].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
+    // HES_AppData.HkTlm.way_points[0].radius = 30;
 
-    HES_AppData.HkTlm.way_points[1].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[1].Lat = HES_AppData.CVT.VGlobalPosition.Lat + 0.001;
-    HES_AppData.HkTlm.way_points[1].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
-    HES_AppData.HkTlm.way_points[1].radius = 30;
+    // HES_AppData.HkTlm.way_points[1].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[1].Lat = HES_AppData.CVT.VGlobalPosition.Lat + 0.001;
+    // HES_AppData.HkTlm.way_points[1].Lon = HES_AppData.CVT.VGlobalPosition.Lon;
+    // HES_AppData.HkTlm.way_points[1].radius = 30;
 
-    HES_AppData.HkTlm.way_points[2].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[2].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
-    HES_AppData.HkTlm.way_points[2].Lon = HES_AppData.CVT.VGlobalPosition.Lon + 0.001;
-    HES_AppData.HkTlm.way_points[2].radius = 30;
+    // HES_AppData.HkTlm.way_points[2].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[2].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
+    // HES_AppData.HkTlm.way_points[2].Lon = HES_AppData.CVT.VGlobalPosition.Lon + 0.001;
+    // HES_AppData.HkTlm.way_points[2].radius = 30;
 
-    HES_AppData.HkTlm.way_points[3].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.way_points[3].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
-    HES_AppData.HkTlm.way_points[3].Lon = HES_AppData.CVT.VGlobalPosition.Lon - 0.001;
-    HES_AppData.HkTlm.way_points[3].radius = 30;
+    // HES_AppData.HkTlm.way_points[3].Alt = HES_AppData.CVT.VGlobalPosition.Alt;
+    // HES_AppData.HkTlm.way_points[3].Lat = HES_AppData.CVT.VGlobalPosition.Lat;
+    // HES_AppData.HkTlm.way_points[3].Lon = HES_AppData.CVT.VGlobalPosition.Lon - 0.001;
+    // HES_AppData.HkTlm.way_points[3].radius = 30;
 
     HES_AppData.CVT.filtered_vel_d = 
         (HES_VEL_FILTER_COEFF) * (HES_AppData.CVT.VGlobalPosition.VelD) +
@@ -692,13 +724,12 @@ void HES_ProcessCVT() {
     //     (1 - (HES_SPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_speed;
 
     Quaternion_ToEuler(HES_AppData.CVT.VAtt.Q, euler);
-    HES_AppData.CVT.filtered_euler[0] = (HES_EULER_FILTER_COEFF) * euler[0] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[0];
     HES_AppData.CVT.filtered_euler[1] = (HES_EULER_FILTER_COEFF) * euler[1] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[1];
-    HES_AppData.CVT.filtered_euler[2] = (HES_EULER_FILTER_COEFF) * euler[2] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[2];
-
-    HES_AppData.HkTlm.rollDegrees = - (180/M_PI) * HES_AppData.CVT.filtered_euler[0];
     HES_AppData.HkTlm.pitchDegrees =  (180/M_PI) * HES_AppData.CVT.filtered_euler[1];
-    HES_AppData.HkTlm.headingDegrees = (180/M_PI) * HES_AppData.CVT.filtered_euler[2];
+
+    HES_filterAngles(euler, 0, &(HES_AppData.HkTlm.rollDegrees), -1);
+    HES_filterAngles(euler, 2, &(HES_AppData.HkTlm.headingDegrees), 1);
+//    printf("euler2 = %f, headDeg = %f, phase = %d\n", euler[2], HES_AppData.HkTlm.headingDegrees, HES_AppData.CVT.filtered_euler_phase[2]);
 
     wind_n = 
         HES_AppData.CVT.filtered_vel_n

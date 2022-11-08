@@ -373,6 +373,12 @@ typedef struct
 
     /** \brief Ingest count of errors */
     uint8              IngestErrorCount;
+
+    /** \brief Run flag for ingest loop */
+    boolean			   IngestActive;
+
+    /** \brief Run count for ingest loop */
+    uint32			   IngestActiveCount;
 } CI_HkTlm_t;
 
 
