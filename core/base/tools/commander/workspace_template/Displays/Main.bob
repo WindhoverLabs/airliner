@@ -1613,7 +1613,7 @@
       <name>NoOp_95</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mac/Main.bob</file>
+          <file>cpd/apps/fac/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
