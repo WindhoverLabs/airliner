@@ -239,9 +239,20 @@ void SCH_AppPipe_Test_InvalidCommandCode(void)
     Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
     
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR, "Invalid command code: ID = 0x1895, CC = 99"),
-        "Invalid command code: ID = 0x1895, CC = 99");
+    if (SCH_CMD_MID == CMD_MSG(102))
+    {
+        UtAssert_True
+            (Ut_CFE_EVS_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR,
+                "Invalid command code: ID = 0x1A66, CC = 99"),
+            "Invalid command code: ID = 0x1A66, CC = 99");
+    }
+    else
+    {
+        UtAssert_True
+            (Ut_CFE_EVS_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR,
+                "Invalid command code: ID = 0x1895, CC = 99"),
+            "Invalid command code: ID = 0x1895, CC = 99");
+    }
 
     UtAssert_True (SCH_AppData.ErrCounter == 1, "SCH_AppData.ErrCounter == 1");
     UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1029,9 +1040,20 @@ void SCH_VerifyCmdLength_Test_LengthError(void)
     Result = SCH_VerifyCmdLength((CFE_SB_MsgPtr_t)(&CmdPacket), 99);
     
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_CMD_LEN_ERR_EID, CFE_EVS_ERROR, "Cmd Msg with Bad length Rcvd: ID = 0x1895, CC = 1, Exp Len = 99, Len = 8"),
-        "Cmd Msg with Bad length Rcvd: ID = 0x1895, CC = 1, Exp Len = 99, Len = 8");
+    if (SCH_CMD_MID == CMD_MSG(102))
+    {
+        UtAssert_True
+            (Ut_CFE_EVS_EventSent(SCH_CMD_LEN_ERR_EID, CFE_EVS_ERROR,
+                "Cmd Msg with Bad length Rcvd: ID = 0x1A66, CC = 1, Exp Len = 99, Len = 8"),
+            "Cmd Msg with Bad length Rcvd: ID = 0x1A66, CC = 1, Exp Len = 99, Len = 8");
+    }
+    else
+    {
+        UtAssert_True
+            (Ut_CFE_EVS_EventSent(SCH_CMD_LEN_ERR_EID, CFE_EVS_ERROR,
+                "Cmd Msg with Bad length Rcvd: ID = 0x1895, CC = 1, Exp Len = 99, Len = 8"),
+            "Cmd Msg with Bad length Rcvd: ID = 0x1895, CC = 1, Exp Len = 99, Len = 8");
+    }
 
     UtAssert_True(Result == SCH_BAD_MSG_LENGTH_RC, "Result == SCH_BAD_MSG_LENGTH_RC");
 
