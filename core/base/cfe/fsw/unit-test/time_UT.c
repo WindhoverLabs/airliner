@@ -427,6 +427,141 @@ void Test_Init(void)
               "1Hz OS_TimerSet failure");
 }
 
+
+
+void UT_GetFormattedCfeTime(char *OutputBuffer, CFE_TIME_SysTime_t TimeToPrint)
+{
+    uint32 NumberOfYears;
+    uint32 NumberOfDays;
+    uint32 NumberOfHours;
+    uint32 NumberOfMinutes;
+    uint32 NumberOfSeconds;
+    uint32 NumberOfMicros;
+    uint32 DaysInThisYear;
+
+    boolean StillCountingYears = TRUE;
+
+    /*
+    ** Convert the cFE time (offset from epoch) into calendar time...
+    */
+    NumberOfMinutes = (TimeToPrint.Seconds / 60) + CFE_TIME_EPOCH_MINUTE;
+    NumberOfSeconds = (TimeToPrint.Seconds % 60) + CFE_TIME_EPOCH_SECOND;
+
+    /*
+    ** Adding the epoch "seconds" after computing the minutes avoids
+    **    overflow problems when the input time value (seconds) is
+    **    at, or near, 0xFFFFFFFF...
+    */
+    while (NumberOfSeconds >= 60)
+    {
+        NumberOfMinutes++;
+        NumberOfSeconds -= 60;
+    }
+
+    /*
+    ** Compute the years/days/hours/minutes...
+    */
+    NumberOfHours   = (NumberOfMinutes / 60) + CFE_TIME_EPOCH_HOUR;
+    NumberOfMinutes = (NumberOfMinutes % 60);
+
+    /*
+    ** Unlike hours and minutes, epoch days are counted as Jan 1 = day 1...
+    */
+    NumberOfDays  = (NumberOfHours / 24) + (CFE_TIME_EPOCH_DAY - 1);
+    NumberOfHours = (NumberOfHours % 24);
+
+    NumberOfYears = CFE_TIME_EPOCH_YEAR;
+
+    /*
+    ** Convert total number of days into years and remainder days...
+    */
+    while (StillCountingYears)
+    {
+        /*
+        ** Set number of days in this year (leap year?)...
+        */
+        DaysInThisYear = 365;
+
+        if ((NumberOfYears % 4) == 0)
+        {
+            if ((NumberOfYears % 100) != 0)
+            {
+                DaysInThisYear = 366;
+            }
+            else if ((NumberOfYears % 400) == 0)
+            {
+                DaysInThisYear = 366;
+            }
+            else
+            {
+                /* Do Nothing. Non-leap year. */
+            }
+        }
+
+        /*
+        ** When we have less than a years worth of days, we're done...
+        */
+        if (NumberOfDays < DaysInThisYear)
+        {
+            StillCountingYears = FALSE;
+        }
+        else
+        {
+            /*
+            ** Add a year and remove the number of days in that year...
+            */
+            NumberOfYears++;
+            NumberOfDays -= DaysInThisYear;
+        }
+    }
+
+    /*
+    ** Unlike hours and minutes, days are displayed as Jan 1 = day 1...
+    */
+    NumberOfDays++;
+
+    /*
+    ** After computing microseconds, convert to 5 digits from 6 digits...
+    */
+    NumberOfMicros = CFE_TIME_Sub2MicroSecs(TimeToPrint.Subseconds) / 10;
+
+    /*
+    ** Build formatted output string (yyyy-ddd-hh:mm:ss.xxxxx)...
+    */
+    *OutputBuffer++ = '0' + (char) (NumberOfYears / 1000); NumberOfYears = NumberOfYears % 1000;
+    *OutputBuffer++ = '0' + (char) (NumberOfYears / 100);  NumberOfYears = NumberOfYears % 100;
+    *OutputBuffer++ = '0' + (char) (NumberOfYears / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfYears % 10);
+    *OutputBuffer++ = '-';
+
+    *OutputBuffer++ = '0' + (char) (NumberOfDays / 100); NumberOfDays = NumberOfDays % 100;
+    *OutputBuffer++ = '0' + (char) (NumberOfDays / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfDays % 10);
+    *OutputBuffer++ = '-';
+
+    *OutputBuffer++ = '0' + (char) (NumberOfHours / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfHours % 10);
+    *OutputBuffer++ = ':';
+
+    *OutputBuffer++ = '0' + (char) (NumberOfMinutes / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfMinutes % 10);
+    *OutputBuffer++ = ':';
+
+    *OutputBuffer++ = '0' + (char) (NumberOfSeconds / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfSeconds % 10);
+    *OutputBuffer++ = '.';
+
+    *OutputBuffer++ = '0' + (char) (NumberOfMicros / 10000); NumberOfMicros = NumberOfMicros % 10000;
+    *OutputBuffer++ = '0' + (char) (NumberOfMicros / 1000);  NumberOfMicros = NumberOfMicros % 1000;
+    *OutputBuffer++ = '0' + (char) (NumberOfMicros / 100);   NumberOfMicros = NumberOfMicros % 100;
+    *OutputBuffer++ = '0' + (char) (NumberOfMicros / 10);
+    *OutputBuffer++ = '0' + (char) (NumberOfMicros % 10);
+    *OutputBuffer++ = '\0';
+
+    return;
+
+} /* End of CFE_TIME_Print() */
+
 /*
 ** Test functions to retrieve time values
 */
@@ -440,10 +575,10 @@ void Test_GetTime(void)
     /* The time below equals 2013-001-02:03:04.56789 */
     int seconds = 1041472984;
     int microsecs = 567890;
-    char *expectedMET = "2013-001-02:03:14.56789";
-    char *expectedTAI = "2013-001-03:03:14.56789";
-    char *expectedUTC = "2013-001-03:02:42.56789";
-    char *expectedSTCF = "1980-001-01:00:00.00000";
+    char expectedMET[UT_MAX_MESSAGE_LENGTH];
+    char expectedTAI[UT_MAX_MESSAGE_LENGTH];
+    char expectedUTC[UT_MAX_MESSAGE_LENGTH];
+    char expectedSTCF[UT_MAX_MESSAGE_LENGTH];
 
 #ifdef UT_VERBOSE
     UT_Text("Begin Test Get Time\n");
@@ -462,6 +597,7 @@ void Test_GetTime(void)
     CFE_TIME_TaskData.AtToneLatch.Seconds = 10; /* 10.00000 */
     CFE_TIME_TaskData.AtToneLatch.Subseconds = 0;
     CFE_TIME_TaskData.ClockSetState = CFE_TIME_NOT_SET; /* Force invalid time */
+    UT_GetFormattedCfeTime(expectedMET, CFE_TIME_GetMET());
     CFE_TIME_Print(timeBuf, CFE_TIME_GetMET());
     result = !strcmp(timeBuf, expectedMET);
     snprintf(testDesc, UT_MAX_MESSAGE_LENGTH,
@@ -513,6 +649,7 @@ void Test_GetTime(void)
 
     /* Test successfully retrieving the international atomic time (TAI) */
     UT_InitData();
+    UT_GetFormattedCfeTime(expectedTAI, CFE_TIME_GetTAI());
     CFE_TIME_Print(timeBuf, CFE_TIME_GetTAI());
     result = !strcmp(timeBuf, expectedTAI);
     snprintf(testDesc, UT_MAX_MESSAGE_LENGTH,
@@ -524,6 +661,7 @@ void Test_GetTime(void)
 
     /* Test successfully retrieving the coordinated universal time (UTC) */
     UT_InitData();
+    UT_GetFormattedCfeTime(expectedUTC, CFE_TIME_GetUTC());
     CFE_TIME_Print(timeBuf, CFE_TIME_GetUTC());
     result = !strcmp(timeBuf, expectedUTC);
     snprintf(testDesc, UT_MAX_MESSAGE_LENGTH,
@@ -557,6 +695,7 @@ void Test_GetTime(void)
      * factor (SCTF)
      */
     UT_InitData();
+    UT_GetFormattedCfeTime(expectedSTCF, CFE_TIME_GetSTCF());
     CFE_TIME_Print(timeBuf, CFE_TIME_GetSTCF());
     result = !strcmp(timeBuf, expectedSTCF);
     snprintf(testDesc, UT_MAX_MESSAGE_LENGTH,
@@ -934,13 +1073,7 @@ void Test_ConvertTime(void)
     char timeBuf[sizeof("yyyy-ddd-hh:mm:ss.xxxxx_")];
     CFE_TIME_SysTime_t METTime;
 
-#if (CFE_TIME_CFG_DEFAULT_TAI == TRUE)
-    /* TAI time derived = MET + STCF */
-    char *expectedSCTime = "1980-001-02:00:40.00000";
-#else
-    /* UTC time derived = MET + STCF - Leaps */
-    char *expectedSCTime = "1980-001-02:00:08.00000";
-#endif
+    char expectedSCTime[UT_MAX_MESSAGE_LENGTH];
 
 #ifdef UT_VERBOSE
     UT_Text("Begin Test Convert Time\n");
@@ -953,6 +1086,7 @@ void Test_ConvertTime(void)
     CFE_TIME_TaskData.AtToneSTCF.Seconds = 7240; /* 01:00:00.00000 */
     CFE_TIME_TaskData.AtToneSTCF.Subseconds = 0;
     CFE_TIME_TaskData.AtToneLeaps = 32;
+    UT_GetFormattedCfeTime(expectedSCTime, CFE_TIME_MET2SCTime(METTime));
     CFE_TIME_Print(timeBuf, CFE_TIME_MET2SCTime(METTime));
 
     /* SC = MET + SCTF [- Leaps for UTC] */
@@ -1169,6 +1303,7 @@ void Test_Print(void)
     int result;
     char testDesc[UT_MAX_MESSAGE_LENGTH];
     CFE_TIME_SysTime_t time;
+    char expectedTime[UT_MAX_MESSAGE_LENGTH];
 
 #ifdef UT_VERBOSE
     UT_Text("Begin Test Print\n");
@@ -1178,8 +1313,9 @@ void Test_Print(void)
     UT_InitData();
     time.Subseconds = 0;
     time.Seconds = 0;
+    UT_GetFormattedCfeTime(expectedTime, time);
     CFE_TIME_Print(testDesc, time);
-    result = !strcmp(testDesc, "1980-001-00:00:00.00000");
+    result = !strcmp(testDesc, expectedTime);
     strncat(testDesc," Zero time value", UT_MAX_MESSAGE_LENGTH);
     testDesc[UT_MAX_MESSAGE_LENGTH - 1] = '\0';
     UT_Report(__FILE__, __LINE__,
@@ -1193,8 +1329,9 @@ void Test_Print(void)
     UT_InitData();
     time.Subseconds = 0;
     time.Seconds = 59;
+    UT_GetFormattedCfeTime(expectedTime, time);
     CFE_TIME_Print(testDesc, time);
-    result = !strcmp(testDesc, "1980-001-00:00:59.00000");
+    result = !strcmp(testDesc, expectedTime);
     strncat(testDesc,
             " Seconds overflow if CFE_TIME_EPOCH_SECOND > 0",
             UT_MAX_MESSAGE_LENGTH);
@@ -1208,8 +1345,9 @@ void Test_Print(void)
     UT_InitData();
     time.Subseconds = 215000;
     time.Seconds = 1041472984;
+    UT_GetFormattedCfeTime(expectedTime, time);
     CFE_TIME_Print(testDesc, time);
-    result = !strcmp(testDesc, "2013-001-02:03:04.00005");
+    result = !strcmp(testDesc, expectedTime);
     strncat(testDesc," Mission representative time", UT_MAX_MESSAGE_LENGTH);
     testDesc[UT_MAX_MESSAGE_LENGTH - 1] = '\0';
     UT_Report(__FILE__, __LINE__,
@@ -1221,8 +1359,9 @@ void Test_Print(void)
     UT_InitData();
     time.Subseconds = 0xffffffff;
     time.Seconds = 0xffffffff;
+    UT_GetFormattedCfeTime(expectedTime, time);
     CFE_TIME_Print(testDesc, time);
-    result = !strcmp(testDesc, "2116-038-06:28:15.99999");
+    result = !strcmp(testDesc, expectedTime);
     strncat(testDesc," Maximum seconds/subseconds values",
             UT_MAX_MESSAGE_LENGTH);
     testDesc[UT_MAX_MESSAGE_LENGTH - 1] = '\0';
