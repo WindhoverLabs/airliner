@@ -32,10 +32,12 @@
  *****************************************************************************/
 
 #include "aspd4525_test_utils.h"
+#include "ut_aspd4525_custom_stubs.h"
 
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_tbl_hooks.h"
 #include "ut_cfe_fs_stubs.h"
@@ -48,17 +50,41 @@
 
 #include <time.h>
 
+
+extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
+extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
+             Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
+
+
 /*
  * Config table for testing
  */
-ASPD4525_ConfigTblEntry_t ASPD4525_configtable = {
-        1 /* iParam*/
+ASPD4525_ConfigTblEntry_t
+          ASPD4525_ConfigTblUnitTest[ASPD4525_CONFIG_TABLE_MAX_ENTRIES] = {
+    /* Entry 1 */
+    {
+        .fPressureMinimum_PSI = -0.99,
+        .fPressureMaximum_PSI = 1.029,
+        .fTemperatureMinimum_Celcius = -50.0,
+        .fTemperatureMaximum_Celcius = 150.0,
+        .fAirGasConstantR_SI = 8.3144598,
+        .fGravitationalAccereleration_SI = 9.80665,
+        .fAirMolarMass_SI = 0.0289644,
+        .fAltitudeMeters_bs =
+                 {0.0, 11000.0, 20000.0, 32000.0, 47000.0, 51000.0, 71000.0},
+        .fRho_bs =
+             {1.2250, 0.36391, 0.08803, 0.01322, 0.00143, 0.00086, 0.000064},
+        .fTemp_bs = {288.15, 216.65, 216.65, 228.65, 270.65, 270.65, 214.65},
+        .fLapseRate_bs = {-0.0065, 0.0, 0.001, 0.0028, 0.0, -0.0028, -0.002},
+        .uEquationNo_bs = {1,2,1,1,2,1,1},
+        .uAirDensityCalculationMode = ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE
+    }
 };
+
 
 /*
  * Function Definitions
  */
-
 void ASPD4525_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
@@ -73,10 +99,62 @@ void ASPD4525_Test_Setup(void)
     Ut_CFE_ES_Reset();
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
+    Ut_ASPD4525_Custom_Reset();
 
-    Ut_CFE_TBL_AddTable(ASPD4525_CONFIG_TABLE_FILENAME, (void *) &ASPD4525_configtable);
+#if 0
+    Ut_CFE_TBL_AddTable(ASPD4525_CONFIG_TABLE_FILENAME,
+                        (void *)&ASPD4525_ConfigTbl);
+#else
+    Ut_CFE_TBL_AddTable(ASPD4525_CONFIG_TABLE_FILENAME,
+                        (void *)&ASPD4525_ConfigTblUnitTest);
+#endif
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+            sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+            sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void ASPD4525_Test_TearDown(void) {
     CFE_PSP_MemSet(&ASPD4525_AppData, 0x00, sizeof(ASPD4525_AppData_t));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+            sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+            sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void ASPD4525_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
+}
+
+time_t ASPD4525_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
+}
+
+time_t ASPD4525_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
 }
