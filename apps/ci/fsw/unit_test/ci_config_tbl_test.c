@@ -134,6 +134,8 @@ void Test_CI_InitTbls_Fail_TblGetAddress(void)
     /* Verify results */
     UtAssert_True (result == expected,
                    "InitTbls(), fail TblGetAddress");
+    UtAssert_True (CI_AppData.ConfigTblPtr == 0,
+                   "InitTbls(), fail TblGetAddress");
 }
 
 
