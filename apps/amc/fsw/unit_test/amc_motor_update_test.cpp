@@ -144,7 +144,7 @@ void AMC_UpdateMotors_Lockdown(void)
     int32                      DataPipe;
     PX4_ActuatorArmedMsg_t     InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     InMsg.Lockdown = TRUE;
@@ -172,7 +172,7 @@ void AMC_UpdateMotors_InEscCalibrationMode(void)
     int32                      DataPipe;
     PX4_ActuatorArmedMsg_t     InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     InMsg.InEscCalibrationMode = TRUE;

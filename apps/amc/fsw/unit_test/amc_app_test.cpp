@@ -901,7 +901,7 @@ void Test_AMC_AppMain_ProcessData_DataPipeError(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("AMC_SCH_PIPE");
+    SchPipe = Ut_CFE_SB_CreatePipe(AMC_SCH_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, AMC_UPDATE_MOTORS_MID, sizeof(InMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -926,7 +926,7 @@ void Test_AMC_AppMain_ProcessData_InvalidMsgID(void)
     int32                   DataPipe;
     PX4_BatteryStatusMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_BATTERY_STATUS_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -957,7 +957,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorArmed(void)
     int32                   DataPipe;
     PX4_ActuatorArmedMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -988,7 +988,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls0(void)
     int32                      DataPipe;
     PX4_ActuatorControlsMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_0_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1020,7 +1020,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls1(void)
     int32                      DataPipe;
     PX4_ActuatorControlsMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_1_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1052,7 +1052,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls2(void)
     int32                      DataPipe;
     PX4_ActuatorControlsMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_2_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1084,7 +1084,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls3(void)
     int32                      DataPipe;
     PX4_ActuatorControlsMsg_t  InMsg;
 
-    DataPipe = Ut_CFE_SB_CreatePipe("AMC_DATA_PIPE");
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_3_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 

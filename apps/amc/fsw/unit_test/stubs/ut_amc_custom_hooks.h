@@ -36,7 +36,7 @@
 
 #include "cfe.h"
 
-uint32 UT_InitDevice(void);
+int32 UT_InitDevice(void);
 void UT_SetMotorOutputs(const uint16 *PWM);
 uint64 UT_PX4LIB_GetPX4TimeUs(void);
 

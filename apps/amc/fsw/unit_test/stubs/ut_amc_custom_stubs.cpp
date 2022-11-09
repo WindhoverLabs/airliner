@@ -56,7 +56,7 @@ void Ut_AMC_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
     if (Index == UT_AMC_CUSTOM_INITDEVICE_INDEX)
     {
-        Ut_AMC_Custom_HookTable.InitDevice = (uint32 (*)(void))FunPtr;
+        Ut_AMC_Custom_HookTable.InitDevice = (int32 (*)(void))FunPtr;
     }
     else if (Index == UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX)
     {
@@ -118,18 +118,18 @@ int32 AMC::InitDevice(void)
     if (Ut_AMC_Custom_HookTable.InitDevice)
         return Ut_AMC_Custom_HookTable.InitDevice();
 
-    return 0;
+    return CFE_SUCCESS;
 }
 
 void AMC::SetMotorOutputs(const uint16 *PWM)
 {
-    /* Check for specified return */
-    if (Ut_AMC_Custom_UseReturnCode(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX))
-        Ut_AMC_Custom_ReturnCodeTable[UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX].Value;
+    /* Can't specify return value - this is a void function */
 
     /* Check for Function Hook */
     if (Ut_AMC_Custom_HookTable.SetMotorOutputs)
         Ut_AMC_Custom_HookTable.SetMotorOutputs(PWM);
+
+    return;
 }
 
 extern "C" uint64 PX4LIB_GetPX4TimeUs(void)

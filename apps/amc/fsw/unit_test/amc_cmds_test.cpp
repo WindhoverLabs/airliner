@@ -70,7 +70,7 @@ void Test_AMC_ProcessCmdPipe_InvalidCmd(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, PX4_AIRSPEED_MID, sizeof(CmdMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -108,7 +108,7 @@ void Test_AMC_ProcessCmdPipe_CmdPipeError(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("AMC_SCH_PIPE");
+    SchPipe = Ut_CFE_SB_CreatePipe(AMC_SCH_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_SEND_HK_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)0);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -161,7 +161,7 @@ void Test_AMC_ProcessCmdPipe_Noop(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_NOOP_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -206,7 +206,7 @@ void Test_AMC_ProcessCmdPipe_Reset(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_RESET_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -245,7 +245,7 @@ void Test_AMC_ProcessCmdPipe_ArmDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ARM_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -286,7 +286,7 @@ void Test_AMC_ProcessCmdPipe_FailArmDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ARM_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -330,7 +330,7 @@ void Test_AMC_ProcessCmdPipe_DisarmDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISARM_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -374,7 +374,7 @@ void Test_AMC_ProcessCmdPipe_FailDisarmDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISARM_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -415,7 +415,7 @@ void Test_AMC_ProcessCmdPipe_EngageDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ENGAGE_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -459,7 +459,7 @@ void Test_AMC_ProcessCmdPipe_FailEngageDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ENGAGE_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -500,7 +500,7 @@ void Test_AMC_ProcessCmdPipe_DisengageDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISENGAGE_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -544,7 +544,7 @@ void Test_AMC_ProcessCmdPipe_FailDisengageDebug(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISENGAGE_DEBUG_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -585,7 +585,7 @@ void Test_AMC_ProcessCmdPipe_DebugCmd(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
 
@@ -630,7 +630,7 @@ void Test_AMC_ProcessCmdPipe_FailDebugCmd(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
 
@@ -675,7 +675,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_OUTPUT_SCALER_CC);
 
@@ -711,7 +711,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_CC);
 
@@ -752,7 +752,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_SCALER_CC);
 

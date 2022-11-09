@@ -38,11 +38,9 @@
 
 #include <time.h>
 
-uint32 UT_InitDevice(void)
+int32 UT_InitDevice(void)
 {
-    printf("### InitDevice called\n");
-
-    return 0;
+    return CFE_SUCCESS;
 }
 
 

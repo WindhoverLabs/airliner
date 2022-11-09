@@ -422,13 +422,8 @@ void AMC_Test_Setup(void)
     Ut_OSFILEAPI_Reset();
     Ut_AMC_Custom_Reset();
 
-#if 0
-    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTblUnitTest);
-    Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTblUnitTest);
-#else
     Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_ConfigTbl);
     Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTbl);
-#endif
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
