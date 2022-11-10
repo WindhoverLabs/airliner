@@ -111,6 +111,7 @@ int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, const char *CfCntSemName
                                  channel->ChannelName, channel->channelIdx, status);
 
         channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
+        return status;
     }
 
     /* Set up CF Throttling semaphore */
