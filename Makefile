@@ -370,6 +370,17 @@ quad-local-install::
 	sudo cp -R build/multirotor/quad/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/multirotor/quad/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
 
+quad-hitl-local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/home/windhover/hitl
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/cpd
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/ppd
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/simlink
+	sudo cp -R build/multirotor/quad/ppd/target/target/exe /media/${USER}/rootfs/home/windhover/hitl/ppd
+	sudo cp build/multirotor/quad/cpd/hitl/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware/airliner.elf
+	sudo cp build/multirotor/quad/cpd/hitl/target/target/exe/airliner.elf /media/${USER}/rootfs/home/windhover/hitl/cpd/airliner.elf
+	sudo cp -R build/multirotor/quad/simlink/hitl/target/target/exe /media/${USER}/rootfs/home/windhover/hitl/simlink
+
 clean::
 	@echo 'Cleaning flight software builds                                                 '
 	rm -rf build
