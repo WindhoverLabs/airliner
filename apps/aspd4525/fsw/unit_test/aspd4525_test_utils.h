@@ -42,9 +42,13 @@
 
 extern ASPD4525_AppData_t  ASPD4525_AppData;
 
+extern ASPD4525_ConfigTblEntry_t
+                   ASPD4525_ConfigTbl[ASPD4525_CONFIG_TABLE_MAX_ENTRIES];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 /*
  * Function Definitions
@@ -53,10 +57,14 @@ extern "C" {
 void ASPD4525_Test_Setup(void);
 void ASPD4525_Test_TearDown(void);
 
+void ASPD4525_Test_PrintCmdMsg(void *pMsg, uint32 size);
+
+time_t ASPD4525_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+time_t ASPD4525_Test_GetTimeFromTimestamp(uint64 timestamp);
+
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* ASPD4525_TEST_UTILS_H */
-

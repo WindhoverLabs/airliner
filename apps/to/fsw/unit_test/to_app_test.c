@@ -1517,7 +1517,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 {
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
-    int32         DataPipe;
+    int32         HighDataPipe;
+    int32         MediumDataPipe;
+    int32         LowDataPipe;
     TO_HkTlm_t    msgCfeEsHk;
     TO_HkTlm_t    msgCfeEvsHk;
     TO_HkTlm_t    msgCfeSbHk;
@@ -1537,6 +1539,8 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     TO_HkTlm_t    msgCfSpaceToGndPdu;
     TO_HkTlm_t    msgCsHk;
     uint32        chQueue0;
+    char          text[200];
+    uint16        msgID;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and processing a full pipe of telemetry messages. */
@@ -1544,7 +1548,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    HighDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    MediumDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    LowDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -1559,15 +1565,15 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 
     /* Now load up the software bus with all the messages starting with low
      * priority first. */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, HighDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, HighDataPipe);
+    //Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1597,21 +1603,45 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     int32 iStatus = 0;
 
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_HK_TLM_MID, "1-1: High Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-1: High Priority.  Expected 0x%04x.  Received 0x%04x", CFE_ES_HK_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_ES_HK_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-2: High Priority.  Expected 0x%04x.  Received 0x%04x", CFE_EVS_HK_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_EVS_HK_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TBL_HK_TLM_MID, "1-3: Medium Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-3: Medium Priority.  Expected 0x%04x.  Received 0x%04x", CFE_TBL_HK_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_TBL_HK_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_HK_TLM_MID, "1-4: Medium Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-4: Medium Priority.  Expected 0x%04x.  Received 0x%04x", CFE_TIME_HK_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_TIME_HK_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_DIAG_TLM_MID, "1-5: Medium Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-5: Medium Priority.  Expected 0x%04x.  Received 0x%04x", CFE_TIME_DIAG_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_TIME_DIAG_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_EVENT_MSG_MID, "1-6: Low Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-6: Low Priority.  Expected 0x%04x.  Received 0x%04x", CFE_EVS_EVENT_MSG_MID, msgID);
+    UtAssert_True(msgID == CFE_EVS_EVENT_MSG_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_STATS_TLM_MID, "1-7: Low Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-7: Low Priority.  Expected 0x%04x.  Received 0x%04x", CFE_SB_STATS_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_SB_STATS_TLM_MID, text);
+
     Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_APP_TLM_MID, "1-8: Low Priority");
+    msgID = Ut_CFE_SB_GetMsgIdHook(msgPtr);
+    sprintf(text, "1-8: Low Priority.  Expected 0x%04x.  Received 0x%04x", CFE_ES_APP_TLM_MID, msgID);
+    UtAssert_True(msgID == CFE_ES_APP_TLM_MID, text);
+
     iStatus = Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
     UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
 }
@@ -1624,7 +1654,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
 {
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
-    int32         DataPipe;
+    int32         HighDataPipe;
+    int32         MediumDataPipe;
+    int32         LowDataPipe;
     TO_HkTlm_t    msgCfeEsHk;
     TO_HkTlm_t    msgCfeEvsHk;
     TO_HkTlm_t    msgCfeSbHk;
@@ -1651,7 +1683,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    HighDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    MediumDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    LowDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -1666,15 +1700,15 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
 
     /* Now load up the software bus with all the messages starting with low
      * priority first. */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, LowDataPipe);
+    //Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, HighDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, HighDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, HighDataPipe);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1732,7 +1766,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
 {
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
-    int32         DataPipe;
+    int32         HighDataPipe;
+    int32         MediumDataPipe;
+    int32         LowDataPipe;
     TO_HkTlm_t    msgCfeEsHk;
     TO_HkTlm_t    msgCfeEvsHk;
     TO_HkTlm_t    msgCfeSbHk;
@@ -1759,7 +1795,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    HighDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    MediumDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    LowDataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -1776,17 +1814,17 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
      * order. */
 
     /* High priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, HighDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, HighDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, HighDataPipe);
     /* Low priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, LowDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, LowDataPipe);
+    //Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
     /* Medium priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, MediumDataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, MediumDataPipe);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2048,6 +2086,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
     CFE_SB_MsgPtr_t   msgPtr = 0;
+    TO_HkTlm_t    msgCfeEsHk;
        
     char expectedEvent[100];
 
@@ -2057,6 +2096,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_ERROR, 1);
     Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -2065,9 +2105,11 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     
     /* Get channel data information */
     channel = &TO_AppData.ChannelData[ChannelIdx];
-         
+
+    CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
+
     /* Execute the function being tested */         
-    iStatus = TO_OutputQueue_QueueMsg(channel, msgPtr);
+    iStatus = TO_OutputQueue_QueueMsg(channel, &msgCfeEsHk);
     
     sprintf(expectedEvent, "OS_QueuePut failed: channel=%ld size=%u error=%li",
             channel->channelIdx,
@@ -2085,6 +2127,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
     CFE_SB_MsgPtr_t   msgPtr = 0;
+    TO_HkTlm_t    msgCfeEsHk;
     
     char expectedEvent[100];
 
@@ -2094,6 +2137,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_QUEUE_FULL, 1);
     Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -2101,10 +2145,12 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
     TO_InitApp();
     
     /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];    
+    channel = &TO_AppData.ChannelData[ChannelIdx];
+
+    CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
     
     /* Execute the function being tested */    
-    iStatus = TO_OutputQueue_QueueMsg(channel, msgPtr);
+    iStatus = TO_OutputQueue_QueueMsg(channel, &msgCfeEsHk);
     
     sprintf(expectedEvent, "PutPoolBuf: channel=%ld, error=%ld",
             channel->channelIdx,
@@ -2122,6 +2168,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
     int32 expected = 16;
     TO_ChannelData_t* channel;
     CFE_SB_MsgPtr_t   msgPtr = 0;
+    TO_HkTlm_t    msgCfeEsHk;
     
     char expectedEvent[100];
 
@@ -2131,6 +2178,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
     Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_QUEUE_FULL, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -2138,10 +2186,12 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
     TO_InitApp();
     
     /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];    
+    channel = &TO_AppData.ChannelData[ChannelIdx];
+
+    CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
           
     /* Execute the function being tested */          
-    result = TO_OutputQueue_QueueMsg(channel, msgPtr);
+    result = TO_OutputQueue_QueueMsg(channel, &msgCfeEsHk);
     
     /* Verify results */
     UtAssert_True (result == expected, "Memory In Use as expected.");               
@@ -2280,7 +2330,7 @@ void Test_TO_MessageFlow_TeardownAll_SubscribeEx(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, CFE_SB_BAD_ARGUMENT, 1);
     Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_SUBSCRIBEEX_INDEX);      
     
-    iStatus = TO_MessageFlow_Buildup(channel);
+    iStatus = TO_PriorityQueue_BuildupAll(channel);
     
     sprintf(expectedEvent, "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
         MsgId,
@@ -2313,7 +2363,7 @@ void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
     channel = &TO_AppData.ChannelData[ChannelIdx];    
 
     /* Execute the function being tested */
-    iStatus = TO_MessageFlow_TeardownAll(channel);
+    iStatus = TO_PriorityQueue_TeardownAll(channel);
     
     sprintf(expectedEvent, "Message flow failed to unsubscribe from 0x%04x on channel %d. (%d)",
         CFE_ES_HK_TLM_MID,
@@ -2611,46 +2661,6 @@ void Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL(void)
     //UtAssert_True (result == expected, "TO_PriorityQueue_IsValid, NULL Pointer Check");
 }
 
-
-/**************************************************************************
- * Tests for TO Priority Queue
- **************************************************************************/
-void Test_TO_Priority_Queue_Buildup_QueueCreate_Fail(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    
-    char expectedEvent[100];
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-
-    /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
-
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];    
-
-    /* Execute the function being tested */            
-    iStatus = TO_PriorityQueue_BuildupAll(channel);
-    
-    sprintf(expectedEvent, "Failed to create '%s' priority queue #%u on channel %ld. (%d)",
-            channel->ChannelName,
-            0,
-            channel->channelIdx,
-            -15);       
-
-    /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue Buildup OS_QueueCreate Failed - event correct");                 
-}
-
 void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
 {
     uint16  ChannelIdx = 0;
@@ -2685,129 +2695,6 @@ void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
     /* Verify results */
     UtAssert_EventNotSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue Buildup OS_QueueCreate Failed - event not sent");
-}
-
-void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    
-    char expectedEvent[100];
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_SUCCESS, 0);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 3);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 4);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);   
-
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];    
-     
-    /* Execute the function being tested */            
-    iStatus = TO_PriorityQueue_TeardownAll(channel);
-    
-    sprintf(expectedEvent, "Failed to return message back to memory pool on tbl load for channel %ld. (%d)",
-            channel->channelIdx,
-            -1);       
-
-    /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");                 
-}
-
-void Test_TO_Priority_Queue_Teardown_QueueDelete_Fail(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    
-    char expectedEvent[100];
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEDELETE_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_SUCCESS, 0);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 3);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 4);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEDELETE_INDEX);   
-
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-            
-    /* Execute the function being tested */            
-    iStatus = TO_PriorityQueue_TeardownAll(channel);
-    
-    sprintf(expectedEvent, "Failed to delete priority queue %u for channel %ld. (%ld)",
-            1,
-            channel->channelIdx,
-            iStatus);       
-
-    /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");                 
-}
-
-void Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-
-    char expectedEvent[100];
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEDELETE_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_SUCCESS, 0);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 3);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 4);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEDELETE_INDEX);
-
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-
-    TO_InitApp();
-
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-
-    /* Execute the function being tested */
-    iStatus = TO_PriorityQueue_TeardownAll(channel);
-
-    sprintf(expectedEvent, "Failed to delete priority queue %u for channel %ld. (%ld)",
-            1,
-            channel->channelIdx,
-            iStatus);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");
 }
 
 /**
@@ -3190,99 +3077,6 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure(void)
                        expectedEvent, "Priority Queue Qtype is invalid - event correct");
 
     UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR, "TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR");
-}
-
-void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    char expectedEvent[100];
-    uint16 PQueueIdx = 0;
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-  
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-    
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-    
-    channel->ConfigTblPtr->PriorityQueue[0].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[1].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[2].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[3].State = TO_PQUEUE_ENA;
-    
-    channel->ConfigTblPtr->PriorityQueue[0].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[1].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[2].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[3].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    
-    channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth = 0;
-    
-    iStatus = TO_ValidateConfigTbl(channel->ConfigTblPtr);
-    
-    sprintf(expectedEvent, "Priority Queue MsgLimit invalid (%d) for Table ID (%lu) at table index (%d)",
-            channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth,
-            channel->ConfigTblPtr->TableID,
-            PQueueIdx);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue MsgLimit is invalid - event correct");
-
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR, "TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR");
-}
-
-void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    char expectedEvent[100];
-    uint16 PQueueIdx = 0;
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-  
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-    
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-    
-    channel->ConfigTblPtr->PriorityQueue[0].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[1].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[2].State = TO_PQUEUE_ENA;
-    channel->ConfigTblPtr->PriorityQueue[3].State = TO_PQUEUE_ENA;
-    
-    channel->ConfigTblPtr->PriorityQueue[0].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[1].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[2].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    channel->ConfigTblPtr->PriorityQueue[3].QType = TO_PRIORITY_QUEUE_TYPE_FIFO;
-    
-    /* TO_MAX_QUEUE_SIZE_LIMIT = 100 currently */
-    channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth = TO_MAX_QUEUE_SIZE_LIMIT + 1;
-    
-    iStatus = TO_ValidateConfigTbl(channel->ConfigTblPtr);
-    
-    sprintf(expectedEvent, "Priority Queue MsgLimit invalid (%d) for Table ID (%lu) at table index (%d)",
-            channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth,
-            channel->ConfigTblPtr->TableID,
-            PQueueIdx);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue MsgLimit is invalid - event correct");
-
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR, "TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR");
 }
 
 void Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States(void)
@@ -3761,48 +3555,6 @@ void Test_TO_ManageChannelTables_GetAddress_Failure(void)
                        expectedEvent, "Failed to get Config table's address for channel - event correct");                 
 }
 
-
-void Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    char expectedEvent[100];
-    osalbool initialManage = TRUE;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-  
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-    
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-    
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETSTATUS_INDEX, CFE_TBL_INFO_UPDATE_PENDING, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_UNSUBSCRIBE_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 0);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, -1, 1);
-    
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);   
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_GETSTATUS_INDEX);
-    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_RCVMSG_INDEX);
-    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_UNSUBSCRIBE_INDEX);  
-            
-    TO_ManageChannelTables(initialManage, ChannelIdx);
-    
-    sprintf(expectedEvent, "Failed to clear SB data pipe for channel %u, (0x%08X)",
-                                     ChannelIdx,
-                                     (unsigned int)CFE_TBL_INFO_UPDATE_PENDING);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Failed to clear SB data pipe for channel - event correct");
-
-}
-
 void Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure(void)
 {
     uint16  ChannelIdx = 0;
@@ -4015,9 +3767,9 @@ void Test_TO_Channel_Open_OS_CountSemCreate_Failure(void)
                                      4, "cs_gnd");
 
     sprintf(expectedEvent, "Failed to create counting semaphore "
-                              "for CF channel semaphore:%s for TO channel(%u):%s . "
+                              "for CF channel semaphore:%s for TO channel %s . "
                               "(OSAL Error:%d)",
-                              "cs_gnd", ChannelIdx, "channel_name", OS_SEM_FAILURE);
+                              "cs_gnd", "channel_name", OS_SEM_FAILURE);
 
     /* Verify results */
     UtAssert_EventSent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
@@ -4049,10 +3801,10 @@ void Test_TO_Channel_Open_OutputQueue_Buildup_Failure(void)
     
     Ut_OSAPI_SetReturnCode(UT_OSAPI_COUNTSEMCREATE_INDEX, OS_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_COUNTSEMCREATE_INDEX);
-    
-    status = TO_Channel_OpenChannel(0, "channel_name", TO_CONFIG_TABLENAME,
+
+    status = TO_Channel_OpenChannel(0, "UDP", TO_CONFIG_TABLENAME,
                                      TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME,
-                                     4, "cs_gnd");
+                                     4, "UDP");
                                      
     UtAssert_True(status == OS_ERR_NAME_TAKEN, "OutputQueue_Buildup Error");                                 
 }
@@ -4085,18 +3837,24 @@ void Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUECREATE_INDEX);
     Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_CREATEPIPE_INDEX);
     
-    status = TO_Channel_OpenChannel(0, "channel_name", TO_CONFIG_TABLENAME,
+    status = TO_Channel_OpenChannel(0, "UDP", TO_CONFIG_TABLENAME,
     		TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME,
-                                     4, "cs_gnd");
-                                     
-    sprintf(expectedEvent, "Failed to create channel (%d) '%s' pipe (0x%08X)",
-            0,
-            "channel_name",
-            -1);
+                                     4, "UDP");
 
     /* Verify results */
-    UtAssert_EventSent(TO_INIT_DATAPIPE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to create channel - event correct");                                      
+    sprintf(expectedEvent, "Failed to create '%s' priority queue #%u on channel %u. (%i)",
+            "TO_UDP_0",
+			0,
+			0,
+			-1);
+    UtAssert_EventSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "Failed to create channel - event correct");
+
+    sprintf(expectedEvent, "Process New Config Table Failed for channel %u, (0x%08X)",
+            0,
+			-1);
+    UtAssert_EventSent(TO_CONFIG_PROCESS_CONFIG_TBL_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "Failed to create channel - event correct");
                                                                    
 }
 
@@ -4160,11 +3918,6 @@ void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
     
     TO_InitApp();
     
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-    
-    channel->State = TO_CHANNEL_CLOSED; 
-    
     Ut_OSAPI_SetReturnCode(UT_OSAPI_COUNTSEMCREATE_INDEX, OS_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUECREATE_INDEX, OS_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, CFE_SUCCESS, 1);
@@ -4178,11 +3931,9 @@ void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
     Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_REGISTER_INDEX);
     Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_POOLCREATEEX_INDEX);
     
-    status = TO_Channel_OpenChannel(0, "channel_name", TO_CONFIG_TABLENAME,
-    		TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME,
-                                     4, "cs_gnd");
+    TO_InitApp();
                                      
-    sprintf(expectedEvent, "Error creating memory pool (0x%08lX) for channel %d", status, 0);
+    sprintf(expectedEvent, "Error creating memory pool (0x%08lX) for %s", -1, "UDP");
 
     /* Verify results */
     UtAssert_EventSent(TO_CR_POOL_ERR_EID, CFE_EVS_ERROR,
@@ -4320,46 +4071,6 @@ void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
     TO_Channel_InitAll();
                       
     UtAssert_True(channel->State == TO_CHANNEL_UNKNOWN, "Channel Cleanup OS Mut Semphore Create Failure");
-}
-
-void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
-{
-    uint16  ChannelIdx = 0;
-    uint32 status = 0;
-    TO_ChannelData_t* channel;    
-    char expectedEvent[100];
-    
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);    
-  
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-    
-    TO_InitApp();
-    
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-    
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_UNSUBSCRIBE_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEDELETE_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_SUCCESS, 0);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 3);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 4);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEDELETE_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);      
-    
-    TO_Channel_CleanupAll();
-    
-    /* TO_Channel_CleanupAll does not return a status, TO_PriorityQueue_TeardownAll does and it's OS_ERROR */
-    sprintf(expectedEvent, "Priority Queue Teardown failure %d on channel %u.",
-            OS_ERROR, 
-            ChannelIdx);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_CHANNEL_TEARDOWN_ERR_EID, CFE_EVS_ERROR, 
-                       expectedEvent, "Priority Queue Teardown failure - event correct");
 }
 
 void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
@@ -5544,6 +5255,7 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail(void)
     int32                       CmdPipe;
     uint16                      ChannelIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
+    char                        outputText[200];
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */
@@ -5570,8 +5282,12 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail(void)
     TO_AppMain();
 
     /* Verify results */
+    sprintf(outputText, "Message flow (0x%08X) failed to unsubscribe on channel %d. (%ld)",
+    		MsgId,
+			0,
+			-1);
     UtAssert_EventSent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID,
-                                 CFE_EVS_ERROR, "", "Remove Message Flow Unsubscribe Fail");
+                                 CFE_EVS_ERROR, "", "Message flow (0x%08X) failed to unsubscribe on channel %d. (%ld)");
 }
 
 void Test_TO_ProcessNewAppCmds_Output_Channel_Query_Channel_Not_Open(void)
@@ -5950,23 +5666,10 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_MessageFlow_GetPQueue_Idx_Null");
 
     UtTest_Add(Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL");               
-
-    /**** Tests for TO Priority Queue */
-    UtTest_Add(Test_TO_Priority_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_Priority_Queue_Buildup_QueueCreate_Fail");
+               "Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL");
 
     UtTest_Add(Test_TO_Priority_Queue_Buildup_NoPQueues, TO_Test_Setup_NoPQueueConfig, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_NoPQueues");
-                
-    UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail");
-
-    UtTest_Add(Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid");
-               
-    UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueDelete_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_Priority_Queue_Teardown_QueueDelete_Fail");
                
     UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check");               
@@ -5998,12 +5701,6 @@ void TO_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure");
-
-    UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure");
-
-    UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max");
               
 //    UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
 //              "Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States");
@@ -6043,9 +5740,6 @@ void TO_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetAddress_Failure");
-
-    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue");
               
     UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
@@ -6104,9 +5798,6 @@ void TO_App_Test_AddTestCases(void)
               
     UtTest_Add(Test_TO_Channel_InitAll_Mutex_Create_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_InitAll_Mutex_Create_Failure");
-              
-    UtTest_Add(Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
               
     UtTest_Add(Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure");                         

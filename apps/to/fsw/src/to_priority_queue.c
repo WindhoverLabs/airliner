@@ -75,6 +75,7 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
                                 CFE_EVS_ERROR,
                                 "Channel is NULL.");
         status = TO_CHANNEL_PTR_NULL;
+        goto end_of_function;
     }    
     
     if (NULL == channel->ConfigTblPtr)
@@ -84,6 +85,7 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
                                  "Failed to create priority queues on channel %lu, missing table.",
                                  channel->channelIdx);
         status = TO_NO_TABLE_ERR;
+        goto end_of_function;
     }
 
     /*
@@ -93,10 +95,15 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
     {
         if (channel->ConfigTblPtr->PriorityQueue[i].State != TO_PQUEUE_UNUSED)
         {
-        	TO_PriorityQueue_Buildup(channel, i);
+        	status = TO_PriorityQueue_Buildup(channel, i);
+        	if(status != CFE_SUCCESS)
+        	{
+                goto end_of_function;
+        	}
         }
     }
 
+end_of_function:
     return status;
 }
 

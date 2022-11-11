@@ -57,7 +57,7 @@ buildliner_add_app_def(aspd4525
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/platform_inc
 )
 
-buildliner_add_app_unit_test(ASPD4525-UT
+buildliner_add_app_unit_test(aspd4525-ut
     UTASSERT 
     NO_HELGRIND
     NO_MASSIF
@@ -68,8 +68,11 @@ buildliner_add_app_unit_test(ASPD4525-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_config_tbl_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_math_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_atm_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_custom_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_custom_hooks.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_custom_hooks.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ut_aspd4525_custom_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ut_aspd4525_custom_stubs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_test_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_app.c
@@ -83,7 +86,7 @@ buildliner_add_app_unit_test(ASPD4525-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
 
     LIBS 
-        m 
+        m
 
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp

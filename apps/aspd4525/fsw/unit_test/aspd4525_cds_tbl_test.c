@@ -58,7 +58,9 @@ void ASPD4525_CDS_Tbl_Test_Case1(void)
 
 void ASPD4525_CDS_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(ASPD4525_CDS_Tbl_Test_Case1, ASPD4525_Test_Setup, ASPD4525_Test_TearDown, "ASPD4525_CDS_Tbl_Test_Case1");
+    UtTest_Add(ASPD4525_CDS_Tbl_Test_Case1,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "ASPD4525_CDS_Tbl_Test_Case1");
 }
 
 

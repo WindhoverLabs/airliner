@@ -31,23 +31,17 @@
  *
  *****************************************************************************/
 
-#include "cfe.h"
-#include "aspd4525_stubs.h"
-#include "aspd4525_test_utils.h"
+#ifndef ASPD4525_STUBS_HPP
+#define ASPD4525_STUBS_HPP
 
-#include <time.h>
-#include <inttypes.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+uint64 PX4LIB_GetPX4TimeUs(void);
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    uint64           outTime = 0;
-    OS_time_t        localTime = {};
-
-    CFE_PSP_GetTime(&localTime);
-
-    outTime = (uint64)((uint64)localTime.seconds * (uint64)1000000)
-              + (uint64)localTime.microsecs;
-
-    return outTime;
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* ASPD4525_STUBS_HPP */
