@@ -47,6 +47,8 @@
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
+#include "ut_amc_custom_stubs.h"
+#include "ut_amc_custom_hooks.h"
 
 #include "amc_test_utils.hpp"
 #include "amc_app_test.hpp"
@@ -431,6 +433,31 @@ void Test_AMC_InitApp_Fail_InitConfigTbl(void)
 
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail init config table");
+}
+
+
+/**
+ * Test AMC InitApp(), fail InitDevice
+ */
+void Test_AMC_InitApp_Fail_InitDevice(void)
+{
+    AMC oAMC;
+
+    int32 result = CFE_SUCCESS;
+    int32 expected = -1;
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_AMC_Custom_SetReturnCode(UT_AMC_CUSTOM_INITDEVICE_INDEX, -1, 1);
+
+    /* Execute the function being tested */
+    result = oAMC.InitApp();
+
+    sprintf(expectedEvent, "Failed to init device (0x%08x)", -1);
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitApp, fail InitDevice");
+    UtAssert_EventSent(AMC_DEVICE_INIT_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "InitApp, fail InitDevice Event Sent");
 }
 
 
@@ -1242,6 +1269,8 @@ void AMC_App_Test_AddTestCases(void)
                "Test_AMC_InitApp_Fail_InitData");
     UtTest_Add(Test_AMC_InitApp_Fail_InitConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitConfigTbl");
+    UtTest_Add(Test_AMC_InitApp_Fail_InitDevice, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitApp_Fail_InitDevice");
     UtTest_Add(Test_AMC_InitApp_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Nominal");
 

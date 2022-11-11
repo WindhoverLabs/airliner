@@ -33,6 +33,7 @@
 
 #include "cfe.h"
 #include "amc_msg.h"
+#include "amc_version.h"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -67,6 +68,7 @@ void Test_AMC_ProcessCmdPipe_InvalidCmd(void)
 
     int32           CmdPipe;
     AMC_NoArgCmd_t  CmdMsg;
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
@@ -84,15 +86,51 @@ void Test_AMC_ProcessCmdPipe_InvalidCmd(void)
     /* Execute the function being tested */
     oAMC.AppMain();
 
+    sprintf(expectedEvent, "Recvd invalid CMD msgId (0x%04X)", PX4_AIRSPEED_MID);
+
     /* Verify results */
-    if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oAMC.HkTlm.usCmdErrCnt == 1))
-    {
-        UtAssert_True(TRUE, "ProcessCmdPipe, InvalidCmd");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "ProcessCmdPipe, InvalidCmd");
-    }
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmd");
+    UtAssert_EventSent(AMC_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "ProcessCmdPipe, InvalidCmd Event Sent");
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, InvalidCmdCode
+ */
+void Test_AMC_ProcessCmdPipe_InvalidCmdCode(void)
+{
+    AMC  oAMC;
+
+    int32           CmdPipe;
+    AMC_NoArgCmd_t  CmdMsg;
+    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)100);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+
+    sprintf(expectedEvent, "Recvd invalid command code (%u)", 100);
+
+    /* Verify results */
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmdCode");
+    UtAssert_EventSent(AMC_CC_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "ProcessCmdPipe, InvalidCmdCode Event Sent");
 }
 
 
@@ -105,6 +143,7 @@ void Test_AMC_ProcessCmdPipe_CmdPipeError(void)
 
     int32              SchPipe;
     AMC_NoArgCmd_t     CmdMsg;
+    char    expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
@@ -119,6 +158,13 @@ void Test_AMC_ProcessCmdPipe_CmdPipeError(void)
 
     /* Execute the function being tested */
     oAMC.AppMain();
+
+    sprintf(expectedEvent, "CMD pipe read error (0x%08X)",
+                           (unsigned int)CFE_SB_BAD_ARGUMENT);
+
+    /* Verify results */
+    UtAssert_EventSent(AMC_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "ProcessCmdPipe, CmdPipeError Event Sent");
 }
 
 
@@ -158,6 +204,7 @@ void Test_AMC_ProcessCmdPipe_Noop(void)
 
     int32              CmdPipe;
     AMC_NoArgCmd_t     CmdMsg;
+    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
@@ -173,24 +220,18 @@ void Test_AMC_ProcessCmdPipe_Noop(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    ProcessCmdPipe_Result = FALSE;
-    strcpy(ProcessCmdPipe_Str, "NOOP");
-    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
-               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
-
     /* Execute the function being tested */
     oAMC.AppMain();
 
+    sprintf(expectedEvent, "Recvd NOOP. Version %d.%d.%d.%d",
+                           AMC_MAJOR_VERSION, AMC_MINOR_VERSION,
+                           AMC_REVISION, AMC_MISSION_REV);
+
     /* Verify results */
-    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
-         && (ProcessCmdPipe_Result == TRUE))
-    {
-        UtAssert_True(TRUE, "ProcessCmdPipe, Noop");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "ProcessCmdPipe, Noop");
-    }
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Noop");
+    UtAssert_EventSent(AMC_CMD_NOOP_EID, CFE_EVS_INFORMATION, expectedEvent,
+                       "ProcessCmdPipe, Noop Event Sent");
 }
 
 
@@ -208,28 +249,31 @@ void Test_AMC_ProcessCmdPipe_Reset(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe(AMC_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_RESET_CC);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_NOOP_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+    oAMC.ProcessCmdPipe();
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Reset: Noop cmd count");
 
-    /* Verify results */
-    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 0))
-    {
-        UtAssert_True(TRUE, "ProcessCmdPipe, Reset");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "ProcessCmdPipe, Reset");
-    }
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)100);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    oAMC.ProcessCmdPipe();
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, Reset: Invalid CmdCode count");
+
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    oAMC.ProcessCmdPipe();
+    UtAssert_True((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Reset");
 }
 
 
@@ -806,6 +850,8 @@ void AMC_Cmds_Test_AddTestCases(void)
 {
     UtTest_Add(Test_AMC_ProcessCmdPipe_InvalidCmd, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_InvalidCmd");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_InvalidCmdCode, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_InvalidCmdCode");
     UtTest_Add(Test_AMC_ProcessCmdPipe_CmdPipeError, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_CmdPipeError");
     UtTest_Add(Test_AMC_ProcessCmdPipe_Noop, AMC_Test_Setup, AMC_Test_TearDown,

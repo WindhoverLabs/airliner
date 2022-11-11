@@ -38,8 +38,13 @@
 
 #include <time.h>
 
+
+uint32 SetMotorOutputs_CalledCnt = 0;
+
 int32 UT_InitDevice(void)
 {
+    printf("Device is initialized successfully!\n");
+
     return CFE_SUCCESS;
 }
 
@@ -47,6 +52,8 @@ int32 UT_InitDevice(void)
 void UT_SetMotorOutputs(const uint16 *PWM)
 {
     int  i = 0;
+
+    SetMotorOutputs_CalledCnt ++;
 
     printf("### SetMotorOutputs:\n");
     for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
