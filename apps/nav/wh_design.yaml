@@ -67,6 +67,18 @@
         Reset: 
           cc: 1
           struct: NAV_NoArgCmd_t
+        Arrakis:
+          cc: 2
+          struct: NAV_NoArgCmd_t
+        Beethoven:
+          cc: 3
+          struct: NAV_NoArgCmd_t
+        Caladan:
+          cc: 4
+          struct: NAV_NoArgCmd_t
+        Dumbledore:
+          cc: 5
+          struct: NAV_NoArgCmd_t
     NAV_SEND_HK_MID: 
       msgID: 
       commands: 

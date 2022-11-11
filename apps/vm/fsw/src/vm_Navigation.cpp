@@ -299,7 +299,7 @@ void VM_Navigation::DoAction()
         case VM_NavSM_StateType::VM_NAVSM_POSCTL:
         {
             App.VehicleControlModeMsg.ControlManualEnabled = true;
-            App.VehicleControlModeMsg.ControlAutoEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoEnabled = true;
             App.VehicleControlModeMsg.ControlRatesEnabled = true;
             App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
             App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
@@ -309,6 +309,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            //printf("--------------------------------- POSCTL -------------------------------\n");
             break;
         }
 

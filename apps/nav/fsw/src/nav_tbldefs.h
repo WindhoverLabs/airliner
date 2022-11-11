@@ -269,6 +269,7 @@ typedef struct
      */
     float NAV_RTL_MIN_DIST;
 
+    NAV_mission_t NAV_MISSIONS[NAV_NUM_MISSIONS_IN_APP];
 }NAV_ConfigTbl_t;
 
 #ifdef __cplusplus

@@ -2958,14 +2958,18 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
         _tecs.reset_state();
     }
 
+    // printf("pos_sp_curr.Valid - > %d\n", pos_sp_curr.Valid?1:0);
+    // printf("m_VehicleControlModeMsg.ControlAutoEnabled - > %d\n", m_VehicleControlModeMsg.ControlAutoEnabled?1:0);
     if(m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid)
     {
-        /* reset hold altitude */
-        _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+        // /* reset hold altitude */
+        // _hold_alt = m_VehicleGlobalPositionMsg.Alt;
 
-        /* reset hold yaw */
-        _hdg_hold_yaw = _yaw;
-        /* AUTONOMOUS FLIGHT */
+        // /* reset hold yaw */
+        // _hdg_hold_yaw = _yaw;
+        // /* AUTONOMOUS FLIGHT */
+
+        // printf("Came Here - > %f\n", pos_sp_curr.Alt);
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;
 
