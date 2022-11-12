@@ -559,12 +559,16 @@ void AMC_Test_PrintSimpleMixerOutputScaler(AMC *pAMC, uint8 MixerIndex)
 {
     AMC_Mixer_ConfigTable_t  *pConfig = pAMC->MixerConfigTblPtr;
 
-    printf("SimpleMixerOutputScaler:\n");
-    printf("OutputScaler.NegativeScale: %f\n", pConfig->Simple[MixerIndex].OutputScaler.NegativeScale);
-    printf("OutputScaler.PositiveScale: %f\n", pConfig->Simple[MixerIndex].OutputScaler.PositiveScale);
-    printf("OutputScaler.Offset: %f\n", pConfig->Simple[MixerIndex].OutputScaler.Offset);
-    printf("OutputScaler.MinOutput: %f\n", pConfig->Simple[MixerIndex].OutputScaler.MinOutput);
-    printf("OutputScaler.MaxOutput: %f\n\n", pConfig->Simple[MixerIndex].OutputScaler.MaxOutput);
+    printf("OutputScaler.NegativeScale: %f\n",
+            pConfig->Simple[MixerIndex].OutputScaler.NegativeScale);
+    printf("OutputScaler.PositiveScale: %f\n",
+            pConfig->Simple[MixerIndex].OutputScaler.PositiveScale);
+    printf("OutputScaler.Offset: %f\n",
+            pConfig->Simple[MixerIndex].OutputScaler.Offset);
+    printf("OutputScaler.MinOutput: %f\n",
+            pConfig->Simple[MixerIndex].OutputScaler.MinOutput);
+    printf("OutputScaler.MaxOutput: %f\n\n",
+            pConfig->Simple[MixerIndex].OutputScaler.MaxOutput);
 
     return;
 }
@@ -573,9 +577,10 @@ void AMC_Test_PrintSimpleMixerControls(AMC *pAMC, uint8 MixerIndex, uint8 Contro
 {
     AMC_Mixer_ConfigTable_t  *pConfig = pAMC->MixerConfigTblPtr;
 
-    printf("SimpleMixerControls:\n");
-    printf("Controls[%u].ControlGroup: %u\n", Control, pConfig->Simple[MixerIndex].Controls[Control].ControlGroup);
-    printf("Controls[%u].ControlIndex: %u\n\n", Control, pConfig->Simple[MixerIndex].Controls[Control].ControlIndex);
+    printf("Controls[%u].ControlGroup: %u\n", Control,
+            pConfig->Simple[MixerIndex].Controls[Control].ControlGroup);
+    printf("Controls[%u].ControlIndex: %u\n\n", Control,
+            pConfig->Simple[MixerIndex].Controls[Control].ControlIndex);
 
     return;
 }
@@ -584,7 +589,6 @@ void AMC_Test_PrintSimpleMixerControlsScaler(AMC *pAMC, uint8 MixerIndex, uint8 
 {
     AMC_Mixer_ConfigTable_t  *pConfig = pAMC->MixerConfigTblPtr;
 
-    printf("SimpleMixerControlsScaler:\n");
     printf("Controls[%u].Scaler.NegativeScale: %f\n",
              Control, pConfig->Simple[MixerIndex].Controls[Control].Scaler.NegativeScale);
     printf("Controls[%u].Scaler.PositiveScale: %f\n",
