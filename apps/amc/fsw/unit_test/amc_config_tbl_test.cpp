@@ -63,7 +63,8 @@ void Test_AMC_InitConfigTbl_Fail_TblRegister(void)
     int32 expected = CFE_TBL_ERR_NO_ACCESS;
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to register config table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to register config table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail TBL Register */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
@@ -118,7 +119,8 @@ void Test_AMC_InitConfigTbl_Fail_TblLoad(void)
     int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to load Config Table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to load Config Table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail TBL Load */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
@@ -143,7 +145,8 @@ void Test_AMC_InitConfigTbl_Fail_TblManage(void)
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to manage Config table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to manage Config table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
@@ -152,8 +155,8 @@ void Test_AMC_InitConfigTbl_Fail_TblManage(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail TBL Manage");
+    UtAssert_EventSent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+                  expectedEvent, "InitConfigTbl(), fail TBL Manage");
 }
 
 /**
@@ -168,7 +171,8 @@ void Test_AMC_InitConfigTbl_Fail_TblGetAddress(void)
     int32 expected = CFE_TBL_ERR_NEVER_LOADED;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to get Config table's address (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to get Config table's address (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
@@ -177,8 +181,8 @@ void Test_AMC_InitConfigTbl_Fail_TblGetAddress(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail TBL GetAddress");
+    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+                  expectedEvent, "InitConfigTbl(), fail TBL GetAddress");
 }
 
 /**
@@ -193,7 +197,8 @@ void Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to get Config table's address (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to get Config table's address (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
@@ -202,8 +207,8 @@ void Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail AcquireConfigPtrs");
+    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+                 expectedEvent, "InitConfigTbl(), fail AcquireConfigPtrs");
 }
 
 /**
@@ -224,20 +229,28 @@ void Test_AMC_InitConfigTbl_Nominal(void)
 
 void AMC_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblRegister, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblRegister,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_TblRegister");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_ValidateCfgTbl, AMC_Test_Setup_CfgTblInvalid, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_ValidateCfgTbl,
+               AMC_Test_Setup_CfgTblInvalid, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_ValidateCfgTbl");
-    UtTest_Add(Test_AMC_InitConfigTbl_ValidateCfgTbl_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_ValidateCfgTbl_Nominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_ValidateCfgTbl_Nominal");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblLoad, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblLoad,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_TblLoad");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblManage, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblManage,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_TblManage");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblGetAddress, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_TblGetAddress,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_TblGetAddress");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs");
-    UtTest_Add(Test_AMC_InitConfigTbl_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Nominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Nominal");
 }

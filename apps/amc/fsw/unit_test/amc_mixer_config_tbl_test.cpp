@@ -64,7 +64,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblRegister(void)
     int32 expected = CFE_TBL_ERR_REGISTRY_FULL;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to register mixer table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to register mixer table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail TBL Register */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 2);
@@ -73,8 +74,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblRegister(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail Mixer TBL Register");
+    UtAssert_EventSent(AMC_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
+               expectedEvent, "InitConfigTbl(), fail Mixer TBL Register");
 }
 
 
@@ -91,7 +92,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblLoad(void)
     int32 expected = CFE_TBL_ERR_LOAD_IN_PROGRESS;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to load Mixer Table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to load Mixer Table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail TBL Load */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 2);
@@ -100,8 +102,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblLoad(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail Mixer TBL Load");
+    UtAssert_EventSent(AMC_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
+                expectedEvent, "InitConfigTbl(), fail Mixer TBL Load");
 }
 
 
@@ -117,7 +119,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblManage(void)
     int32 expected = CFE_TBL_INFO_DUMP_PENDING;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to manage Mixer Config table (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent, "Failed to manage Mixer Config table (0x%08X)",
+                           (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 2);
@@ -126,8 +129,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblManage(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail Mixer TBL Manage");
+    UtAssert_EventSent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+                expectedEvent, "InitConfigTbl(), fail Mixer TBL Manage");
 }
 
 
@@ -143,7 +146,9 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress(void)
     int32 expected = CFE_TBL_WARN_DUPLICATE;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to get Mixer Config table's address (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent,
+            "Failed to get Mixer Config table's address (0x%08X)",
+            (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
@@ -152,8 +157,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail Mixer TBL GetAddress");
+    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+              expectedEvent, "InitConfigTbl(), fail Mixer TBL GetAddress");
 }
 
 
@@ -169,7 +174,9 @@ void Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs(void)
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
     char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    sprintf(expectedEvent, "Failed to get Mixer Config table's address (0x%08X)", (unsigned int)expected);
+    sprintf(expectedEvent,
+            "Failed to get Mixer Config table's address (0x%08X)",
+            (unsigned int)expected);
 
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
@@ -178,8 +185,8 @@ void Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "InitConfigTbl(), fail Mixer AcquireConfigPtrs");
+    UtAssert_EventSent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+            expectedEvent, "InitConfigTbl(), fail Mixer AcquireConfigPtrs");
 }
 
 
@@ -201,18 +208,22 @@ void Test_AMC_InitConfigTbl_MixerNominal(void)
 
 void AMC_Mixer_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblRegister, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblRegister,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_MixerTblRegister");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblLoad, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblLoad,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_MixerTblLoad");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblManage, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblManage,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_MixerTblManage");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress");
-    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs");
-    UtTest_Add(Test_AMC_InitConfigTbl_MixerNominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitConfigTbl_MixerNominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitConfigTbl_MixerNominal");
 }
-
-

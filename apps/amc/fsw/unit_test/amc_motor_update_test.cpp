@@ -126,14 +126,17 @@ int32 Test_AMC_UpdateMotors_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
 
 /**
- * Test AMC UpdateMotors(), Nominal_UnArmed
+ * Test AMC UpdateMotors(), Nominal_DisArmed
  */
-void AMC_UpdateMotors_Nominal_UnArmed(void)
+void AMC_UpdateMotors_Nominal_DisArmed(void)
 {
     AMC  oAMC;
 
     int32                   DataPipe;
+    uint32                  i;
     PX4_ActuatorArmedMsg_t  InMsg;
+    AMC_ConfigTbl_t         *pConfig = NULL;
+    char                    testString[128];
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
@@ -144,6 +147,10 @@ void AMC_UpdateMotors_Nominal_UnArmed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -151,8 +158,9 @@ void AMC_UpdateMotors_Nominal_UnArmed(void)
     SetMotorOutputs_CalledCnt = 0;
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-                  "UpdateMotors, Nominal_UnArmed: Sent Actuator Output #1");
+                  "UpdateMotors, Nominal_DisArmed: Sent Actuator Output #1");
 
     usleep(RAMP_TIME_US);
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
@@ -160,11 +168,34 @@ void AMC_UpdateMotors_Nominal_UnArmed(void)
 
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-                  "UpdateMotors, Nominal_UnArmed: Sent Actuator Output #2");
+                  "UpdateMotors, Nominal_DisArmed: Sent Actuator Output #2");
 
     UtAssert_True(SetMotorOutputs_CalledCnt == 4,
-             "UpdateMotors, Nominal_UnArmed: SetMotorOutputs called count");
+             "UpdateMotors, Nominal_DisArmed: SetMotorOutputs called count");
+
+    pConfig = oAMC.ConfigTblPtr;
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        if (pConfig->Channel[i].DisarmBehavior == AMC_PWM_DISARM_BEHAVIOR_SAFE)
+        {
+            sprintf(testString,
+              "UpdateMotors, Nominal_DisArmed: (channel %lu)"
+              "Disarm behavior safe", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] <= pConfig->Channel[i].PwmSafe,
+                     testString);
+        }
+        else if (pConfig->Channel[i].DisarmBehavior ==
+                          AMC_PWM_DISARM_BEHAVIOR_IGNORE)
+        {
+            sprintf(testString,
+              "UpdateMotors, Nominal_DisArmed: (channel %lu)"
+              "Disarm behavior ignore", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] > pConfig->Channel[i].PwmSafe,
+                          testString);
+        }
+    }
 }
 
 
@@ -176,7 +207,10 @@ void AMC_UpdateMotors_Nominal_Armed(void)
     AMC  oAMC;
 
     int32                   DataPipe;
+    uint32                  i;
     PX4_ActuatorArmedMsg_t  InMsg;
+    AMC_ConfigTbl_t         *pConfig = NULL;
+    char                    testString[128];
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
@@ -187,6 +221,10 @@ void AMC_UpdateMotors_Nominal_Armed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -194,6 +232,7 @@ void AMC_UpdateMotors_Nominal_Armed(void)
     SetMotorOutputs_CalledCnt = 0;
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
                   "UpdateMotors, Nominal_Armed: Sent Actuator Output #1");
 
@@ -203,23 +242,41 @@ void AMC_UpdateMotors_Nominal_Armed(void)
 
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
                   "UpdateMotors, Nominal_Armed: Sent Actuator Output #2");
 
     UtAssert_True(SetMotorOutputs_CalledCnt == 4,
              "UpdateMotors, Nominal_Armed: SetMotorOutputs called count");
+
+    pConfig = oAMC.ConfigTblPtr;
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        if (pConfig->Channel[i].DisarmBehavior ==
+                                AMC_PWM_DISARM_BEHAVIOR_IGNORE)
+        {
+            sprintf(testString,
+                    "UpdateMotors, Nominal_Armed: (channel %lu)"
+                    "Disarm behavior ignore", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] > pConfig->Channel[i].PwmSafe,
+                          testString);
+        }
+    }
 }
 
 
 /**
- * Test AMC UpdateMotors(), Lockdown_UnArmed
+ * Test AMC UpdateMotors(), Lockdown_DisArmed
  */
-void AMC_UpdateMotors_Lockdown_UnArmed(void)
+void AMC_UpdateMotors_Lockdown_DisArmed(void)
 {
     AMC  oAMC;
 
     int32                   DataPipe;
+    uint32                  i;
     PX4_ActuatorArmedMsg_t  InMsg;
+    AMC_ConfigTbl_t         *pConfig = NULL;
+    char                    testString[128];
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
@@ -231,6 +288,10 @@ void AMC_UpdateMotors_Lockdown_UnArmed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -238,8 +299,9 @@ void AMC_UpdateMotors_Lockdown_UnArmed(void)
     SetMotorOutputs_CalledCnt = 0;
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-                  "UpdateMotors, Lockdown_UnArmed: Sent Actuator Output #1");
+                  "UpdateMotors, Lockdown_DisArmed: Sent Actuator Output #1");
 
     usleep(RAMP_TIME_US);
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
@@ -247,11 +309,34 @@ void AMC_UpdateMotors_Lockdown_UnArmed(void)
 
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-                  "UpdateMotors, Lockdown_UnArmed: Sent Actuator Output #2");
+                  "UpdateMotors, Lockdown_DisArmed: Sent Actuator Output #2");
 
     UtAssert_True(SetMotorOutputs_CalledCnt == 8,
-             "UpdateMotors, Lockdown_UnArmed: SetMotorOutputs called count");
+             "UpdateMotors, Lockdown_DisArmed: SetMotorOutputs called count");
+
+    pConfig = oAMC.ConfigTblPtr;
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        if (pConfig->Channel[i].DisarmBehavior == AMC_PWM_DISARM_BEHAVIOR_SAFE)
+        {
+            sprintf(testString,
+                    "UpdateMotors, Lockdown_DisArmed: (channel %lu)"
+                    "Disarm behavior safe", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] <= pConfig->Channel[i].PwmSafe,
+                          testString);
+        }
+        else if(pConfig->Channel[i].DisarmBehavior ==
+                         AMC_PWM_DISARM_BEHAVIOR_IGNORE)
+        {
+            sprintf(testString,
+                    "UpdateMotors, Lockdown_DisArmed: (channel %lu)"
+                    "Disarm behavior ignore", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] > pConfig->Channel[i].PwmSafe,
+                          testString);
+        }
+    }
 }
 
 
@@ -263,7 +348,10 @@ void AMC_UpdateMotors_Lockdown_Armed(void)
     AMC  oAMC;
 
     int32                   DataPipe;
+    uint32                  i;
     PX4_ActuatorArmedMsg_t  InMsg;
+    AMC_ConfigTbl_t         *pConfig = NULL;
+    char                    testString[128];
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
     CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
@@ -275,6 +363,10 @@ void AMC_UpdateMotors_Lockdown_Armed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -282,6 +374,7 @@ void AMC_UpdateMotors_Lockdown_Armed(void)
     SetMotorOutputs_CalledCnt = 0;
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
                   "UpdateMotors, Lockdown_Armed: Sent Actuator Output #1");
 
@@ -291,17 +384,32 @@ void AMC_UpdateMotors_Lockdown_Armed(void)
 
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
+    usleep(500);
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
                   "UpdateMotors, Lockdown_Armed: Sent Actuator Output #2");
 
     UtAssert_True(SetMotorOutputs_CalledCnt == 8,
              "UpdateMotors, Lockdown_Armed: SetMotorOutputs called count");
+
+    pConfig = oAMC.ConfigTblPtr;
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        if (pConfig->Channel[i].DisarmBehavior ==
+                                AMC_PWM_DISARM_BEHAVIOR_IGNORE)
+        {
+            sprintf(testString,
+                    "UpdateMotors, Lockdown_Armed: (channel %lu)"
+                    "Disarm behavior ignore", i);
+            UtAssert_True(oAMC.HkTlm.PWM[i] > pConfig->Channel[i].PwmSafe,
+                          testString);
+        }
+    }
 }
 
 /**
- * Test AMC UpdateMotors(), InEscCalibrationMode_UnArmed
+ * Test AMC UpdateMotors(), InEscCalibrationMode_DisArmed
  */
-void AMC_UpdateMotors_InEscCalibrationMode_UnArmed(void)
+void AMC_UpdateMotors_InEscCalibrationMode_DisArmed(void)
 {
     AMC  oAMC;
 
@@ -318,6 +426,10 @@ void AMC_UpdateMotors_InEscCalibrationMode_UnArmed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -326,7 +438,7 @@ void AMC_UpdateMotors_InEscCalibrationMode_UnArmed(void)
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-      "UpdateMotors, InEscCalibrationMode_UnArmed: Sent Actuator Output #1");
+      "UpdateMotors, InEscCalibrationMode_DisArmed: Sent Actuator Output #1");
 
     usleep(RAMP_TIME_US);
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
@@ -335,10 +447,10 @@ void AMC_UpdateMotors_InEscCalibrationMode_UnArmed(void)
     ActuatorOutputs_SendCnt = 0;
     oAMC.ProcessDataPipe();
     UtAssert_True(ActuatorOutputs_SendCnt == 2,
-      "UpdateMotors, InEscCalibrationMode_UnArmed: Sent Actuator Output #2");
+      "UpdateMotors, InEscCalibrationMode_DisArmed: Sent Actuator Output #2");
 
     UtAssert_True(SetMotorOutputs_CalledCnt == 0,
-     "UpdateMotors, InEscCalibrationMode_UnArmed: SetMotorOutputs called count");
+     "UpdateMotors, InEscCalibrationMode_DisArmed: SetMotorOutputs called count");
 }
 
 
@@ -362,6 +474,10 @@ void AMC_UpdateMotors_InEscCalibrationMode_Armed(void)
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                               (void*)&Test_AMC_UpdateMotors_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();
@@ -388,21 +504,21 @@ void AMC_UpdateMotors_InEscCalibrationMode_Armed(void)
 
 void AMC_Motor_Update_Test_AddTestCases(void)
 {
-    UtTest_Add(AMC_UpdateMotors_Nominal_UnArmed,
+    UtTest_Add(AMC_UpdateMotors_Nominal_DisArmed,
                AMC_Test_Setup, AMC_Test_TearDown,
-               "AMC_UpdateMotors_Nominal_UnArmed");
+               "AMC_UpdateMotors_Nominal_DisArmed");
     UtTest_Add(AMC_UpdateMotors_Nominal_Armed,
                AMC_Test_Setup, AMC_Test_TearDown,
                "AMC_UpdateMotors_Nominal_Armed");
-    UtTest_Add(AMC_UpdateMotors_Lockdown_UnArmed,
+    UtTest_Add(AMC_UpdateMotors_Lockdown_DisArmed,
                AMC_Test_Setup, AMC_Test_TearDown,
-               "AMC_UpdateMotors_Lockdown_UnArmed");
+               "AMC_UpdateMotors_Lockdown_DisArmed");
     UtTest_Add(AMC_UpdateMotors_Lockdown_Armed,
                AMC_Test_Setup, AMC_Test_TearDown,
                "AMC_UpdateMotors_Lockdown_Armed");
-    UtTest_Add(AMC_UpdateMotors_InEscCalibrationMode_UnArmed,
+    UtTest_Add(AMC_UpdateMotors_InEscCalibrationMode_DisArmed,
                AMC_Test_Setup, AMC_Test_TearDown,
-               "AMC_UpdateMotors_InEscCalibrationMode_UnArmed");
+               "AMC_UpdateMotors_InEscCalibrationMode_DisArmed");
     UtTest_Add(AMC_UpdateMotors_InEscCalibrationMode_Armed,
                AMC_Test_Setup, AMC_Test_TearDown,
                "AMC_UpdateMotors_InEscCalibrationMode_Armed");

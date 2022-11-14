@@ -130,7 +130,8 @@ void Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for AmcUpdateMotors");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for AmcUpdateMotors");
 }
 
 
@@ -152,7 +153,8 @@ void Test_AMC_InitPipe_Fail_SubscribeSendHK(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
 }
 
 
@@ -196,7 +198,8 @@ void Test_AMC_InitPipe_Fail_SubscribeCMD(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_Subscribe for CMD");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_Subscribe for CMD");
 }
 
 
@@ -240,7 +243,8 @@ void Test_AMC_InitPipe_Fail_SubscribeActuatorArmed(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorArmed");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for ActuatorArmed");
 }
 
 
@@ -262,7 +266,8 @@ void Test_AMC_InitPipe_Fail_SubscribeActuatorControls0(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
 }
 
 
@@ -284,7 +289,8 @@ void Test_AMC_InitPipe_Fail_SubscribeActuatorControls1(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls1");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls1");
 }
 
 
@@ -306,7 +312,8 @@ void Test_AMC_InitPipe_Fail_SubscribeActuatorControls2(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls2");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls2");
 }
 
 
@@ -328,7 +335,8 @@ void Test_AMC_InitPipe_Fail_SubscribeActuatorControls3(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls3");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls3");
 }
 
 
@@ -518,7 +526,7 @@ int32 Test_AMC_AppMain_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
     pBuff = (unsigned char*)MsgPtr;
 
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);                /* DataLenth + 7 */
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     printf("###AppMain_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -574,7 +582,12 @@ void Test_AMC_AMC_AppMain_Nominal(void)
 {
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_SendMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_AMC_AppMain_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     AMC_AppMain();
 }
@@ -688,7 +701,8 @@ void Test_AMC_AppMain_Fail_AcquireConfigPtrs(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_True (SendEvent_HookCalledCnt == 2, "AppMain, Fail_AcquireConfigPtrs");
+    UtAssert_True(SendEvent_HookCalledCnt == 2,
+                  "AppMain, Fail_AcquireConfigPtrs");
 }
 
 
@@ -762,7 +776,7 @@ int32 Test_AMC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
     pBuff = (unsigned char*)MsgPtr;
 
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);                /* DataLenth + 7 */
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -828,15 +842,37 @@ void Test_AMC_AppMain_Nominal_SendHK(void)
 {
     AMC oAMC;
 
+    int32                   DataPipe;
+    int32                   SchPipe;
+    AMC_NoArgCmd_t          SchMsg;
+    PX4_ActuatorArmedMsg_t  InMsg;
+
+    DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
+    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    InMsg.Armed = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    SchPipe = Ut_CFE_SB_CreatePipe(AMC_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&SchMsg, AMC_SEND_HK_MID, sizeof(SchMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&SchMsg, (CFE_SB_PipeId_t)SchPipe);
+
     /* The following will emulate behavior of receiving a SCH message to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_UPDATE_MOTORS_MID, 1);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHookCalledCount = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_Nominal_SendHK_SendMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                 (void*)&Test_AMC_AppMain_Nominal_SendHK_SendMsgHook);
+
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Execute the function being tested */
     oAMC.AppMain();
@@ -860,7 +896,12 @@ void Test_AMC_AppMain_Nominal_UpdateMotors(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_SendMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_AMC_AppMain_SendMsgHook);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.AppMain();
@@ -954,7 +995,7 @@ void Test_AMC_AppMain_ProcessData_InvalidMsgID(void)
     PX4_BatteryStatusMsg_t  InMsg;
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_BATTERY_STATUS_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_BATTERY_STATUS_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1001,7 +1042,8 @@ void Test_AMC_AppMain_ProcessData_ActuatorArmed(void)
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_True(ProcessDataHook_MsgId == PX4_ACTUATOR_ARMED_MID, "AppMain_ProcessData_ActuatorArmed");
+    UtAssert_True(ProcessDataHook_MsgId == PX4_ACTUATOR_ARMED_MID,
+                  "AppMain_ProcessData_ActuatorArmed");
 }
 
 
@@ -1016,7 +1058,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls0(void)
     PX4_ActuatorControlsMsg_t  InMsg;
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_0_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_CONTROLS_0_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1048,7 +1090,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls1(void)
     PX4_ActuatorControlsMsg_t  InMsg;
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_1_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_CONTROLS_1_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1080,7 +1122,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls2(void)
     PX4_ActuatorControlsMsg_t  InMsg;
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_2_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_CONTROLS_2_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1112,7 +1154,7 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls3(void)
     PX4_ActuatorControlsMsg_t  InMsg;
 
     DataPipe = Ut_CFE_SB_CreatePipe(AMC_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_3_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_ACTUATOR_CONTROLS_3_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1232,86 +1274,123 @@ void Test_AMC_ConfigData_SimpleMixerConfigTbl(void)
  **************************************************************************/
 void AMC_App_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_AMC_InitEvent_Fail_Register, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitEvent_Fail_Register,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitEvent_Fail_Register");
 
-    UtTest_Add(Test_AMC_InitPipe_Fail_CreateSCHPipe, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_CreateSCHPipe,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeSendHK, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeSendHK,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeSendHK");
-    UtTest_Add(Test_AMC_InitPipe_Fail_CreateCMDPipe, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_CreateCMDPipe,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateCMDPipe");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeCMD, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeCMD,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeCMD");
-    UtTest_Add(Test_AMC_InitPipe_Fail_CreateDATAPipe, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_CreateDATAPipe,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateDATAPipe");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorArmed, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorArmed,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeActuatorArmed");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls0, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls0,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeActuatorControls0");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls1, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls1,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeActuatorControls1");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls2, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls2,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeActuatorControls2");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls3, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls3,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeActuatorControls3");
 
-    UtTest_Add(Test_AMC_InitData_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitData_Nominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitData_Nominal");
 
-    UtTest_Add(Test_AMC_InitApp_Fail_InitEvent, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Fail_InitEvent,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitEvent");
-    UtTest_Add(Test_AMC_InitApp_Fail_InitPipe, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Fail_InitPipe,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitPipe");
-    UtTest_Add(Test_AMC_InitApp_Fail_InitData, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Fail_InitData,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitData");
-    UtTest_Add(Test_AMC_InitApp_Fail_InitConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Fail_InitConfigTbl,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitConfigTbl");
-    UtTest_Add(Test_AMC_InitApp_Fail_InitDevice, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Fail_InitDevice,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitDevice");
-    UtTest_Add(Test_AMC_InitApp_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_InitApp_Nominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Nominal");
 
-    UtTest_Add(Test_AMC_AMC_AppMain_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AMC_AppMain_Nominal,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AMC_AppMain_Nominal");
-    UtTest_Add(Test_AMC_AppMain_Fail_RegisterApp, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_Fail_RegisterApp,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_RegisterApp");
-    UtTest_Add(Test_AMC_AppMain_Fail_InitApp, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_Fail_InitApp,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_InitApp");
-    UtTest_Add(Test_AMC_AppMain_Fail_AcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_Fail_AcquireConfigPtrs,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_AcquireConfigPtrs");
-    UtTest_Add(Test_AMC_AppMain_SchPipeError, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_SchPipeError,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_SchPipeError");
-    UtTest_Add(Test_AMC_AppMain_SchPipeTimeout, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_SchPipeTimeout,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_SchPipeTimeout");
-    UtTest_Add(Test_AMC_AppMain_InvalidSchMessage, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_InvalidSchMessage,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_InvalidSchMessage");
-    UtTest_Add(Test_AMC_AppMain_Nominal_SendHK, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_Nominal_SendHK,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_AMC_AppMain_Nominal_UpdateMotors, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_Nominal_UpdateMotors,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Nominal_UpdateMotors");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_DataPipeError, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_DataPipeError,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_DataPipeError");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_InvalidMsgID, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_InvalidMsgID,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_InvalidMsgID");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorArmed, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorArmed,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorArmed");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls0, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls0,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls0");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls1, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls1,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls1");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls2, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls2,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls2");
-    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls3, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls3,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls3");
 
-    UtTest_Add(Test_AMC_ConfigData_ConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_ConfigData_ConfigTbl,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ConfigData_ConfigTbl");
-    UtTest_Add(Test_AMC_ConfigData_MultirotorMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_ConfigData_MultirotorMixerConfigTbl,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ConfigData_MultirotorMixerConfigTbl");
-    UtTest_Add(Test_AMC_ConfigData_SimpleMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+    UtTest_Add(Test_AMC_ConfigData_SimpleMixerConfigTbl,
+               AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ConfigData_SimpleMixerConfigTbl");
-
 }

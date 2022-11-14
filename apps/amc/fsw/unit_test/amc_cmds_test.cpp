@@ -50,6 +50,7 @@
 
 #include "amc_cmds_test.hpp"
 #include "amc_test_utils.hpp"
+#include "ut_amc_custom_stubs.h"
 #include "ut_amc_custom_hooks.h"
 
 
@@ -597,6 +598,11 @@ void Test_AMC_ProcessCmdPipe_DebugCmd(void)
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX,
+                                  (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
+                                  (void*)&UT_SetMotorOutputs);
 
     /* Execute the function being tested */
     oAMC.InitApp();

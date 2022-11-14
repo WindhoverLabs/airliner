@@ -47,9 +47,8 @@ void Ut_AMC_Custom_Reset(void)
     memset(&Ut_AMC_Custom_HookTable, 0, sizeof(Ut_AMC_Custom_HookTable));
     memset(&Ut_AMC_Custom_ReturnCodeTable, 0, sizeof(Ut_AMC_Custom_ReturnCodeTable));
 
-    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX, (void*)&UT_InitDevice);
-    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX, (void*)&UT_SetMotorOutputs);
-    Ut_AMC_Custom_SetFunctionHook(UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX, (void*)&UT_PX4LIB_GetPX4TimeUs);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX,
+                                  (void*)&UT_PX4LIB_GetPX4TimeUs);
 }
 
 void Ut_AMC_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
