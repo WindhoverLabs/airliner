@@ -68,7 +68,7 @@ void Test_SENS_ProcessCmdPipe_InvalidCmd(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("SENS_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(SENS_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -82,12 +82,15 @@ void Test_SENS_ProcessCmdPipe_InvalidCmd(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    sprintf(expectedEvent, "Recvd invalid CMD msgId (0x%04X)", PX4_AIRSPEED_MID);
+    sprintf(expectedEvent, "Recvd invalid CMD msgId (0x%04X)",
+                           PX4_AIRSPEED_MID);
 
     /* Verify results */
     UtAssert_EventSent(SENS_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "ProcessCmdPipe, InvalidCmd Event Sent");
-    UtAssert_True(oSENS.HkTlm.usCmdErrCnt == 1, "ProcessCmdPipe, InvalidCmd");
+    UtAssert_True((oSENS.HkTlm.usCmdCnt == 0) &&
+                  (oSENS.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmd");
 }
 
 
@@ -104,7 +107,7 @@ void Test_SENS_ProcessCmdPipe_InvalidCmdCode(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("SENS_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(SENS_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, SENS_CMD_MID, sizeof(InMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)100);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
@@ -121,9 +124,12 @@ void Test_SENS_ProcessCmdPipe_InvalidCmdCode(void)
 
     sprintf(expectedEvent, "Recvd invalid command code (%u)", 100);
 
+    /* Verify results */
     UtAssert_EventSent(SENS_CC_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "ProcessCmdPipe, InvalidCmd Event Sent");
-    UtAssert_True(oSENS.HkTlm.usCmdErrCnt == 1, "ProcessCmdPipe, InvalidCmd");
+    UtAssert_True((oSENS.HkTlm.usCmdCnt == 0) &&
+                  (oSENS.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmd");
 }
 
 
@@ -140,9 +146,9 @@ void Test_SENS_ProcessCmdPipe_CmdPipeError(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, SENS_SEND_HK_MID, sizeof(InMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, SENS_SEND_HK_MID, sizeof(InMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 2);
@@ -152,8 +158,10 @@ void Test_SENS_ProcessCmdPipe_CmdPipeError(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    sprintf(expectedEvent, "CMD pipe read error (0x%08lX)", CFE_SB_BAD_ARGUMENT);
+    sprintf(expectedEvent, "CMD pipe read error (0x%08lX)",
+                           CFE_SB_BAD_ARGUMENT);
 
+    /* Verify results */
     UtAssert_EventSent(SENS_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "ProcessCmdPipe, CmdPipeError");
 }
@@ -172,9 +180,9 @@ void Test_SENS_ProcessCmdPipe_Noop(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("SENS_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, SENS_CMD_MID, sizeof(InMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)SENS_NOOP_CC);
+    CmdPipe = Ut_CFE_SB_CreatePipe(SENS_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, SENS_CMD_MID, sizeof(InMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&InMsg, (uint16)SENS_NOOP_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     SENS_Test_PrintCmdMsg((void*)&InMsg, sizeof(SENS_NoArgCmd_t));
@@ -191,9 +199,12 @@ void Test_SENS_ProcessCmdPipe_Noop(void)
                             SENS_MAJOR_VERSION, SENS_MINOR_VERSION,
                             SENS_REVISION, SENS_MISSION_REV);
 
-    UtAssert_EventSent(SENS_CMD_NOOP_EID, CFE_EVS_INFORMATION, expectedEvent,
-                       "ProcessCmdPipe, Noop Event Sent");
-    UtAssert_True(oSENS.HkTlm.usCmdCnt == 1, "ProcessCmdPipe, Noop");
+    /* Verify results */
+    UtAssert_EventSent(SENS_CMD_NOOP_EID, CFE_EVS_INFORMATION,
+                       expectedEvent, "ProcessCmdPipe, Noop Event Sent");
+    UtAssert_True((oSENS.HkTlm.usCmdCnt == 1) &&
+                  (oSENS.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Noop");
 }
 
 
@@ -209,20 +220,25 @@ void Test_SENS_ProcessCmdPipe_Reset(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    CmdPipe = Ut_CFE_SB_CreatePipe("SENS_CMD_PIPE");
+    CmdPipe = Ut_CFE_SB_CreatePipe(SENS_CMD_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, SENS_CMD_MID, sizeof(InMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)SENS_RESET_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     SENS_Test_PrintCmdMsg((void*)&InMsg, sizeof(SENS_NoArgCmd_t));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SENS_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oSENS.AppMain();
+    oSENS.InitApp();
+
+    oSENS.HkTlm.usCmdCnt = 10;
+    oSENS.HkTlm.usCmdErrCnt = 5;
+
+    oSENS.ProcessCmdPipe();
+
+    /* Verify results */
+    UtAssert_True((oSENS.HkTlm.usCmdCnt == 0) &&
+                  (oSENS.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Reset");
 }
 
 
@@ -241,23 +257,25 @@ void Test_SENS_VerifyCmdLength_Fail_CmdLength(void)
     SENS_NoArgCmd_t   CmdMsg;
     char              expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg ((void*)&CmdMsg, SENS_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)SENS_RESET_CC);
+    CFE_SB_InitMsg((void*)&CmdMsg, SENS_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)SENS_RESET_CC);
 
     SENS_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(SENS_NoArgCmd_t));
 
     /* Execute the function being tested */
     oSENS.InitData();
-    bResult = oSENS.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, sizeof(CmdMsg) + 5);
+    bResult = oSENS.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
+                                    sizeof(CmdMsg) + 5);
 
     /* Verify results */
     sprintf(expectedEvent, "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
-                           "msgLen=%d, expectedLen=%d", SENS_CMD_MID, SENS_RESET_CC,
+                           "msgLen=%d, expectedLen=%d",
+                           SENS_CMD_MID, SENS_RESET_CC,
                            sizeof(CmdMsg), sizeof(CmdMsg) + 5);
 
     UtAssert_EventSent(SENS_MSGLEN_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "VerifyCmdLength(), Fail CmdLength Event Sent");
-    UtAssert_True (((bResult == bExpected) && (oSENS.HkTlm.usCmdErrCnt == 1)),
+    UtAssert_True ((bResult == bExpected) && (oSENS.HkTlm.usCmdErrCnt == 1),
                    "VerifyCmdLength, Fail CmdLength");
 }
 

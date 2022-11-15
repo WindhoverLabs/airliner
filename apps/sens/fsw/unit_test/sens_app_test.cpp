@@ -46,6 +46,7 @@
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
@@ -53,7 +54,8 @@
 #include <time.h>
 #include <inttypes.h>
 
-int32  hookCalledCount = 0;
+CFE_SB_MsgId_t  SendHK_SendMsgHook_MsgId = 0;
+int32           WriteToSysLog_HookCalledCnt = 0;
 
 
 /**
@@ -144,7 +146,8 @@ void Test_SENS_InitPipe_Fail_SubscribeWakeup(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
 }
 
 
@@ -166,7 +169,8 @@ void Test_SENS_InitPipe_Fail_SubscribeSendHK(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
 }
 
 
@@ -188,7 +192,8 @@ void Test_SENS_InitPipe_Fail_SubscribeInputRcMsg(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for InputRcMsg");
+    UtAssert_True (result == expected,
+                   "InitPipe, fail CFE_SB_SubscribeEx for InputRcMsg");
 }
 
 
@@ -211,7 +216,7 @@ void Test_SENS_InitPipe_Fail_SubscribeDifferentialPressureMsg(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-              "InitPipe, fail CFE_SB_SubscribeEx for DifferentialPressureMsg");
+            "InitPipe, fail CFE_SB_SubscribeEx for DifferentialPressureMsg");
 }
 
 
@@ -326,7 +331,7 @@ void Test_SENS_InitPipe_Fail_SubscribeVehicleControlModeMsg(void)
 
     /* Verify results */
     UtAssert_True (result == expected,
-              "InitPipe, fail CFE_SB_SubscribeEx for VehicleControlModeMsg");
+            "InitPipe, fail CFE_SB_SubscribeEx for VehicleControlModeMsg");
 }
 
 
@@ -348,7 +353,7 @@ void Test_SENS_InitPipe_Fail_CreateCMDPipe(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create CMD pipe");
+    UtAssert_True(result == expected, "InitPipe, fail SB create CMD pipe");
 }
 
 
@@ -370,7 +375,8 @@ void Test_SENS_InitPipe_Fail_SubscribeCMD(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_Subscribe for CMD");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_Subscribe for CMD");
 }
 
 
@@ -392,7 +398,7 @@ void Test_SENS_InitPipe_Fail_CreateDATAPipe(void)
     result = oSENS.InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create DATA pipe");
+    UtAssert_True(result == expected, "InitPipe, fail SB create DATA pipe");
 }
 
 
@@ -537,6 +543,27 @@ void Test_SENS_SENS_AppMain_Nominal(void)
  * Tests for SENS_AppMain()
  **************************************************************************/
 /**
+ * Test SENS AppMain(), WriteToSysLogHook
+ */
+int32 Test_SENS_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
+{
+    va_list   Ptr;
+    char      Buf[256];
+
+    WriteToSysLog_HookCalledCnt++;
+
+    va_start(Ptr, StringPtr);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, StringPtr, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_WriteToSysLogHook:\n");
+    printf("%s", Buf);
+
+    return CFE_SUCCESS;
+}
+
+
+/**
  * Test SENS_AppMain(), Fail RegisterApp
  */
 void Test_SENS_AppMain_Fail_RegisterApp(void)
@@ -544,10 +571,19 @@ void Test_SENS_AppMain_Fail_RegisterApp(void)
     SENS oSENS;
 
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX,
+                            CFE_ES_ERR_APP_REGISTER, 1);
+
+    WriteToSysLog_HookCalledCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
+                             (void*)&Test_SENS_AppMain_WriteToSysLogHook);
 
     /* Execute the function being tested */
     oSENS.AppMain();
+
+    /* Verify results */
+    UtAssert_True(WriteToSysLog_HookCalledCnt == 1,
+                  "AppMain, Fail RegisterApp");
 }
 
 
@@ -559,10 +595,19 @@ void Test_SENS_AppMain_Fail_InitApp(void)
     SENS oSENS;
 
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX,
+                             CFE_EVS_APP_NOT_REGISTERED, 1);
+
+    WriteToSysLog_HookCalledCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
+                           (void*)&Test_SENS_AppMain_WriteToSysLogHook);
 
     /* Execute the function being tested */
     oSENS.AppMain();
+
+    /* Verify results */
+    UtAssert_True(WriteToSysLog_HookCalledCnt == 3,
+                  "AppMain, Fail InitApp");
 }
 
 
@@ -573,11 +618,21 @@ void Test_SENS_AppMain_Fail_AcquireConfigPtrs(void)
 {
     SENS oSENS;
 
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     /* fail the register app */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 2);
 
     /* Execute the function being tested */
     oSENS.AppMain();
+
+    sprintf(expectedEvent, "Failed to get Config table's address (0x%08lX)",
+                           CFE_TBL_ERR_INVALID_HANDLE);
+
+    /* Verify results */
+    UtAssert_EventSent(SENS_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "AppMain(), Fail AcquireConfigPtrs");
 }
 
 
@@ -590,7 +645,7 @@ void Test_SENS_AppMain_InvalidSchMessage(void)
 
     char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* The following will emulate behavior of receiving a SCH message to send HK */
+    /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, PX4_AIRSPEED_MID, 1);
 
@@ -599,7 +654,8 @@ void Test_SENS_AppMain_InvalidSchMessage(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    sprintf(expectedEvent, "Recvd invalid SCH msgId (0x%04X)", PX4_AIRSPEED_MID);
+    sprintf(expectedEvent, "Recvd invalid SCH msgId (0x%04X)",
+                           PX4_AIRSPEED_MID);
 
     /* Verify results */
     UtAssert_EventSent(SENS_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
@@ -617,7 +673,6 @@ void Test_SENS_AppMain_SchPipeError(void)
     int32  expected = CFE_SB_PIPE_RD_ERR;
     char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* The following will emulate behavior of receiving a SCH message to send HK */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -625,7 +680,8 @@ void Test_SENS_AppMain_SchPipeError(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    sprintf(expectedEvent, "SCH pipe read error (0x%08lX).", CFE_SB_PIPE_RD_ERR);
+    sprintf(expectedEvent, "SCH pipe read error (0x%08lX).",
+                           CFE_SB_PIPE_RD_ERR);
 
     /* Verify results */
     UtAssert_EventSent(SENS_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
@@ -647,8 +703,8 @@ void Test_SENS_AppMain_SchData_InputRcMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_INPUT_RC_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_INPUT_RC_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
     InMsg.LastSignal = InMsg.Timestamp - 1000000;
 
@@ -679,8 +735,9 @@ void Test_SENS_AppMain_SchData_DifferentialPressureMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_DIFFERENTIAL_PRESSURE_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_DIFFERENTIAL_PRESSURE_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -690,9 +747,11 @@ void Test_SENS_AppMain_SchData_DifferentialPressureMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.DifferentialPressureMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                oSENS.CVT.DifferentialPressureMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.DifferentialPressureMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.DifferentialPressureMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -710,8 +769,8 @@ void Test_SENS_AppMain_SchData_SensorBaroMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_BARO_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_BARO_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -721,9 +780,11 @@ void Test_SENS_AppMain_SchData_SensorBaroMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorBaroMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                        oSENS.CVT.SensorBaroMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.SensorBaroMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.SensorBaroMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -741,8 +802,8 @@ void Test_SENS_AppMain_SchData_SensorAccelMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_ACCEL_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_ACCEL_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -752,9 +813,11 @@ void Test_SENS_AppMain_SchData_SensorAccelMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorAccelMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                         oSENS.CVT.SensorAccelMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.SensorAccelMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.SensorAccelMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -772,8 +835,8 @@ void Test_SENS_AppMain_SchData_SensorMagMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_MAG_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_MAG_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -783,9 +846,11 @@ void Test_SENS_AppMain_SchData_SensorMagMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorMagMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                         oSENS.CVT.SensorMagMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.SensorMagMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.SensorMagMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -803,8 +868,8 @@ void Test_SENS_AppMain_SchData_SensorGyroMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -814,9 +879,11 @@ void Test_SENS_AppMain_SchData_SensorGyroMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorGyroMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                        oSENS.CVT.SensorGyroMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.SensorGyroMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.SensorGyroMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -834,8 +901,9 @@ void Test_SENS_AppMain_SchData_VehicleControlModeMsg(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                   sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
 
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
@@ -845,9 +913,11 @@ void Test_SENS_AppMain_SchData_VehicleControlModeMsg(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.VehicleControlModeMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                            oSENS.CVT.VehicleControlModeMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.VehicleControlModeMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.VehicleControlModeMsg.Timestamp: %s",
+            asctime(loc_time));
 }
 
 
@@ -856,9 +926,92 @@ void Test_SENS_AppMain_SchData_VehicleControlModeMsg(void)
  */
 int32 Test_SENS_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
-    /* TODO:  Test the contents of your HK message here. */
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    SENS_HkTlm_t       HkMsg;
 
-    hookCalledCount++;
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = SENS_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = (((MsgPtr->Hdr).StreamId[0] << 8) + ((MsgPtr->Hdr).StreamId[1]));
+    switch (MsgId)
+    {
+        case SENS_HK_TLM_MID:
+        {
+            SendHK_SendMsgHook_MsgId = SENS_HK_TLM_MID;
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+
+            printf("Sent SENS_HK_TLM_MID:\n");
+            printf("usCmdCnt: %u\n", HkMsg.usCmdCnt);
+            printf("usCmdErrCnt: %u\n", HkMsg.usCmdErrCnt);
+            localTime = SENS_Test_GetTimeFromTimestamp(
+                                        HkMsg.SensorCombinedMsg.Timestamp);
+            loc_time = localtime(&localTime);
+            printf("SensorCombinedMsg.Timestamp: %s", asctime(loc_time));
+            printf("SensorCombinedMsg.GyroRad: %f %f %f\n",
+                                        HkMsg.SensorCombinedMsg.GyroRad[0],
+                                        HkMsg.SensorCombinedMsg.GyroRad[1],
+                                        HkMsg.SensorCombinedMsg.GyroRad[2]);
+            printf("SensorCombinedMsg.GyroIntegralDt: %f\n",
+                                    HkMsg.SensorCombinedMsg.GyroIntegralDt);
+            localTime = SENS_Test_GetTimeFromTimestamp(
+                                      HkMsg.SensorCombinedMsg.AccTimestamp);
+            loc_time = localtime(&localTime);
+            printf("SensorCombinedMsg.AccTimestamp: %s", asctime(loc_time));
+            printf("SensorCombinedMsg.AccInvalid: %u\n",
+                                        HkMsg.SensorCombinedMsg.AccInvalid);
+            printf("SensorCombinedMsg.Acc: %f %f %f\n",
+                                  HkMsg.SensorCombinedMsg.Acc[0],
+                                  HkMsg.SensorCombinedMsg.Acc[1],
+                                  HkMsg.SensorCombinedMsg.Acc[2]);
+            printf("SensorCombinedMsg.AccIntegralDt: %f\n",
+                                     HkMsg.SensorCombinedMsg.AccIntegralDt);
+            localTime = SENS_Test_GetTimeFromTimestamp(
+                                      HkMsg.SensorCombinedMsg.MagTimestamp);
+            loc_time = localtime(&localTime);
+            printf("SensorCombinedMsg.MagTimestamp: %s", asctime(loc_time));
+            printf("SensorCombinedMsg.MagInvalid: %u\n",
+                                        HkMsg.SensorCombinedMsg.MagInvalid);
+            printf("SensorCombinedMsg.Mag: %f %f %f\n",
+                                            HkMsg.SensorCombinedMsg.Mag[0],
+                                            HkMsg.SensorCombinedMsg.Mag[1],
+                                            HkMsg.SensorCombinedMsg.Mag[2]);
+            localTime = SENS_Test_GetTimeFromTimestamp(
+                                     HkMsg.SensorCombinedMsg.BaroTimestamp);
+            loc_time = localtime(&localTime);
+            printf("SensorCombinedMsg.BaroTimestamp: %s", asctime(loc_time));
+            printf("SensorCombinedMsg.BaroInvalid: %u\n",
+                                       HkMsg.SensorCombinedMsg.BaroInvalid);
+            printf("SensorCombinedMsg.BaroAlt: %f\n",
+                                           HkMsg.SensorCombinedMsg.BaroAlt);
+            printf("SensorCombinedMsg.BaroTemp: %f\n",
+                                          HkMsg.SensorCombinedMsg.BaroTemp);
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04X)\n", MsgId);
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
@@ -870,22 +1023,36 @@ void Test_SENS_AppMain_Nominal_SendHK(void)
 {
     SENS oSENS;
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SENS_SEND_HK_MID, 1);
+    int32                SchPipe;
+    PX4_SensorGyroMsg_t  SensorGyro;
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&SensorGyro, PX4_SENSOR_GYRO_MID,
+                                                sizeof(SensorGyro), TRUE);
+    SensorGyro.Timestamp = SENS_Test_GetTimeUs();
+    Ut_CFE_SB_AddMsgToPipe((void*)&SensorGyro, (CFE_SB_PipeId_t)SchPipe);
+
+    /* The following will emulate the behavior of receiving a SCH message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 2);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SENS_SEND_HK_MID, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_SENS_AppMain_Nominal_SendHK_SendMsgHook);
+    SendHK_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_SENS_AppMain_Nominal_SendHK_SendMsgHook);
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                         (void*)&Test_SENS_GetPSPTimeHook);
 
     /* Execute the function being tested */
     oSENS.AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
-
+    UtAssert_True(SendHK_SendMsgHook_MsgId == SENS_HK_TLM_MID,
+                  "AppMain_Nominal_SendHK");
 }
 
 
@@ -896,7 +1063,7 @@ void Test_SENS_AppMain_Nominal_Wakeup(void)
 {
     SENS oSENS;
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SENS_WAKEUP_MID, 1);
 
@@ -904,7 +1071,6 @@ void Test_SENS_AppMain_Nominal_Wakeup(void)
 
     /* Execute the function being tested */
     oSENS.AppMain();
-
 }
 
 
@@ -925,8 +1091,8 @@ void Test_SENS_AppMain_ProcessRCInput(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_INPUT_RC_MID, sizeof(InMsg), TRUE);
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_INPUT_RC_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
     InMsg.LastSignal = InMsg.Timestamp - 1000000;
 
@@ -937,12 +1103,16 @@ void Test_SENS_AppMain_ProcessRCInput(void)
     /* Execute the function being tested */
     oSENS.AppMain();
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.InputRcMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                      oSENS.CVT.InputRcMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.InputRcMsg.Timestamp: %s", asctime(loc_time));
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.InputRcMsg.LastSignal);
+    printf("Received oSENS.CVT.InputRcMsg.Timestamp: %s",
+                                          asctime(loc_time));
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                     oSENS.CVT.InputRcMsg.LastSignal);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.InputRcMsg.LastSignal: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.InputRcMsg.LastSignal: %s",
+                                          asctime(loc_time));
 }
 
 
@@ -963,21 +1133,24 @@ void Test_SENS_AppMain_CombineSensorInput(void)
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
+    SchPipe = Ut_CFE_SB_CreatePipe(SENS_SCH_PIPE_NAME);
 
-    CFE_SB_InitMsg ((void*)&SensorAccelMsg, PX4_SENSOR_ACCEL_MID, sizeof(SensorAccelMsg), TRUE);
+    CFE_SB_InitMsg((void*)&SensorAccelMsg, PX4_SENSOR_ACCEL_MID,
+                                          sizeof(SensorAccelMsg), TRUE);
     SensorAccelMsg.Timestamp = SENS_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&SensorAccelMsg, (CFE_SB_PipeId_t)SchPipe);
 
-    CFE_SB_InitMsg ((void*)&SensorMsgMsg, PX4_SENSOR_MAG_MID, sizeof(SensorMsgMsg), TRUE);
+    CFE_SB_InitMsg ((void*)&SensorMsgMsg, PX4_SENSOR_MAG_MID,
+                                            sizeof(SensorMsgMsg), TRUE);
     SensorMsgMsg.Timestamp = SENS_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&SensorMsgMsg, (CFE_SB_PipeId_t)SchPipe);
 
-    CFE_SB_InitMsg ((void*)&SensorBaroMsg, PX4_SENSOR_BARO_MID, sizeof(SensorBaroMsg), TRUE);
+    CFE_SB_InitMsg((void*)&SensorBaroMsg, PX4_SENSOR_BARO_MID,
+                                              sizeof(SensorBaroMsg), TRUE);
     SensorBaroMsg.Timestamp = SENS_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&SensorBaroMsg, (CFE_SB_PipeId_t)SchPipe);
 
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
+    CFE_SB_InitMsg((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
 
@@ -991,9 +1164,11 @@ void Test_SENS_AppMain_CombineSensorInput(void)
     oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
     oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
 
-    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorGyroMsg.Timestamp);
+    localTime = SENS_Test_GetTimeFromTimestamp(
+                                      oSENS.CVT.SensorGyroMsg.Timestamp);
     loc_time = localtime(&localTime);
-    printf("Received oSENS.CVT.SensorGyroMsg.Timestamp: %s", asctime(loc_time));
+    printf("Received oSENS.CVT.SensorGyroMsg.Timestamp: %s",
+                                      asctime(loc_time));
 }
 
 
@@ -1083,11 +1258,9 @@ void SENS_App_Test_AddTestCases(void)
     UtTest_Add(Test_SENS_AppMain_InvalidSchMessage,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_InvalidSchMessage");
-#if 1  // ticket #238
     UtTest_Add(Test_SENS_AppMain_SchPipeError,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_SchPipeError");
-#endif
     UtTest_Add(Test_SENS_AppMain_SchData_InputRcMsg,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_SchData_InputRcMsg");
