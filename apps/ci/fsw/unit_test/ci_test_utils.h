@@ -54,10 +54,11 @@ void CI_Test_Setup(void);
 void CI_Test_Setup_InitTbls(void);
 void CI_Test_TearDown(void);
 
+void CI_Test_PrintCmdMsg(void *pMsg, uint32 size);
+
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* CI_TEST_UTILS_H */
-
