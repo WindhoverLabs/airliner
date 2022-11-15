@@ -34,6 +34,7 @@
 #ifndef VM_APP_H
 #define VM_APP_H
 
+#include <string.h>
 #include "vm_Arming.h"
 #include "vm_Navigation.h"
 

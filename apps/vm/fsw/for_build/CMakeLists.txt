@@ -34,12 +34,12 @@ buildliner_add_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_ArmingContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_ArmingContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming_sm.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming_sm.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation_sm.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation_sm.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_symbols.cpp
@@ -90,12 +90,12 @@ buildliner_add_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_ArmingContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_ArmingContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming_sm.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming_sm.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation_sm.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation_sm.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
         #${PX4LIB_LIB_SOURCES}
         # Adding lib sources individually so stubs can be used.

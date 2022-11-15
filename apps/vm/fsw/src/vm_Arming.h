@@ -34,7 +34,9 @@
 #ifndef VM_ARMING_H
 #define VM_ARMING_H
 
-#include "VM_ArmingContext.h"
+
+#include <string.h>
+#include "VM_Arming_sm.h"
 #include "cfe.h"
 
 class VM;

@@ -43,6 +43,7 @@
 #include "vm_version.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
+#include "statemap.h"
 
 
 
@@ -784,7 +785,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     ArmingSM.FSM.Arm();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID,
@@ -801,7 +802,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     ArmingSM.FSM.Disarm();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID,
@@ -818,7 +819,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trManual();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -837,7 +838,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAltitudeControl();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -856,7 +857,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trPositionControl();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -875,7 +876,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAutoLoiter();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -894,7 +895,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAutoReturnToLaunch();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -913,7 +914,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAcrobatic();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -932,7 +933,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trStabilize();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -951,7 +952,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trRattitude();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -970,7 +971,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -989,7 +990,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     NavigationSM.FSM.trAutoLand();
                     HkTlm.usCmdCnt++;
                 }
-                catch (statemap::TransitionUndefinedException e)
+                catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1476,7 +1477,7 @@ void VM::Execute()
             HkTlm.ArmingStateChanged = true;
 
         }
-        catch(statemap::TransitionUndefinedException e)
+        catch(TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_ERROR,
@@ -1541,7 +1542,7 @@ void VM::Execute()
                         NavigationSM.FSM.trAutoReturnToLaunch();
                         HkTlm.usCmdCnt++;
                     }
-                    catch(statemap::TransitionUndefinedException e)
+                    catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
                         CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
@@ -1557,7 +1558,7 @@ void VM::Execute()
                         NavigationSM.FSM.trAutoLand();
                         HkTlm.usCmdCnt++;
                     }
-                    catch(statemap::TransitionUndefinedException e)
+                    catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
                         uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1597,7 +1598,7 @@ void VM::Execute()
                         NavigationSM.FSM.trAutoLand();
                         HkTlm.usCmdCnt++;
                     }
-                    catch(statemap::TransitionUndefinedException e)
+                    catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
                         uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1697,7 +1698,7 @@ void VM::Execute()
                     HkTlm.ArmingStateChanged = true;
                     HkTlm.usCmdCnt++;
                 }
-                catch(statemap::TransitionUndefinedException e)
+                catch(TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
                     CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
@@ -1735,7 +1736,7 @@ void VM::Execute()
                         ArmingSM.FSM.Arm();
                         HkTlm.usCmdCnt++;
                     }
-                    catch(statemap::TransitionUndefinedException e)
+                    catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
                         CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
@@ -1798,7 +1799,7 @@ void VM::Execute()
                         "Mode switched will stay in RTL ");
             }
         }
-        catch(statemap::TransitionUndefinedException e)
+        catch(TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1844,7 +1845,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_POSCTL_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to position control by rc");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1864,7 +1865,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_RTL_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to auto rtl by rc ");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1884,7 +1885,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to auto loiter by rc");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1903,7 +1904,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_TAKE_OFF_INFO_EID,
                     CFE_EVS_INFORMATION, "Mode switched to auto takeoff by rc");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1922,7 +1923,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_TAKE_OFF_INFO_EID,
                     CFE_EVS_INFORMATION, "Mode switched to altitude control by rc");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();
@@ -1941,7 +1942,7 @@ void VM::RcModes()
             (void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to Manual by rc");
         }
-        catch (statemap::TransitionUndefinedException e)
+        catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
             uint32 PrevState = NavigationSM.GetCurrentStateID();

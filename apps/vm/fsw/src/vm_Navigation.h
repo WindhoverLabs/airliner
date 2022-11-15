@@ -34,7 +34,7 @@
 #ifndef VM_NAVIGATION_H
 #define VM_NAVIGATION_H
 
-#include "VM_NavigationContext.h"
+#include "VM_Navigation_sm.h"
 #include "cfe.h"
 
 class VM;
