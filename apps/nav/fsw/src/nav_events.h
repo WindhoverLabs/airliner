@@ -434,6 +434,7 @@ typedef enum {
      **
      */
     NAV_SUBSEQ_TAKEOFF_EID               = 25,
+    NAV_AUTO_MISSION_STATE_EID           = 26,
 
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     NAV_EVT_CNT

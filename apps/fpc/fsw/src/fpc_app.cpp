@@ -2958,10 +2958,10 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
         _tecs.reset_state();
     }
 
-    printf("pos_sp_curr.Valid - > %d\n", (pos_sp_curr.Valid==true)?1:0);
-    printf("m_VehicleControlModeMsg.ControlAutoEnabled - > %d\n", m_VehicleControlModeMsg.ControlAutoEnabled?1:0);
-    printf("m_VehicleControlModeMsg.ControlVelocityEnabled - > %d\n", m_VehicleControlModeMsg.ControlVelocityEnabled?1:0);
-    printf("m_VehicleControlModeMsg.ControlAltitudeEnabled - > %d\n", m_VehicleControlModeMsg.ControlAltitudeEnabled?1:0);
+    // printf("pos_sp_curr.Valid - > %d\n", (pos_sp_curr.Valid==true)?1:0);
+    // printf("m_VehicleControlModeMsg.ControlAutoEnabled - > %d\n", m_VehicleControlModeMsg.ControlAutoEnabled?1:0);
+    // printf("m_VehicleControlModeMsg.ControlVelocityEnabled - > %d\n", m_VehicleControlModeMsg.ControlVelocityEnabled?1:0);
+    // printf("m_VehicleControlModeMsg.ControlAltitudeEnabled - > %d\n", m_VehicleControlModeMsg.ControlAltitudeEnabled?1:0);
     if(m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid)
     {
         if (!m_VehicleControlModeMsg.ControlAutoMissionEnabled) {
@@ -2972,7 +2972,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
             _hdg_hold_yaw = _yaw;
             /* AUTONOMOUS FLIGHT */
 
-            printf("Came Here - > %f, %f\n", pos_sp_curr.Alt, _hold_alt);
+            // printf("Came Here - > %f, %f\n", pos_sp_curr.Alt, _hold_alt);
         }
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;

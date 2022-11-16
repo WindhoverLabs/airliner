@@ -246,6 +246,8 @@ public:
     /** \brief the array index of the mission being run*/
     NAV_Mission_Index_t missionId;
     uint8 waypointIndex;
+    osalbool missionStarted;
+    osalbool waypointStarted;
     /** \brief Flag is set to true if a previously unseen command is encountered */
     osalbool NewCommandArrived;
     /** \brief Flag is set to true if a previously unseen command code is encountered */

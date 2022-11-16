@@ -31,28 +31,32 @@
       id: 12
     NAV_MSN_FAILED_ERR_EID: 
       id: 13
-    NAV_HIGH_ALT_EID: 
+    NAV_LOW_CLEARANCE_ALT_EID:
       id: 14
-    NAV_ACTION_ST_EID: 
+    NAV_HIGH_ALT_EID: 
       id: 15
-    NAV_RTL_CLIMB_ST_EID: 
+    NAV_ACTION_ST_EID: 
       id: 16
-    NAV_RTL_RETURN_ST_EID: 
+    NAV_RTL_CLIMB_ST_EID: 
       id: 17
-    NAV_RTL_DESCEND_ST_EID: 
+    NAV_RTL_RETURN_ST_EID: 
       id: 18
-    NAV_RTL_LOITER_ST_EID: 
+    NAV_RTL_DESCEND_ST_EID: 
       id: 19
-    NAV_RTL_LOITER_EN_EID: 
+    NAV_RTL_LOITER_ST_EID: 
       id: 20
-    NAV_RTL_LAND_ST_EID: 
+    NAV_RTL_LOITER_EN_EID: 
       id: 21
-    NAV_RTL_LAND_EN_EID: 
+    NAV_RTL_LAND_ST_EID: 
       id: 22
-    NAV_RTL_LND_SFGA_EID: 
+    NAV_RTL_LAND_EN_EID: 
       id: 23
-    NAV_SUBSEQ_TAKEOFF_EID: 
+    NAV_RTL_LND_SFGA_EID: 
       id: 24
+    NAV_SUBSEQ_TAKEOFF_EID: 
+      id: 25
+    NAV_AUTO_MISSION_STATE_EID: 
+      id: 26
   telemetry: 
     NAV_HK_TLM_MID: 
       msgID: 

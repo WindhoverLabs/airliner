@@ -521,25 +521,25 @@ void NAV::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.usCmdCnt++;
                 NewCCArrived = true;
                 missionId = ARRAKIS;
-                printf("---------------------Start Arrakis %d-----------------------\n", missionId);
+                // printf("---------------------Start Arrakis %d-----------------------\n", missionId);
                 break;
             case NAV_MISSION_BEETHOVEN_CC:
                 HkTlm.usCmdCnt++;
                 NewCCArrived = true;
                 missionId = BEETHOVEN;
-                printf("---------------------Start Beethoven %d-----------------------\n", missionId);
+                // printf("---------------------Start Beethoven %d-----------------------\n", missionId);
                 break;
             case NAV_MISSION_CALADAN_CC:
                 HkTlm.usCmdCnt++;
                 NewCCArrived = true;
                 missionId = CALADAN;
-                printf("---------------------Start Caladan %d-----------------------\n", missionId);
+                // printf("---------------------Start Caladan %d-----------------------\n", missionId);
                 break;
             case NAV_MISSION_DUMBLEDORE_CC:
                 HkTlm.usCmdCnt++;
                 NewCCArrived = true;
                 missionId = DUMBLEDORE;
-                printf("---------------------Start Dumbledore %d-----------------------\n", missionId);
+                // printf("---------------------Start Dumbledore %d-----------------------\n", missionId);
                 break;
 
             default:
@@ -834,7 +834,8 @@ int32 NAV::Execute()
     if (NewCCArrived) {
         NewCCArrived = false;
         waypointIndex = 0;
-
+        missionStarted = true;
+        waypointStarted = true;
     }
 
     /* Detect events for navigation actions. Find if a state is seen for first
@@ -987,30 +988,46 @@ void NAV::DoMission()
     MissionItem.Lon = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lon;
     MissionItem.Altitude = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].alt;
     MissionItem.CruisingSpeed = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].cruisingSpeed;
-    printf(
-        "DoMission missionId, waypointIndex, Lat, Lon, Alt, speed -> %d, %d, %lf, %lf, %f, %f\n", 
-        missionId, 
-        wpIndex, 
-        MissionItem.Lat, 
-        MissionItem.Lon, 
-        MissionItem.Altitude,
-        MissionItem.CruisingSpeed);
+
+    if (missionStarted || waypointStarted) {
+        (void) CFE_EVS_SendEvent(NAV_AUTO_MISSION_STATE_EID, CFE_EVS_INFORMATION,
+            "DoMission missionId, waypointIndex, Lat, Lon, Alt, speed -> %d, %d, %lf, %lf, %f, %f",
+            missionId, 
+            wpIndex, 
+            MissionItem.Lat, 
+            MissionItem.Lon, 
+            MissionItem.Altitude,
+            MissionItem.CruisingSpeed);
+
+        // printf(
+        //     "DoMission missionId, waypointIndex, Lat, Lon, Alt, speed -> %d, %d, %lf, %lf, %f, %f\n", 
+        //     missionId, 
+        //     wpIndex, 
+        //     MissionItem.Lat, 
+        //     MissionItem.Lon, 
+        //     MissionItem.Altitude,
+        //     MissionItem.CruisingSpeed);
+        
+        missionStarted = false;
+        waypointStarted = false;
+    }
+
     ConvertMissionItemToCurrentSetpoint(
             &PositionSetpointTripletMsg.Current, &MissionItem);
     PositionSetpointTripletMsg.Current.Type = PX4_SetpointType_t::PX4_SETPOINT_TYPE_POSITION;
     PositionSetpointTripletMsg.Current.Valid = true;
-    printf("DoMission: Setting Current Set Point to Valid\n");
+    // printf("DoMission: Setting Current Set Point to Valid\n");
 
-    // wpIndex = (wpIndex + 1) % NAV_NUM_WPS_IN_MISSION;
-    // nextMissionItem.NavCmd = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
-    // nextMissionItem.Lat = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lat;
-    // nextMissionItem.Lon = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lon;
-    // nextMissionItem.Altitude = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].alt;
-    // nextMissionItem.CruisingSpeed = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].cruisingSpeed;
-    // ConvertMissionItemToCurrentSetpoint(
-    //         &PositionSetpointTripletMsg.Next, &nextMissionItem);
-    // PositionSetpointTripletMsg.Next.Type = PX4_SetpointType_t::PX4_SETPOINT_TYPE_POSITION;
-    // PositionSetpointTripletMsg.Next.Valid = true;
+    wpIndex = (wpIndex + 1) % NAV_NUM_WPS_IN_MISSION;
+    nextMissionItem.NavCmd = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
+    nextMissionItem.Lat = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lat;
+    nextMissionItem.Lon = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lon;
+    nextMissionItem.Altitude = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].alt;
+    nextMissionItem.CruisingSpeed = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].cruisingSpeed;
+    ConvertMissionItemToCurrentSetpoint(
+            &PositionSetpointTripletMsg.Next, &nextMissionItem);
+    PositionSetpointTripletMsg.Next.Type = PX4_SetpointType_t::PX4_SETPOINT_TYPE_POSITION;
+    PositionSetpointTripletMsg.Next.Valid = true;
     PositionSetpointTripletUpdated = true;
 }
 
@@ -1019,6 +1036,7 @@ void NAV::DoMissionActive()
     osalbool MissionItemReachedFlag = IsMissionItemReached();
     if (MissionItemReachedFlag) {
         waypointIndex = (waypointIndex + 1)%NAV_NUM_WPS_IN_MISSION;
+        waypointStarted = true;
     }
     DoMission();
 }
