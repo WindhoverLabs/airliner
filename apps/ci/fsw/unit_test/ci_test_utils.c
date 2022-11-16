@@ -111,3 +111,21 @@ void CI_Test_PrintCmdMsg(void *pMsg, uint32 size)
 
     return;
 }
+
+time_t CI_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t CI_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
+}

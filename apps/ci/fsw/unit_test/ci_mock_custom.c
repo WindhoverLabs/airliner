@@ -42,6 +42,8 @@ uint8 ext_buf[CI_MAX_CMD_INGEST] = {28,41,192,0,0,1,0,0};
 int TEST_MSG_ID = 0x1900;
 int TEST_CC = 0;
 
+int cntMessage = 0;
+
 int32 CI_InitCustom(void)
 {
     int32 Status = -1;
@@ -70,6 +72,12 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
 	{
 		CI_NoArgCmd_t 	cmd;
 		uint32  		MsgSize = sizeof(cmd);
+cntMessage ++;
+if (cntMessage > 5)
+{
+    *size = 0;
+    return;
+}
 		CFE_SB_InitMsg(&ci_noop_buf, CI_CMD_MID, MsgSize, TRUE);
 		*size = MsgSize;
 		int32 i = 0;

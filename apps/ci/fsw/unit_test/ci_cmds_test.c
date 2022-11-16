@@ -320,6 +320,159 @@ void Test_CI_ProcessNewCmds_CI_DEAUTH_CMD_CC(void)
 }
 
 
+/**
+ * Test CI ProcessNewCmds, CI_REG_CMD_CC
+ */
+void Test_CI_ProcessNewCmds_CI_REG_CMD_CC(void)
+{
+    int32             CmdPipe;
+    CI_CmdRegData_t   cmdRegMsg;
+    char            expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(CI_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&cmdRegMsg, CI_CMD_MID, sizeof(cmdRegMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&cmdRegMsg, (uint16)CI_REG_CMD_CC);
+    cmdRegMsg.msgID = FAC_CMD_MID;
+    cmdRegMsg.cmdCode = 0;
+    cmdRegMsg.step = STEP_2;
+    cmdRegMsg.log = LOG;
+    Ut_CFE_SB_AddMsgToPipe((void*)&cmdRegMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CI_Test_PrintCmdMsg((void*)&cmdRegMsg, sizeof(cmdRegMsg));
+
+    /* Execute the function being tested */
+    CI_InitApp();
+    CI_ProcessNewCmds();
+
+    sprintf(expEventText, "Cmd (%i) registered for msgId (0x%04X)",
+                          cmdRegMsg.cmdCode, cmdRegMsg.msgID);
+
+    /* Verify results */
+    UtAssert_True((CI_AppData.HkTlm.usCmdCnt == 1) &&
+                  (CI_AppData.HkTlm.usCmdErrCnt == 0),
+                  "ProcessNewCmds, CI_REG_CMD_CC");
+    UtAssert_EventSent(CI_CMD_REGISTERED_EID, CFE_EVS_INFORMATION,
+             expEventText, "ProcessNewCmds, CI_REG_CMD_CC Event Sent");
+}
+
+
+/**
+ * Test CI ProcessNewCmds, CI_DEREG_CMD_CC
+ */
+void Test_CI_ProcessNewCmds_CI_DEREG_CMD_CC(void)
+{
+    int32             CmdPipe;
+    CI_CmdRegData_t   cmdRegMsg;
+    CI_CmdAuthData_t  cmdDeregMsg;
+    char            expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CI_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&cmdRegMsg, CI_CMD_MID, sizeof(cmdRegMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&cmdRegMsg, (uint16)CI_REG_CMD_CC);
+    cmdRegMsg.msgID = FAC_CMD_MID;
+    cmdRegMsg.cmdCode = 0;
+    cmdRegMsg.step = STEP_2;
+    cmdRegMsg.log = LOG;
+    Ut_CFE_SB_AddMsgToPipe((void*)&cmdRegMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CI_Test_PrintCmdMsg((void*)&cmdRegMsg, sizeof(cmdRegMsg));
+
+    CFE_SB_InitMsg((void*)&cmdDeregMsg, CI_CMD_MID, sizeof(cmdDeregMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&cmdDeregMsg, (uint16)CI_DEREG_CMD_CC);
+    cmdDeregMsg.msgID = FAC_CMD_MID;
+    cmdDeregMsg.cmdCode = 0;
+    Ut_CFE_SB_AddMsgToPipe((void*)&cmdDeregMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CI_Test_PrintCmdMsg((void*)&cmdDeregMsg, sizeof(cmdDeregMsg));
+
+    /* Execute the function being tested */
+    CI_InitApp();
+    CI_ProcessNewCmds();
+
+    sprintf(expEventText, "Cmd (%i) deregistered for msgId (0x%04X)",
+                          cmdDeregMsg.cmdCode, cmdDeregMsg.msgID);
+
+    /* Verify results */
+    UtAssert_True((CI_AppData.HkTlm.usCmdCnt == 2) &&
+                  (CI_AppData.HkTlm.usCmdErrCnt == 0),
+                  "ProcessNewCmds, CI_DEREG_CMD_CC");
+    UtAssert_EventSent(CI_CMD_DEREGISTERED_EID, CFE_EVS_INFORMATION,
+                  expEventText, "ProcessNewCmds, CI_DEREG_CMD_CC Event Sent");
+}
+
+
+/**
+ * Test CI ProcessNewCmds, CI_UPDT_CMD_CC
+ */
+void Test_CI_ProcessNewCmds_CI_UPDT_CMD_CC(void)
+{
+    int32             CmdPipe;
+    CI_CmdRegData_t   cmdRegMsg;
+    CI_CmdRegData_t   cmdUpdMsg;
+    char            expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CI_CMD_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&cmdRegMsg, CI_CMD_MID, sizeof(cmdRegMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&cmdRegMsg, (uint16)CI_REG_CMD_CC);
+    cmdRegMsg.msgID = FAC_CMD_MID;
+    cmdRegMsg.cmdCode = 0;
+    cmdRegMsg.step = STEP_2;
+    cmdRegMsg.log = LOG;
+    Ut_CFE_SB_AddMsgToPipe((void*)&cmdRegMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CI_Test_PrintCmdMsg((void*)&cmdRegMsg, sizeof(cmdRegMsg));
+
+    CFE_SB_InitMsg((void*)&cmdUpdMsg, CI_CMD_MID, sizeof(cmdUpdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&cmdUpdMsg, (uint16)CI_UPDT_CMD_CC);
+    cmdUpdMsg.msgID = FAC_CMD_MID;
+    cmdUpdMsg.cmdCode = 0;
+    cmdUpdMsg.step = STEP_2;
+    cmdUpdMsg.log = EXCLUDE_LOG;
+    Ut_CFE_SB_AddMsgToPipe((void*)&cmdUpdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CI_Test_PrintCmdMsg((void*)&cmdUpdMsg, sizeof(cmdUpdMsg));
+
+    /* Execute the function being tested */
+    CI_InitApp();
+    CI_ProcessNewCmds();
+
+    sprintf(expEventText, "Cmd (%i) for msgId (0x%04X) updated",
+                          cmdUpdMsg.cmdCode, cmdUpdMsg.msgID);
+
+    /* Verify results */
+    UtAssert_True((CI_AppData.HkTlm.usCmdCnt == 2) &&
+                  (CI_AppData.HkTlm.usCmdErrCnt == 0),
+                  "ProcessNewCmds, CI_UPDT_CMD_CC");
+    UtAssert_EventSent(CI_CMD_UPDATE_REG_EID, CFE_EVS_INFORMATION,
+                 expEventText, "ProcessNewCmds, CI_UPDT_CMD_CC Event Sent");
+}
+
+
+/**
+ * Test CI VerifyCmdLength, Fail CmdLength
+ */
+void Test_CI_VerifyCmdLength_Fail_CmdLength(void)
+{
+    boolean        bResult = TRUE;
+    boolean        bExpected = FALSE;
+    CI_NoArgCmd_t  CmdMsg;
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CI_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CI_NOOP_CC);
+    CI_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    CI_AppData.HkTlm.usCmdCnt = 0;
+    CI_AppData.HkTlm.usCmdErrCnt = 0;
+    bResult = CI_VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((bResult == bExpected) &&
+                  (CI_AppData.HkTlm.usCmdCnt == 0) &&
+                  (CI_AppData.HkTlm.usCmdErrCnt == 1),
+                  "VerifyCmdLength(), Fail CmdLength");
+}
+
+
 
 void CI_Cmds_Test_AddTestCases(void)
 {
@@ -344,4 +497,16 @@ void CI_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CI_ProcessNewCmds_CI_DEAUTH_CMD_CC,
                CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_ProcessNewCmds_CI_DEAUTH_CMD_CC");
+    UtTest_Add(Test_CI_ProcessNewCmds_CI_REG_CMD_CC,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_ProcessNewCmds_CI_REG_CMD_CC");
+    UtTest_Add(Test_CI_ProcessNewCmds_CI_DEREG_CMD_CC,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_ProcessNewCmds_CI_DEREG_CMD_CC");
+    UtTest_Add(Test_CI_ProcessNewCmds_CI_UPDT_CMD_CC,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_ProcessNewCmds_CI_UPDT_CMD_CC");
+    UtTest_Add(Test_CI_VerifyCmdLength_Fail_CmdLength,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_VerifyCmdLength_Fail_CmdLength");
 }

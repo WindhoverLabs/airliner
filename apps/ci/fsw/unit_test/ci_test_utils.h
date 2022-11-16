@@ -55,6 +55,8 @@ void CI_Test_Setup_InitTbls(void);
 void CI_Test_TearDown(void);
 
 void CI_Test_PrintCmdMsg(void *pMsg, uint32 size);
+time_t CI_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t CI_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
 #ifdef __cplusplus

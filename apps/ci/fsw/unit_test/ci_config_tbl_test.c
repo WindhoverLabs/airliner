@@ -160,14 +160,19 @@ void Test_CI_InitTbls_Nominal(void)
 
 void CI_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_CI_InitTbls_Fail_TblRegister, CI_Test_Setup, CI_Test_TearDown,
+    UtTest_Add(Test_CI_InitTbls_Fail_TblRegister,
+               CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblRegister");
-    UtTest_Add(Test_CI_InitTbls_Fail_TblLoad, CI_Test_Setup, CI_Test_TearDown,
+    UtTest_Add(Test_CI_InitTbls_Fail_TblLoad,
+               CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblLoad");
-    UtTest_Add(Test_CI_InitTbls_Fail_TblManage, CI_Test_Setup, CI_Test_TearDown,
+    UtTest_Add(Test_CI_InitTbls_Fail_TblManage,
+               CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblManage");
-    UtTest_Add(Test_CI_InitTbls_Fail_TblGetAddress, CI_Test_Setup, CI_Test_TearDown,
+    UtTest_Add(Test_CI_InitTbls_Fail_TblGetAddress,
+               CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblGetAddress");
-    UtTest_Add(Test_CI_InitTbls_Nominal, CI_Test_Setup, CI_Test_TearDown,
+    UtTest_Add(Test_CI_InitTbls_Nominal,
+               CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Nominal");
 }
