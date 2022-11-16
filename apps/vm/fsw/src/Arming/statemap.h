@@ -1,6 +1,8 @@
 #ifndef _H_STATEMAP
 #define _H_STATEMAP
 
+#include <string.h>
+
 //
 // The contents of this file are subject to the Mozilla Public
 // License Version 1.1 (the "License"); you may not use this file
@@ -67,8 +69,6 @@
 #include <stdexcept>
 #include <string>
 #endif
-
-#include <string.h>
 
 // Limit names to 100 ASCII characters.
 // Why 100? Because it is a round number.

@@ -14,6 +14,14 @@ class VM_Navigation
             return _fsm;
         }
 
+        void trInitComplete() {
+            _fsm.trInitComplete();
+        }
+
+        void Reset() {
+            _fsm.Reset();
+        }
+
         void trAltitudeControl() {
             _fsm.trAltitudeControl();
         }
@@ -50,16 +58,8 @@ class VM_Navigation
             _fsm.trAutoLand();
         }
 
-        void Reset() {
-            _fsm.Reset();
-        }
-
         void trManual() {
             _fsm.trManual();
-        }
-
-        void trInitComplete() {
-            _fsm.trInitComplete();
         }
 
 };
