@@ -32,19 +32,12 @@
  *****************************************************************************/
 
 #include <math.h>
-#include "VM_Arming.h"
+#include "vm_Arming.h"
 #include "vm_events.h"
 #include "vm_app.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
 
-
-typedef enum
-{
-    VM_ARMSM_UNKNOWN      = 0,
-    VM_ARMSM_STANDBY      = 1,
-    VM_ARMSM_ARMED        = 2
-} VM_ArmSM_StateType;
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -77,30 +70,7 @@ VM_Arming::~VM_Arming()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint32 VM_Arming::GetCurrentStateID()
 {
-	uint32 ID = (uint32) VM_ARMSM_UNKNOWN;
-
-    if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::Standby") == 0)
-    {
-        ID = (uint32) VM_ARMSM_STANDBY;
-    }
-    else if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::Armed") == 0)
-    {
-        ID = (uint32) VM_ARMSM_ARMED;
-    }
-    else
-    {
-        CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR, "VM_ArmingFSM is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
-    }
-
-    return ID;
-}
-
-
-
-/* TODO */
-const char* VM_Arming::GetCurrentStateName(void)
-{
-	return FSM.getState().getName();
+    return FSM.getState().getId();
 }
 
 
@@ -209,19 +179,17 @@ void VM_Arming::EnteredArmedError()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void VM_Arming::DoAction()
 {
-    if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::Init") == 0)
+    if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Init") == 0)
+    {
+    }
+    else if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Standby") == 0)
+    {
+    }
+    else if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Armed") == 0)
     {
         /* TODO */
     }
-    else if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::Standby") == 0)
-    {
-        /* TODO */
-    }
-    else if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::Armed") == 0)
-    {
-        /* TODO */
-    }
-    else if (strcmp(FSM.getState().getName(),"VM_ArmingFSM::StandbyError") == 0)
+    else if (strcmp(FSM.getState().getName(),"VM_ArmingMap::StandbyError") == 0)
     {
         /* TODO */
     }
@@ -275,11 +243,3 @@ end_of_function:
     return cleared;
 }
 
-
-
-
-/* TODO */
-void VM_Arming::SetArmed(osalbool Armed)
-{
-	App.ActuatorArmedMsg.Armed = Armed;
-}

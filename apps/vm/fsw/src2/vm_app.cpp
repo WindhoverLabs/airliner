@@ -43,6 +43,7 @@
 #include "vm_version.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
+#include "statemap.h"
 
 
 
@@ -821,10 +822,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> MANUAL].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -839,10 +841,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> ALTCTL].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -857,10 +860,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> POSCTL].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -875,10 +879,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
-                        "Illegal Nav transition [%s -> AUTOLTR].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        "Illegal Nav transition [%s -> AUTORTL].  Command rejected.",
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -893,10 +898,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
-                        "Illegal Nav transition [%s -> AUTORTL].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        "Illegal Nav transition [%s -> AUTOLTR].  Command rejected.",
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -911,10 +917,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> ACRO].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -929,10 +936,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> STAB].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -947,10 +955,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> RATT].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -965,10 +974,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> AUTOTAKOF].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -983,10 +993,11 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 catch (TransitionUndefinedException e)
                 {
                     HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
                     CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                         CFE_EVS_ERROR,
                         "Illegal Nav transition [%s -> AUTOLND].  Command rejected.",
-						NavigationSM.GetCurrentStateName());
+                        GetNavStateAsString(PrevState));
                 }
                 break;
             }
@@ -1550,10 +1561,11 @@ void VM::Execute()
                     catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
+                        uint32 PrevState = NavigationSM.GetCurrentStateID();
                         CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                                 CFE_EVS_INFORMATION,
-                                "Illegal Nav transition [%s -> AUTOLND].  Command rejected.",
-								NavigationSM.GetCurrentStateName());
+                                "Illegal Nav transition [%s -> %s].  Command rejected.",
+                                GetNavStateAsString(PrevState), "AUTOLND");
                     }
 
                 }
@@ -1589,10 +1601,11 @@ void VM::Execute()
                     catch(TransitionUndefinedException e)
                     {
                         HkTlm.usCmdErrCnt++;
+                        uint32 PrevState = NavigationSM.GetCurrentStateID();
                         CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                                 CFE_EVS_INFORMATION,
-                                "Illegal Nav transition [%s -> AUTOLND].  Command rejected.",
-								NavigationSM.GetCurrentStateName());
+                                "Illegal Nav transition [%s -> %s].  Command rejected.",
+                                GetNavStateAsString(PrevState), "AUTOLND");
                     }
 
                 }
@@ -1789,10 +1802,11 @@ void VM::Execute()
         catch(TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> AUTORTL].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "AUTORTL");
         }
 
         VehicleStatusMsg.RcSignalLost = true;
@@ -1834,10 +1848,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> POSCTL].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "POSCTL");
         }
 
     }
@@ -1853,10 +1868,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> AUTORTL].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "AUTORTL");
         }
 
     }
@@ -1872,10 +1888,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> AUTOLTR].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "AUTOLTR");
         }
     }
     else if (takeoff && mode_changed)
@@ -1890,10 +1907,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> AUTOTAKOF].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "AUTOTAKOF");
         }
     }
     else if (!posctl && altctl && !rtl && !loiter && !takeoff && mode_changed)
@@ -1908,10 +1926,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> ALTCTL].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "ALTCTL");
         }
     }
     else if (manual && mode_changed)
@@ -1926,10 +1945,11 @@ void VM::RcModes()
         catch (TransitionUndefinedException e)
         {
             HkTlm.usCmdErrCnt++;
+            uint32 PrevState = NavigationSM.GetCurrentStateID();
             CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
                     CFE_EVS_INFORMATION,
-                    "Illegal Nav transition [%s -> MANUAL].  Command rejected.",
-					NavigationSM.GetCurrentStateName());
+                    "Illegal Nav transition [%s -> %s].  Command rejected.",
+                    GetNavStateAsString(PrevState), "MANUAL");
         }
     }
     else
@@ -1964,6 +1984,89 @@ void VM::FlightSessionInit()
     /* Transition from init to default state */
     ArmingSM.FSM.InitComplete();
     NavigationSM.FSM.trInitComplete();
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/*  Get Navigation State as String                                 */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+const char* VM::GetNavStateAsString(uint32 id)
+{
+    const char * State_ptr;
+
+    switch (id)
+    {
+        case 0:
+        {
+            State_ptr = "MANUAL";
+            break;
+        }
+
+        case 1:
+        {
+            State_ptr = "ALTCTL";
+            break;
+        }
+
+        case 2:
+        {
+            State_ptr = "POSCTL";
+            break;
+        }
+
+        case 3:
+        {
+            State_ptr = "AUTORTL";
+            break;
+        }
+
+        case 4:
+        {
+            State_ptr = "AUTOLTR";
+            break;
+        }
+
+        case 5:
+        {
+            State_ptr = "ACRO";
+            break;
+        }
+
+        case 6:
+        {
+            State_ptr = "STAB";
+            break;
+        }
+
+        case 7:
+        {
+            State_ptr = "RATT";
+            break;
+        }
+
+        case 8:
+        {
+            State_ptr = "AUTOTAKOF";
+            break;
+        }
+
+        case 9:
+        {
+            State_ptr = "AUTOLND";
+            break;
+        }
+
+        default:
+        {
+            State_ptr = "UNKNOWN";
+            break;
+        }
+    }
+
+    return State_ptr;
 }
 
 

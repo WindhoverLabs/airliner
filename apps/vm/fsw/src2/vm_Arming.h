@@ -129,9 +129,6 @@ public:
      *************************************************************************/
     uint32 GetCurrentStateID(void);
 
-    /* TODO */
-    const char* GetCurrentStateName(void);
-
     /************************************************************************/
     /** \brief Function called on entry to the Standby state.
      **
@@ -220,21 +217,6 @@ public:
      *************************************************************************/
     VM_ArmingContext FSM;
 
-    /*************************************************************************/
-    /** \brief Reference to the VM application.
-     **
-     **  \par Description
-     **       This is a reference to the parent VM application and used
-     **       internally to access VM member functions and attributes.
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **        None
-     *************************************************************************/
-    VM &App;
-
-    /* TODO */
-    void SetArmed(osalbool Armed);
-
 private:
     /************************************************************************/
     /** \brief Signal a transition to the Armed state.
@@ -281,6 +263,18 @@ private:
      **        None
      *************************************************************************/
     void InitComplete(void);
+
+    /*************************************************************************/
+    /** \brief Reference to the VM application.
+     **
+     **  \par Description
+     **       This is a reference to the parent VM application and used
+     **       internally to access VM member functions and attributes.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **        None
+     *************************************************************************/
+    VM &App;
 };
 
 #endif

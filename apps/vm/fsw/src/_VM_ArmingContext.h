@@ -36,7 +36,7 @@
 
 
 #include <string.h>
-#include "VM_Arming_sm.h"
+#include "Arming/VM_Arming_sm.h"
 #include "cfe.h"
 
 class VM;

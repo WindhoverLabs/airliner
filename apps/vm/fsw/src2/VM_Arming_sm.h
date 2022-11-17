@@ -7,11 +7,11 @@
 
 // Forward declarations.
 class VM_ArmingFSM;
-class VM_ArmingFSM_ArmedError;
-class VM_ArmingFSM_StandbyError;
-class VM_ArmingFSM_Armed;
-class VM_ArmingFSM_Standby;
 class VM_ArmingFSM_Init;
+class VM_ArmingFSM_Standby;
+class VM_ArmingFSM_Armed;
+class VM_ArmingFSM_StandbyError;
+class VM_ArmingFSM_ArmedError;
 class VM_ArmingFSM_Default;
 class VM_ArmingState;
 class VM_ArmingContext;
@@ -44,11 +44,11 @@ class VM_ArmingFSM
 {
 public:
 
-    static VM_ArmingFSM_ArmedError ArmedError;
-    static VM_ArmingFSM_StandbyError StandbyError;
-    static VM_ArmingFSM_Armed Armed;
-    static VM_ArmingFSM_Standby Standby;
     static VM_ArmingFSM_Init Init;
+    static VM_ArmingFSM_Standby Standby;
+    static VM_ArmingFSM_Armed Armed;
+    static VM_ArmingFSM_StandbyError StandbyError;
+    static VM_ArmingFSM_ArmedError ArmedError;
 };
 
 class VM_ArmingFSM_Default :
@@ -62,39 +62,15 @@ public:
 
 };
 
-class VM_ArmingFSM_ArmedError :
+class VM_ArmingFSM_Init :
     public VM_ArmingFSM_Default
 {
 public:
-    VM_ArmingFSM_ArmedError(const char *name, int stateId)
+    VM_ArmingFSM_Init(const char *name, int stateId)
     : VM_ArmingFSM_Default(name, stateId)
     {};
 
-    void Entry(VM_ArmingContext&);
-};
-
-class VM_ArmingFSM_StandbyError :
-    public VM_ArmingFSM_Default
-{
-public:
-    VM_ArmingFSM_StandbyError(const char *name, int stateId)
-    : VM_ArmingFSM_Default(name, stateId)
-    {};
-
-    void Entry(VM_ArmingContext&);
-};
-
-class VM_ArmingFSM_Armed :
-    public VM_ArmingFSM_Default
-{
-public:
-    VM_ArmingFSM_Armed(const char *name, int stateId)
-    : VM_ArmingFSM_Default(name, stateId)
-    {};
-
-    void Entry(VM_ArmingContext&);
-    void Disarm(VM_ArmingContext& context);
-    void Error(VM_ArmingContext& context);
+    void InitComplete(VM_ArmingContext& context);
     void Reset(VM_ArmingContext& context);
 };
 
@@ -106,23 +82,42 @@ public:
     : VM_ArmingFSM_Default(name, stateId)
     {};
 
-    void Entry(VM_ArmingContext&);
     void Arm(VM_ArmingContext& context);
     void Error(VM_ArmingContext& context);
     void Reset(VM_ArmingContext& context);
 };
 
-class VM_ArmingFSM_Init :
+class VM_ArmingFSM_Armed :
     public VM_ArmingFSM_Default
 {
 public:
-    VM_ArmingFSM_Init(const char *name, int stateId)
+    VM_ArmingFSM_Armed(const char *name, int stateId)
     : VM_ArmingFSM_Default(name, stateId)
     {};
 
-    void Entry(VM_ArmingContext&);
-    void InitComplete(VM_ArmingContext& context);
+    void Disarm(VM_ArmingContext& context);
+    void Error(VM_ArmingContext& context);
     void Reset(VM_ArmingContext& context);
+};
+
+class VM_ArmingFSM_StandbyError :
+    public VM_ArmingFSM_Default
+{
+public:
+    VM_ArmingFSM_StandbyError(const char *name, int stateId)
+    : VM_ArmingFSM_Default(name, stateId)
+    {};
+
+};
+
+class VM_ArmingFSM_ArmedError :
+    public VM_ArmingFSM_Default
+{
+public:
+    VM_ArmingFSM_ArmedError(const char *name, int stateId)
+    : VM_ArmingFSM_Default(name, stateId)
+    {};
+
 };
 
 class VM_ArmingContext :
@@ -154,37 +149,27 @@ public:
 
     void Arm()
     {
-        setTransition("Arm");
         (getState()).Arm(*this);
-        setTransition(NULL);
     };
 
     void Disarm()
     {
-        setTransition("Disarm");
         (getState()).Disarm(*this);
-        setTransition(NULL);
     };
 
     void Error()
     {
-        setTransition("Error");
         (getState()).Error(*this);
-        setTransition(NULL);
     };
 
     void InitComplete()
     {
-        setTransition("InitComplete");
         (getState()).InitComplete(*this);
-        setTransition(NULL);
     };
 
     void Reset()
     {
-        setTransition("Reset");
         (getState()).Reset(*this);
-        setTransition(NULL);
     };
 
 private:

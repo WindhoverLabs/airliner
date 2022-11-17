@@ -35,8 +35,8 @@
 #define VM_APP_H
 
 #include <string.h>
-#include "VM_Arming.h"
-#include "VM_NavigationContext.h"
+#include "vm_Arming.h"
+#include "vm_Navigation.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -4,108 +4,16 @@
 
 %map VM_NavigationFSM
 %%
-AutoLand
+Init
 {
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trAcrobatic	Acrobatic	{}
-	trStabilize	Stabilize	{}
-	trRattitude	Rattitude	{}
-	trAutoTakeoff	AutoTakeoff	{}
+	trInitComplete	Manual	{}
 	Reset	Init	{}
 }
 
-AutoTakeoff
+Manual
 {
-	trManual	Manual	{}
 	trAltitudeControl	AltitudeControl	{}
 	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trAcrobatic	Acrobatic	{}
-	trStabilize	Stabilize	{}
-	trRattitude	Rattitude	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-Rattitude
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trAcrobatic	Acrobatic	{}
-	trStabilize	Stabilize	{}
-	trAutoTakeoff	AutoTakeoff	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-Stabilize
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trAcrobatic	Acrobatic	{}
-	trRattitude	Rattitude	{}
-	trAutoTakeoff	AutoTakeoff	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-Acrobatic
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trStabilize	Stabilize	{}
-	trRattitude	Rattitude	{}
-	trAutoTakeoff	AutoTakeoff	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-AutoReturnToLaunch
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoLoiter	AutoLoiter	{}
-	trAcrobatic	Acrobatic	{}
-	trStabilize	Stabilize	{}
-	trRattitude	Rattitude	{}
-	trAutoTakeoff	AutoTakeoff	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-AutoLoiter
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
-	trAutoReturnToLaunch	AutoReturnToLaunch	{}
-	trAcrobatic	Acrobatic	{}
-	trStabilize	Stabilize	{}
-	trRattitude	Rattitude	{}
-	trAutoTakeoff	AutoTakeoff	{}
-	trAutoLand	AutoLand	{}
-	Reset	Init	{}
-}
-
-PositionControl
-{
-	trManual	Manual	{}
-	trAltitudeControl	AltitudeControl	{}
 	trAutoLoiter	AutoLoiter	{}
 	trAutoReturnToLaunch	AutoReturnToLaunch	{}
 	trAcrobatic	Acrobatic	{}
@@ -130,10 +38,10 @@ AltitudeControl
 	Reset	Init	{}
 }
 
-Manual
+PositionControl
 {
+	trManual	Manual	{}
 	trAltitudeControl	AltitudeControl	{}
-	trPositionControl	PositionControl	{}
 	trAutoLoiter	AutoLoiter	{}
 	trAutoReturnToLaunch	AutoReturnToLaunch	{}
 	trAcrobatic	Acrobatic	{}
@@ -144,9 +52,101 @@ Manual
 	Reset	Init	{}
 }
 
-Init
+AutoLoiter
 {
-	trInitComplete	Manual	{}
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trAcrobatic	Acrobatic	{}
+	trStabilize	Stabilize	{}
+	trRattitude	Rattitude	{}
+	trAutoTakeoff	AutoTakeoff	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+AutoReturnToLaunch
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAcrobatic	Acrobatic	{}
+	trStabilize	Stabilize	{}
+	trRattitude	Rattitude	{}
+	trAutoTakeoff	AutoTakeoff	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+Acrobatic
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trStabilize	Stabilize	{}
+	trRattitude	Rattitude	{}
+	trAutoTakeoff	AutoTakeoff	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+Stabilize
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trAcrobatic	Acrobatic	{}
+	trRattitude	Rattitude	{}
+	trAutoTakeoff	AutoTakeoff	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+Rattitude
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trAcrobatic	Acrobatic	{}
+	trStabilize	Stabilize	{}
+	trAutoTakeoff	AutoTakeoff	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+AutoTakeoff
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trAcrobatic	Acrobatic	{}
+	trStabilize	Stabilize	{}
+	trRattitude	Rattitude	{}
+	trAutoLand	AutoLand	{}
+	Reset	Init	{}
+}
+
+AutoLand
+{
+	trManual	Manual	{}
+	trAltitudeControl	AltitudeControl	{}
+	trPositionControl	PositionControl	{}
+	trAutoLoiter	AutoLoiter	{}
+	trAutoReturnToLaunch	AutoReturnToLaunch	{}
+	trAcrobatic	Acrobatic	{}
+	trStabilize	Stabilize	{}
+	trRattitude	Rattitude	{}
+	trAutoTakeoff	AutoTakeoff	{}
 	Reset	Init	{}
 }
 

@@ -4,32 +4,37 @@
 
 %map VM_ArmingFSM
 %%
-Init
+ArmedError
+Entry {SetArmed(false);}
 {
-	InitComplete	Standby	{}
-	Reset	Init	{}
 }
 
-Standby
+StandbyError
+Entry {SetArmed(false);}
 {
-	Arm	Armed	{}
-	Error	StandbyError	{}
-	Reset	Init	{}
 }
 
 Armed
+Entry {SetArmed(true);}
 {
 	Disarm	Standby	{}
 	Error	ArmedError	{}
 	Reset	Init	{}
 }
 
-StandbyError
+Standby
+Entry {SetArmed(false);}
 {
+	Arm	Armed	{}
+	Error	StandbyError	{}
+	Reset	Init	{}
 }
 
-ArmedError
+Init
+Entry {SetArmed(false);}
 {
+	InitComplete	Standby	{}
+	Reset	Init	{}
 }
 
 %%

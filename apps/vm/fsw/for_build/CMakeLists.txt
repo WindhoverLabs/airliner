@@ -40,13 +40,16 @@ buildliner_add_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_config_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_msg.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_NavigationContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_symbols.cpp
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/Arming
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/Navigation
 
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
