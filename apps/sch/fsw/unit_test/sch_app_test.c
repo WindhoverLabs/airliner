@@ -510,6 +510,28 @@ void SCH_AppInit_Test_TimerInitError(void)
 
 } /* end SCH_AppInit_Test_TimerInitError */
 
+void SCH_AppInit_Test_ChildTaskInitError(void)
+{
+    /* Set a fail result for SB */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_ES_ERR_TASKID;
+    char  expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, expected, 1);
+
+    sprintf(expEventText, "AD child task create failed - err = 0x%08lX", (unsigned int)expected);
+
+    /* Execute the function being tested */
+//    result = SCH_AppInit();
+    result = SCH_ChildTaskInit();
+
+    /* Verify results */
+printf("result: 0x%08lX\n", (unsigned int)result);
+    UtAssert_True(result == expected, "AppInit_Test_ChildTaskInitError");
+    UtAssert_EventSent(SCH_AD_CHILD_TASK_CREATE_ERR_EID, CFE_EVS_ERROR,
+             expEventText, "AppInit_Test_ChildTaskInitError Event Sent");
+} /* SCH_AppInit_Test_ChildTaskInitError */
+
 void SCH_AppInit_Test_Nominal(void)
 {
     int32   Result;
@@ -639,7 +661,7 @@ void SCH_EvsInit_Test_Nominal(void)
 
 } /* end SCH_EvsInit_Test_Nominal */
 
-void SCH_SbInit_Test_CreatePipeError(void)
+void SCH_SbInit_Test_CreateCmdPipeError(void)
 {
     int32   Result;
 
@@ -664,7 +686,26 @@ void SCH_SbInit_Test_CreatePipeError(void)
 
     UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
 
-} /* end SCH_SbInit_Test_CreatePipeError */
+} /* end SCH_SbInit_Test_CreateCmdPipeError */
+
+void SCH_SbInit_Test_CreateADPipeError(void)
+{
+    /* Set a fail result for SB */
+    int32  result = CFE_SUCCESS;
+    int32  expected = CFE_SB_BAD_ARGUMENT;
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
+
+    sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08lX", expected);
+
+    /* Execute the function being tested */
+    result = SCH_SbInit();
+
+    UtAssert_True(result == expected, "SbInit_Test_CreateADPipeError");
+    UtAssert_EventSent(SCH_CR_PIPE_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "SbInit_Test_CreateADPipeError Event Sent");
+} /* end SCH_SbInit_Test_CreateADPipeError */
 
 void SCH_SbInit_Test_SubscribeHKError(void)
 {
@@ -729,6 +770,28 @@ void SCH_SbInit_Test_SubscribeGNDError(void)
     UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
 
 } /* end SCH_SbInit_Test_SubscribeGNDError */
+
+void SCH_SbInit_Test_SubscribeActivityDoneError(void)
+{
+    /* Set a fail result for SB */
+    int32  result = CFE_SUCCESS;
+    int32  expected = CFE_SB_BAD_ARGUMENT;
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, expected, 3);
+
+    sprintf(expEventText, "Error Subscribing to activity done msg(MID=0x%04X), RC=0x%08lX",
+            SCH_ACTIVITY_DONE_MID, expected);
+
+    /* Execute the function being tested */
+    result = SCH_SbInit();
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "SbInit_Test_SubscribeActivityDoneError");
+    UtAssert_EventSent(SCH_SUB_GND_CMD_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "SbInit_Test_SubscribeActivityDoneError Event Sent");
+} /* end SCH_SbInit_Test_SubscribeActivityDoneError */
 
 void SCH_SbInit_Test_Nominal(void)
 {
@@ -2907,14 +2970,17 @@ void SCH_App_Test_AddTestCases(void)
     UtTest_Add(SCH_AppInit_Test_SbInitError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppInit_Test_SbInitError");
     UtTest_Add(SCH_AppInit_Test_TblInitError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppInit_Test_TblInitError");
     UtTest_Add(SCH_AppInit_Test_TimerInitError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppInit_Test_TimerInitError");
+    UtTest_Add(SCH_AppInit_Test_ChildTaskInitError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppInit_Test_ChildTaskInitError");
     UtTest_Add(SCH_AppInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppInit_Test_Nominal");
 
     UtTest_Add(SCH_EvsInit_Test_RegisterError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EvsInit_Test_RegisterError");
     UtTest_Add(SCH_EvsInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EvsInit_Test_Nominal");
 
-    UtTest_Add(SCH_SbInit_Test_CreatePipeError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_CreatePipeError");
+    UtTest_Add(SCH_SbInit_Test_CreateCmdPipeError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_CreateCmdPipeError");
+    UtTest_Add(SCH_SbInit_Test_CreateADPipeError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_CreateADPipeError");
     UtTest_Add(SCH_SbInit_Test_SubscribeHKError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_SubscribeHKError");
     UtTest_Add(SCH_SbInit_Test_SubscribeGNDError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_SubscribeGNDError");
+    UtTest_Add(SCH_SbInit_Test_SubscribeActivityDoneError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_SubscribeActivityDoneError");
     UtTest_Add(SCH_SbInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_Nominal");
 
     UtTest_Add(SCH_TblInit_Test_RegisterSdtError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_RegisterSdtError");
