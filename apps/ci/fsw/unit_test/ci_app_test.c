@@ -35,6 +35,7 @@
 #include "ci_app.h"
 #include "ci_test_utils.h"
 #include "ci_mock_custom.h"
+#include "ci_version.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -557,7 +558,7 @@ void Test_CI_AppMain_SchMessageTimeout(void)
     /* Used to verify HK was transmitted correctly. */
     SendHK_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                              &Test_CI_AppMain_Nominal_SendHK_SendMsgHook);
+                     (void*)&Test_CI_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     CI_AppMain();
@@ -605,7 +606,7 @@ void Test_CI_AppMain_Nominal_SendHK(void)
     /* Used to verify HK was transmitted correctly. */
     SendHK_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                              &Test_CI_AppMain_Nominal_SendHK_SendMsgHook);
+                       (void*)&Test_CI_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     CI_AppMain();
@@ -656,6 +657,9 @@ void Test_CI_AppMain_Nominal_ProcessTimeouts(void)
  */
 void Test_CI_AppMain_Nominal_IngestCommands(void)
 {
+    char expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+    int  cntIngestCmds = 0;
+
     /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX,
@@ -663,8 +667,22 @@ void Test_CI_AppMain_Nominal_IngestCommands(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
+    READ_MSG_RET = CI_CMD;
+    cntIngestCmds = 10;
+    cntReadMessages = cntIngestCmds;
+
     /* Execute the function being tested */
     CI_AppMain();
+
+    sprintf(expEventText, "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                          CI_NOOP_CC, CI_MAJOR_VERSION, CI_MINOR_VERSION,
+                          CI_REVISION, CI_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == (cntIngestCmds + 2),
+                  "AppMain, Nominal - IngestCommands");
+    UtAssert_EventSent(CI_CMD_INF_EID, CFE_EVS_INFORMATION, expEventText,
+                       "AppMain, Nominal - IngestCommands Event Sent");
 }
 
 

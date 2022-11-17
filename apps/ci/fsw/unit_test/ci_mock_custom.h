@@ -56,3 +56,4 @@ extern int INIT_CUSTOM_RET;
 extern int READ_MSG_RET;
 extern int TEST_MSG_ID;
 extern int TEST_CC;
+extern int cntReadMessages;
