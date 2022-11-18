@@ -16,6 +16,8 @@
  * Includes
  */
 
+#include "uttest.h"
+
 #include "sch_cmds_test.h"
 #include "sch_cmds.h"
 #include "sch_app.h"
@@ -1132,34 +1134,34 @@ void SCH_Cmds_Test_AddTestCases(void)
     UtTest_Add(SCH_EnableCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableCmd_Test_InvalidCmdLength");
     UtTest_Add(SCH_EnableCmd_Test_InvalidArgumentSlotNumber, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableCmd_Test_InvalidArgumentSlotNumber");
     UtTest_Add(SCH_EnableCmd_Test_InvalidArgumentEntryNumber, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableCmd_Test_InvalidArgumentEntryNumber");
-    UtTest_Add(SCH_EnableCmd_Test_InvalidState, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableCmd_Test_InvalidState");
-    UtTest_Add(SCH_EnableCmd_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableCmd_Test_Nominal");
+    UtTest_Add(SCH_EnableCmd_Test_InvalidState, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_EnableCmd_Test_InvalidState");
+    UtTest_Add(SCH_EnableCmd_Test_Nominal, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_EnableCmd_Test_Nominal");
 
     UtTest_Add(SCH_DisableCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableCmd_Test_InvalidCmdLength");
     UtTest_Add(SCH_DisableCmd_Test_InvalidArgumentSlotNumber, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableCmd_Test_InvalidArgumentSlotNumber");
     UtTest_Add(SCH_DisableCmd_Test_InvalidArgumentEntryNumber, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableCmd_Test_InvalidArgumentEntryNumber");
-    UtTest_Add(SCH_DisableCmd_Test_InvalidState, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableCmd_Test_InvalidState");
-    UtTest_Add(SCH_DisableCmd_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableCmd_Test_Nominal");
+    UtTest_Add(SCH_DisableCmd_Test_InvalidState, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_DisableCmd_Test_InvalidState");
+    UtTest_Add(SCH_DisableCmd_Test_Nominal, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_DisableCmd_Test_Nominal");
 
     UtTest_Add(SCH_EnableGroupCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_InvalidCmdLength");
     UtTest_Add(SCH_EnableGroupCmd_Test_InvalidArgument, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_InvalidArgument");
-    UtTest_Add(SCH_EnableGroupCmd_Test_NominalCmdGroupNumberNotUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_NominalCmdGroupNumberNotUnused");
-    UtTest_Add(SCH_EnableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused");
-    UtTest_Add(SCH_EnableGroupCmd_Test_GroupNotFound, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_GroupNotFound");
+    UtTest_Add(SCH_EnableGroupCmd_Test_NominalCmdGroupNumberNotUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_NominalCmdGroupNumberNotUnused");
+    UtTest_Add(SCH_EnableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused");
+    UtTest_Add(SCH_EnableGroupCmd_Test_GroupNotFound, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_EnableGroupCmd_Test_GroupNotFound");
 
     UtTest_Add(SCH_DisableGroupCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_InvalidCmdLength");
     UtTest_Add(SCH_DisableGroupCmd_Test_InvalidArgument, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_InvalidArgument");
-    UtTest_Add(SCH_DisableGroupCmd_Test_NominalCmdGroupNumberNotUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_NominalCmdGroupNumberNotUnused");
-    UtTest_Add(SCH_DisableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused");
-    UtTest_Add(SCH_DisableGroupCmd_Test_GroupNotFound, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_GroupNotFound");
+    UtTest_Add(SCH_DisableGroupCmd_Test_NominalCmdGroupNumberNotUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_NominalCmdGroupNumberNotUnused");
+    UtTest_Add(SCH_DisableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_NominalCmdMultiGroupBitwiseAndTblMultiGroupNotUnused");
+    UtTest_Add(SCH_DisableGroupCmd_Test_GroupNotFound, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_DisableGroupCmd_Test_GroupNotFound");
 
     UtTest_Add(SCH_EnableSyncCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableSyncCmd_Test_InvalidCmdLength");
     UtTest_Add(SCH_EnableSyncCmd_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableSyncCmd_Test_Nominal");
 
     UtTest_Add(SCH_SendDiagTlmCmd_Test_InvalidCmdLength, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_InvalidCmdLength");
-    UtTest_Add(SCH_SendDiagTlmCmd_Test_Enabled, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Enabled");
-    UtTest_Add(SCH_SendDiagTlmCmd_Test_Disabled, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Disabled");
-    UtTest_Add(SCH_SendDiagTlmCmd_Test_Other, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Other");
+    UtTest_Add(SCH_SendDiagTlmCmd_Test_Enabled, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Enabled");
+    UtTest_Add(SCH_SendDiagTlmCmd_Test_Disabled, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Disabled");
+    UtTest_Add(SCH_SendDiagTlmCmd_Test_Other, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_SendDiagTlmCmd_Test_Other");
 
     UtTest_Add(SCH_AcquirePointers_Test_AllResultsGreaterThanSuccess, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AcquirePointers_Test_AllResultsGreaterThanSuccess");
     UtTest_Add(SCH_AcquirePointers_Test_AllResultsSuccess, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AcquirePointers_Test_AllResultsSuccess");

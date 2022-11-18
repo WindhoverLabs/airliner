@@ -28,6 +28,26 @@ void SCH_Test_Setup(void)
 
     CFE_PSP_MemSet(&SCH_AppData, 0, sizeof(SCH_AppData_t));
 
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+    Ut_OSTIMER_Reset();
+
+    Ut_CFE_TBL_AddTable(SCH_SCHEDULE_FILENAME, (void *) &SCH_DefaultScheduleTable);
+    Ut_CFE_TBL_AddTable(SCH_MESSAGE_FILENAME, (void *) &SCH_DefaultMessageTable);
+} /* end SCH_Test_Setup */
+
+void SCH_Test_SetupUnitTest(void)
+{
+    /* initialize test environment to default state for every test */
+
+    CFE_PSP_MemSet(&SCH_AppData, 0, sizeof(SCH_AppData_t));
+
     SCH_AppData.MessageTable  = &MessageTable[0];
     SCH_AppData.ScheduleTable = &ScheduleTable[0];
 
@@ -43,7 +63,7 @@ void SCH_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
     Ut_OSTIMER_Reset();
-} /* end SCH_Test_Setup */
+}
 
 void SCH_Test_TearDown(void)
 {
@@ -57,6 +77,7 @@ void SCH_Test_TearDown(void)
  * next release of the UT-Assert library is not expected to happen in the near future.
  */
 
+#if 0
 /* ut_cfe_evs_stubs */
 
 Ut_CFE_EVS_HookTable_t          Ut_CFE_EVS_HookTable;
@@ -204,6 +225,7 @@ int32 CFE_EVS_ResetAllFilters(void)
 }
 
 /* end ut_cfe_evs_stubs */
+#endif
 
 /* ut_ostimer_stubs */
 
@@ -290,6 +312,7 @@ int32 OS_TimerSet(uint32 timer_id, uint32 start_time, uint32 interval_time)
 
 /* end ut_ostimer_stubs */
 
+#if 0
 /* ut_cfe_time_stubs */
 
 Ut_CFE_TIME_HookTable_t         Ut_CFE_TIME_HookTable;
@@ -544,9 +567,11 @@ uint16  CFE_TIME_GetClockInfo(void)
 }
 
 /* end ut_cfe_time_stubs */
+#endif
 
 
 
+#if 0
 /* ut_cfe_sb_stubs */
 
 CFE_SB_Qos_t CFE_SB_Default_Qos;
@@ -1080,6 +1105,7 @@ int32 CFE_SB_CleanUpApp (uint32 AppId)
 }
 
 /* end ut_cfe_sb_stubs */
+#endif
 
 /************************/
 /*  End of File Comment */

@@ -16,6 +16,8 @@
  * Includes
  */
 
+#include "uttest.h"
+
 #include "sch_app_test.h"
 #include "sch_app.h"
 #include "sch_apipriv.h"
@@ -519,14 +521,13 @@ void SCH_AppInit_Test_ChildTaskInitError(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, expected, 1);
 
-    sprintf(expEventText, "AD child task create failed - err = 0x%08lX", (unsigned int)expected);
+    sprintf(expEventText, "AD child task create failed - err = 0x%08X",
+                          (unsigned int)expected);
 
     /* Execute the function being tested */
-//    result = SCH_AppInit();
-    result = SCH_ChildTaskInit();
+    result = SCH_AppInit();
 
     /* Verify results */
-printf("result: 0x%08lX\n", (unsigned int)result);
     UtAssert_True(result == expected, "AppInit_Test_ChildTaskInitError");
     UtAssert_EventSent(SCH_AD_CHILD_TASK_CREATE_ERR_EID, CFE_EVS_ERROR,
              expEventText, "AppInit_Test_ChildTaskInitError Event Sent");
@@ -897,7 +898,9 @@ void SCH_TblInit_Test_RegisterMdtError(void)
 
 void SCH_TblInit_Test_LoadSdtError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_TBL_ERR_INVALID_HANDLE;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
     SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
@@ -909,36 +912,46 @@ void SCH_TblInit_Test_LoadSdtError(void)
     SCH_AppData.TablePassCount          = 8;
 
     /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, -1, 1);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_TblInit();
     
+    sprintf(expEventText, "Error (RC=0x%08X) Loading SDT with %s",
+            (unsigned int)Expected, SCH_SCHEDULE_FILENAME);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
+    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL,
+               "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
+    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL,
+               "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
 
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
+    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
+       because it's modified by CFE_TBL_Register */
+    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
+       because it's modified by CFE_TBL_Register */
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SDT_LOAD_ERR_EID, CFE_EVS_ERROR, "Error (RC=0xFFFFFFFF) Loading SDT with /cf/apps/sch_def_schtbl.tbl"),
-        "Error (RC=0xFFFFFFFF) Loading SDT with /cf/apps/sch_def_schtbl.tbl");
+    UtAssert_True(SCH_AppData.BadTableDataCount       == 0,
+                  "SCH_AppData.BadTableDataCount       == 0");
+    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0,
+                  "SCH_AppData.TableVerifySuccessCount == 0");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0,
+                  "SCH_AppData.TableVerifyFailureCount == 0");
+    UtAssert_True(SCH_AppData.TablePassCount          == 0,
+                  "SCH_AppData.TablePassCount          == 0");
 
-    UtAssert_True (Result == -1, "Result == -1");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 1");
+    UtAssert_True(Result == Expected, "TblInit_Test_LoadSdtError");
+    UtAssert_EventSent(SCH_SDT_LOAD_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "TblInit_Test_LoadSdtError Event Sent");
 } /* end SCH_TblInit_Test_LoadSdtError */
 
 void SCH_TblInit_Test_LoadMdtError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_TBL_ERR_INVALID_HANDLE;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
     SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
@@ -949,32 +962,39 @@ void SCH_TblInit_Test_LoadMdtError(void)
     SCH_AppData.TableVerifyFailureCount = 7;
     SCH_AppData.TablePassCount          = 8;
 
-    /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" (by setting only first call to CFE_TBL_Load to succeed) */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, Expected, 2);
 
     /* Execute the function being tested */
     Result = SCH_TblInit();
     
+    sprintf(expEventText, "Error (RC=0x%08X) Loading MDT with %s",
+                       (unsigned int)Expected, SCH_MESSAGE_FILENAME);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
+    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL,
+               "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
+    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL,
+               "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
 
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
+    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
+       because it's modified by CFE_TBL_Register */
+    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
+       because it's modified by CFE_TBL_Register */
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MDT_LOAD_ERR_EID, CFE_EVS_ERROR, "Error (RC=0xCC000013) Loading MDT with /cf/apps/sch_def_msgtbl.tbl"),
-        "Error (RC=0xCC000013) Loading MDT with /cf/apps/sch_def_msgtbl.tbl");
+    UtAssert_True(SCH_AppData.BadTableDataCount       == 0,
+                  "SCH_AppData.BadTableDataCount       == 0");
+    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 1,
+                  "SCH_AppData.TableVerifySuccessCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0,
+                  "SCH_AppData.TableVerifyFailureCount == 0");
+    UtAssert_True(SCH_AppData.TablePassCount          == 0,
+                  "SCH_AppData.TablePassCount          == 0");
 
-    UtAssert_True (Result == 0xCC000013, "Result == 0xCC000013");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
+    UtAssert_True(Result == Expected, "TblInit_Test_LoadMdtError");
+    UtAssert_EventSent(SCH_MDT_LOAD_ERR_EID, CFE_EVS_ERROR,
+             expEventText, "TblInit_Test_LoadMdtError Event Sent");
 } /* end SCH_TblInit_Test_LoadMdtError */
 
 void SCH_TblInit_Test_AcquirePointersError(void)
@@ -1816,12 +1836,15 @@ void SCH_ValidateScheduleData_Test_GarbageFrequency(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
         SCH_AppData.ScheduleTable[TableIndex].EnableState = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Type = SCH_UNUSED;
-        SCH_AppData.ScheduleTable[TableIndex].Frequency = 99;    /* Only this element should fail the second if-statement */
+        /* Only this element should fail the second if-statement */
+        SCH_AppData.ScheduleTable[TableIndex].Frequency = 99;
         SCH_AppData.ScheduleTable[TableIndex].Remainder = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].MessageIndex = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].GroupData = SCH_UNUSED;
@@ -1830,20 +1853,28 @@ void SCH_ValidateScheduleData_Test_GarbageFrequency(void)
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
+    sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
+            " ena[0] typ[0] fre[99] rem[0] msg[0] grp[0x00000000]");
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[%d] unused[0]", SCH_TABLE_ENTRIES);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[99] rem[0] msg[0] grp[0x00000000]"),
-        "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[99] rem[0] msg[0] grp[0x00000000]");
+    UtAssert_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR,
+     EventVerifyErr,
+     "ValidateScheduleData_Test_GarbageFrequency: Verify Error EventSent");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[500] unused[0]"),
-        "Schedule table verify results -- good[0] bad[500] unused[0]");
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+     EventVerifyResult,
+     "ValidateScheduleData_Test_GarbageFrequency: Verify Results EventSent");
 
-    UtAssert_True (SCH_AppData.TableVerifyFailureCount == 1, "SCH_AppData.TableVerifyFailureCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 1,
+                  "SCH_AppData.TableVerifyFailureCount == 1");
 
-    UtAssert_True (Result == SCH_SDT_GARBAGE_ENTRY, "Result == SCH_SDT_GARBAGE_ENTRY");
+    UtAssert_True(Result == SCH_SDT_GARBAGE_ENTRY,
+                  "Result == SCH_SDT_GARBAGE_ENTRY");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 2, "Ut_CFE_EVS_GetEventQueueDepth() == 2");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
 
 } /* end SCH_ValidateScheduleData_Test_GarbageFrequency */
 
@@ -1851,13 +1882,16 @@ void SCH_ValidateScheduleData_Test_GarbageRemainder(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
         SCH_AppData.ScheduleTable[TableIndex].EnableState = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Type = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Frequency = SCH_UNUSED;
-        SCH_AppData.ScheduleTable[TableIndex].Remainder = 99;    /* Only this element should fail the second if-statement */
+        /* Only this element should fail the second if-statement */
+        SCH_AppData.ScheduleTable[TableIndex].Remainder = 99;
         SCH_AppData.ScheduleTable[TableIndex].MessageIndex = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].GroupData = SCH_UNUSED;
     }
@@ -1865,14 +1899,19 @@ void SCH_ValidateScheduleData_Test_GarbageRemainder(void)
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
-    /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[99] msg[0] grp[0x00000000]"),
-        "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[99] msg[0] grp[0x00000000]");
+    sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
+            " ena[0] typ[0] fre[0] rem[99] msg[0] grp[0x00000000]");
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[%d] unused[0]", SCH_TABLE_ENTRIES);
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[500] unused[0]"),
-        "Schedule table verify results -- good[0] bad[500] unused[0]");
+    /* Verify results */
+    UtAssert_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR,
+      EventVerifyErr,
+      "ValidateScheduleData_Test_GarbageRemainder: Verify Error EventSent");
+
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+      EventVerifyResult,
+      "ValidateScheduleData_Test_GarbageRemainder: Verify Result EventSent");
 
     UtAssert_True (SCH_AppData.TableVerifyFailureCount == 1, "SCH_AppData.TableVerifyFailureCount == 1");
 
@@ -1886,6 +1925,8 @@ void SCH_ValidateScheduleData_Test_GarbageGroupData(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
@@ -1894,26 +1935,35 @@ void SCH_ValidateScheduleData_Test_GarbageGroupData(void)
         SCH_AppData.ScheduleTable[TableIndex].Frequency = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Remainder = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].MessageIndex = SCH_UNUSED;
-        SCH_AppData.ScheduleTable[TableIndex].GroupData = 0x0000000F;    /* Only this element should fail the second if-statement */
+        /* Only this element should fail the second if-statement */
+        SCH_AppData.ScheduleTable[TableIndex].GroupData = 0x0000000F;
     }
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
+    sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
+            " ena[0] typ[0] fre[0] rem[0] msg[0] grp[0x0000000F]");
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[%d] unused[0]", SCH_TABLE_ENTRIES);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[0] msg[0] grp[0x0000000F]"),
-        "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[0] msg[0] grp[0x0000000F]");
+    UtAssert_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR,
+       EventVerifyErr,
+       "ValidateScheduleData_Test_GarbageGroupData: Verify Error EventSent");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[500] unused[0]"),
-        "Schedule table verify results -- good[0] bad[500] unused[0]");
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+       EventVerifyResult,
+       "ValidateScheduleData_Test_GarbageGroupData: Verify Result EventSent");
 
-    UtAssert_True (SCH_AppData.TableVerifyFailureCount == 1, "SCH_AppData.TableVerifyFailureCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 1,
+                  "SCH_AppData.TableVerifyFailureCount == 1");
 
-    UtAssert_True (Result == SCH_SDT_GARBAGE_ENTRY, "Result == SCH_SDT_GARBAGE_ENTRY");
+    UtAssert_True(Result == SCH_SDT_GARBAGE_ENTRY,
+                  "Result == SCH_SDT_GARBAGE_ENTRY");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 2, "Ut_CFE_EVS_GetEventQueueDepth() == 2");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
 
 } /* end SCH_ValidateScheduleData_Test_GarbageGroupData */
 
@@ -1921,11 +1971,14 @@ void SCH_ValidateScheduleData_Test_GarbageType(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
         SCH_AppData.ScheduleTable[TableIndex].EnableState = SCH_UNUSED;
-        SCH_AppData.ScheduleTable[TableIndex].Type = 99;    /* Only this element should fail the second if-statement */
+        /* Only this element should fail the second if-statement */
+        SCH_AppData.ScheduleTable[TableIndex].Type = 99;
         SCH_AppData.ScheduleTable[TableIndex].Frequency = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Remainder = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].MessageIndex = SCH_UNUSED;
@@ -1935,20 +1988,28 @@ void SCH_ValidateScheduleData_Test_GarbageType(void)
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
+    sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0] ena[0]"
+            " typ[99] fre[0] rem[0] msg[0] grp[0x00000000]");
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[%d] unused[0]", SCH_TABLE_ENTRIES);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[0] typ[99] fre[0] rem[0] msg[0] grp[0x00000000]"),
-        "Schedule tbl verify error - idx[0] ena[0] typ[99] fre[0] rem[0] msg[0] grp[0x00000000]");
+    UtAssert_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR,
+      EventVerifyErr,
+      "ValidateScheduleData_Test_GarbageType: Verify Error EventSent");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[500] unused[0]"),
-        "Schedule table verify results -- good[0] bad[500] unused[0]");
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+      EventVerifyResult,
+      "ValidateScheduleData_Test_GarbageType: Verify Result EventSent");
 
-    UtAssert_True (SCH_AppData.TableVerifyFailureCount == 1, "SCH_AppData.TableVerifyFailureCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 1,
+                  "SCH_AppData.TableVerifyFailureCount == 1");
 
-    UtAssert_True (Result == SCH_SDT_GARBAGE_ENTRY, "Result == SCH_SDT_GARBAGE_ENTRY");
+    UtAssert_True(Result == SCH_SDT_GARBAGE_ENTRY,
+                  "Result == SCH_SDT_GARBAGE_ENTRY");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 2, "Ut_CFE_EVS_GetEventQueueDepth() == 2");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
 
 } /* end SCH_ValidateScheduleData_Test_GarbageType */
 
@@ -1956,6 +2017,8 @@ void SCH_ValidateScheduleData_Test_GarbageMessageIndex(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
@@ -1963,27 +2026,36 @@ void SCH_ValidateScheduleData_Test_GarbageMessageIndex(void)
         SCH_AppData.ScheduleTable[TableIndex].Type = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Frequency = SCH_UNUSED;
         SCH_AppData.ScheduleTable[TableIndex].Remainder = SCH_UNUSED;
-        SCH_AppData.ScheduleTable[TableIndex].MessageIndex = 99;    /* Only this element should fail the second if-statement */
+        /* Only this element should fail the second if-statement */
+        SCH_AppData.ScheduleTable[TableIndex].MessageIndex = 99;
         SCH_AppData.ScheduleTable[TableIndex].GroupData = SCH_UNUSED;
     }
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
+    sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
+            " ena[0] typ[0] fre[0] rem[0] msg[99] grp[0x00000000]");
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[%d] unused[0]", SCH_TABLE_ENTRIES);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[0] msg[99] grp[0x00000000]"),
-        "Schedule tbl verify error - idx[0] ena[0] typ[0] fre[0] rem[0] msg[99] grp[0x00000000]");
+    UtAssert_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR,
+      EventVerifyErr,
+      "ValidateScheduleData_Test_GarbageMessageIndex: Verify Error EventSent");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[500] unused[0]"),
-        "Schedule table verify results -- good[0] bad[500] unused[0]");
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+      EventVerifyResult,
+      "ValidateScheduleData_Test_GarbageMessageIndex: Verify Result EventSent");
 
-    UtAssert_True (SCH_AppData.TableVerifyFailureCount == 1, "SCH_AppData.TableVerifyFailureCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 1,
+                  "SCH_AppData.TableVerifyFailureCount == 1");
 
-    UtAssert_True (Result == SCH_SDT_GARBAGE_ENTRY, "Result == SCH_SDT_GARBAGE_ENTRY");
+    UtAssert_True(Result == SCH_SDT_GARBAGE_ENTRY,
+                  "Result == SCH_SDT_GARBAGE_ENTRY");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 2, "Ut_CFE_EVS_GetEventQueueDepth() == 2");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
 
 } /* end SCH_ValidateScheduleData_Test_GarbageMessageIndex */
 
@@ -1991,6 +2063,7 @@ void SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused(void)
 {
     int32   Result;
     int32   TableIndex;
+    char    EventVerifyResult[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     for (TableIndex = 0; TableIndex < SCH_TABLE_ENTRIES; TableIndex++)
     {
@@ -2005,17 +2078,21 @@ void SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused(void)
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
     
+    sprintf(EventVerifyResult, "Schedule table verify results -- "
+            "good[0] bad[0] unused[%d]", SCH_TABLE_ENTRIES);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG, "Schedule table verify results -- good[0] bad[0] unused[500]"),
-        "Schedule table verify results -- good[0] bad[0] unused[500]");
+    UtAssert_EventSent(SCH_SCHEDULE_TABLE_EID, CFE_EVS_DEBUG,
+      EventVerifyResult,
+      "ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused EventSent");
 
-    UtAssert_True (SCH_AppData.TableVerifySuccessCount == 1, "SCH_AppData.TableVerifySuccessCount == 1");
+    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 1,
+                  "SCH_AppData.TableVerifySuccessCount == 1");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 1");
 } /* end SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused */
 
 void SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused(void)
@@ -2995,71 +3072,69 @@ void SCH_App_Test_AddTestCases(void)
     UtTest_Add(SCH_TimerInit_Test_BinSemCreateError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TimerInit_Test_BinSemCreateError");
     UtTest_Add(SCH_TimerInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TimerInit_Test_Nominal");
 
-    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1");
-    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountNotSame, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountNotSame");
-    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountSame, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountSame");
-    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountOtherAndNoRollover, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountOtherAndNoRollover");
+    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1");
+    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountNotSame, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountNotSame");
+    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountSame, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountSame");
+    UtTest_Add(SCH_ProcessScheduleTable_Test_ProcessCountOtherAndNoRollover, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessScheduleTable_Test_ProcessCountOtherAndNoRollover");
     UtTest_Add
-        (SCH_ProcessScheduleTable_Test_SkippedSlotsErrorIncrementTablePassCountAndCallProcessCommands, SCH_Test_Setup, SCH_Test_TearDown,
+        (SCH_ProcessScheduleTable_Test_SkippedSlotsErrorIncrementTablePassCountAndCallProcessCommands, SCH_Test_SetupUnitTest, SCH_Test_TearDown,
         "SCH_ProcessScheduleTable_Test_SkippedSlotsErrorIncrementTablePassCountAndCallProcessCommands");
     UtTest_Add
-        (SCH_ProcessScheduleTable_Test_MultiSlotsProcessCountTooLargeSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup, SCH_Test_Setup, SCH_Test_TearDown,
+        (SCH_ProcessScheduleTable_Test_MultiSlotsProcessCountTooLargeSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup, SCH_Test_SetupUnitTest, SCH_Test_TearDown,
         "SCH_ProcessScheduleTable_Test_MultiSlotsProcessCountTooLargeSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup");
     UtTest_Add
-        (SCH_ProcessScheduleTable_Test_MultiSlotsNotSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup, SCH_Test_Setup, SCH_Test_TearDown,
+        (SCH_ProcessScheduleTable_Test_MultiSlotsNotSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup, SCH_Test_SetupUnitTest, SCH_Test_TearDown,
         "SCH_ProcessScheduleTable_Test_MultiSlotsNotSynchronizedProcessCountGreaterThanMaxSlotsPerWakeup");
 
-    UtTest_Add(SCH_ProcessNextSlot_Test_ProcessCommandsRollover, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextSlot_Test_ProcessCommandsRollover");
-    UtTest_Add(SCH_ProcessNextSlot_Test_DoNotProcessCommandsNoRollover, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextSlot_Test_DoNotProcessCommandsNoRollover");
+    UtTest_Add(SCH_ProcessNextSlot_Test_ProcessCommandsRollover, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextSlot_Test_ProcessCommandsRollover");
+    UtTest_Add(SCH_ProcessNextSlot_Test_DoNotProcessCommandsNoRollover, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextSlot_Test_DoNotProcessCommandsNoRollover");
 
-    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptMessageIndex, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptMessageIndex");
-    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptFrequency, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptFrequency");
-    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptType, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptType");
-    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptRemainder, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptRemainder");
-    UtTest_Add(SCH_ProcessNextEntry_Test_Success, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_Success");
-    UtTest_Add(SCH_ProcessNextEntry_Test_PacketSendError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_PacketSendError");
+    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptMessageIndex, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptMessageIndex");
+    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptFrequency, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptFrequency");
+    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptType, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptType");
+    UtTest_Add(SCH_ProcessNextEntry_Test_CorruptRemainder, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_CorruptRemainder");
+    UtTest_Add(SCH_ProcessNextEntry_Test_Success, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_Success");
+    UtTest_Add(SCH_ProcessNextEntry_Test_PacketSendError, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ProcessNextEntry_Test_PacketSendError");
 
     UtTest_Add(SCH_ProcessCommands_Test_OneMessage, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_OneMessage");
     UtTest_Add(SCH_ProcessCommands_Test_NoMessage, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_NoMessage");
     UtTest_Add(SCH_ProcessCommands_Test_RcvMsgError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_RcvMsgError");
     UtTest_Add(SCH_ProcessCommands_Test_AppPipeError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_AppPipeError");
 
-    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageFrequency, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageFrequency");
-    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageRemainder, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageRemainder");
-    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageGroupData, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageGroupData");
-    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageType, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageType");
-    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageMessageIndex, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageMessageIndex");
-    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused");
-    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused");
-    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateDisabledFrequencyUnused, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateDisabledFrequencyUnused");
-    UtTest_Add(SCH_ValidateScheduleData_Test_BadRemainder, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_BadRemainder");
-    UtTest_Add(SCH_ValidateScheduleData_Test_BadActivity, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_BadActivity");
-    UtTest_Add(SCH_ValidateScheduleData_Test_MsgIndexZero, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_MsgIndexZero");
-    UtTest_Add(SCH_ValidateScheduleData_Test_MsgIndexTooHigh, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_MsgIndexTooHigh");
-    UtTest_Add(SCH_ValidateScheduleData_Test_ValidEntryResult, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_ValidEntryResult");
-    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateOther, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateOther");
+    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageFrequency, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageFrequency");
+    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageRemainder, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageRemainder");
+    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageGroupData, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageGroupData");
+    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageType, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageType");
+    UtTest_Add(SCH_ValidateScheduleData_Test_GarbageMessageIndex, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_GarbageMessageIndex");
+    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused");
+    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused");
+    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateDisabledFrequencyUnused, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateDisabledFrequencyUnused");
+    UtTest_Add(SCH_ValidateScheduleData_Test_BadRemainder, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_BadRemainder");
+    UtTest_Add(SCH_ValidateScheduleData_Test_BadActivity, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_BadActivity");
+    UtTest_Add(SCH_ValidateScheduleData_Test_MsgIndexZero, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_MsgIndexZero");
+    UtTest_Add(SCH_ValidateScheduleData_Test_MsgIndexTooHigh, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_MsgIndexTooHigh");
+    UtTest_Add(SCH_ValidateScheduleData_Test_ValidEntryResult, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_ValidEntryResult");
+    UtTest_Add(SCH_ValidateScheduleData_Test_EnableStateOther, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleData_Test_EnableStateOther");
 
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdUnusedGarbageEntry, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdUnusedGarbageEntry");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdUnusedValid, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdUnusedValid");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooHigh, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooHigh");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooLow, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooLow");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthOdd, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthOdd");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthValid, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthValid");
-    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdOther, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdOther");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdUnusedGarbageEntry, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdUnusedGarbageEntry");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdUnusedValid, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdUnusedValid");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooHigh, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooHigh");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooLow, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooLow");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthOdd, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthOdd");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdValidRangeLengthValid, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdValidRangeLengthValid");
+    UtTest_Add(SCH_ValidateMessageData_Test_MessageIdOther, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateMessageData_Test_MessageIdOther");
 
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllZeroes, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllZeroes");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllOnes, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllOnes");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllTwos, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllTwos");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid1, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid1");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid2, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid2");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid3, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid3");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid1, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid1");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid2, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid2");
-    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid3, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid3");
-
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllZeroes, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllZeroes");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllOnes, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllOnes");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_AllTwos, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_AllTwos");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid1, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid1");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid2, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid2");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Valid3, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Valid3");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid1, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid1");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid2, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid2");
+    UtTest_Add(SCH_ValidateScheduleDeadlines_Test_Invalid3, SCH_Test_SetupUnitTest, SCH_Test_TearDown, "SCH_ValidateScheduleDeadlines_Test_Invalid3");
 
 } /* end SCH_App_Test_AddTestCases */
-//    UtTest_Add(, SCH_Test_Setup, SCH_Test_TearDown, "");
 /************************/
 /*  End of File Comment */
 /************************/

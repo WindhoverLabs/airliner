@@ -92,13 +92,11 @@ buildliner_add_app_unit_test(sch-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_mock_os.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_mock_os.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc/sch_perfids.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc/sch_msgids.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc/sch_platform_cfg.h
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/utassert.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_es_hooks.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_es_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_evs_hooks.c
+        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_evs_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_fs_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_psp_eeprom_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_psp_memrange_stubs.c
@@ -107,9 +105,11 @@ buildliner_add_app_unit_test(sch-ut
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_psp_timer_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_psp_watchdog_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_sb_hooks.c
+        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_sb_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_tbl_hooks.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_tbl_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_time_hooks.c
+        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_time_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/utlist.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_osapi_stubs.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_osfileapi_stubs.c
@@ -117,12 +117,9 @@ buildliner_add_app_unit_test(sch-ut
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/uttools.c
         
     INCLUDES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc/
-        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc/
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
-        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/inc/
         
     REFERENCE_CUSTOM_SOURCE
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sch_custom.c

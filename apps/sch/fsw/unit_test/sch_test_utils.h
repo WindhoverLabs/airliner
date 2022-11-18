@@ -19,9 +19,15 @@
 #include "sch_app.h"
 #include "ut_cfe_evs_hooks.h"
 // FIXME: these need to be implemented/updated in UT-Assert (by copying from sch_test_utils.c/.h):
+#if 0
 //#include "ut_cfe_evs_stubs.h"
 //#include "ut_cfe_time_stubs.h"
 //#include "ut_ostimer_stubs.h"
+#else
+#include "ut_cfe_evs_stubs.h"
+#include "ut_cfe_time_stubs.h"
+//#include "ut_ostimer_stubs.h"
+#endif
 #include "ut_cfe_sb_stubs.h"
 #include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_time_hooks.h"
@@ -34,11 +40,18 @@
 #include "ut_cfe_es_stubs.h"
 #include <time.h>
 
+extern int32 SCH_ChildTaskInit(void);
+
+extern SCH_ScheduleEntry_t  *SCH_DefaultScheduleTable;
+extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
+
+
 /*
  * Function Definitions
  */
 
 void SCH_Test_Setup(void);
+void SCH_Test_SetupUnitTest(void);
 void SCH_Test_TearDown(void);
 
 /*
@@ -48,6 +61,7 @@ void SCH_Test_TearDown(void);
  * next release of the UT-Assert library is not expected to happen in the near future.
  */
 
+#if 0
 /* ut_osapi_stubs */
 
 typedef enum 
@@ -85,6 +99,7 @@ void Ut_CFE_EVS_ContinueReturnCodeAfterCountZero(uint32 Index);
 int32 CFE_EVS_ResetAllFilters(void);
 
 /* end ut_osapi_stubs */
+#endif
 
 /* ut_ostimer_stubs */
 
@@ -115,6 +130,7 @@ void Ut_OSTIMER_ContinueReturnCodeAfterCountZero(uint32 Index);
 
 /* end ut_ostimer_stubs */
 
+#if 0
 /* ut_cfe_time_stubs */
 
 typedef enum 
@@ -167,6 +183,7 @@ void Ut_CFE_TIME_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
 void Ut_CFE_TIME_ContinueReturnCodeAfterCountZero(uint32 Index);
 
 /* end ut_cfe_time_stubs */
+#endif
 
 /************************/
 /*  End of File Comment */

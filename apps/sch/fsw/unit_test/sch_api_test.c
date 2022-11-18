@@ -16,6 +16,8 @@
  * Includes
  */
 
+#include "uttest.h"
+
 #include "sch_api_test.h"
 #include "sch_apipriv.h"
 #include "sch_app.h"
