@@ -86,7 +86,7 @@ extern "C" {
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
 */
-#define HES_DATA_PIPE_DEPTH            (4)
+#define HES_DATA_PIPE_DEPTH            (7)
 
 /** \brief Pipe name for the Scheduler pipe 
 **
@@ -110,12 +110,13 @@ extern "C" {
 #define HES_STARTUP_TIMEOUT_MSEC    (1000)
 
 
-#define HES_PX4_VEHICLE_GLOBAL_POSITION_MID    (PX4_VEHICLE_GLOBAL_POSITION_MID)
+#define HES_PX4_VEHICLE_GLOBAL_POSITION_MID     (PX4_VEHICLE_GLOBAL_POSITION_MID)
 #define HES_PX4_VEHICLE_ATTITUDE_MID            (PX4_VEHICLE_ATTITUDE_MID)
 #define HES_PX4_AIRSPEED_MID                    (PX4_AIRSPEED_MID)
 #define HES_PX4_BATTERY_STATUS_MID              (PX4_BATTERY_STATUS_MID)
 #define HES_PX4_VEHICLE_LAND_DETECTED_MID       (PX4_VEHICLE_LAND_DETECTED_MID)
 #define HES_PX4_VEHICLE_STATUS_MID              (PX4_VEHICLE_STATUS_MID)
+#define HES_PX4_POSITION_SETPOINT_TRIPLET_MID   (PX4_POSITION_SETPOINT_TRIPLET_MID)
 
 
 #ifdef __cplusplus

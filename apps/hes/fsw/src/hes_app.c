@@ -257,6 +257,16 @@ int32 HES_InitPipe()
                                      (unsigned int)iStatus);
             goto HES_InitPipe_Exit_Tag;
         }
+        
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_POSITION_SETPOINT_TRIPLET_MID,
+                HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        if(iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
+                    "DATA Pipe failed to subscribe to HES_PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
+                    iStatus);
+            goto HES_InitPipe_Exit_Tag;
+        }
     }
     else
     {
@@ -475,6 +485,7 @@ void HES_ProcessNewData()
         if (iStatus == CFE_SUCCESS)
         {
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
+
             switch (DataMsgId)
             {
 				case HES_PX4_AIRSPEED_MID:
@@ -497,6 +508,14 @@ void HES_ProcessNewData()
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VAtt, DataMsgPtr, sizeof(HES_AppData.CVT.VAtt));
 					break;
 				}
+
+                case HES_PX4_POSITION_SETPOINT_TRIPLET_MID:
+                {
+                    HES_AppData.HkTlm.PositionSpTripletCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.PositionSpTriplet, DataMsgPtr, sizeof(HES_AppData.CVT.PositionSpTriplet));
+                    // printf("HES_PX4_POSITION_SETPOINT_TRIPLET_MID found %d\n", HES_PX4_POSITION_SETPOINT_TRIPLET_MID);
+					break;
+                }
 
 				case HES_PX4_VEHICLE_GLOBAL_POSITION_MID:
 				{
@@ -781,6 +800,21 @@ void HES_ProcessCVT() {
     HES_AppData.HkTlm.ArmingState = HES_AppData.CVT.VehicleStatus.ArmingState;
     HES_AppData.HkTlm.EngineFailure = HES_AppData.CVT.VehicleStatus.EngineFailure;
     HES_AppData.HkTlm.landed = HES_AppData.CVT.VLandDetected.Landed;
+
+    HES_AppData.HkTlm.way_points[0].Alt    = HES_AppData.CVT.PositionSpTriplet.Previous.Alt;
+    HES_AppData.HkTlm.way_points[0].Lat    = HES_AppData.CVT.PositionSpTriplet.Previous.Lat;
+    HES_AppData.HkTlm.way_points[0].Lon    = HES_AppData.CVT.PositionSpTriplet.Previous.Lon;
+    HES_AppData.HkTlm.way_points[0].radius = HES_AppData.CVT.PositionSpTriplet.Previous.AcceptanceRadius;
+
+    HES_AppData.HkTlm.way_points[1].Alt    = HES_AppData.CVT.PositionSpTriplet.Current.Alt;
+    HES_AppData.HkTlm.way_points[1].Lat    = HES_AppData.CVT.PositionSpTriplet.Current.Lat;
+    HES_AppData.HkTlm.way_points[1].Lon    = HES_AppData.CVT.PositionSpTriplet.Current.Lon;
+    HES_AppData.HkTlm.way_points[1].radius = HES_AppData.CVT.PositionSpTriplet.Current.AcceptanceRadius;
+
+    HES_AppData.HkTlm.way_points[2].Alt    = HES_AppData.CVT.PositionSpTriplet.Next.Alt;
+    HES_AppData.HkTlm.way_points[2].Lat    = HES_AppData.CVT.PositionSpTriplet.Next.Lat;
+    HES_AppData.HkTlm.way_points[2].Lon    = HES_AppData.CVT.PositionSpTriplet.Next.Lon;
+    HES_AppData.HkTlm.way_points[2].radius = HES_AppData.CVT.PositionSpTriplet.Next.AcceptanceRadius;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
