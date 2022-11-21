@@ -24,6 +24,7 @@
 #include "sch_msg.h"
 #include "sch_msgdefs.h"
 #include "sch_msgids.h"
+#include "sch_grpids.h"
 #include "sch_events.h"
 #include "sch_version.h"
 #include "sch_test_utils.h"
@@ -44,245 +45,593 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-/*
- * Function Definitions
+
+#define SCH_TEST_GROUP    0x01000000
+
+
+CFE_SB_MsgId_t     SendHK_SendMsgHook_MsgId = 0;
+
+
+/**************************************************************************
+ * Tests for SCH ProcessCommands()
+ **************************************************************************/
+/**
+ * SCH_ProcessCommands_Test, SendHK_SendMsgHook
  */
-
-void SCH_AppPipe_Test_SendHK(void)
+int32 SCH_ProcessCommands_Test_SendHK_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
-    int32             Result;
-    SCH_NoArgsCmd_t   CmdPacket = {0};
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    SCH_HkPacket_t     HkMsg;
 
-    CFE_SB_InitMsg (&CmdPacket, SCH_SEND_HK_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
+    pBuff = (unsigned char*)MsgPtr;
 
-    /* Set to make SCH_HousekeepingCmd return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_GETADDRESS_INDEX);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-
-} /* end SCH_AppPipe_Test_SendHK */
-
-void SCH_AppPipe_Test_Noop(void)
-{
-    int32             Result;
-    SCH_NoArgsCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_NOOP_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_Noop */
-
-void SCH_AppPipe_Test_Reset(void)
-{
-    int32             Result;
-    SCH_NoArgsCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_RESET_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_Reset */
-
-void SCH_AppPipe_Test_Enable(void)
-{
-    int32            Result;
-    SCH_EntryCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_EntryCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_ENABLE_CC);
-
-    /* Setting these 2 values just to prevent a segmentation fault */
-    CmdPacket.SlotNumber = 99;
-    CmdPacket.EntryNumber = 99;
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_Enable */
-
-void SCH_AppPipe_Test_Disable(void)
-{
-    int32            Result;
-    SCH_EntryCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_EntryCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_DISABLE_CC);
-
-    /* Setting these 2 values just to prevent a segmentation fault */
-    CmdPacket.SlotNumber = 99;
-    CmdPacket.EntryNumber = 99;
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_Disable */
-
-void SCH_AppPipe_Test_EnableGroupCmd(void)
-{
-    int32            Result;
-    SCH_GroupCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_GroupCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_ENABLE_GROUP_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_EnableGroupCmd */
-
-void SCH_AppPipe_Test_DisableGroupCmd(void)
-{
-    int32            Result;
-    SCH_GroupCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_GroupCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_DISABLE_GROUP_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_DisableGroupCmd */
-
-void SCH_AppPipe_Test_EnableSyncCmd(void)
-{
-    int32             Result;
-    SCH_NoArgsCmd_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_ENABLE_SYNC_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_EnableSyncCmd */
-
-void SCH_AppPipe_Test_SendDiagTlmCmd(void)
-{
-    int32                 Result;
-    SCH_ScheduleEntry_t   CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_ScheduleEntry_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), SCH_SEND_DIAG_TLM_CC);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
-
-} /* end SCH_AppPipe_Test_SendDiagTlmCmd */
-
-void SCH_AppPipe_Test_InvalidCommandCode(void)
-{
-    int32            Result;
-    SCH_NoArgsCmd_t  CmdPacket = {0};
-
-    CFE_SB_InitMsg (&CmdPacket, SCH_CMD_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)(&CmdPacket), 99);
-
-    /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
-    
-    /* Verify results */
-    if (SCH_CMD_MID == CMD_MSG(102))
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
     {
-        UtAssert_True
-            (Ut_CFE_EVS_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR,
-                "Invalid command code: ID = 0x1A66, CC = 99"),
-            "Invalid command code: ID = 0x1A66, CC = 99");
+        printf("0x%02x ", *pBuff);
+        pBuff++;
     }
-    else
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = SCH_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
     {
-        UtAssert_True
-            (Ut_CFE_EVS_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR,
-                "Invalid command code: ID = 0x1895, CC = 99"),
-            "Invalid command code: ID = 0x1895, CC = 99");
+        case SCH_HK_TLM_MID:
+        {
+            SendHK_SendMsgHook_MsgId = SCH_HK_TLM_MID;
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+
+            printf("Sent SCH_HK_TLM_MID:\n");
+            printf("CmdCounter: %u\n", HkMsg.CmdCounter);
+            printf("ErrCounter: %u\n", HkMsg.ErrCounter);
+            printf("SyncToMET: %u\n", HkMsg.SyncToMET);
+            printf("MajorFrameSource: %u\n", HkMsg.MajorFrameSource);
+            printf("ScheduleActivitySuccessCount: %lu\n", HkMsg.ScheduleActivitySuccessCount);
+            printf("ScheduleActivityFailureCount: %lu\n", HkMsg.ScheduleActivityFailureCount);
+            printf("SlotsProcessedCount: %lu\n", HkMsg.SlotsProcessedCount);
+            printf("SkippedSlotsCount: %u\n", HkMsg.SkippedSlotsCount);
+            printf("MultipleSlotsCount: %u\n", HkMsg.MultipleSlotsCount);
+            printf("SameSlotCount: %u\n", HkMsg.SameSlotCount);
+            printf("BadTableDataCount: %u\n", HkMsg.BadTableDataCount);
+            printf("TableVerifySuccessCount: %u\n", HkMsg.TableVerifySuccessCount);
+            printf("TableVerifyFailureCount: %u\n", HkMsg.TableVerifyFailureCount);
+            printf("TablePassCount: %lu\n", HkMsg.TablePassCount);
+            printf("ValidMajorFrameCount: %lu\n", HkMsg.ValidMajorFrameCount);
+            printf("MissedMajorFrameCount: %lu\n", HkMsg.MissedMajorFrameCount);
+            printf("UnexpectedMajorFrameCount: %lu\n", HkMsg.UnexpectedMajorFrameCount);
+            printf("MinorFramesSinceTone: %u\n", HkMsg.MinorFramesSinceTone);
+            printf("NextSlotNumber: %u\n", HkMsg.NextSlotNumber);
+            printf("LastSyncMETSlot: %u\n", HkMsg.LastSyncMETSlot);
+            printf("IgnoreMajorFrame: %u\n", HkMsg.IgnoreMajorFrame);
+            printf("UnexpectedMajorFrame: %u\n", HkMsg.UnexpectedMajorFrame);
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04X)\n", MsgId);
+            break;
+        }
     }
 
-    UtAssert_True (SCH_AppData.ErrCounter == 1, "SCH_AppData.ErrCounter == 1");
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    return CFE_SUCCESS;
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_AppPipe_Test_InvalidCommandCode */
-
-void SCH_AppPipe_Test_InvalidMessageID(void)
+/**
+ * SCH_ProcessCommands_Test, SendHK
+ */
+void SCH_ProcessCommands_Test_SendHK(void)
 {
-    int32            Result;
-    SCH_NoArgsCmd_t  CmdPacket = {0};
+    int32             Result;
+    int32             CmdPipe;
+    SCH_NoArgsCmd_t   CmdMsg = {0};
 
-    CFE_SB_InitMsg (&CmdPacket, 0x0099, sizeof(SCH_NoArgsCmd_t), TRUE);
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    SendHK_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void *)&SCH_ProcessCommands_Test_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
-    Result = SCH_AppPipe((CFE_SB_MsgPtr_t)(&CmdPacket));
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
     
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MD_ERR_EID, CFE_EVS_ERROR, "Msg with Invalid message ID Rcvd -- ID = 0x0099"),
-        "Msg with Invalid message ID Rcvd -- ID = 0x0099");
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
+    UtAssert_True(SendHK_SendMsgHook_MsgId == SCH_HK_TLM_MID,
+                  "ProcessCommands_Test, SendHK Packet Sent");
+}
 
-} /* end SCH_AppPipe_Test_InvalidMessageID */
+
+/**
+ * SCH_ProcessCommands_Test, Noop
+ */
+void SCH_ProcessCommands_Test_Noop(void)
+{
+    int32             Result;
+    int32             CmdPipe;
+    SCH_NoArgsCmd_t   CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)SCH_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "NO-op command. Version %d.%d.%d.%d",
+                           SCH_MAJOR_VERSION, SCH_MINOR_VERSION,
+                           SCH_REVISION, SCH_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, Noop Command counter");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_NOOP_CMD_EID, CFE_EVS_INFORMATION,
+              expEventText, "ProcessCommands_Test, Noop Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, Reset
+ */
+void SCH_ProcessCommands_Test_Reset(void)
+{
+    int32             Result;
+    int32             CmdPipe;
+    SCH_NoArgsCmd_t   CmdMsg = {0};
+    char  expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    SCH_AppData.CmdCounter = 5;
+    SCH_AppData.ValidMajorFrameCount = 100;
+    SCH_AppData.MissedMajorFrameCount = 3;
+    SCH_AppData.UnexpectedMajorFrameCount = 10;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "%s", "RESET command");
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 0) &&
+                  (SCH_AppData.ValidMajorFrameCount == 0) &&
+                  (SCH_AppData.MissedMajorFrameCount == 0) &&
+                  (SCH_AppData.UnexpectedMajorFrameCount == 0),
+                  "ProcessCommands_Test, Reset");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_RESET_CMD_EID, CFE_EVS_DEBUG,
+               expEventText, "ProcessCommands_Test, Reset Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, Enable
+ */
+void SCH_ProcessCommands_Test_Enable(void)
+{
+    uint16               Idx;
+    int32                Result;
+    int32                CmdPipe;
+    SCH_EntryCmd_t       CmdMsg = {0};
+    SCH_ScheduleEntry_t  *pSchConfig = NULL;
+    char  expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_ENABLE_CC);
+    CmdMsg.SlotNumber = 0;
+    CmdMsg.EntryNumber = 4;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    Idx = (CmdMsg.SlotNumber * SCH_ENTRIES_PER_SLOT)
+                  + CmdMsg.EntryNumber;
+    pSchConfig = &SCH_AppData.ScheduleTable[Idx];
+    pSchConfig->EnableState = SCH_DISABLED;
+    pSchConfig->Type = SCH_ACTIVITY_SEND_MSG;
+    pSchConfig->Frequency = 1;
+    pSchConfig->Remainder = 0;
+    pSchConfig->MessageIndex = 97;
+    pSchConfig->GroupData = SCH_GROUP_NONE;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "ENABLE command: slot = %d, entry = %d",
+                          CmdMsg.SlotNumber, CmdMsg.EntryNumber);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True(SCH_AppData.ScheduleTable[Idx].EnableState == SCH_ENABLED,
+                  "ProcessCommands_Test, Enable Enabled");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, Enable Command Counter");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_ENABLE_CMD_EID, CFE_EVS_DEBUG,
+                  expEventText, "ProcessCommands_Test, Enable Event Sent");
+
+}
+
+/**
+ * SCH_ProcessCommands_Test, Disable
+ */
+void SCH_ProcessCommands_Test_Disable(void)
+{
+    uint16               Idx;
+    int32                Result;
+    int32                CmdPipe;
+    SCH_EntryCmd_t       CmdMsg = {0};
+    SCH_ScheduleEntry_t  *pSchConfig = NULL;
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_DISABLE_CC);
+    CmdMsg.SlotNumber = 0;
+    CmdMsg.EntryNumber = 4;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    Idx = (CmdMsg.SlotNumber * SCH_ENTRIES_PER_SLOT)
+           + CmdMsg.EntryNumber;
+    pSchConfig = &SCH_AppData.ScheduleTable[Idx];
+    pSchConfig->EnableState = SCH_ENABLED;
+    pSchConfig->Type = SCH_ACTIVITY_SEND_MSG;
+    pSchConfig->Frequency = 1;
+    pSchConfig->Remainder = 0;
+    pSchConfig->MessageIndex = 97;
+    pSchConfig->GroupData = SCH_GROUP_NONE;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "DISABLE command: slot = %d, entry = %d",
+                          CmdMsg.SlotNumber, CmdMsg.EntryNumber);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True(SCH_AppData.ScheduleTable[Idx].EnableState == SCH_DISABLED,
+                  "ProcessCommands_Test, Disable Disabled");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, Disable Command Counter");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_DISABLE_CMD_EID, CFE_EVS_DEBUG,
+               expEventText, "ProcessCommands_Test, Disable Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, EnableGroup
+ */
+void SCH_ProcessCommands_Test_EnableGroup(void)
+{
+    uint16          Idx;
+    int32           Result;
+    int32           CmdPipe;
+    SCH_GroupCmd_t  CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_ENABLE_GROUP_CC);
+    CmdMsg.GroupData = SCH_TEST_GROUP;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    SCH_AppData.ScheduleTable[3].EnableState = SCH_DISABLED;
+    SCH_AppData.ScheduleTable[3].GroupData = SCH_TEST_GROUP;
+    SCH_AppData.ScheduleTable[4].EnableState = SCH_ENABLED;
+    SCH_AppData.ScheduleTable[4].GroupData = SCH_TEST_GROUP;
+    SCH_AppData.ScheduleTable[5].EnableState = SCH_DISABLED;
+    SCH_AppData.ScheduleTable[5].GroupData = SCH_TEST_GROUP;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "ENABLE GROUP command: match count = %d", 3);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, EnableGroup Command Counter");
+
+    UtAssert_True((SCH_AppData.ScheduleTable[3].EnableState == SCH_ENABLED)
+                && (SCH_AppData.ScheduleTable[4].EnableState == SCH_ENABLED)
+                && (SCH_AppData.ScheduleTable[5].EnableState == SCH_ENABLED),
+                "ProcessCommands_Test, EnableGroup Group Enabled");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_ENA_GRP_CMD_EID, CFE_EVS_DEBUG, expEventText,
+                       "ProcessCommands_Test, EnableGroup Event Sent");
+
+}
+
+/**
+ * SCH_ProcessCommands_Test, DisableGroup
+ */
+void SCH_ProcessCommands_Test_DisableGroup(void)
+{
+    uint16          Idx;
+    int32           Result;
+    int32           CmdPipe;
+    SCH_GroupCmd_t  CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_DISABLE_GROUP_CC);
+    CmdMsg.GroupData = SCH_TEST_GROUP;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    SCH_AppData.ScheduleTable[3].EnableState = SCH_ENABLED;
+    SCH_AppData.ScheduleTable[3].GroupData = SCH_TEST_GROUP;
+    SCH_AppData.ScheduleTable[4].EnableState = SCH_ENABLED;
+    SCH_AppData.ScheduleTable[4].GroupData = SCH_TEST_GROUP;
+    SCH_AppData.ScheduleTable[5].EnableState = SCH_ENABLED;
+    SCH_AppData.ScheduleTable[5].GroupData = SCH_TEST_GROUP;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "DISABLE GROUP command: match count = %d", 3);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, DisableGroup Command Counter");
+
+    UtAssert_True((SCH_AppData.ScheduleTable[3].EnableState == SCH_DISABLED)
+              && (SCH_AppData.ScheduleTable[4].EnableState == SCH_DISABLED)
+              && (SCH_AppData.ScheduleTable[5].EnableState == SCH_DISABLED),
+              "ProcessCommands_Test, DisableGroup Group Disabled");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_DIS_GRP_CMD_EID, CFE_EVS_DEBUG, expEventText,
+                       "ProcessCommands_Test, DisableGroup Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, EnableSync
+ */
+void SCH_ProcessCommands_Test_EnableSync(void)
+{
+    int32             Result;
+    int32             CmdPipe;
+    SCH_NoArgsCmd_t   CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)SCH_ENABLE_SYNC_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+
+    SCH_AppData.IgnoreMajorFrame = TRUE;
+    SCH_AppData.UnexpectedMajorFrame = TRUE;
+    SCH_AppData.ConsecutiveNoisyFrameCounter = 10;
+
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "%s", "Major Frame Synchronization Enabled");
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, EnableSync Command Counter");
+
+    UtAssert_True((SCH_AppData.IgnoreMajorFrame == FALSE) &&
+                  (SCH_AppData.UnexpectedMajorFrame == FALSE) &&
+                  (SCH_AppData.ConsecutiveNoisyFrameCounter == 0),
+                  "ProcessCommands_Test, EnableSync Sync Enabled");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_ENA_SYNC_CMD_EID, CFE_EVS_DEBUG, expEventText,
+                       "ProcessCommands_Test, EnableSync Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, SendDiagTlm
+ */
+void SCH_ProcessCommands_Test_SendDiagTlm(void)
+{
+    int32            Result;
+    int32            CmdPipe;
+    SCH_NoArgsCmd_t  CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)SCH_SEND_DIAG_TLM_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "%s", "Transmitting Diagnostic Message");
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 1) &&
+                  (SCH_AppData.ErrCounter == 0),
+                  "ProcessCommands_Test, SendDiagTlm Command Counter");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_True(Ut_CFE_SB_PacketSent(SCH_DIAG_TLM_MID),
+                  "ProcessCommands_Test, SendDiagTlm Diag Packet Sent");
+
+    UtAssert_EventSent(SCH_SEND_DIAG_CMD_EID, CFE_EVS_DEBUG, expEventText,
+                       "ProcessCommands_Test, SendDiagTlm Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, InvalidCommandCode
+ */
+void SCH_ProcessCommands_Test_InvalidCommandCode(void)
+{
+    int32            Result;
+    int32            CmdPipe;
+    SCH_NoArgsCmd_t  CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)(&CmdMsg), (uint16)100);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "Invalid command code: ID = 0x%04X, CC = %d",
+                          SCH_CMD_MID, 100);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True((SCH_AppData.CmdCounter == 0) &&
+           (SCH_AppData.ErrCounter == 1),
+           "ProcessCommands_Test, InvalidCommandCode Command Counter");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_CC_ERR_EID, CFE_EVS_ERROR, expEventText,
+             "ProcessCommands_Test, InvalidCommandCode Event Sent");
+}
+
+/**
+ * SCH_ProcessCommands_Test, InvalidMessageID
+ */
+void SCH_ProcessCommands_Test_InvalidMessageID(void)
+{
+    int32            Result;
+    int32            CmdPipe;
+    SCH_NoArgsCmd_t  CmdMsg = {0};
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_UNUSED_MID, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
+    
+    sprintf(expEventText, "Msg with Invalid message ID Rcvd -- ID = 0x%04X",
+                          SCH_UNUSED_MID);
+
+    /* Verify results */
+    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
+
+    UtAssert_EventSent(SCH_MD_ERR_EID, CFE_EVS_ERROR, expEventText,
+                  "ProcessCommands_Test, InvalidMessageID Event Sent");
+}
 
 void SCH_HousekeepingCmd_Test(void)
 {
@@ -290,10 +639,6 @@ void SCH_HousekeepingCmd_Test(void)
     SCH_NoArgsCmd_t  CmdPacket = {0};
 
     CFE_SB_InitMsg (&CmdPacket, SCH_SEND_HK_MID, sizeof(SCH_NoArgsCmd_t), TRUE);
-
-    /* Set to make SCH_AcquirePointers return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_GETADDRESS_INDEX);
 
     SCH_AppData.CmdCounter = 1;
     SCH_AppData.ErrCounter = 2;
@@ -1111,17 +1456,17 @@ void SCH_PostCommandResult_Test_Error(void)
 
 void SCH_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(SCH_AppPipe_Test_SendHK, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_SendHK");
-    UtTest_Add(SCH_AppPipe_Test_Noop, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_Noop");
-    UtTest_Add(SCH_AppPipe_Test_Reset, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_Reset");
-    UtTest_Add(SCH_AppPipe_Test_Enable, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_Enable");
-    UtTest_Add(SCH_AppPipe_Test_Disable, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_Disable");
-    UtTest_Add(SCH_AppPipe_Test_EnableGroupCmd, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_EnableGroupCmd");
-    UtTest_Add(SCH_AppPipe_Test_DisableGroupCmd, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_DisableGroupCmd");
-    UtTest_Add(SCH_AppPipe_Test_EnableSyncCmd, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_EnableSyncCmd");
-    UtTest_Add(SCH_AppPipe_Test_SendDiagTlmCmd, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_SendDiagTlmCmd");
-    UtTest_Add(SCH_AppPipe_Test_InvalidCommandCode, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_InvalidCommandCode");
-    UtTest_Add(SCH_AppPipe_Test_InvalidMessageID, SCH_Test_Setup, SCH_Test_TearDown, "SCH_AppPipe_Test_InvalidMessageID");
+    UtTest_Add(SCH_ProcessCommands_Test_SendHK, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_SendHK");
+    UtTest_Add(SCH_ProcessCommands_Test_Noop, SCH_Test_Setup , SCH_Test_TearDown, "SCH_ProcessCommands_Test_Noop");
+    UtTest_Add(SCH_ProcessCommands_Test_Reset, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_Reset");
+    UtTest_Add(SCH_ProcessCommands_Test_Enable, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_Enable");
+    UtTest_Add(SCH_ProcessCommands_Test_Disable, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_Disable");
+    UtTest_Add(SCH_ProcessCommands_Test_EnableGroup, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_EnableGroup");
+    UtTest_Add(SCH_ProcessCommands_Test_DisableGroup, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_DisableGroup");
+    UtTest_Add(SCH_ProcessCommands_Test_EnableSync, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_EnableSync");
+    UtTest_Add(SCH_ProcessCommands_Test_SendDiagTlm, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_SendDiagTlm");
+    UtTest_Add(SCH_ProcessCommands_Test_InvalidCommandCode, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_InvalidCommandCode");
+    UtTest_Add(SCH_ProcessCommands_Test_InvalidMessageID, SCH_Test_Setup, SCH_Test_TearDown, "SCH_ProcessCommands_Test_InvalidMessageID");
 
     UtTest_Add(SCH_HousekeepingCmd_Test, SCH_Test_Setup, SCH_Test_TearDown, "SCH_HousekeepingCmd_Test");
 

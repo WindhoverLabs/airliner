@@ -70,6 +70,41 @@ void SCH_Test_TearDown(void)
     /* cleanup test environment */
 } /* end SCH_Test_TearDown */
 
+void SCH_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
+}
+
+time_t SCH_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t SCH_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
+}
+
 /*
  * Additional UT-Assert Stub Functions and Required Data Structures
  *

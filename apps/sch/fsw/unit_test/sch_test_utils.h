@@ -54,6 +54,12 @@ void SCH_Test_Setup(void);
 void SCH_Test_SetupUnitTest(void);
 void SCH_Test_TearDown(void);
 
+void SCH_Test_PrintCmdMsg(void *pMsg, uint32 size);
+
+time_t SCH_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t SCH_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+
 /*
  * Additional UT-Assert Stub Functions and Required Data Structures
  *
