@@ -87,6 +87,8 @@ buildliner_add_app_unit_test(sch-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_app_test.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_cmds_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_config_tbl_test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_config_tbl_test.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_test_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_test_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_testrunner.c
