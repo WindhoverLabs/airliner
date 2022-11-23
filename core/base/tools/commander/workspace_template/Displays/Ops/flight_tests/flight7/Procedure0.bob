@@ -25,18 +25,12 @@
         <width>518</width>
         <height>28</height>
         <style>3</style>
-        <widget type="label" version="2.0.0">
-          <name>Label</name>
-          <text>Control surface throw and direction verification</text>
-          <x>89</x>
-          <width>407</width>
-          <vertical_alignment>1</vertical_alignment>
-        </widget>
         <widget type="checkbox" version="2.0.0">
           <name>Check Box</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP):</label>
+          <label>Step $(STEP): Control surface throw and direction verification</label>
+          <width>496</width>
           <actions>
           </actions>
         </widget>
@@ -51,18 +45,12 @@
         <width>518</width>
         <height>28</height>
         <style>3</style>
-        <widget type="label" version="2.0.0">
-          <name>Label_1</name>
-          <text>Handover/Transfer between manual/autopilot</text>
-          <x>89</x>
-          <width>407</width>
-          <vertical_alignment>1</vertical_alignment>
-        </widget>
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_2</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step 0-2:</label>
+          <label>Step 0-2: Handover/Transfer between manual/autopilot</label>
+          <width>496</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -138,6 +126,21 @@
             </color>
           </on_color>
         </widget>
+        <widget type="led" version="2.0.0">
+          <name>LED_7</name>
+          <class>ON_OFF</class>
+          <pv_name>loc://step_0-6&lt;VLong&gt;(0)</pv_name>
+          <bit>1</bit>
+          <x>152</x>
+          <off_color use_class="true">
+            <color name="Off" red="60" green="100" blue="60">
+            </color>
+          </off_color>
+          <on_color use_class="true">
+            <color name="On" red="0" green="255" blue="0">
+            </color>
+          </on_color>
+        </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
@@ -149,18 +152,12 @@
         <width>518</width>
         <height>28</height>
         <style>3</style>
-        <widget type="label" version="2.0.0">
-          <name>Label_2</name>
-          <text>Vibe check (check of function after subject to ground vibe)</text>
-          <x>89</x>
-          <width>407</width>
-          <vertical_alignment>1</vertical_alignment>
-        </widget>
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_3</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP):</label>
+          <label>Step $(STEP): Vibe check (check of function after subject to ground vibe)</label>
+          <width>496</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -173,18 +170,12 @@
         <width>518</width>
         <height>28</height>
         <style>3</style>
-        <widget type="label" version="2.0.0">
-          <name>Label_3</name>
-          <text>Transmitter/Receiver range check</text>
-          <x>89</x>
-          <width>407</width>
-          <vertical_alignment>1</vertical_alignment>
-        </widget>
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_4</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP):</label>
+          <label>Step $(STEP): Transmitter/Receiver range check</label>
+          <width>496</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -197,18 +188,30 @@
         <width>518</width>
         <height>28</height>
         <style>3</style>
-        <widget type="label" version="2.0.0">
-          <name>Label_4</name>
-          <text>Ground Station/Flight Vehicle datalink</text>
-          <x>89</x>
-          <width>407</width>
-          <vertical_alignment>1</vertical_alignment>
-        </widget>
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_5</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP):</label>
+          <label>Step $(STEP): Ground Station/Flight Vehicle datalink</label>
+          <width>496</width>
+        </widget>
+      </widget>
+      <widget type="group" version="2.0.0">
+        <name>$(STEP)</name>
+        <macros>
+          <STEP>0-6</STEP>
+        </macros>
+        <x>13</x>
+        <y>168</y>
+        <width>518</width>
+        <height>28</height>
+        <style>3</style>
+        <widget type="checkbox" version="2.0.0">
+          <name>Check Box_6</name>
+          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
+          <bit>1</bit>
+          <label>Step $(STEP): Sync vehicle time with Ground Station time</label>
+          <width>496</width>
         </widget>
       </widget>
     </widget>

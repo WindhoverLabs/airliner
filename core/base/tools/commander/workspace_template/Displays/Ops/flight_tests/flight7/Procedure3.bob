@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>Procedure2</name>
+  <name>Procedure3</name>
   <widget type="group" version="2.0.0">
     <name>Card</name>
     <x>30</x>
     <y>20</y>
     <width>1433</width>
-    <height>690</height>
+    <height>640</height>
     <style>2</style>
     <transparent>true</transparent>
     <widget type="embedded" version="2.0.0">
@@ -22,11 +22,11 @@
       <x>2</x>
       <y>12</y>
       <width>657</width>
-      <height>667</height>
+      <height>607</height>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-1</STEP>
+          <STEP>3-1</STEP>
         </macros>
         <x>13</x>
         <y>3</y>
@@ -37,7 +37,7 @@
           <name>Check Box</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): Loops 1-3: GC puts aircraft into constant altitude racetrack pattern</label>
+          <label>Step $(STEP): GC pushes FW_T_INTEG_GAIN = 0.2 (from 0.1) in level flight</label>
           <width>576</width>
           <actions>
           </actions>
@@ -46,7 +46,7 @@
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-2</STEP>
+          <STEP>3-2</STEP>
         </macros>
         <x>13</x>
         <y>36</y>
@@ -57,19 +57,19 @@
           <name>Check Box_2</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): Loops 4-6: GC puts aircraft into climbing descending altitude racetrack pattern</label>
+          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <x>13</x>
-        <y>589</y>
+        <y>529</y>
         <width>540</width>
         <height>39</height>
         <style>3</style>
         <widget type="led" version="2.0.0">
           <name>LED_2</name>
-          <pv_name>loc://step_2-1&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-1&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>2</x>
           <labels_from_pv>true</labels_from_pv>
@@ -77,7 +77,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_3</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-2&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-2&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>32</x>
           <off_color use_class="true">
@@ -92,7 +92,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_4</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-3&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-3&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>62</x>
           <off_color use_class="true">
@@ -107,7 +107,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_5</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-4&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-4&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>92</x>
           <off_color use_class="true">
@@ -122,7 +122,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_6</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-5&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-5&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>122</x>
           <off_color use_class="true">
@@ -137,7 +137,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_7</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-6&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-6&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>152</x>
           <off_color use_class="true">
@@ -152,7 +152,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_8</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-7&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-7&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>182</x>
           <off_color use_class="true">
@@ -167,7 +167,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_9</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-8&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-8&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>212</x>
           <off_color use_class="true">
@@ -182,7 +182,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_10</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-9&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-9&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>242</x>
           <off_color use_class="true">
@@ -197,7 +197,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_11</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-10&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-10&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>272</x>
           <off_color use_class="true">
@@ -212,7 +212,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_12</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-11&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-11&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>302</x>
           <off_color use_class="true">
@@ -227,7 +227,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_13</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-12&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-12&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>332</x>
           <off_color use_class="true">
@@ -242,7 +242,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_14</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-13&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-13&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>362</x>
           <off_color use_class="true">
@@ -257,7 +257,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_15</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-14&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-14&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>392</x>
           <off_color use_class="true">
@@ -272,7 +272,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_16</name>
           <class>ON_OFF</class>
-          <pv_name>loc://step_2-15&lt;VLong&gt;(0)</pv_name>
+          <pv_name>loc://step_3-15&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
           <x>422</x>
           <off_color use_class="true">
@@ -284,41 +284,11 @@
             </color>
           </on_color>
         </widget>
-        <widget type="led" version="2.0.0">
-          <name>LED_17</name>
-          <class>ON_OFF</class>
-          <pv_name>loc://step_2-16&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
-          <x>452</x>
-          <off_color use_class="true">
-            <color name="Off" red="60" green="100" blue="60">
-            </color>
-          </off_color>
-          <on_color use_class="true">
-            <color name="On" red="0" green="255" blue="0">
-            </color>
-          </on_color>
-        </widget>
-        <widget type="led" version="2.0.0">
-          <name>LED_18</name>
-          <class>ON_OFF</class>
-          <pv_name>loc://step_2-17&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
-          <x>482</x>
-          <off_color use_class="true">
-            <color name="Off" red="60" green="100" blue="60">
-            </color>
-          </off_color>
-          <on_color use_class="true">
-            <color name="On" red="0" green="255" blue="0">
-            </color>
-          </on_color>
-        </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-3</STEP>
+          <STEP>3-3</STEP>
         </macros>
         <x>13</x>
         <y>69</y>
@@ -329,14 +299,14 @@
           <name>Check Box_3</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HGT_OMEGA = 1 (from 3) in level flight</label>
+          <label>Step $(STEP): GC pushes FW_T_INTEG_GAIN = 0.3 (from 0.2) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-4</STEP>
+          <STEP>3-4</STEP>
         </macros>
         <x>13</x>
         <y>102</y>
@@ -354,7 +324,7 @@
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-5</STEP>
+          <STEP>3-5</STEP>
         </macros>
         <x>13</x>
         <y>135</y>
@@ -365,14 +335,14 @@
           <name>Check Box_5</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HGT_OMEGA = 6 (from 1) in level flight</label>
+          <label>Step $(STEP): GC pushes:  FW_T_ INTEG_GAIN = 0.1 (from 0.3) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-6</STEP>
+          <STEP>3-6</STEP>
         </macros>
         <x>13</x>
         <y>168</y>
@@ -383,14 +353,14 @@
           <name>Check Box_6</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
+          <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0.1 (from 0) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-7</STEP>
+          <STEP>3-7</STEP>
         </macros>
         <x>13</x>
         <y>201</y>
@@ -401,14 +371,14 @@
           <name>Check Box_7</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes:  FW_T_HGT_OMEGA = 3 (from 6) in level flight</label>
+          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-8</STEP>
+          <STEP>3-8</STEP>
         </macros>
         <x>13</x>
         <y>234</y>
@@ -419,14 +389,14 @@
           <name>Check Box_8</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_FF = 0.4 (from 0.8) in level flight</label>
+          <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0.5 (from 0.1) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-9</STEP>
+          <STEP>3-9</STEP>
         </macros>
         <x>13</x>
         <y>267</y>
@@ -444,7 +414,7 @@
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-10</STEP>
+          <STEP>3-10</STEP>
         </macros>
         <x>13</x>
         <y>300</y>
@@ -455,14 +425,14 @@
           <name>Check Box_10</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_FF = 0.9 (from 0.4) in level flight</label>
+          <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0 (from 0.5) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-11</STEP>
+          <STEP>3-11</STEP>
         </macros>
         <x>13</x>
         <y>333</y>
@@ -473,14 +443,14 @@
           <name>Check Box_11</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
+          <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 4 (from 5) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-12</STEP>
+          <STEP>3-12</STEP>
         </macros>
         <x>13</x>
         <y>366</y>
@@ -491,14 +461,14 @@
           <name>Check Box_12</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_FF = 0.8 (from 0.9) in level flight</label>
+          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-13</STEP>
+          <STEP>3-13</STEP>
         </macros>
         <x>13</x>
         <y>399</y>
@@ -509,14 +479,14 @@
           <name>Check Box_13</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_P = 0.1 (from 0.05) in level flight</label>
+          <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 2 (from 4) in level flight</label>
           <width>576</width>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-14</STEP>
+          <STEP>3-14</STEP>
         </macros>
         <x>13</x>
         <y>432</y>
@@ -534,7 +504,7 @@
       <widget type="group" version="2.0.0">
         <name>$(STEP)</name>
         <macros>
-          <STEP>2-15</STEP>
+          <STEP>3-15</STEP>
         </macros>
         <x>13</x>
         <y>465</y>
@@ -545,43 +515,7 @@
           <name>Check Box_15</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_P = 0.2 (from 0.1) in level flight</label>
-          <width>576</width>
-        </widget>
-      </widget>
-      <widget type="group" version="2.0.0">
-        <name>$(STEP)</name>
-        <macros>
-          <STEP>2-16</STEP>
-        </macros>
-        <x>13</x>
-        <y>498</y>
-        <width>596</width>
-        <height>28</height>
-        <style>3</style>
-        <widget type="checkbox" version="2.0.0">
-          <name>Check Box_17</name>
-          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
-          <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
-          <width>576</width>
-        </widget>
-      </widget>
-      <widget type="group" version="2.0.0">
-        <name>$(STEP)_1</name>
-        <macros>
-          <STEP>2-17</STEP>
-        </macros>
-        <x>13</x>
-        <y>532</y>
-        <width>596</width>
-        <height>28</height>
-        <style>3</style>
-        <widget type="checkbox" version="2.0.0">
-          <name>Check Box_18</name>
-          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
-          <label>Step $(STEP): GC pushes FW_T_HRATE_P = 0.05 (from 0.2) in level flight</label>
+          <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 5 (from 2) in level flight</label>
           <width>576</width>
         </widget>
       </widget>

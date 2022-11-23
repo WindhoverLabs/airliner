@@ -65,6 +65,20 @@
       <y>71</y>
       <tooltip>$(actions)</tooltip>
     </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="open_display">
+          <file>Procedure3.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Procedure3</text>
+      <x>12</x>
+      <y>101</y>
+      <tooltip>$(actions)</tooltip>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <x>250</x>
