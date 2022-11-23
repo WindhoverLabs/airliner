@@ -94,6 +94,9 @@ typedef struct
     /** \brief Vehicle Status */
     PX4_VehicleStatusMsg_t                VehicleStatus;
 
+    /** \brief Setpoint Triplets */
+    PX4_PositionSetpointTripletMsg_t      PositionSpTriplet;
+
     float filtered_vel_n;
     float filtered_vel_e;
     float filtered_vel_d;

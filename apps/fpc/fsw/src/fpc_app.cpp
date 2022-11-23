@@ -578,6 +578,7 @@ void FPC::ProcessNewData()
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
+                    // printf("PX4_POSITION_SETPOINT_TRIPLET_MID: %d\n", PX4_POSITION_SETPOINT_TRIPLET_MID);
                     CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, dataMsgPtr,
                             sizeof(m_PositionSetpointTripletMsg));
                     HkTlm.m_PositionSetpointTripletMsgCount++;
