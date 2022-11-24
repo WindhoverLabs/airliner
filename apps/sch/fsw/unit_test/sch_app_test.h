@@ -35,7 +35,17 @@
 #define SCH_APP_TEST_H
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 void SCH_App_Test_AddTestCases(void);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* SCH_APP_TEST_H */

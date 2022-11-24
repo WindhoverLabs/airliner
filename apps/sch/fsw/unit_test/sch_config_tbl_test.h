@@ -35,7 +35,17 @@
 #define SCH_CONFIG_TBL_TEST_H
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 void SCH_Config_Tbl_Test_AddTestCases(void);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* SCH_CONFIG_TBL_TEST_H */

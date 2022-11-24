@@ -94,6 +94,8 @@ buildliner_add_app_unit_test(sch-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_mock_os.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_mock_os.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_custom_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sch_custom_stubs.h
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/utassert.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_es_hooks.c
         ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/ut_cfe_es_stubs.c

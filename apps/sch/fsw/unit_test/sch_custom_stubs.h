@@ -31,33 +31,43 @@
 *
 *****************************************************************************/
 
-#ifndef SCH_TEST_UTILS_H
-#define SCH_TEST_UTILS_H
+#ifndef SCH_CUSTOM_STUBS_H
+#define SCH_CUSTOM_STUBS_H
 
 
-#include "sch_app.h"
-
-extern SCH_AppData_t  SCH_AppData;
-
-extern int32 SCH_ChildTaskInit(void);
-
-extern SCH_ScheduleEntry_t  *SCH_DefaultScheduleTable;
-extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
-
+#include "cfe.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-void SCH_Test_Setup(void);
-void SCH_Test_SetupUnitTest(void);
-void SCH_Test_TearDown(void);
+typedef enum 
+{
+    UT_OSTIMER_CREATE_INDEX,
+    UT_OSTIMER_SET_INDEX,
+    UT_OSTIMER_MAX_INDEX
+} Ut_OSTIMER_INDEX_t;
 
-void SCH_Test_PrintCmdMsg(void *pMsg, uint32 size);
+typedef struct
+{
+    int32 (*OS_TimerCreate)(uint32 *timer_id, const char *timer_name,
+                     uint32 *clock_accuracy, OS_TimerCallback_t  callback_ptr);
+    int32 (*OS_TimerSet)(uint32 timer_id, uint32 start_time,
+                         uint32 interval_time);
+} Ut_OSTIMER_HookTable_t;
 
-time_t SCH_Test_GetTimeFromTimestamp(uint64 timestamp);
-time_t SCH_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+typedef struct
+{
+    int32   Value;
+    uint32  Count;
+    boolean ContinueReturnCodeAfterCountZero;
+} Ut_OSTIMER_ReturnCodeTable_t;
+
+void Ut_OSTIMER_Reset(void);
+void Ut_OSTIMER_SetFunctionHook(uint32 Index, void *FunPtr);
+void Ut_OSTIMER_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
+void Ut_OSTIMER_ContinueReturnCodeAfterCountZero(uint32 Index);
 
 
 #ifdef __cplusplus
@@ -65,4 +75,4 @@ time_t SCH_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 #endif
 
 
-#endif /* SCH_TEST_UTILS_H */
+#endif /* SCH_CUSTOM_STUBS_H */

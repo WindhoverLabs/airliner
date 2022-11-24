@@ -33,6 +33,7 @@
 
 #include "sch_app_test.h"
 #include "sch_test_utils.h"
+#include "sch_custom_stubs.h"
 #include "sch_app.h"
 #include "sch_apipriv.h"
 #include "sch_msg.h"
@@ -40,10 +41,12 @@
 #include "sch_version.h"
 
 #include "uttest.h"
+#include "utassert.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_es_hooks.h"
 #include "ut_cfe_evs_stubs.h"
+#include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_sb_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
@@ -821,272 +824,6 @@ void SCH_SbInit_Test_Nominal(void)
     UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
 } /* end SCH_SbInit_Test_Nominal */
-
-void SCH_TblInit_Test_RegisterSdtError(void)
-{
-    int32   Result;
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, -1, 1);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
-
-    UtAssert_True(SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, "SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE");
-    UtAssert_True(SCH_AppData.MessageTableHandle  == CFE_TBL_BAD_TABLE_HANDLE, "SCH_AppData.MessageTableHandle  == CFE_TBL_BAD_TABLE_HANDLE");
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SDT_REG_ERR_EID, CFE_EVS_ERROR, "Error Registering SDT, RC=0xFFFFFFFF"),
-        "Error Registering SDT, RC=0xFFFFFFFF");
-
-    UtAssert_True (Result == -1, "Result == -1");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TblInit_Test_RegisterSdtError */
-
-void SCH_TblInit_Test_RegisterMdtError(void)
-{
-    int32   Result;
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, -1, 2);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
-
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    UtAssert_True(SCH_AppData.MessageTableHandle  == CFE_TBL_BAD_TABLE_HANDLE, "SCH_AppData.MessageTableHandle  == CFE_TBL_BAD_TABLE_HANDLE");
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MDT_REG_ERR_EID, CFE_EVS_ERROR, "Error Registering MDT, RC=0xFFFFFFFF"),
-        "Error Registering MDT, RC=0xFFFFFFFF");
-
-    UtAssert_True (Result == -1, "Result == -1");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TblInit_Test_RegisterMdtError */
-
-void SCH_TblInit_Test_LoadSdtError(void)
-{
-    int32   Result = CFE_SUCCESS;
-    int32   Expected = CFE_TBL_ERR_INVALID_HANDLE;
-    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, Expected, 1);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    sprintf(expEventText, "Error (RC=0x%08X) Loading SDT with %s",
-            (unsigned int)Expected, SCH_SCHEDULE_FILENAME);
-
-    /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL,
-               "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL,
-               "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
-
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
-       because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
-       because it's modified by CFE_TBL_Register */
-
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0,
-                  "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0,
-                  "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0,
-                  "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0,
-                  "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
-                  "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    UtAssert_True(Result == Expected, "TblInit_Test_LoadSdtError");
-    UtAssert_EventSent(SCH_SDT_LOAD_ERR_EID, CFE_EVS_ERROR, expEventText,
-                       "TblInit_Test_LoadSdtError Event Sent");
-} /* end SCH_TblInit_Test_LoadSdtError */
-
-void SCH_TblInit_Test_LoadMdtError(void)
-{
-    int32   Result = CFE_SUCCESS;
-    int32   Expected = CFE_TBL_ERR_INVALID_HANDLE;
-    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, Expected, 2);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    sprintf(expEventText, "Error (RC=0x%08X) Loading MDT with %s",
-                       (unsigned int)Expected, SCH_MESSAGE_FILENAME);
-
-    /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL,
-               "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL,
-               "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
-
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
-       because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE,
-       because it's modified by CFE_TBL_Register */
-
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0,
-                  "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 1,
-                  "SCH_AppData.TableVerifySuccessCount == 1");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0,
-                  "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0,
-                  "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
-                  "Ut_CFE_EVS_GetEventQueueDepth() == 2");
-    UtAssert_True(Result == Expected, "TblInit_Test_LoadMdtError");
-    UtAssert_EventSent(SCH_MDT_LOAD_ERR_EID, CFE_EVS_ERROR,
-             expEventText, "TblInit_Test_LoadMdtError Event Sent");
-} /* end SCH_TblInit_Test_LoadMdtError */
-
-void SCH_TblInit_Test_AcquirePointersError(void)
-{
-    int32   Result;
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    /* Set to prevent all calls to CFE_TBL_Load from failing */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
-    /* Set to make "SCH_AcquirePointers" return not success, in order to generate error message SCH_ACQ_PTR_ERR_EID */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, -1, 1);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    /* Verify results */
-    UtAssert_True(SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, "SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL");
-    UtAssert_True(SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, "SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL");
-
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_ACQ_PTR_ERR_EID, CFE_EVS_ERROR, "Error Acquiring Tbl Ptrs (RC=0xFFFFFFFF)"),
-        "Error Acquiring Tbl Ptrs (RC=0xFFFFFFFF)");
-
-    UtAssert_True (Result == -1, "Result == -1");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TblInit_Test_AcquirePointersError */
-
-void SCH_TblInit_Test_Nominal(void)
-{
-    int32   Result;
-
-    SCH_AppData.ScheduleTable = (SCH_ScheduleEntry_t *) 1;
-    SCH_AppData.MessageTable  = (SCH_MessageEntry_t  *) 2;
-    SCH_AppData.ScheduleTableHandle = 3;
-    SCH_AppData.MessageTableHandle  = 4;
-    SCH_AppData.BadTableDataCount       = 5;
-    SCH_AppData.TableVerifySuccessCount = 6;
-    SCH_AppData.TableVerifyFailureCount = 7;
-    SCH_AppData.TablePassCount          = 8;
-
-    /* Set to prevent all calls to CFE_TBL_Load from failing */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
-    /* Execute the function being tested */
-    Result = SCH_TblInit();
-    
-    /* Verify results */
-    /* Not verifying SCH_AppData.ScheduleTable == (SCH_ScheduleEntry_t *) NULL, because it's modified by SCH_AcquirePointers */
-    /* Not verifying SCH_AppData.MessageTable  == (SCH_MessageEntry_t  *) NULL, because it's modified by SCH_AcquirePointers */
-
-    /* Not verifying SCH_AppData.ScheduleTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    /* Not verifying SCH_AppData.MessageTableHandle == CFE_TBL_BAD_TABLE_HANDLE, because it's modified by CFE_TBL_Register */
-    
-    UtAssert_True(SCH_AppData.BadTableDataCount       == 0, "SCH_AppData.BadTableDataCount       == 0");
-    UtAssert_True(SCH_AppData.TableVerifySuccessCount == 0, "SCH_AppData.TableVerifySuccessCount == 0");
-    UtAssert_True(SCH_AppData.TableVerifyFailureCount == 0, "SCH_AppData.TableVerifyFailureCount == 0");
-    UtAssert_True(SCH_AppData.TablePassCount          == 0, "SCH_AppData.TablePassCount          == 0");
-
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-
-} /* end SCH_TblInit_Test_Nominal */
 
 void SCH_TimerInit_Test_CustomEarlyInitError(void)
 {
@@ -3067,13 +2804,6 @@ void SCH_App_Test_AddTestCases(void)
     UtTest_Add(SCH_SbInit_Test_SubscribeGNDError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_SubscribeGNDError");
     UtTest_Add(SCH_SbInit_Test_SubscribeActivityDoneError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_SubscribeActivityDoneError");
     UtTest_Add(SCH_SbInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_SbInit_Test_Nominal");
-
-    UtTest_Add(SCH_TblInit_Test_RegisterSdtError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_RegisterSdtError");
-    UtTest_Add(SCH_TblInit_Test_RegisterMdtError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_RegisterMdtError");
-    UtTest_Add(SCH_TblInit_Test_LoadSdtError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_LoadSdtError");
-    UtTest_Add(SCH_TblInit_Test_LoadMdtError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_LoadMdtError");
-    UtTest_Add(SCH_TblInit_Test_AcquirePointersError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_AcquirePointersError");
-    UtTest_Add(SCH_TblInit_Test_Nominal, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TblInit_Test_Nominal");
 
     UtTest_Add(SCH_TimerInit_Test_CustomEarlyInitError, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TimerInit_Test_CustomEarlyInitError");
     UtTest_Add(SCH_TimerInit_Test_TimerAccuracyWarning, SCH_Test_Setup, SCH_Test_TearDown, "SCH_TimerInit_Test_TimerAccuracyWarning");
