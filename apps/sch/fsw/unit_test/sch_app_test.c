@@ -584,57 +584,45 @@ void SCH_AppInit_Test_Nominal(void)
 
 } /* end SCH_AppInit_Test_Nominal */
 
+
+/**
+ * SCH_EvsInit, Test_RegisterError
+ */
 void SCH_EvsInit_Test_RegisterError(void)
 {
-    int32   Result;
-
-    SCH_AppData.EventFilters[0].EventID = 1;
-    SCH_AppData.EventFilters[0].Mask    = 2;
-
-    SCH_AppData.EventFilters[1].EventID = 3;
-    SCH_AppData.EventFilters[1].Mask    = 4;
-
-    SCH_AppData.EventFilters[2].EventID = 5;
-    SCH_AppData.EventFilters[2].Mask    = 6;
-
-    SCH_AppData.EventFilters[3].EventID = 7;
-    SCH_AppData.EventFilters[3].Mask    = 8;
-
-    SCH_AppData.EventFilters[4].EventID = 9;
-    SCH_AppData.EventFilters[4].Mask    = 10;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_EVS_APP_NOT_REGISTERED;
+    char    expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set to fail condition "Status != CFE_SUCCESS" */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, -1, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_EvsInit();
-    
+
+    sprintf(expSysLog,
+            "SCH App: Error Registering For Event Services, RC=0x%08X\n",
+            (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID, "SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID");
-    UtAssert_True (SCH_AppData.EventFilters[0].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[0].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID, "SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID");
-    UtAssert_True (SCH_AppData.EventFilters[1].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[1].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID, "SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID");
-    UtAssert_True (SCH_AppData.EventFilters[2].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[2].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID, "SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID");
-    UtAssert_True (SCH_AppData.EventFilters[3].Mask    == CFE_EVS_FIRST_TWO_STOP, "SCH_AppData.EventFilters[3].Mask    == CFE_EVS_FIRST_TWO_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID, "SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID");
-    UtAssert_True (SCH_AppData.EventFilters[4].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[4].Mask    == CFE_EVS_FIRST_ONE_STOP");
+    UtAssert_True(Result == Expected, "EvsInit_Test_RegisterError");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
     UtAssert_True
-        (Ut_CFE_ES_SysLogWritten("SCH App: Error Registering For Event Services, RC=0xFFFFFFFF\n"),
-        "SCH App: Error Registering For Event Services, RC=0xFFFFFFFF");
+        (Ut_CFE_ES_SysLogWritten(expSysLog),
+        "SCH App: EvsInit_Test_RegisterError, SysLog Written");
+}
 
-    UtAssert_True (Result == -1, "Result == -1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 1, "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
-
-} /* end SCH_EvsInit_Test_RegisterError */
-
+/**
+ * SCH_EvsInit, Test_Nominal
+ */
 void SCH_EvsInit_Test_Nominal(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
 
     SCH_AppData.EventFilters[0].EventID = 1;
     SCH_AppData.EventFilters[0].Mask    = 2;
@@ -655,51 +643,63 @@ void SCH_EvsInit_Test_Nominal(void)
     Result = SCH_EvsInit();
     
     /* Verify results */
-    UtAssert_True (SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID, "SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID");
-    UtAssert_True (SCH_AppData.EventFilters[0].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[0].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID, "SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID");
-    UtAssert_True (SCH_AppData.EventFilters[1].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[1].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID, "SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID");
-    UtAssert_True (SCH_AppData.EventFilters[2].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[2].Mask    == CFE_EVS_FIRST_ONE_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID, "SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID");
-    UtAssert_True (SCH_AppData.EventFilters[3].Mask    == CFE_EVS_FIRST_TWO_STOP, "SCH_AppData.EventFilters[3].Mask    == CFE_EVS_FIRST_TWO_STOP");
-    UtAssert_True (SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID, "SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID");
-    UtAssert_True (SCH_AppData.EventFilters[4].Mask    == CFE_EVS_FIRST_ONE_STOP, "SCH_AppData.EventFilters[4].Mask    == CFE_EVS_FIRST_ONE_STOP");
+    UtAssert_True(SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID,
+                 "SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID");
+    UtAssert_True(SCH_AppData.EventFilters[0].Mask == CFE_EVS_FIRST_ONE_STOP,
+               "SCH_AppData.EventFilters[0].Mask == CFE_EVS_FIRST_ONE_STOP");
+    UtAssert_True(SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID,
+               "SCH_AppData.EventFilters[1].EventID == SCH_MULTI_SLOTS_EID");
+    UtAssert_True(SCH_AppData.EventFilters[1].Mask == CFE_EVS_FIRST_ONE_STOP,
+               "SCH_AppData.EventFilters[1].Mask == CFE_EVS_FIRST_ONE_STOP");
+    UtAssert_True(SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID,
+             "SCH_AppData.EventFilters[2].EventID == SCH_SKIPPED_SLOTS_EID");
+    UtAssert_True(SCH_AppData.EventFilters[2].Mask == CFE_EVS_FIRST_ONE_STOP,
+               "SCH_AppData.EventFilters[2].Mask == CFE_EVS_FIRST_ONE_STOP");
+    UtAssert_True(SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID,
+                "SCH_AppData.EventFilters[3].EventID == SCH_CORRUPTION_EID");
+    UtAssert_True(SCH_AppData.EventFilters[3].Mask == CFE_EVS_FIRST_TWO_STOP,
+               "SCH_AppData.EventFilters[3].Mask == CFE_EVS_FIRST_TWO_STOP");
+    UtAssert_True(SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID,
+               "SCH_AppData.EventFilters[4].EventID == SCH_PACKET_SEND_EID");
+    UtAssert_True(SCH_AppData.EventFilters[4].Mask == CFE_EVS_FIRST_ONE_STOP,
+               "SCH_AppData.EventFilters[4].Mask == CFE_EVS_FIRST_ONE_STOP");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    UtAssert_True(Result == Expected, "EvsInit_Test_Nominal");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 0, "Ut_CFE_ES_GetSysLogQueueDepth() == 0");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                                     "Ut_CFE_ES_GetSysLogQueueDepth() == 0");
+}
 
-} /* end SCH_EvsInit_Test_Nominal */
 
+/**
+ * SCH_SbInit, Test_CreateCmdPipeError
+ */
 void SCH_SbInit_Test_CreateCmdPipeError(void)
 {
-    int32   Result;
-
-    SCH_AppData.MsgPtr  = (CFE_SB_MsgPtr_t) 1;
-    SCH_AppData.CmdPipe = 1;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SB_BAD_ARGUMENT;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, -1, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
     
+    sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08X",
+                          (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0, "SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0");
-    UtAssert_True (SCH_AppData.CmdPipe == 0, "SCH_AppData.CmdPipe == 0");
+    UtAssert_True(Result == Expected, "SbInit_Test_CreateCmdPipeError");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_CR_PIPE_ERR_EID, CFE_EVS_ERROR, "Error Creating SB Pipe, RC=0xFFFFFFFF"),
-        "Error Creating SB Pipe, RC=0xFFFFFFFF");
+    UtAssert_EventSent(SCH_CR_PIPE_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "SbInit_Test_CreateCmdPipeError Event Sent");
+}
 
-    UtAssert_True (Result == -1, "Result == -1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_SbInit_Test_CreateCmdPipeError */
-
+/**
+ * SCH_SbInit, Test_CreateADPipeError
+ */
 void SCH_SbInit_Test_CreateADPipeError(void)
 {
     /* Set a fail result for SB */
@@ -709,80 +709,76 @@ void SCH_SbInit_Test_CreateADPipeError(void)
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
 
-    sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08lX", expected);
-
     /* Execute the function being tested */
     result = SCH_SbInit();
 
+    sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08lX", expected);
+
+    /* Verify results */
     UtAssert_True(result == expected, "SbInit_Test_CreateADPipeError");
+
     UtAssert_EventSent(SCH_CR_PIPE_ERR_EID, CFE_EVS_ERROR, expEventText,
                        "SbInit_Test_CreateADPipeError Event Sent");
-} /* end SCH_SbInit_Test_CreateADPipeError */
+}
 
+
+/**
+ * SCH_SbInit, Test_SubscribeHKError
+ */
 void SCH_SbInit_Test_SubscribeHKError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SB_BAD_ARGUMENT;
     char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.MsgPtr  = (CFE_SB_MsgPtr_t) 1;
-    SCH_AppData.CmdPipe = 1;
-
     /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, -1, 1);
-
-    snprintf(expEventText, CFE_EVS_MAX_MESSAGE_LENGTH,
-    		"Error Subscribing to HK Request(MID=0x%04X), RC=0xFFFFFFFF",
-			SCH_SEND_HK_MID);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
     
+    sprintf(expEventText,
+            "Error Subscribing to HK Request(MID=0x%04X), RC=0x%08X",
+            SCH_SEND_HK_MID, (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0, "SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0");
-    UtAssert_True (SCH_AppData.CmdPipe == 0, "SCH_AppData.CmdPipe == 0");
+    UtAssert_True(Result == Expected, "SbInit_Test_SubscribeHKError");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SUB_HK_REQ_ERR_EID, CFE_EVS_ERROR, expEventText),
-        		expEventText);
+    UtAssert_EventSent(SCH_SUB_HK_REQ_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "SbInit_Test_SubscribeHKError Even Sent");
+}
 
-    UtAssert_True (Result == -1, "Result == -1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_SbInit_Test_SubscribeHKError */
-
+/**
+ * SCH_SbInit, Test_SubscribeGNDError
+ */
 void SCH_SbInit_Test_SubscribeGNDError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SB_BAD_ARGUMENT;
     char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.MsgPtr  = (CFE_SB_MsgPtr_t) 1;
-    SCH_AppData.CmdPipe = 1;
-
     /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, -1, 2);
-
-    snprintf(expEventText, CFE_EVS_MAX_MESSAGE_LENGTH,
-    		"Error Subscribing to GND CMD(MID=0x%04X), RC=0xFFFFFFFF",
-			SCH_CMD_MID);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, Expected, 2);
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
     
+    sprintf(expEventText,
+            "Error Subscribing to GND CMD(MID=0x%04X), RC=0x%08X",
+            SCH_CMD_MID, (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0, "SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0");
-    UtAssert_True (SCH_AppData.CmdPipe == 0, "SCH_AppData.CmdPipe == 0");
+    UtAssert_True(Result == Expected, "SbInit_Test_SubscribeGNDError");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SUB_GND_CMD_ERR_EID, CFE_EVS_ERROR, expEventText),
-        		expEventText);
+    UtAssert_EventSent(SCH_SUB_GND_CMD_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "SbInit_Test_SubscribeGNDError Event Sent");
+}
 
-    UtAssert_True (Result == -1, "Result == -1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_SbInit_Test_SubscribeGNDError */
-
+/**
+ * SCH_SbInit, Test_SubscribeActivityDoneError
+ */
 void SCH_SbInit_Test_SubscribeActivityDoneError(void)
 {
     /* Set a fail result for SB */
@@ -792,22 +788,29 @@ void SCH_SbInit_Test_SubscribeActivityDoneError(void)
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, expected, 3);
 
-    sprintf(expEventText, "Error Subscribing to activity done msg(MID=0x%04X), RC=0x%08lX",
-            SCH_ACTIVITY_DONE_MID, expected);
-
     /* Execute the function being tested */
     result = SCH_SbInit();
+
+    sprintf(expEventText,
+            "Error Subscribing to activity done msg(MID=0x%04X), RC=0x%08X",
+            SCH_ACTIVITY_DONE_MID, (unsigned int)expected);
 
     /* Verify results */
     UtAssert_True(result == expected,
                   "SbInit_Test_SubscribeActivityDoneError");
+
     UtAssert_EventSent(SCH_SUB_GND_CMD_ERR_EID, CFE_EVS_ERROR, expEventText,
                        "SbInit_Test_SubscribeActivityDoneError Event Sent");
-} /* end SCH_SbInit_Test_SubscribeActivityDoneError */
+}
 
+
+/**
+ * SCH_SbInit, Test_Nominal
+ */
 void SCH_SbInit_Test_Nominal(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
 
     SCH_AppData.MsgPtr  = (CFE_SB_MsgPtr_t) 1;
     SCH_AppData.CmdPipe = 1;
@@ -816,181 +819,119 @@ void SCH_SbInit_Test_Nominal(void)
     Result = SCH_SbInit();
     
     /* Verify results */
-    UtAssert_True (SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0, "SCH_AppData.MsgPtr  == (CFE_SB_MsgPtr_t) 0");
-    UtAssert_True (SCH_AppData.CmdPipe == 0, "SCH_AppData.CmdPipe == 0");
+    UtAssert_True(SCH_AppData.MsgPtr == (CFE_SB_MsgPtr_t) 0,
+                               "SCH_AppData.MsgPtr == (CFE_SB_MsgPtr_t) 0");
+    UtAssert_True(SCH_AppData.CmdPipe == 0,
+                               "SCH_AppData.CmdPipe == 0");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    UtAssert_True(Result == Expected, "SbInit_Test_Nominal");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-} /* end SCH_SbInit_Test_Nominal */
-
+/**
+ * SCH_TimerInit, Test_CustomEarlyInitError
+ */
 void SCH_TimerInit_Test_CustomEarlyInitError(void)
 {
-    int32   Result;
-
-    SCH_AppData.IgnoreMajorFrame     = 1;
-    SCH_AppData.IgnoreMajorFrameMsgSent = 2;
-    SCH_AppData.UnexpectedMajorFrame = 3;
-    SCH_AppData.SyncToMET            = 4;
-    SCH_AppData.MajorFrameSource     = 5;
-    SCH_AppData.NextSlotNumber       = 6;
-    SCH_AppData.MinorFramesSinceTone = 7;
-    SCH_AppData.LastSyncMETSlot      = 8;
-    SCH_AppData.SyncAttemptsLeft     = 9;
-    SCH_AppData.UnexpectedMajorFrameCount   = 10;
-    SCH_AppData.MissedMajorFrameCount       = 11;
-    SCH_AppData.ValidMajorFrameCount        = 12;
-    SCH_AppData.WorstCaseSlotsPerMinorFrame = 13;
-    SCH_AppData.ClockAccuracy = 14;
-
-    /* Set to make SCH_CustomEarlyInit return -1, in order to generate error message SCH_MINOR_FRAME_TIMER_CREATE_ERR_EID */
-    /* Note: CFE_PSP_TimerCreate is currently defined in sch_custom.c.  It calls OS_TimerCreate, which is what we're setting a return value for */
-    Ut_OSTIMER_SetReturnCode(UT_OSTIMER_CREATE_INDEX, -1, 1);
-
-    /* Execute the function being tested */
-    Result = SCH_TimerInit();
-    
-    /* Verify results */
-    UtAssert_True(SCH_AppData.IgnoreMajorFrame     == FALSE, "SCH_AppData.IgnoreMajorFrame     == FALSE");
-    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE, "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrame == FALSE, "SCH_AppData.UnexpectedMajorFrame == FALSE");
-    UtAssert_True(SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED, "SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED");
-    UtAssert_True(SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE, "SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE");
-    UtAssert_True(SCH_AppData.NextSlotNumber       == 0, "SCH_AppData.NextSlotNumber       == 0");
-    UtAssert_True(SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT, "SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT");
-    UtAssert_True(SCH_AppData.LastSyncMETSlot      == 0, "SCH_AppData.LastSyncMETSlot      == 0");
-    UtAssert_True(SCH_AppData.SyncAttemptsLeft     == 0, "SCH_AppData.SyncAttemptsLeft     == 0");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrameCount   == 0, "SCH_AppData.UnexpectedMajorFrameCount   == 0");
-    UtAssert_True(SCH_AppData.MissedMajorFrameCount       == 0, "SCH_AppData.MissedMajorFrameCount       == 0");
-    UtAssert_True(SCH_AppData.ValidMajorFrameCount        == 0, "SCH_AppData.ValidMajorFrameCount        == 0");
-    UtAssert_True(SCH_AppData.WorstCaseSlotsPerMinorFrame == 1, "SCH_AppData.WorstCaseSlotsPerMinorFrame == 1");
-    UtAssert_True(SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY, "SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY");
-
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MINOR_FRAME_TIMER_CREATE_ERR_EID, CFE_EVS_ERROR, "Error creating Timer (RC=0xFFFFFFFF)"),
-        "Error creating Timer (RC=0xFFFFFFFF)");
-
-    UtAssert_True (Result == -1, "Result == -1");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TimerInit_Test_CustomEarlyInitError */
-
-void SCH_TimerInit_Test_TimerAccuracyWarning(void)
-{
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = -1;
     char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.IgnoreMajorFrame     = 1;
-    SCH_AppData.IgnoreMajorFrameMsgSent = 2;
-    SCH_AppData.UnexpectedMajorFrame = 3;
-    SCH_AppData.SyncToMET            = 4;
-    SCH_AppData.MajorFrameSource     = 5;
-    SCH_AppData.NextSlotNumber       = 6;
-    SCH_AppData.MinorFramesSinceTone = 7;
-    SCH_AppData.LastSyncMETSlot      = 8;
-    SCH_AppData.SyncAttemptsLeft     = 9;
-    SCH_AppData.UnexpectedMajorFrameCount   = 10;
-    SCH_AppData.MissedMajorFrameCount       = 11;
-    SCH_AppData.ValidMajorFrameCount        = 12;
-    SCH_AppData.WorstCaseSlotsPerMinorFrame = 13;
-    SCH_AppData.ClockAccuracy = 14;
-
-    /* Satisfies condition "SCH_AppData.ClockAccuracy > SCH_WORST_CLOCK_ACCURACY" */
-    Ut_OSTIMER_SetFunctionHook(UT_OSTIMER_CREATE_INDEX, &SCH_APP_TEST_OS_TimerCreateHook);
-
-    snprintf(expEventText, CFE_EVS_MAX_MESSAGE_LENGTH,
-    		"OS Timer Accuracy (%u > reqd %u usec) requires Minor Frame MET sync",
-			SCH_WORST_CLOCK_ACCURACY+1, SCH_WORST_CLOCK_ACCURACY);
+    Ut_OSTIMER_SetReturnCode(UT_OSTIMER_CREATE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_TimerInit();
     
+    sprintf(expEventText, "Error creating Timer (RC=0x%08X)",
+                          (unsigned int)-1);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.IgnoreMajorFrame     == FALSE, "SCH_AppData.IgnoreMajorFrame     == FALSE");
-    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE, "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrame == FALSE, "SCH_AppData.UnexpectedMajorFrame == FALSE");
-    UtAssert_True(SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE, "SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE");
-    UtAssert_True(SCH_AppData.NextSlotNumber       == 0, "SCH_AppData.NextSlotNumber       == 0");
-    UtAssert_True(SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT, "SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT");
-    UtAssert_True(SCH_AppData.LastSyncMETSlot      == 0, "SCH_AppData.LastSyncMETSlot      == 0");
-    UtAssert_True(SCH_AppData.SyncAttemptsLeft     == 0, "SCH_AppData.SyncAttemptsLeft     == 0");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrameCount   == 0, "SCH_AppData.UnexpectedMajorFrameCount   == 0");
-    UtAssert_True(SCH_AppData.MissedMajorFrameCount       == 0, "SCH_AppData.MissedMajorFrameCount       == 0");
-    UtAssert_True(SCH_AppData.ValidMajorFrameCount        == 0, "SCH_AppData.ValidMajorFrameCount        == 0");
-    UtAssert_True(SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY, "SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY");
+    UtAssert_True(Result == Expected, "TimerInit_Test_CustomEarlyInitError");
+
+    UtAssert_EventSent(SCH_MINOR_FRAME_TIMER_CREATE_ERR_EID, CFE_EVS_ERROR,
+             expEventText, "TimerInit_Test_CustomEarlyInitError Event Sent");
+}
+
+
+/**
+ * SCH_TimerInit, Test_TimerAccuracyWarning
+ */
+void SCH_TimerInit_Test_TimerAccuracyWarning(void)
+{
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    SCH_AppData.SyncToMET = 4;
+    SCH_AppData.WorstCaseSlotsPerMinorFrame = 13;
+    SCH_AppData.ClockAccuracy = 14;
+
+    /* Satisfies condition
+       "SCH_AppData.ClockAccuracy > SCH_WORST_CLOCK_ACCURACY" */
+    Ut_OSTIMER_SetFunctionHook(UT_OSTIMER_CREATE_INDEX,
+                               (void*)&SCH_APP_TEST_OS_TimerCreateHook);
+
+    /* Execute the function being tested */
+    Result = SCH_TimerInit();
+    
+    sprintf(expEventText,
+      "OS Timer Accuracy (%d > reqd %d usec) requires Minor Frame MET sync",
+      (int)SCH_AppData.ClockAccuracy, SCH_WORST_CLOCK_ACCURACY);
+
+    /* Verify results */
+    UtAssert_True(SCH_AppData.ClockAccuracy == SCH_WORST_CLOCK_ACCURACY + 1,
+               "SCH_AppData.ClockAccuracy == SCH_WORST_CLOCK_ACCURACY + 1");
+
+    UtAssert_True(SCH_AppData.SyncToMET == SCH_MINOR_SYNCHRONIZED,
+                  "SCH_AppData.SyncToMET == SCH_MINOR_SYNCHRONIZED");
 
     UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MINOR_FRAME_TIMER_ACC_WARN_EID, CFE_EVS_INFORMATION, expEventText),
-        		expEventText);
+        (SCH_AppData.WorstCaseSlotsPerMinorFrame ==
+         ((SCH_AppData.ClockAccuracy * 2) / SCH_NORMAL_SLOT_PERIOD) + 1,
+         "SCH_AppData.WorstCaseSlotsPerMinorFrame == "
+         "((SCH_AppData.ClockAccuracy * 2) / SCH_NORMAL_SLOT_PERIOD) + 1");
 
-    UtAssert_True(SCH_AppData.SyncToMET == SCH_MINOR_SYNCHRONIZED, "SCH_AppData.SyncToMET == SCH_MINOR_SYNCHRONIZED");
+    UtAssert_True(Result == Expected, "TimerInit_Test_TimerAccuracyWarning");
 
-    UtAssert_True
-        (SCH_AppData.WorstCaseSlotsPerMinorFrame == ((SCH_AppData.ClockAccuracy * 2) / SCH_NORMAL_SLOT_PERIOD) + 1,
-        "SCH_AppData.WorstCaseSlotsPerMinorFrame == ((SCH_AppData.ClockAccuracy * 2) / SCH_NORMAL_SLOT_PERIOD) + 1");
+    UtAssert_EventSent(SCH_MINOR_FRAME_TIMER_ACC_WARN_EID, CFE_EVS_INFORMATION,
+             expEventText, "TimerInit_Test_TimerAccuracyWarning Event Sent");
+}
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TimerInit_Test_TimerAccuracyWarning */
-
+/**
+ * SCH_TimerInit, Test_BinSemCreateError
+ */
 void SCH_TimerInit_Test_BinSemCreateError(void)
 {
-    int32   Result;
-
-    SCH_AppData.IgnoreMajorFrame     = 1;
-    SCH_AppData.IgnoreMajorFrameMsgSent = 2;
-    SCH_AppData.UnexpectedMajorFrame = 3;
-    SCH_AppData.SyncToMET            = 4;
-    SCH_AppData.MajorFrameSource     = 5;
-    SCH_AppData.NextSlotNumber       = 6;
-    SCH_AppData.MinorFramesSinceTone = 7;
-    SCH_AppData.LastSyncMETSlot      = 8;
-    SCH_AppData.SyncAttemptsLeft     = 9;
-    SCH_AppData.UnexpectedMajorFrameCount   = 10;
-    SCH_AppData.MissedMajorFrameCount       = 11;
-    SCH_AppData.ValidMajorFrameCount        = 12;
-    SCH_AppData.WorstCaseSlotsPerMinorFrame = 13;
-    SCH_AppData.ClockAccuracy = 14;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_ES_BIN_SEM_DELETE_ERR;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set to satisfy subsequent condition "Status != CFE_SUCCESS" */
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_BINSEMCREATE_INDEX, -1, 1);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_BINSEMCREATE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_TimerInit();
-    
+
+    sprintf(expEventText,
+            "Error creating Main Loop Timing Semaphore (RC=0x%08X)",
+            (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.IgnoreMajorFrame     == FALSE, "SCH_AppData.IgnoreMajorFrame     == FALSE");
-    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE, "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrame == FALSE, "SCH_AppData.UnexpectedMajorFrame == FALSE");
-    UtAssert_True(SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED, "SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED");
-    UtAssert_True(SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE, "SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE");
-    UtAssert_True(SCH_AppData.NextSlotNumber       == 0, "SCH_AppData.NextSlotNumber       == 0");
-    UtAssert_True(SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT, "SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT");
-    UtAssert_True(SCH_AppData.LastSyncMETSlot      == 0, "SCH_AppData.LastSyncMETSlot      == 0");
-    UtAssert_True(SCH_AppData.SyncAttemptsLeft     == 0, "SCH_AppData.SyncAttemptsLeft     == 0");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrameCount   == 0, "SCH_AppData.UnexpectedMajorFrameCount   == 0");
-    UtAssert_True(SCH_AppData.MissedMajorFrameCount       == 0, "SCH_AppData.MissedMajorFrameCount       == 0");
-    UtAssert_True(SCH_AppData.ValidMajorFrameCount        == 0, "SCH_AppData.ValidMajorFrameCount        == 0");
-    UtAssert_True(SCH_AppData.WorstCaseSlotsPerMinorFrame == 1, "SCH_AppData.WorstCaseSlotsPerMinorFrame == 1");
-    UtAssert_True(SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY, "SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY");
+    UtAssert_True(Result == Expected, "TimerInit_Test_BinSemCreateError");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_SEM_CREATE_ERR_EID, CFE_EVS_ERROR, "Error creating Main Loop Timing Semaphore (RC=0xFFFFFFFF)"),
-        "Error creating Main Loop Timing Semaphore (RC=0xFFFFFFFF)");
+    UtAssert_EventSent(SCH_SEM_CREATE_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "TimerInit_Test_BinSemCreateError Event Sent");
+}
 
-    UtAssert_True (Result == -1, "Result == -1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_TimerInit_Test_BinSemCreateError */
-
+/**
+ * SCH_TimerInit, Test_Nominal
+ */
 void SCH_TimerInit_Test_Nominal(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
 
     SCH_AppData.IgnoreMajorFrame     = 1;
     SCH_AppData.IgnoreMajorFrameMsgSent = 2;
@@ -1011,26 +952,37 @@ void SCH_TimerInit_Test_Nominal(void)
     Result = SCH_TimerInit();
     
     /* Verify results */
-    UtAssert_True(SCH_AppData.IgnoreMajorFrame     == FALSE, "SCH_AppData.IgnoreMajorFrame     == FALSE");
-    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE, "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrame == FALSE, "SCH_AppData.UnexpectedMajorFrame == FALSE");
-    UtAssert_True(SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED, "SCH_AppData.SyncToMET            == SCH_NOT_SYNCHRONIZED");
-    UtAssert_True(SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE, "SCH_AppData.MajorFrameSource     == SCH_MAJOR_FS_NONE");
-    UtAssert_True(SCH_AppData.NextSlotNumber       == 0, "SCH_AppData.NextSlotNumber       == 0");
-    UtAssert_True(SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT, "SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT");
-    UtAssert_True(SCH_AppData.LastSyncMETSlot      == 0, "SCH_AppData.LastSyncMETSlot      == 0");
-    UtAssert_True(SCH_AppData.SyncAttemptsLeft     == 0, "SCH_AppData.SyncAttemptsLeft     == 0");
-    UtAssert_True(SCH_AppData.UnexpectedMajorFrameCount   == 0, "SCH_AppData.UnexpectedMajorFrameCount   == 0");
-    UtAssert_True(SCH_AppData.MissedMajorFrameCount       == 0, "SCH_AppData.MissedMajorFrameCount       == 0");
-    UtAssert_True(SCH_AppData.ValidMajorFrameCount        == 0, "SCH_AppData.ValidMajorFrameCount        == 0");
-    UtAssert_True(SCH_AppData.WorstCaseSlotsPerMinorFrame == 1, "SCH_AppData.WorstCaseSlotsPerMinorFrame == 1");
-    UtAssert_True(SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY, "SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY");
+    UtAssert_True(SCH_AppData.IgnoreMajorFrame == FALSE,
+                                    "SCH_AppData.IgnoreMajorFrame == FALSE");
+    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE,
+                             "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
+    UtAssert_True(SCH_AppData.UnexpectedMajorFrame == FALSE,
+                                "SCH_AppData.UnexpectedMajorFrame == FALSE");
+    UtAssert_True(SCH_AppData.SyncToMET == SCH_NOT_SYNCHRONIZED,
+                            "SCH_AppData.SyncToMET == SCH_NOT_SYNCHRONIZED");
+    UtAssert_True(SCH_AppData.MajorFrameSource == SCH_MAJOR_FS_NONE,
+                        "SCH_AppData.MajorFrameSource == SCH_MAJOR_FS_NONE");
+    UtAssert_True(SCH_AppData.NextSlotNumber == 0,
+                                          "SCH_AppData.NextSlotNumber == 0");
+    UtAssert_True(SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT,
+                   "SCH_AppData.MinorFramesSinceTone == SCH_TIME_SYNC_SLOT");
+    UtAssert_True(SCH_AppData.LastSyncMETSlot == 0,
+                                         "SCH_AppData.LastSyncMETSlot == 0");
+    UtAssert_True(SCH_AppData.SyncAttemptsLeft == 0,
+                                        "SCH_AppData.SyncAttemptsLeft == 0");
+    UtAssert_True(SCH_AppData.UnexpectedMajorFrameCount == 0,
+                               "SCH_AppData.UnexpectedMajorFrameCount == 0");
+    UtAssert_True(SCH_AppData.MissedMajorFrameCount == 0,
+                                   "SCH_AppData.MissedMajorFrameCount == 0");
+    UtAssert_True(SCH_AppData.ValidMajorFrameCount == 0,
+                                    "SCH_AppData.ValidMajorFrameCount == 0");
+    UtAssert_True(SCH_AppData.WorstCaseSlotsPerMinorFrame == 1,
+                             "SCH_AppData.WorstCaseSlotsPerMinorFrame == 1");
+    UtAssert_True(SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY,
+                     "SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-
-} /* end SCH_TimerInit_Test_Nominal */
+    UtAssert_True (Result == Expected, "TimerInit_Test_Nominal");
+}
 
 void SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1(void)
 {
