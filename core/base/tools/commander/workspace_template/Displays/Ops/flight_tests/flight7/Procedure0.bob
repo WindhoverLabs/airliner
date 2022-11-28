@@ -210,7 +210,7 @@
           <name>Check Box_6</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
           <bit>1</bit>
-          <label>Step $(STEP): Sync vehicle time with Ground Station time</label>
+          <label>Step $(STEP): Sync vehicle time with Ground Station time ** Do not Use</label>
           <width>496</width>
         </widget>
       </widget>

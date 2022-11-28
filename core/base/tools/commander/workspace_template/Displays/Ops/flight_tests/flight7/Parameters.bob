@@ -47,7 +47,7 @@
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -129,7 +129,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -211,7 +211,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -292,7 +292,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -374,7 +374,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -456,7 +456,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_0</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
