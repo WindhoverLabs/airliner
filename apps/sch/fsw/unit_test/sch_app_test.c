@@ -63,10 +63,10 @@ int OS_RUNTIME_MODE;
 int MINOR_FRAME;
 
 /*
- * Function Definitions
+ * Hook functions to support
  */
-
-int32 SCH_APP_TEST_CFE_TIME_RegisterSynchCallbackHook(CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr)
+int32 SCH_APP_TEST_CFE_TIME_RegisterSynchCallbackHook(
+                            CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr)
 {
     SCH_AppData.IgnoreMajorFrame      = TRUE;
     SCH_AppData.MinorFramesSinceTone  = 1;
@@ -74,455 +74,461 @@ int32 SCH_APP_TEST_CFE_TIME_RegisterSynchCallbackHook(CFE_TIME_SynchCallbackPtr_
     return CFE_SUCCESS;
 }
 
-int32 SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook(CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr)
+
+int32 SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook(
+                             CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr)
 {
     SCH_AppData.AppID = 99;
 
     return CFE_SUCCESS;
 }
 
-int32 SCH_APP_TEST_OS_TimerCreateHook(uint32 *timer_id, const char *timer_name, uint32 *clock_accuracy, OS_TimerCallback_t  callback_ptr)
+
+int32 SCH_APP_TEST_OS_TimerCreateHook(
+              uint32 *timer_id, const char *timer_name,
+              uint32 *clock_accuracy, OS_TimerCallback_t callback_ptr)
 {
     SCH_AppData.ClockAccuracy = SCH_WORST_CLOCK_ACCURACY + 1;
 
     return CFE_SUCCESS;
 }
 
-int32 SCH_APP_TEST_CFE_SB_RcvMsgHook(CFE_SB_MsgPtr_t *BufPtr, CFE_SB_PipeId_t PipeId, int32 TimeOut)
+
+int32 SCH_APP_TEST_CFE_SB_RcvMsgHook(CFE_SB_MsgPtr_t *BufPtr,
+                                CFE_SB_PipeId_t PipeId, int32 TimeOut)
 {
     return CFE_SB_NO_MESSAGE;
 }
 
-int32 SCH_APP_TEST_TimerSetHook(uint32 timer_id, uint32 start_time, uint32 interval_time)
+int32 SCH_APP_TEST_TimerSetHook(uint32 timer_id, uint32 start_time,
+                                uint32 interval_time)
 {
     SCH_AppData.NextSlotNumber = 10;
 
     return CFE_SUCCESS;
 }
 
+
+/**
+ * SCH_AppMain, Test_RegisterAppError
+ */
 void SCH_AppMain_Test_RegisterAppError(void)
 {
-    /* Set to fail condition "Status == CFE_SUCCESS" */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, -1, 1);
+    int32  Expected = CFE_ES_ERR_APP_REGISTER;
+    char   expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+    /* Set to fail condition "Status != CFE_SUCCESS" */
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, Expected, 1);
+
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                  (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
+    sprintf(expSysLog, "SCH App terminating, err = 0x%08X\n",
+                       (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_APP_EXIT_EID, CFE_EVS_CRITICAL, "SCH App: terminating, err = 0xFFFFFFFF"),
-        "SCH App: terminating, err = 0xFFFFFFFF");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
-    UtAssert_True
-        (Ut_CFE_ES_SysLogWritten("SCH App terminating, err = 0xFFFFFFFF\n"),
-        "SCH App terminating, err = 0xFFFFFFFF");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppMain_Test_RegisterAppError SysLog Written");
+}
 
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 1, "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
-
-} /* end SCH_AppMain_Test_RegisterAppError */
-
+/**
+ * SCH_AppMain, Test_AppInitError
+ */
 void SCH_AppMain_Test_AppInitError(void)
 {
-    /* Set to make SCH_AppInit return -1, in order fail condition "Status == CFE_SUCCESS" */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETAPPID_INDEX, -1, 1);
+    int32  Expected = CFE_ES_ERR_APPNAME;
+    char   expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETAPPID_INDEX, Expected, 1);
+
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                  (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
+    sprintf(expSysLog, "SCH App: Unable to obtain own AppID, RC=0x%08X\n",
+                       (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_APP_EXIT_EID, CFE_EVS_CRITICAL, "SCH App: terminating, err = 0xFFFFFFFF"),
-        "SCH App: terminating, err = 0xFFFFFFFF");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 2,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 2");
 
-    UtAssert_True
-        (Ut_CFE_ES_SysLogWritten("SCH App terminating, err = 0xFFFFFFFF\n"),
-        "SCH App terminating, err = 0xFFFFFFFF");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppMain_Test_AppInitError SysLog Written");
+}
 
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 2, "Ut_CFE_ES_GetSysLogQueueDepth() == 2");
-    /* Generates 1 system log message we don't care about in this test */
-
-} /* end SCH_AppMain_Test_AppInitError */
-
+/**
+ * SCH_AppMain, Test_CustomLateInitError
+ */
 void SCH_AppMain_Test_CustomLateInitError(void)
 {
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
+    int32  Expected = CFE_TIME_TOO_MANY_SYNCH_CALLBACKS;
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char   expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Set to make CustomLateInit return -1, in order to generate error message SCH_MAJOR_FRAME_SUB_ERR_EID */
-    Ut_CFE_TIME_SetReturnCode(UT_CFE_TIME_REGISTERSYNCHCALLBACK_INDEX, -1, 1);
+    Ut_CFE_TIME_SetReturnCode(UT_CFE_TIME_REGISTERSYNCHCALLBACK_INDEX,
+                              Expected, 1);
 
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                  (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
+    sprintf(expEventText, "Error initializing Timers (RC=0x%08X)",
+                          (unsigned int)Expected);
+    sprintf(expSysLog, "SCH App terminating, err = 0x%08X\n",
+                       (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_MAJOR_FRAME_SUB_ERR_EID, CFE_EVS_ERROR, "Error initializing Timers (RC=0xFFFFFFFF)"),
-        "Error initializing Timers (RC=0xFFFFFFFF)");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_APP_EXIT_EID, CFE_EVS_CRITICAL, "SCH App: terminating, err = 0xFFFFFFFF"),
-        "SCH App: terminating, err = 0xFFFFFFFF");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 3, "Ut_CFE_EVS_GetEventQueueDepth() == 3");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_EventSent(SCH_MAJOR_FRAME_SUB_ERR_EID, CFE_EVS_ERROR,
+              expEventText, "AppMain_Test_CustomLateInitError Event Sent");
 
-    UtAssert_True
-        (Ut_CFE_ES_SysLogWritten("SCH App terminating, err = 0xFFFFFFFF\n"),
-        "SCH App terminating, err = 0xFFFFFFFF");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppMain_Test_CustomLateInitError SysLog Written");
+}
 
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 1, "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
-    /* Generates 1 system log message we don't care about in this test */
 
-} /* end SCH_AppMain_Test_CustomLateInitError */
-
+/**
+ * SCH_AppMain, Test_NoisyMajorFrameError
+ */
 void SCH_AppMain_Test_NoisyMajorFrameError(void)
 {
+    char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     SCH_AppData.IgnoreMajorFrameMsgSent = FALSE;
 
-    /* Causes SCH_CustomLateInit to set SCH_AppData.IgnoreMajorFrame = TRUE, which it would normally do if CFE_TIME_RegisterSynchCallback weren't stubbed out.
-       Also sets SCH_AppData.MinorFramesSinceTone = 1. Setting these manually in the test setup doesn't work, because they get reset at a certain point */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_REGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_RegisterSynchCallbackHook);
+    /* Causes SCH_CustomLateInit to set SCH_AppData.IgnoreMajorFrame = TRUE,
+       which it would normally do if CFE_TIME_RegisterSynchCallback weren't
+       stubbed out. Also sets SCH_AppData.MinorFramesSinceTone = 1. Setting
+       these manually in the test setup doesn't work, because they get reset
+       at a certain point */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_REGISTERSYNCHCALLBACK_INDEX,
+                     (void*)&SCH_APP_TEST_CFE_TIME_RegisterSynchCallbackHook);
 
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of
+       the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                   (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
-    /* Set to exit loop after first run */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
+    sprintf(expEventText,
+          "Major Frame Sync too noisy (Slot %d). Disabling synchronization.",
+          (int)SCH_AppData.MinorFramesSinceTone);
+
     /* Verify results */
-    UtAssert_True
-        (Ut_CFE_EVS_EventSent(SCH_NOISY_MAJOR_FRAME_ERR_EID, CFE_EVS_ERROR, "Major Frame Sync too noisy (Slot 1). Disabling synchronization."),
-        "Major Frame Sync too noisy (Slot 1). Disabling synchronization.");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (SCH_AppData.IgnoreMajorFrameMsgSent == TRUE, "SCH_AppData.IgnoreMajorFrameMsgSent == TRUE");
-
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
+    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == TRUE,
+                               "SCH_AppData.IgnoreMajorFrameMsgSent == TRUE");
 
 #if SCH_LIB_PRESENCE == 1
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 2, "Ut_CFE_EVS_GetEventQueueDepth() == 2");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
 #else
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 3, "Ut_CFE_EVS_GetEventQueueDepth() == 3");
-    /* Generates 2 event messages we don't care about in this test */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 4,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 4");
 #endif
 
-} /* end SCH_AppMain_Test_NoisyMajorFrameError */
+    UtAssert_EventSent(SCH_NOISY_MAJOR_FRAME_ERR_EID, CFE_EVS_ERROR,
+             expEventText, "AppMain_Test_NoisyMajorFrameError Event Sent");
+}
 
+
+/**
+ * SCH_AppMain, Test_NominalIgnoreMajorFrameFalse
+ */
 void SCH_AppMain_Test_NominalIgnoreMajorFrameFalse(void)
 {
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
+    SCH_AppData.IgnoreMajorFrameMsgSent = TRUE;
 
-    /* Set to exit loop after first run */
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                 (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* SCH_AppData.IgnoreMajorFrameMsgSent = FALSE by default */
-
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.IgnoreMajorFrameMsgSent == FALSE, "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
+    UtAssert_True(SCH_AppData.IgnoreMajorFrameMsgSent == FALSE,
+                            "SCH_AppData.IgnoreMajorFrameMsgSent == FALSE");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
+}
 
-} /* end SCH_AppMain_Test_NominalIgnoreMajorFrameFalse */
 
+/**
+ * SCH_AppMain, Test_ProcessScheduleTableError
+ */
 void SCH_AppMain_Test_ProcessScheduleTableError(void)
 {
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
-    /* Set to exit loop after first run */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* SCH_AppData.IgnoreMajorFrameMsgSent = FALSE by default */
+    int32   Expected = CFE_SB_PIPE_RD_ERR;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
 #if SCH_LIB_PRESENCE == 1
     /* Set to pass condition "SCH_GetProcessingState() == TRUE" */
     SCH_LibData.ProcessingDisabledCtr = 0;
 #endif
 
-    /* This section is to make SCH_ProcessScheduleTable return -1 */
-
-    /* Set to make SCH_ProcessScheduleTable return not success, in order to satisfy subsequent condition "Status != SCH_SUCCESS" */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, -1, 1);
-    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_RCVMSG_INDEX);
-
-    /* Cause SCH_CustomGetCurrentSlotNumber to return SCH_AppData.MinorFramesSinceTone */
+    /* Cause SCH_CustomGetCurrentSlotNumber to return
+       SCH_AppData.MinorFramesSinceTone */
     SCH_AppData.SyncToMET = SCH_NOT_SYNCHRONIZED;
 
     SCH_AppData.MinorFramesSinceTone = 10;
     SCH_AppData.NextSlotNumber       = SCH_TIME_SYNC_SLOT;
     SCH_AppData.LastProcessCount     = 1;
 
-    /* Sets SCH_AppData.NextSlotNumber = 10, in order to reach SCH_ProcessCommands */
-    Ut_OSTIMER_SetFunctionHook(UT_OSTIMER_SET_INDEX, &SCH_APP_TEST_TimerSetHook);
+    /* Sets SCH_AppData.NextSlotNumber = 10, in order to reach
+       SCH_ProcessCommands */
+    Ut_OSTIMER_SetFunctionHook(UT_OSTIMER_SET_INDEX,
+                               (void*)&SCH_APP_TEST_TimerSetHook);
 
-    /* End section */
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                 (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, Expected, 1);
+    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_RCVMSG_INDEX);
 
-    /* Execute the function being tested */
-    SCH_AppMain();
-    
-    /* Verify results */
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
-
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 3, "Ut_CFE_EVS_GetEventQueueDepth() == 3");
-    /* Generates 3 event messages we don't care about in this test */
-
-} /* end SCH_AppMain_Test_ProcessScheduleTableError */
-
-void SCH_AppMain_Test_Nominal(void)
-{
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
-    /* Set to exit loop after first run */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    /* SCH_AppData.IgnoreMajorFrameMsgSent = FALSE by default */
+    /* Execute the function being tested */
+    SCH_AppMain();
 
-    /* Sets SCH_AppData.AppID to 99, to allow verification that the end of the function under test has been reached */
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX, &SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
+    sprintf(expEventText, "SCH App: terminating, err = 0x%08X",
+                          (unsigned int)Expected);
+    sprintf(expSysLog, "SCH App terminating, err = 0x%08X\n",
+                           (unsigned int)Expected);
+
+    /* Verify results */
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 5,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 5");
+
+    UtAssert_EventSent(SCH_APP_EXIT_EID, CFE_EVS_CRITICAL, expEventText,
+                       "AppMain_Test_ProcessScheduleTableError Event Sent");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
+
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppMain_Test_ProcessScheduleTableError SysLog Written");
+}
+
+
+/**
+ * SCH_AppMain, Test_Nominal
+ */
+void SCH_AppMain_Test_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Sets SCH_AppData.AppID to 99, to allow verification that the end
+       of the function under test has been reached */
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
+                 (void*)&SCH_APP_TEST_CFE_TIME_UnregisterSynchCallbackHook);
 
     /* Execute the function being tested */
     SCH_AppMain();
-    
+
     /* Verify results */
-    UtAssert_True (SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
+    UtAssert_True(SCH_AppData.AppID == 99, "SCH_AppData.AppID == 99");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
+}
 
-} /* end SCH_AppMain_Test_Nominal */
 
+/**
+ * SCH_AppInit, Test_GetAppIDError
+ */
 void SCH_AppInit_Test_GetAppIDError(void)
 {
-    int32   Result;
-
-    SCH_AppData.SlotsProcessedCount = 1;
-    SCH_AppData.SkippedSlotsCount   = 2;
-    SCH_AppData.MultipleSlotsCount  = 3;
-    SCH_AppData.SameSlotCount       = 4;
-    SCH_AppData.ScheduleActivitySuccessCount = 5;
-    SCH_AppData.ScheduleActivityFailureCount = 6;
-    SCH_AppData.CmdCounter = 7;
-    SCH_AppData.ErrCounter = 8;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_ES_ERR_APPNAME;
+    char    expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set to fail subsequent condition "Status != CFE_SUCCESS" */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETAPPID_INDEX, -1, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETAPPID_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expSysLog, "SCH App: Unable to obtain own AppID, RC=0x%08X\n",
+                       (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(Result == Expected, "AppInit_Test_GetAppIDError");
 
-    UtAssert_True
-        (Ut_CFE_ES_SysLogWritten("SCH App: Unable to obtain own AppID, RC=0xFFFFFFFF\n"),
-        "SCH App: Unable to obtain own AppID, RC=0xFFFFFFFF");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
-    UtAssert_True (Result == -1, "Result == -1");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppInit_Test_GetAppIDError SysLog Written");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-    UtAssert_True (Ut_CFE_ES_GetSysLogQueueDepth() == 1, "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
-
-} /* end SCH_AppInit_Test_GetAppIDError */
-
+/**
+ * SCH_AppInit, Test_EvsInitError
+ */
 void SCH_AppInit_Test_EvsInitError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_EVS_APP_NOT_REGISTERED;
+    char    expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.SlotsProcessedCount = 1;
-    SCH_AppData.SkippedSlotsCount   = 2;
-    SCH_AppData.MultipleSlotsCount  = 3;
-    SCH_AppData.SameSlotCount       = 4;
-    SCH_AppData.ScheduleActivitySuccessCount = 5;
-    SCH_AppData.ScheduleActivityFailureCount = 6;
-    SCH_AppData.CmdCounter = 7;
-    SCH_AppData.ErrCounter = 8;
-
-    /* Set to fail condition "Status != CFE_SUCCESS" after call to SCH_EvsInit */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, -1, 1);
+    /* Set to fail condition "Status != CFE_SUCCESS" */
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expSysLog,
+            "SCH App: Error Registering For Event Services, RC=0x%08X\n",
+            (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(Result == Expected, "AppInit_Test_EvsInitError");
 
-    UtAssert_True (Result == -1, "Result == -1");
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "AppInit_Test_EvsInitError SysLog Written");
+}
 
-} /* end SCH_AppInit_Test_EvsInitError */
 
+/**
+ * SCH_AppInit, Test_SbInitError
+ */
 void SCH_AppInit_Test_SbInitError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SB_BAD_ARGUMENT;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.SlotsProcessedCount = 1;
-    SCH_AppData.SkippedSlotsCount   = 2;
-    SCH_AppData.MultipleSlotsCount  = 3;
-    SCH_AppData.SameSlotCount       = 4;
-    SCH_AppData.ScheduleActivitySuccessCount = 5;
-    SCH_AppData.ScheduleActivityFailureCount = 6;
-    SCH_AppData.CmdCounter = 7;
-    SCH_AppData.ErrCounter = 8;
-
-    /* Set to fail condition "Status != CFE_SUCCESS" after call to SCH_SbInit */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, -1, 1);
+    /* Set to fail condition "Status != CFE_SUCCESS" */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08X",
+                          (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(Result == Expected, "AppInit_Test_SbInitError");
 
-    UtAssert_True (Result == -1, "Result == -1");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_EventSent(SCH_CR_PIPE_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "AppInit_Test_SbInitError Event Sent");
+}
 
-} /* end SCH_AppInit_Test_SbInitError */
 
+/**
+ * SCH_AppInit, Test_TblInitError
+ */
 void SCH_AppInit_Test_TblInitError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_TBL_ERR_INVALID_NAME;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.SlotsProcessedCount = 1;
-    SCH_AppData.SkippedSlotsCount   = 2;
-    SCH_AppData.MultipleSlotsCount  = 3;
-    SCH_AppData.SameSlotCount       = 4;
-    SCH_AppData.ScheduleActivitySuccessCount = 5;
-    SCH_AppData.ScheduleActivityFailureCount = 6;
-    SCH_AppData.CmdCounter = 7;
-    SCH_AppData.ErrCounter = 8;
-
-    /* Set to fail condition "Status != CFE_SUCCESS" after call to SCH_TblInit */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, -1, 1);
+    /* Set to fail condition "Status != CFE_SUCCESS" */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expEventText, "Error Registering SDT, RC=0x%08X",
+                          (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(Result == Expected, "AppInit_Test_TblInitError");
 
-    UtAssert_True (Result == -1, "Result == -1");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 1");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_EventSent(SCH_SDT_REG_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "AppInit_Test_TblInitError Event Sent");
+}
 
-} /* end SCH_AppInit_Test_TblInitError */
 
+/**
+ * SCH_AppInit, Test_TimerInitError
+ */
 void SCH_AppInit_Test_TimerInitError(void)
 {
-    int32   Result;
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_ES_BIN_SEM_DELETE_ERR;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    SCH_AppData.SlotsProcessedCount = 1;
-    SCH_AppData.SkippedSlotsCount   = 2;
-    SCH_AppData.MultipleSlotsCount  = 3;
-    SCH_AppData.SameSlotCount       = 4;
-    SCH_AppData.ScheduleActivitySuccessCount = 5;
-    SCH_AppData.ScheduleActivityFailureCount = 6;
-    SCH_AppData.CmdCounter = 7;
-    SCH_AppData.ErrCounter = 8;
-
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
-    /* Set to fail condition "Status != CFE_SUCCESS" after call to SCH_TimerInit */
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_BINSEMCREATE_INDEX, -1, 1);
+    /* Set to fail condition "Status != CFE_SUCCESS" */
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_BINSEMCREATE_INDEX, Expected, 1);
 
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expEventText,
+            "Error creating Main Loop Timing Semaphore (RC=0x%08X)",
+            (unsigned int)Expected);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(Result == Expected, "AppInit_Test_TimerInitError");
 
-    UtAssert_True (Result == -1, "Result == -1");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-    /* Generates 1 event message we don't care about in this test */
+    UtAssert_EventSent(SCH_SEM_CREATE_ERR_EID, CFE_EVS_ERROR, expEventText,
+                       "AppInit_Test_TimerInitError Event Sent");
+}
 
-} /* end SCH_AppInit_Test_TimerInitError */
 
+/**
+ * SCH_AppInit, Test_ChildTaskInitError
+ */
 void SCH_AppInit_Test_ChildTaskInitError(void)
 {
     /* Set a fail result for SB */
@@ -532,22 +538,31 @@ void SCH_AppInit_Test_ChildTaskInitError(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, expected, 1);
 
-    sprintf(expEventText, "AD child task create failed - err = 0x%08X",
-                          (unsigned int)expected);
-
     /* Execute the function being tested */
     result = SCH_AppInit();
 
+    sprintf(expEventText, "AD child task create failed - err = 0x%08X",
+                          (unsigned int)expected);
+
     /* Verify results */
     UtAssert_True(result == expected, "AppInit_Test_ChildTaskInitError");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
+
     UtAssert_EventSent(SCH_AD_CHILD_TASK_CREATE_ERR_EID, CFE_EVS_ERROR,
              expEventText, "AppInit_Test_ChildTaskInitError Event Sent");
-} /* SCH_AppInit_Test_ChildTaskInitError */
+}
 
+
+/**
+ * SCH_AppInit, Test_Nominal
+ */
 void SCH_AppInit_Test_Nominal(void)
 {
-    int32   Result;
-    char    Message[125];
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
+    char    expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     SCH_AppData.SlotsProcessedCount = 1;
     SCH_AppData.SkippedSlotsCount   = 2;
@@ -558,31 +573,39 @@ void SCH_AppInit_Test_Nominal(void)
     SCH_AppData.CmdCounter = 7;
     SCH_AppData.ErrCounter = 8;
 
-    /* Set to make SCH_TblInit return CFE_SUCCESS, in order to make SCH_AppInit return CFE_SUCCESS */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_LOAD_INDEX);
-
     /* Execute the function being tested */
     Result = SCH_AppInit();
-    
+
+    sprintf(expEventText, "SCH Initialized. Version %d.%d.%d.%d",
+                          SCH_MAJOR_VERSION, SCH_MINOR_VERSION,
+                          SCH_REVISION, SCH_MISSION_REV);
+
     /* Verify results */
-    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0, "SCH_AppData.SlotsProcessedCount == 0");
-    UtAssert_True(SCH_AppData.SkippedSlotsCount   == 0, "SCH_AppData.SkippedSlotsCount   == 0");
-    UtAssert_True(SCH_AppData.MultipleSlotsCount  == 0, "SCH_AppData.MultipleSlotsCount  == 0");
-    UtAssert_True(SCH_AppData.SameSlotCount       == 0, "SCH_AppData.SameSlotCount       == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0, "SCH_AppData.ScheduleActivitySuccessCount == 0");
-    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0, "SCH_AppData.ScheduleActivityFailureCount == 0");
-    UtAssert_True(SCH_AppData.CmdCounter == 0, "SCH_AppData.CmdCounter == 0");
-    UtAssert_True(SCH_AppData.ErrCounter == 0, "SCH_AppData.ErrCounter == 0");
+    UtAssert_True(SCH_AppData.SlotsProcessedCount == 0,
+                  "SCH_AppData.SlotsProcessedCount == 0");
+    UtAssert_True(SCH_AppData.SkippedSlotsCount == 0,
+                  "SCH_AppData.SkippedSlotsCount == 0");
+    UtAssert_True(SCH_AppData.MultipleSlotsCount == 0,
+                  "SCH_AppData.MultipleSlotsCount == 0");
+    UtAssert_True(SCH_AppData.SameSlotCount == 0,
+                  "SCH_AppData.SameSlotCount == 0");
+    UtAssert_True(SCH_AppData.ScheduleActivitySuccessCount == 0,
+                  "SCH_AppData.ScheduleActivitySuccessCount == 0");
+    UtAssert_True(SCH_AppData.ScheduleActivityFailureCount == 0,
+                  "SCH_AppData.ScheduleActivityFailureCount == 0");
+    UtAssert_True(SCH_AppData.CmdCounter == 0,
+                  "SCH_AppData.CmdCounter == 0");
+    UtAssert_True(SCH_AppData.ErrCounter == 0,
+                  "SCH_AppData.ErrCounter == 0");
 
-    sprintf(Message, "SCH Initialized. Version %d.%d.%d.%d", SCH_MAJOR_VERSION, SCH_MINOR_VERSION, SCH_REVISION, SCH_MISSION_REV);
-    UtAssert_True (Ut_CFE_EVS_EventSent(SCH_INITSTATS_INF_EID, CFE_EVS_INFORMATION, Message), Message);
+    UtAssert_True(Result == Expected, "AppInit_Test_Nominal");
 
-    UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "Ut_CFE_EVS_GetEventQueueDepth() == 3");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 1, "Ut_CFE_EVS_GetEventQueueDepth() == 1");
-
-} /* end SCH_AppInit_Test_Nominal */
+    UtAssert_EventSent(SCH_INITSTATS_INF_EID, CFE_EVS_INFORMATION,
+                       expEventText, "AppInit_Test_Nominal Event Sent");
+}
 
 
 /**
@@ -610,8 +633,7 @@ void SCH_EvsInit_Test_RegisterError(void)
     UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
                   "Ut_CFE_ES_GetSysLogQueueDepth() == 1");
 
-    UtAssert_True
-        (Ut_CFE_ES_SysLogWritten(expSysLog),
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
         "SCH App: EvsInit_Test_RegisterError, SysLog Written");
 }
 
@@ -641,7 +663,7 @@ void SCH_EvsInit_Test_Nominal(void)
 
     /* Execute the function being tested */
     Result = SCH_EvsInit();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID,
                  "SCH_AppData.EventFilters[0].EventID == SCH_SAME_SLOT_EID");
@@ -685,7 +707,7 @@ void SCH_SbInit_Test_CreateCmdPipeError(void)
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
-    
+
     sprintf(expEventText, "Error Creating SB Pipe, RC=0x%08X",
                           (unsigned int)Expected);
 
@@ -736,7 +758,7 @@ void SCH_SbInit_Test_SubscribeHKError(void)
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
-    
+
     sprintf(expEventText,
             "Error Subscribing to HK Request(MID=0x%04X), RC=0x%08X",
             SCH_SEND_HK_MID, (unsigned int)Expected);
@@ -763,7 +785,7 @@ void SCH_SbInit_Test_SubscribeGNDError(void)
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
-    
+
     sprintf(expEventText,
             "Error Subscribing to GND CMD(MID=0x%04X), RC=0x%08X",
             SCH_CMD_MID, (unsigned int)Expected);
@@ -817,7 +839,7 @@ void SCH_SbInit_Test_Nominal(void)
 
     /* Execute the function being tested */
     Result = SCH_SbInit();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.MsgPtr == (CFE_SB_MsgPtr_t) 0,
                                "SCH_AppData.MsgPtr == (CFE_SB_MsgPtr_t) 0");
@@ -841,7 +863,7 @@ void SCH_TimerInit_Test_CustomEarlyInitError(void)
 
     /* Execute the function being tested */
     Result = SCH_TimerInit();
-    
+
     sprintf(expEventText, "Error creating Timer (RC=0x%08X)",
                           (unsigned int)-1);
 
@@ -873,7 +895,7 @@ void SCH_TimerInit_Test_TimerAccuracyWarning(void)
 
     /* Execute the function being tested */
     Result = SCH_TimerInit();
-    
+
     sprintf(expEventText,
       "OS Timer Accuracy (%d > reqd %d usec) requires Minor Frame MET sync",
       (int)SCH_AppData.ClockAccuracy, SCH_WORST_CLOCK_ACCURACY);
@@ -950,7 +972,7 @@ void SCH_TimerInit_Test_Nominal(void)
 
     /* Execute the function being tested */
     Result = SCH_TimerInit();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.IgnoreMajorFrame == FALSE,
                                     "SCH_AppData.IgnoreMajorFrame == FALSE");
@@ -997,7 +1019,7 @@ void SCH_ProcessScheduleTable_Test_ProcessCount2LastProcessCount1(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == 2, "SCH_AppData.LastProcessCount == 2");
 
@@ -1020,7 +1042,7 @@ void SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountNotSame
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS, "SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS");
 
@@ -1048,7 +1070,7 @@ void SCH_ProcessScheduleTable_Test_ProcessCountTotalSlotsLastProcessCountSame(vo
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS, "SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS");
 
@@ -1077,7 +1099,7 @@ void SCH_ProcessScheduleTable_Test_ProcessCountOtherAndNoRollover(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == 1, "SCH_AppData.LastProcessCount == 1");
 
@@ -1107,7 +1129,7 @@ void SCH_ProcessScheduleTable_Test_SkippedSlotsErrorIncrementTablePassCountAndCa
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS - 1, "SCH_AppData.LastProcessCount == SCH_TOTAL_SLOTS - 1");
 
@@ -1148,7 +1170,7 @@ void SCH_ProcessScheduleTable_Test_MultiSlotsProcessCountTooLargeSynchronizedPro
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == SCH_MAX_LAG_COUNT, "SCH_AppData.LastProcessCount == SCH_MAX_LAG_COUNT");
 
@@ -1186,7 +1208,7 @@ void SCH_ProcessScheduleTable_Test_MultiSlotsNotSynchronizedProcessCountGreaterT
 
     /* Execute the function being tested */
     Result = SCH_ProcessScheduleTable();
-    
+
     /* Verify results */
     UtAssert_True(SCH_AppData.LastProcessCount == SCH_MAX_LAG_COUNT, "SCH_AppData.LastProcessCount == SCH_MAX_LAG_COUNT");
 
@@ -1216,7 +1238,7 @@ void SCH_ProcessNextSlot_Test_ProcessCommandsRollover(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessNextSlot();
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.NextSlotNumber == 0, "SCH_AppData.NextSlotNumber == 0");
     UtAssert_True (SCH_AppData.TablePassCount == 1, "SCH_AppData.TablePassCount == 1");
@@ -1243,7 +1265,7 @@ void SCH_ProcessNextSlot_Test_DoNotProcessCommandsNoRollover(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessNextSlot();
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.NextSlotNumber == 2, "SCH_AppData.NextSlotNumber == 2");
     UtAssert_True (SCH_AppData.SlotsProcessedCount == 1, "SCH_AppData.SlotsProcessedCount == 1");
@@ -1268,7 +1290,7 @@ void SCH_ProcessNextEntry_Test_CorruptMessageIndex(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.BadTableDataCount == 1, "SCH_AppData.BadTableDataCount == 1");
 
@@ -1299,7 +1321,7 @@ void SCH_ProcessNextEntry_Test_CorruptFrequency(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.BadTableDataCount == 1, "SCH_AppData.BadTableDataCount == 1");
 
@@ -1330,7 +1352,7 @@ void SCH_ProcessNextEntry_Test_CorruptType(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.BadTableDataCount == 1, "SCH_AppData.BadTableDataCount == 1");
 
@@ -1361,7 +1383,7 @@ void SCH_ProcessNextEntry_Test_CorruptRemainder(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.BadTableDataCount == 1, "SCH_AppData.BadTableDataCount == 1");
 
@@ -1396,7 +1418,7 @@ void SCH_ProcessNextEntry_Test_Success(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.ScheduleActivitySuccessCount == 1, "SCH_AppData.ScheduleActivitySuccessCount == 1");
 
@@ -1421,7 +1443,7 @@ void SCH_ProcessNextEntry_Test_PacketSendError(void)
 
     /* Execute the function being tested */
     SCH_ProcessNextEntry(&SCH_AppData.ScheduleTable[EntryNumber], EntryNumber);
-    
+
     /* Verify results */
     UtAssert_True (SCH_AppData.ScheduleActivityFailureCount == 1, "SCH_AppData.ScheduleActivityFailureCount == 1");
 
@@ -1452,7 +1474,7 @@ void SCH_ProcessCommands_Test_OneMessage(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessCommands();
-    
+
     /* Verify results */
     UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1474,7 +1496,7 @@ void SCH_ProcessCommands_Test_NoMessage(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessCommands();
-    
+
     /* Verify results */
     UtAssert_True (Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1496,7 +1518,7 @@ void SCH_ProcessCommands_Test_RcvMsgError(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessCommands();
-    
+
     /* Verify results */
     UtAssert_True (Result == -1, "Result == -1");
 
@@ -1521,7 +1543,7 @@ void SCH_ProcessCommands_Test_AppPipeError(void)
 
     /* Execute the function being tested */
     Result = SCH_ProcessCommands();
-    
+
     /* Verify results */
     UtAssert_True (Result == -1, "Result == -1");
 
@@ -1549,7 +1571,7 @@ void SCH_ValidateScheduleData_Test_GarbageFrequency(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
             " ena[0] typ[0] fre[99] rem[0] msg[0] grp[0x00000000]");
     sprintf(EventVerifyResult, "Schedule table verify results -- "
@@ -1595,7 +1617,7 @@ void SCH_ValidateScheduleData_Test_GarbageRemainder(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
             " ena[0] typ[0] fre[0] rem[99] msg[0] grp[0x00000000]");
     sprintf(EventVerifyResult, "Schedule table verify results -- "
@@ -1638,7 +1660,7 @@ void SCH_ValidateScheduleData_Test_GarbageGroupData(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
             " ena[0] typ[0] fre[0] rem[0] msg[0] grp[0x0000000F]");
     sprintf(EventVerifyResult, "Schedule table verify results -- "
@@ -1684,7 +1706,7 @@ void SCH_ValidateScheduleData_Test_GarbageType(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0] ena[0]"
             " typ[99] fre[0] rem[0] msg[0] grp[0x00000000]");
     sprintf(EventVerifyResult, "Schedule table verify results -- "
@@ -1730,7 +1752,7 @@ void SCH_ValidateScheduleData_Test_GarbageMessageIndex(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyErr, "%s", "Schedule tbl verify error - idx[0]"
             " ena[0] typ[0] fre[0] rem[0] msg[99] grp[0x00000000]");
     sprintf(EventVerifyResult, "Schedule table verify results -- "
@@ -1774,7 +1796,7 @@ void SCH_ValidateScheduleData_Test_EnableStateUnusedAllFieldsUnused(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     sprintf(EventVerifyResult, "Schedule table verify results -- "
             "good[0] bad[0] unused[%d]", SCH_TABLE_ENTRIES);
 
@@ -1809,7 +1831,7 @@ void SCH_ValidateScheduleData_Test_EnableStateEnabledFrequencyUnused(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[1] typ[0] fre[0] rem[0] msg[0] grp[0x00000000]"),
@@ -1844,7 +1866,7 @@ void SCH_ValidateScheduleData_Test_EnableStateDisabledFrequencyUnused(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[2] typ[0] fre[0] rem[0] msg[0] grp[0x00000000]"),
@@ -1879,7 +1901,7 @@ void SCH_ValidateScheduleData_Test_BadRemainder(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[2] typ[0] fre[99] rem[100] msg[0] grp[0x00000000]"),
@@ -1914,7 +1936,7 @@ void SCH_ValidateScheduleData_Test_BadActivity(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[2] typ[99] fre[99] rem[1] msg[0] grp[0x00000000]"),
@@ -1949,7 +1971,7 @@ void SCH_ValidateScheduleData_Test_MsgIndexZero(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[2] typ[1] fre[99] rem[1] msg[0] grp[0x00000000]"),
@@ -1984,7 +2006,7 @@ void SCH_ValidateScheduleData_Test_MsgIndexTooHigh(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[2] typ[1] fre[99] rem[1] msg[128] grp[0x00000000]"),
@@ -2019,7 +2041,7 @@ void SCH_ValidateScheduleData_Test_ValidEntryResult(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
 
     UtAssert_True
@@ -2051,7 +2073,7 @@ void SCH_ValidateScheduleData_Test_EnableStateOther(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_SCHEDULE_TBL_ERR_EID, CFE_EVS_ERROR, "Schedule tbl verify error - idx[0] ena[99] typ[1] fre[99] rem[1] msg[0] grp[0x00000000]"),
@@ -2088,7 +2110,7 @@ void SCH_ValidateMessageData_Test_MessageIdUnusedGarbageEntry(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     if (SCH_UNUSED_MID == 0x0)
     {
@@ -2131,7 +2153,7 @@ void SCH_ValidateMessageData_Test_MessageIdUnusedValid(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TABLE_EID, CFE_EVS_DEBUG, "Message tbl verify results - good[0] bad[0] unused[128]"),
@@ -2159,7 +2181,7 @@ void SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooHigh(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TBL_ERR_EID, CFE_EVS_ERROR, "Message tbl verify err - idx[0] mid[0x1FFF] len[130] buf[0]"),
@@ -2191,7 +2213,7 @@ void SCH_ValidateMessageData_Test_MessageIdValidRangeLengthTooLow(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TBL_ERR_EID, CFE_EVS_ERROR, "Message tbl verify err - idx[0] mid[0x1FFF] len[6] buf[0]"),
@@ -2223,7 +2245,7 @@ void SCH_ValidateMessageData_Test_MessageIdValidRangeLengthOdd(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TBL_ERR_EID, CFE_EVS_ERROR, "Message tbl verify err - idx[0] mid[0x1FFF] len[19] buf[0]"),
@@ -2255,7 +2277,7 @@ void SCH_ValidateMessageData_Test_MessageIdValidRangeLengthValid(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TABLE_EID, CFE_EVS_DEBUG, "Message tbl verify results - good[128] bad[0] unused[0]"),
@@ -2283,7 +2305,7 @@ void SCH_ValidateMessageData_Test_MessageIdOther(void)
 
     /* Execute the function being tested */
     Result = SCH_ValidateMessageData(&SCH_AppData.MessageTable[0]);
-    
+
     /* Verify results */
     UtAssert_True
         (Ut_CFE_EVS_EventSent(SCH_MESSAGE_TBL_ERR_EID, CFE_EVS_ERROR, "Message tbl verify err - idx[0] mid[0x2000] len[18] buf[0]"),
