@@ -36,11 +36,22 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_INTEG_GAIN = 0.2 (from 0.1) in level flight</label>
           <width>576</width>
           <actions>
           </actions>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -56,9 +67,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_2</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -70,7 +92,7 @@
         <widget type="led" version="2.0.0">
           <name>LED_2</name>
           <pv_name>loc://step_3-1&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>2</x>
           <labels_from_pv>true</labels_from_pv>
         </widget>
@@ -78,7 +100,7 @@
           <name>LED_3</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-2&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>32</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -93,7 +115,7 @@
           <name>LED_4</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-3&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>62</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -108,7 +130,7 @@
           <name>LED_5</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-4&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>92</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -123,7 +145,7 @@
           <name>LED_6</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-5&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>122</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -138,7 +160,7 @@
           <name>LED_7</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-6&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>152</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -153,7 +175,7 @@
           <name>LED_8</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-7&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>182</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -168,7 +190,7 @@
           <name>LED_9</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-8&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>212</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -183,7 +205,7 @@
           <name>LED_10</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-9&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>242</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -198,7 +220,7 @@
           <name>LED_11</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-10&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>272</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -213,7 +235,7 @@
           <name>LED_12</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-11&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>302</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -228,7 +250,7 @@
           <name>LED_13</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-12&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>332</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -243,7 +265,7 @@
           <name>LED_14</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-13&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>362</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -258,7 +280,7 @@
           <name>LED_15</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-14&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>392</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -273,7 +295,7 @@
           <name>LED_16</name>
           <class>ON_OFF</class>
           <pv_name>loc://step_3-15&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
+          <bit>0</bit>
           <x>422</x>
           <off_color use_class="true">
             <color name="Off" red="60" green="100" blue="60">
@@ -298,9 +320,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_3</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_INTEG_GAIN = 0.3 (from 0.2) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -316,9 +349,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_4</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -334,9 +378,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_5</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes:  FW_T_ INTEG_GAIN = 0.1 (from 0.3) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -352,9 +407,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_6</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0.1 (from 0) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -370,9 +436,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_7</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -388,9 +465,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_8</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0.5 (from 0.1) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -406,9 +494,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_9</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -424,9 +523,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_10</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_PITCH_DAMP = 0 (from 0.5) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -442,9 +552,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_11</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 4 (from 5) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -460,9 +581,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_12</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -478,9 +610,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_13</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 2 (from 4) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -496,9 +639,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_14</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): Aircraft flies minimum two complete climb/descend loops</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
       <widget type="group" version="2.0.0">
@@ -514,9 +668,20 @@
         <widget type="checkbox" version="2.0.0">
           <name>Check Box_15</name>
           <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
-          <bit>1</bit>
           <label>Step $(STEP): GC pushes FW_T_TIME_CONST = 5 (from 2) in level flight</label>
           <width>576</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
         </widget>
       </widget>
     </widget>

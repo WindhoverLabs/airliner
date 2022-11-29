@@ -83,6 +83,7 @@
   <widget type="group" version="2.0.0">
     <x>250</x>
     <y>31</y>
+    <visible>false</visible>
     <widget type="label" version="2.0.0">
       <name>Label_1</name>
       <text>Placeholder for clock</text>
