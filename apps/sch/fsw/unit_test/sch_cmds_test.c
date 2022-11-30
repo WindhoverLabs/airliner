@@ -72,7 +72,70 @@ CFE_SB_MsgId_t     SendDiagTlm_SendMsgHook_MsgId = 0;
  * Tests for SCH ProcessCommands()
  **************************************************************************/
 /**
- * SCH_ProcessCommands_Test, SendHK_SendMsgHook
+ * SCH_ProcessCommands, Test_NoMessage
+ */
+void SCH_ProcessCommands_Test_NoMessage(void)
+{
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SUCCESS;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 1);
+
+    /* Execute the function being tested */
+    Result = SCH_ProcessCommands();
+
+    /* Verify results */
+    UtAssert_True(Result == Expected, "ProcessCommands_Test_NoMessage");
+}
+
+/**
+ * SCH_ProcessCommands, Test_PipeError
+ */
+void SCH_ProcessCommands_Test_PipeError(void)
+{
+    int32   Result = CFE_SUCCESS;
+    int32   Expected = CFE_SB_PIPE_RD_ERR;
+
+    /* Set to fail condition "Status == CFE_SUCCESS" */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, Expected, 1);
+
+    /* Execute the function being tested */
+    Result = SCH_ProcessCommands();
+
+    /* Verify results */
+    UtAssert_True(Result == Expected, "ProcessCommands_Test_PipeError");
+}
+
+/**
+ * SCH_ProcessCommands, Test_AppPipeError
+ */
+void SCH_ProcessCommands_Test_AppPipeError(void)
+{
+    int32            Result = CFE_SUCCESS;
+    int32            Expected = CFE_TBL_INFO_UPDATE_PENDING;
+    int32            CmdPipe;
+    SCH_NoArgsCmd_t  CmdMsg = {0};
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, SCH_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    SCH_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Set to make SCH_HousekeepingCmd make SCH_AppPipe return error */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, Expected, 4);
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    Result = SCH_ProcessCommands();
+
+    /* Verify results */
+    UtAssert_True(Result == Expected, "ProcessCommands_Test_AppPipeError");
+}
+
+/**
+ * SCH_ProcessCommands, Test_SendHK_SendMsgHook
  */
 int32 SCH_ProcessCommands_Test_SendHK_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
@@ -150,7 +213,7 @@ int32 SCH_ProcessCommands_Test_SendHK_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 }
 
 /**
- * SCH_ProcessCommands_Test, SendHK
+ * SCH_ProcessCommands, Test_SendHK
  */
 void SCH_ProcessCommands_Test_SendHK(void)
 {
@@ -185,7 +248,7 @@ void SCH_ProcessCommands_Test_SendHK(void)
 
 
 /**
- * SCH_ProcessCommands_Test, Noop
+ * SCH_ProcessCommands, Test_Noop
  */
 void SCH_ProcessCommands_Test_Noop(void)
 {
@@ -225,7 +288,7 @@ void SCH_ProcessCommands_Test_Noop(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, Reset
+ * SCH_ProcessCommands, Test_Reset
  */
 void SCH_ProcessCommands_Test_Reset(void)
 {
@@ -271,7 +334,7 @@ void SCH_ProcessCommands_Test_Reset(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, Enable
+ * SCH_ProcessCommands, Test_Enable
  */
 void SCH_ProcessCommands_Test_Enable(void)
 {
@@ -329,7 +392,7 @@ void SCH_ProcessCommands_Test_Enable(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, Disable
+ * SCH_ProcessCommands, Test_Disable
  */
 void SCH_ProcessCommands_Test_Disable(void)
 {
@@ -386,7 +449,7 @@ void SCH_ProcessCommands_Test_Disable(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, EnableGroup
+ * SCH_ProcessCommands, Test_EnableGroup
  */
 void SCH_ProcessCommands_Test_EnableGroup(void)
 {
@@ -439,7 +502,7 @@ void SCH_ProcessCommands_Test_EnableGroup(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, EnableGroupMulti
+ * SCH_ProcessCommands, Test_EnableGroupMulti
  */
 void SCH_ProcessCommands_Test_EnableGroupMulti(void)
 {
@@ -492,7 +555,7 @@ void SCH_ProcessCommands_Test_EnableGroupMulti(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, DisableGroup
+ * SCH_ProcessCommands, Test_DisableGroup
  */
 void SCH_ProcessCommands_Test_DisableGroup(void)
 {
@@ -544,7 +607,7 @@ void SCH_ProcessCommands_Test_DisableGroup(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, DisableGroupMulti
+ * SCH_ProcessCommands, Test_DisableGroupMulti
  */
 void SCH_ProcessCommands_Test_DisableGroupMulti(void)
 {
@@ -597,7 +660,7 @@ void SCH_ProcessCommands_Test_DisableGroupMulti(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, EnableSync
+ * SCH_ProcessCommands, Test_EnableSync
  */
 void SCH_ProcessCommands_Test_EnableSync(void)
 {
@@ -645,7 +708,7 @@ void SCH_ProcessCommands_Test_EnableSync(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, SendDiagTlm_SendMsgHook
+ * SCH_ProcessCommands, Test_SendDiagTlm_SendMsgHook
  */
 int32 SCH_ProcessCommands_Test_SendDiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -705,7 +768,7 @@ int32 SCH_ProcessCommands_Test_SendDiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 }
 
 /**
- * SCH_ProcessCommands_Test, SendDiagTlm
+ * SCH_ProcessCommands, Test_SendDiagTlm
  */
 void SCH_ProcessCommands_Test_SendDiagTlm(void)
 {
@@ -749,7 +812,7 @@ void SCH_ProcessCommands_Test_SendDiagTlm(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, InvalidCommandCode
+ * SCH_ProcessCommands, Test_InvalidCommandCode
  */
 void SCH_ProcessCommands_Test_InvalidCommandCode(void)
 {
@@ -788,7 +851,7 @@ void SCH_ProcessCommands_Test_InvalidCommandCode(void)
 }
 
 /**
- * SCH_ProcessCommands_Test, InvalidMessageID
+ * SCH_ProcessCommands, Test_InvalidMessageID
  */
 void SCH_ProcessCommands_Test_InvalidMessageID(void)
 {
@@ -823,7 +886,7 @@ void SCH_ProcessCommands_Test_InvalidMessageID(void)
 
 
 /**
- * SCH_NoopCmd_Test_Error
+ * SCH_NoopCmd, Test_Error
  */
 void SCH_NoopCmd_Test_Error(void)
 {
@@ -841,7 +904,7 @@ void SCH_NoopCmd_Test_Error(void)
 
 
 /**
- * SCH_ResetCmd_Test_Error
+ * SCH_ResetCmd, Test_Error
  */
 void SCH_ResetCmd_Test_Error(void)
 {
@@ -859,7 +922,7 @@ void SCH_ResetCmd_Test_Error(void)
 
 
 /**
- * SCH_EnableCmd_Test_InvalidCmdLength
+ * SCH_EnableCmd, Test_InvalidCmdLength
  */
 void SCH_EnableCmd_Test_InvalidCmdLength(void)
 {
@@ -876,7 +939,7 @@ void SCH_EnableCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_EnableCmd_Test_InvalidArgumentSlotNumber
+ * SCH_EnableCmd, Test_InvalidArgumentSlotNumber
  */
 void SCH_EnableCmd_Test_InvalidArgumentSlotNumber(void)
 {
@@ -906,7 +969,7 @@ void SCH_EnableCmd_Test_InvalidArgumentSlotNumber(void)
 }
 
 /**
- * SCH_EnableCmd_Test_InvalidArgumentEntryNumber
+ * SCH_EnableCmd, Test_InvalidArgumentEntryNumber
  */
 void SCH_EnableCmd_Test_InvalidArgumentEntryNumber(void)
 {
@@ -936,7 +999,7 @@ void SCH_EnableCmd_Test_InvalidArgumentEntryNumber(void)
 }
 
 /**
- * SCH_EnableCmd_Test_InvalidState
+ * SCH_EnableCmd, Test_InvalidState
  */
 void SCH_EnableCmd_Test_InvalidState(void)
 {
@@ -969,7 +1032,7 @@ void SCH_EnableCmd_Test_InvalidState(void)
 
 
 /**
- * SCH_DisableCmd_Test_InvalidCmdLength
+ * SCH_DisableCmd, Test_InvalidCmdLength
  */
 void SCH_DisableCmd_Test_InvalidCmdLength(void)
 {
@@ -986,7 +1049,7 @@ void SCH_DisableCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_DisableCmd_Test_InvalidArgumentSlotNumber
+ * SCH_DisableCmd, Test_InvalidArgumentSlotNumber
  */
 void SCH_DisableCmd_Test_InvalidArgumentSlotNumber(void)
 {
@@ -1016,7 +1079,7 @@ void SCH_DisableCmd_Test_InvalidArgumentSlotNumber(void)
 }
 
 /**
- * SCH_DisableCmd_Test_InvalidArgumentEntryNumber
+ * SCH_DisableCmd, Test_InvalidArgumentEntryNumber
  */
 void SCH_DisableCmd_Test_InvalidArgumentEntryNumber(void)
 {
@@ -1046,7 +1109,7 @@ void SCH_DisableCmd_Test_InvalidArgumentEntryNumber(void)
 }
 
 /**
- * SCH_DisableCmd_Test_InvalidState
+ * SCH_DisableCmd, Test_InvalidState
  */
 void SCH_DisableCmd_Test_InvalidState(void)
 {
@@ -1079,7 +1142,7 @@ void SCH_DisableCmd_Test_InvalidState(void)
 
 
 /**
- * SCH_EnableGroupCmd_Test_InvalidCmdLength
+ * SCH_EnableGroupCmd, Test_InvalidCmdLength
  */
 void SCH_EnableGroupCmd_Test_InvalidCmdLength(void)
 {
@@ -1096,7 +1159,7 @@ void SCH_EnableGroupCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_EnableGroupCmd_Test_InvalidArgument
+ * SCH_EnableGroupCmd, Test_InvalidArgument
  */
 void SCH_EnableGroupCmd_Test_InvalidArgument(void)
 {
@@ -1123,7 +1186,7 @@ void SCH_EnableGroupCmd_Test_InvalidArgument(void)
 }
 
 /**
- * SCH_EnableGroupCmd_Test_GroupNotFound
+ * SCH_EnableGroupCmd, Test_GroupNotFound
  */
 void SCH_EnableGroupCmd_Test_GroupNotFound(void)
 {
@@ -1158,7 +1221,7 @@ void SCH_EnableGroupCmd_Test_GroupNotFound(void)
 }
 
 /**
- * SCH_DisableGroupCmd_Test_InvalidCmdLength
+ * SCH_DisableGroupCmd, Test_InvalidCmdLength
  */
 void SCH_DisableGroupCmd_Test_InvalidCmdLength(void)
 {
@@ -1175,7 +1238,7 @@ void SCH_DisableGroupCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_DisableGroupCmd_Test_InvalidArgument
+ * SCH_DisableGroupCmd, Test_InvalidArgument
  */
 void SCH_DisableGroupCmd_Test_InvalidArgument(void)
 {
@@ -1203,7 +1266,7 @@ void SCH_DisableGroupCmd_Test_InvalidArgument(void)
 
 
 /**
- * SCH_DisableGroupCmd_Test_GroupNotFound
+ * SCH_DisableGroupCmd, Test_GroupNotFound
  */
 void SCH_DisableGroupCmd_Test_GroupNotFound(void)
 {
@@ -1238,7 +1301,7 @@ void SCH_DisableGroupCmd_Test_GroupNotFound(void)
 }
 
 /**
- * SCH_EnableSyncCmd_Test_InvalidCmdLength
+ * SCH_EnableSyncCmd, Test_InvalidCmdLength
  */
 void SCH_EnableSyncCmd_Test_InvalidCmdLength(void)
 {
@@ -1255,7 +1318,7 @@ void SCH_EnableSyncCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_SendDiagTlmCmd_Test_InvalidCmdLength
+ * SCH_SendDiagTlmCmd, Test_InvalidCmdLength
  */
 void SCH_SendDiagTlmCmd_Test_InvalidCmdLength(void)
 {
@@ -1272,7 +1335,7 @@ void SCH_SendDiagTlmCmd_Test_InvalidCmdLength(void)
 }
 
 /**
- * SCH_SendDiagTlmCmd_Test_Enabled
+ * SCH_SendDiagTlmCmd, Test_Enabled
  */
 void SCH_SendDiagTlmCmd_Test_Enabled(void)
 {
@@ -1298,7 +1361,7 @@ void SCH_SendDiagTlmCmd_Test_Enabled(void)
 }
 
 /**
- * SCH_SendDiagTlmCmd_Test_Disabled
+ * SCH_SendDiagTlmCmd, Test_Disabled
  */
 void SCH_SendDiagTlmCmd_Test_Disabled(void)
 {
@@ -1324,7 +1387,7 @@ void SCH_SendDiagTlmCmd_Test_Disabled(void)
 }
 
 /**
- * SCH_SendDiagTlmCmd_Test_Other
+ * SCH_SendDiagTlmCmd, Test_Other
  */
 void SCH_SendDiagTlmCmd_Test_Other(void)
 {
@@ -1350,6 +1413,10 @@ void SCH_SendDiagTlmCmd_Test_Other(void)
              expEventText, "SendDiagTlmCmd_Test_Other Event Sent");
 }
 
+
+/**
+ * SCH_VerifyCmdLength, Test_LengthError
+ */
 void SCH_VerifyCmdLength_Test_LengthError(void)
 {
     int32            Result;
@@ -1375,6 +1442,9 @@ void SCH_VerifyCmdLength_Test_LengthError(void)
                        "VerifyCmdLength_Test_LengthError Event Sent");
 }
 
+/**
+ * SCH_VerifyCmdLength, Test_Success
+ */
 void SCH_VerifyCmdLength_Test_Success(void)
 {
     int32            Result;
@@ -1391,6 +1461,9 @@ void SCH_VerifyCmdLength_Test_Success(void)
     UtAssert_True(Result == SCH_SUCCESS, "Result == SCH_SUCCESS");
 }
 
+/**
+ * SCH_PostCommandResult, Test_GoodCommand
+ */
 void SCH_PostCommandResult_Test_GoodCommand(void)
 {
     boolean   GoodCommand = TRUE;
@@ -1402,6 +1475,9 @@ void SCH_PostCommandResult_Test_GoodCommand(void)
     UtAssert_True(SCH_AppData.CmdCounter == 1, "SCH_AppData.CmdCounter == 1");
 }
 
+/**
+ * SCH_PostCommandResult, Test_Error
+ */
 void SCH_PostCommandResult_Test_Error(void)
 {
     boolean   GoodCommand = FALSE;
@@ -1416,6 +1492,15 @@ void SCH_PostCommandResult_Test_Error(void)
 
 void SCH_Cmds_Test_AddTestCases(void)
 {
+    UtTest_Add(SCH_ProcessCommands_Test_NoMessage,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_ProcessCommands_Test_NoMessage");
+    UtTest_Add(SCH_ProcessCommands_Test_PipeError,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_ProcessCommands_Test_PipeError");
+    UtTest_Add(SCH_ProcessCommands_Test_AppPipeError,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_ProcessCommands_Test_AppPipeError");
     UtTest_Add(SCH_ProcessCommands_Test_SendHK,
                SCH_Test_Setup, SCH_Test_TearDown,
                "SCH_ProcessCommands_Test_SendHK");
