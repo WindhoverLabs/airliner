@@ -410,6 +410,9 @@ void SCH_TblInit_Test_Nominal(void)
 
 
 
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void SCH_Config_Tbl_Test_AddTestCases(void)
 {
     UtTest_Add(SCH_TblInit_Test_RegisterSdtError,

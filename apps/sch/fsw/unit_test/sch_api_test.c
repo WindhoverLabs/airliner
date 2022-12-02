@@ -50,9 +50,8 @@
 
 
 /*
- * Function Definitions
+ * SCH_LibInit_Test
  */
-
 void SCH_LibInit_Test(void)
 {
     int32   Result;
@@ -61,13 +60,16 @@ void SCH_LibInit_Test(void)
     Result = SCH_LibInit();
     
     /* Verify results */
-    UtAssert_True (SCH_LibData.ProcessingDisabledCtr == SCH_LIB_DIS_CTR, "SCH_LibData.ProcessingDisabledCtr == SCH_LIB_DIS_CTR");
-    UtAssert_True (Result == OS_SUCCESS, "Result == OS_SUCCESS");
+    UtAssert_True(SCH_LibData.ProcessingDisabledCtr == SCH_LIB_DIS_CTR,
+                  "SCH_LibData.ProcessingDisabledCtr == SCH_LIB_DIS_CTR");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
+    UtAssert_True(Result == OS_SUCCESS, "Result == OS_SUCCESS");
+}
 
-} /* end SCH_LibInit_Test */
 
+/*
+ * SCH_EnableProcessing_Test
+ */
 void SCH_EnableProcessing_Test(void)
 {
     SCH_LibData.ProcessingDisabledCtr = 1;
@@ -76,24 +78,28 @@ void SCH_EnableProcessing_Test(void)
     SCH_EnableProcessing();
     
     /* Verify results */
-    UtAssert_True (SCH_LibData.ProcessingDisabledCtr == 0, "SCH_LibData.ProcessingDisabledCtr == 0");
+    UtAssert_True(SCH_LibData.ProcessingDisabledCtr == 0,
+                  "SCH_LibData.ProcessingDisabledCtr == 0");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-} /* end SCH_EnableProcessing_Test */
-
+/*
+ * SCH_DisableProcessing_Test
+ */
 void SCH_DisableProcessing_Test(void)
 {
     /* Execute the function being tested */
     SCH_DisableProcessing();
     
     /* Verify results */
-    UtAssert_True (SCH_LibData.ProcessingDisabledCtr == 1, "SCH_LibData.ProcessingDisabledCtr == 1");
+    UtAssert_True(SCH_LibData.ProcessingDisabledCtr == 1,
+                  "SCH_LibData.ProcessingDisabledCtr == 1");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-} /* end SCH_DisableProcessing_Test */
-
+/*
+ * SCH_GetProcessingState_Test_True
+ */
 void SCH_GetProcessingState_Test_True(void)
 {
     boolean   Result;

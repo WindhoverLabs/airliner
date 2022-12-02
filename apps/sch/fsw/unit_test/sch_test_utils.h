@@ -36,10 +36,14 @@
 
 
 #include "sch_app.h"
+#include "sch_apipriv.h"
+
 
 extern SCH_AppData_t  SCH_AppData;
+extern SCH_LibData_t  SCH_LibData;
 
 extern int32 SCH_ChildTaskInit(void);
+extern void  SCH_ADChildTask(void);
 
 extern SCH_ScheduleEntry_t  *SCH_DefaultScheduleTable;
 extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
@@ -49,6 +53,7 @@ extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
 extern "C" {
 #endif
 
+#define SCH_TEST_MID   0x1FFF
 
 void SCH_Test_Setup(void);
 void SCH_Test_SetupUnitTest(void);

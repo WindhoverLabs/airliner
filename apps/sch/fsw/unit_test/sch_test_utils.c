@@ -31,6 +31,7 @@
 *
 *****************************************************************************/
 
+
 #include "sch_test_utils.h"
 #include "sch_custom_stubs.h"
 
@@ -51,6 +52,7 @@
 
 SCH_MessageEntry_t    MessageTable[SCH_MAX_MESSAGES];
 SCH_ScheduleEntry_t   ScheduleTable[SCH_TABLE_ENTRIES];
+SCH_DeadlineTable_t   DeadlineTable;
 
 /*
  * Function Definitions
@@ -61,6 +63,7 @@ void SCH_Test_Setup(void)
     /* initialize test environment to default state for every test */
 
     CFE_PSP_MemSet(&SCH_AppData, 0, sizeof(SCH_AppData_t));
+    CFE_PSP_MemSet(&SCH_LibData, 0, sizeof(SCH_LibData_t));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -81,12 +84,15 @@ void SCH_Test_SetupUnitTest(void)
     /* initialize test environment to default state for every test */
 
     CFE_PSP_MemSet(&SCH_AppData, 0, sizeof(SCH_AppData_t));
+    CFE_PSP_MemSet(&SCH_LibData, 0, sizeof(SCH_LibData_t));
 
     SCH_AppData.MessageTable  = &MessageTable[0];
     SCH_AppData.ScheduleTable = &ScheduleTable[0];
+    SCH_AppData.DeadlineTable = &DeadlineTable;
 
     CFE_PSP_MemSet(SCH_AppData.MessageTable, 0, sizeof(SCH_MessageEntry_t)*SCH_MAX_MESSAGES);
     CFE_PSP_MemSet(SCH_AppData.ScheduleTable, 0, sizeof(SCH_ScheduleEntry_t)*SCH_TABLE_ENTRIES);
+    CFE_PSP_MemSet(SCH_AppData.DeadlineTable, 0, sizeof(DeadlineTable));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();

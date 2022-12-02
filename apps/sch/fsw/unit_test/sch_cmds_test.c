@@ -69,7 +69,7 @@ CFE_SB_MsgId_t     SendDiagTlm_SendMsgHook_MsgId = 0;
 
 
 /**************************************************************************
- * Tests for SCH ProcessCommands()
+ * Tests for SCH_ProcessCommands()
  **************************************************************************/
 /**
  * SCH_ProcessCommands, Test_NoMessage
@@ -88,6 +88,7 @@ void SCH_ProcessCommands_Test_NoMessage(void)
     UtAssert_True(Result == Expected, "ProcessCommands_Test_NoMessage");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_PipeError
  */
@@ -105,6 +106,7 @@ void SCH_ProcessCommands_Test_PipeError(void)
     /* Verify results */
     UtAssert_True(Result == Expected, "ProcessCommands_Test_PipeError");
 }
+
 
 /**
  * SCH_ProcessCommands, Test_AppPipeError
@@ -133,6 +135,7 @@ void SCH_ProcessCommands_Test_AppPipeError(void)
     /* Verify results */
     UtAssert_True(Result == Expected, "ProcessCommands_Test_AppPipeError");
 }
+
 
 /**
  * SCH_ProcessCommands, Test_SendHK_SendMsgHook
@@ -212,6 +215,7 @@ int32 SCH_ProcessCommands_Test_SendHK_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     return CFE_SUCCESS;
 }
 
+
 /**
  * SCH_ProcessCommands, Test_SendHK
  */
@@ -287,6 +291,7 @@ void SCH_ProcessCommands_Test_Noop(void)
               expEventText, "ProcessCommands_Test, Noop Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_Reset
  */
@@ -332,6 +337,7 @@ void SCH_ProcessCommands_Test_Reset(void)
     UtAssert_EventSent(SCH_RESET_CMD_EID, CFE_EVS_DEBUG,
                expEventText, "ProcessCommands_Test, Reset Event Sent");
 }
+
 
 /**
  * SCH_ProcessCommands, Test_Enable
@@ -391,6 +397,7 @@ void SCH_ProcessCommands_Test_Enable(void)
 
 }
 
+
 /**
  * SCH_ProcessCommands, Test_Disable
  */
@@ -448,6 +455,7 @@ void SCH_ProcessCommands_Test_Disable(void)
                expEventText, "ProcessCommands_Test, Disable Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_EnableGroup
  */
@@ -500,6 +508,7 @@ void SCH_ProcessCommands_Test_EnableGroup(void)
                        "ProcessCommands_Test, EnableGroup Event Sent");
 
 }
+
 
 /**
  * SCH_ProcessCommands, Test_EnableGroupMulti
@@ -554,6 +563,7 @@ void SCH_ProcessCommands_Test_EnableGroupMulti(void)
                        "ProcessCommands_Test, EnableGroupMulti Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_DisableGroup
  */
@@ -605,6 +615,7 @@ void SCH_ProcessCommands_Test_DisableGroup(void)
     UtAssert_EventSent(SCH_DIS_GRP_CMD_EID, CFE_EVS_DEBUG, expEventText,
                        "ProcessCommands_Test, DisableGroup Event Sent");
 }
+
 
 /**
  * SCH_ProcessCommands, Test_DisableGroupMulti
@@ -659,6 +670,7 @@ void SCH_ProcessCommands_Test_DisableGroupMulti(void)
                        "ProcessCommands_Test, DisableGroupMulti Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_EnableSync
  */
@@ -706,6 +718,7 @@ void SCH_ProcessCommands_Test_EnableSync(void)
     UtAssert_EventSent(SCH_ENA_SYNC_CMD_EID, CFE_EVS_DEBUG, expEventText,
                        "ProcessCommands_Test, EnableSync Event Sent");
 }
+
 
 /**
  * SCH_ProcessCommands, Test_SendDiagTlm_SendMsgHook
@@ -767,6 +780,7 @@ int32 SCH_ProcessCommands_Test_SendDiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     return CFE_SUCCESS;
 }
 
+
 /**
  * SCH_ProcessCommands, Test_SendDiagTlm
  */
@@ -811,6 +825,7 @@ void SCH_ProcessCommands_Test_SendDiagTlm(void)
                        "ProcessCommands_Test, SendDiagTlm Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_InvalidCommandCode
  */
@@ -850,6 +865,7 @@ void SCH_ProcessCommands_Test_InvalidCommandCode(void)
              "ProcessCommands_Test, InvalidCommandCode Event Sent");
 }
 
+
 /**
  * SCH_ProcessCommands, Test_InvalidMessageID
  */
@@ -885,6 +901,9 @@ void SCH_ProcessCommands_Test_InvalidMessageID(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_NoopCmd()
+ **************************************************************************/
 /**
  * SCH_NoopCmd, Test_Error
  */
@@ -903,6 +922,9 @@ void SCH_NoopCmd_Test_Error(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_ResetCmd()
+ **************************************************************************/
 /**
  * SCH_ResetCmd, Test_Error
  */
@@ -921,6 +943,9 @@ void SCH_ResetCmd_Test_Error(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_EnableCmd()
+ **************************************************************************/
 /**
  * SCH_EnableCmd, Test_InvalidCmdLength
  */
@@ -937,6 +962,7 @@ void SCH_EnableCmd_Test_InvalidCmdLength(void)
     UtAssert_True(SCH_AppData.ErrCounter == 1,
                   "EnableCmd_Test_InvalidCmdLength");
 }
+
 
 /**
  * SCH_EnableCmd, Test_InvalidArgumentSlotNumber
@@ -968,6 +994,7 @@ void SCH_EnableCmd_Test_InvalidArgumentSlotNumber(void)
       expEventText, "EnableCmd_Test_InvalidArgumentSlotNumber Event Sent");
 }
 
+
 /**
  * SCH_EnableCmd, Test_InvalidArgumentEntryNumber
  */
@@ -997,6 +1024,7 @@ void SCH_EnableCmd_Test_InvalidArgumentEntryNumber(void)
     UtAssert_EventSent(SCH_ENABLE_CMD_ARG_ERR_EID, CFE_EVS_ERROR,
       expEventText, "EnableCmd_Test_InvalidArgumentEntryNumber Event Sent");
 }
+
 
 /**
  * SCH_EnableCmd, Test_InvalidState
@@ -1031,6 +1059,9 @@ void SCH_EnableCmd_Test_InvalidState(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_DisableCmd()
+ **************************************************************************/
 /**
  * SCH_DisableCmd, Test_InvalidCmdLength
  */
@@ -1047,6 +1078,7 @@ void SCH_DisableCmd_Test_InvalidCmdLength(void)
     UtAssert_True(SCH_AppData.ErrCounter == 1,
                   "DisableCmd_Test_InvalidCmdLength");
 }
+
 
 /**
  * SCH_DisableCmd, Test_InvalidArgumentSlotNumber
@@ -1078,6 +1110,7 @@ void SCH_DisableCmd_Test_InvalidArgumentSlotNumber(void)
       expEventText, "DisableCmd_Test_InvalidArgumentSlotNumber Event Sent");
 }
 
+
 /**
  * SCH_DisableCmd, Test_InvalidArgumentEntryNumber
  */
@@ -1107,6 +1140,7 @@ void SCH_DisableCmd_Test_InvalidArgumentEntryNumber(void)
     UtAssert_EventSent(SCH_DISABLE_CMD_ARG_ERR_EID, CFE_EVS_ERROR,
       expEventText, "DisableCmd_Test_InvalidArgumentEntryNumber Event Sent");
 }
+
 
 /**
  * SCH_DisableCmd, Test_InvalidState
@@ -1141,6 +1175,9 @@ void SCH_DisableCmd_Test_InvalidState(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_EnableGroupCmd()
+ **************************************************************************/
 /**
  * SCH_EnableGroupCmd, Test_InvalidCmdLength
  */
@@ -1157,6 +1194,7 @@ void SCH_EnableGroupCmd_Test_InvalidCmdLength(void)
     UtAssert_True(SCH_AppData.ErrCounter == 1,
                   "EnableGroupCmd_Test_InvalidCmdLength");
 }
+
 
 /**
  * SCH_EnableGroupCmd, Test_InvalidArgument
@@ -1184,6 +1222,7 @@ void SCH_EnableGroupCmd_Test_InvalidArgument(void)
     UtAssert_EventSent(SCH_ENA_GRP_CMD_ERR_EID, CFE_EVS_ERROR,
              expEventText, "EnableGroupCmd_Test_InvalidArgument Event Sent");
 }
+
 
 /**
  * SCH_EnableGroupCmd, Test_GroupNotFound
@@ -1220,6 +1259,10 @@ void SCH_EnableGroupCmd_Test_GroupNotFound(void)
               expEventText, "EnableGroupCmd_Test_GroupNotFound Event Sent");
 }
 
+
+/**************************************************************************
+ * Tests for SCH_DisableGroupCmd()
+ **************************************************************************/
 /**
  * SCH_DisableGroupCmd, Test_InvalidCmdLength
  */
@@ -1236,6 +1279,7 @@ void SCH_DisableGroupCmd_Test_InvalidCmdLength(void)
     UtAssert_True(SCH_AppData.ErrCounter == 1,
                   "DisableGroupCmd_Test_InvalidCmdLength");
 }
+
 
 /**
  * SCH_DisableGroupCmd, Test_InvalidArgument
@@ -1300,6 +1344,10 @@ void SCH_DisableGroupCmd_Test_GroupNotFound(void)
               expEventText, "DisableGroupCmd_Test_GroupNotFound Event Sent");
 }
 
+
+/**************************************************************************
+ * Tests for SCH_EnableSyncCmd()
+ **************************************************************************/
 /**
  * SCH_EnableSyncCmd, Test_InvalidCmdLength
  */
@@ -1317,6 +1365,10 @@ void SCH_EnableSyncCmd_Test_InvalidCmdLength(void)
                   "EnableSyncCmd_Test_InvalidCmdLength");
 }
 
+
+/**************************************************************************
+ * Tests for SCH_SendDiagTlmCmd()
+ **************************************************************************/
 /**
  * SCH_SendDiagTlmCmd, Test_InvalidCmdLength
  */
@@ -1333,6 +1385,7 @@ void SCH_SendDiagTlmCmd_Test_InvalidCmdLength(void)
     UtAssert_True(SCH_AppData.ErrCounter == 1,
                   "SendDiagTlmCmd_Test_InvalidCmdLength");
 }
+
 
 /**
  * SCH_SendDiagTlmCmd, Test_Enabled
@@ -1360,6 +1413,7 @@ void SCH_SendDiagTlmCmd_Test_Enabled(void)
              expEventText, "SendDiagTlmCmd_Test_Enabled Event Sent");
 }
 
+
 /**
  * SCH_SendDiagTlmCmd, Test_Disabled
  */
@@ -1385,6 +1439,7 @@ void SCH_SendDiagTlmCmd_Test_Disabled(void)
     UtAssert_EventSent(SCH_SEND_DIAG_CMD_EID, CFE_EVS_DEBUG,
              expEventText, "SendDiagTlmCmd_Test_Disabled Event Sent");
 }
+
 
 /**
  * SCH_SendDiagTlmCmd, Test_Other
@@ -1414,6 +1469,9 @@ void SCH_SendDiagTlmCmd_Test_Other(void)
 }
 
 
+/**************************************************************************
+ * Tests for SCH_VerifyCmdLength()
+ **************************************************************************/
 /**
  * SCH_VerifyCmdLength, Test_LengthError
  */
@@ -1442,6 +1500,7 @@ void SCH_VerifyCmdLength_Test_LengthError(void)
                        "VerifyCmdLength_Test_LengthError Event Sent");
 }
 
+
 /**
  * SCH_VerifyCmdLength, Test_Success
  */
@@ -1461,6 +1520,10 @@ void SCH_VerifyCmdLength_Test_Success(void)
     UtAssert_True(Result == SCH_SUCCESS, "Result == SCH_SUCCESS");
 }
 
+
+/**************************************************************************
+ * Tests for SCH_PostCommandResult()
+ **************************************************************************/
 /**
  * SCH_PostCommandResult, Test_GoodCommand
  */
@@ -1474,6 +1537,7 @@ void SCH_PostCommandResult_Test_GoodCommand(void)
     /* Verify results */
     UtAssert_True(SCH_AppData.CmdCounter == 1, "SCH_AppData.CmdCounter == 1");
 }
+
 
 /**
  * SCH_PostCommandResult, Test_Error
@@ -1490,6 +1554,11 @@ void SCH_PostCommandResult_Test_Error(void)
                   "SCH_AppData.ErrCounter == 1");
 }
 
+
+
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void SCH_Cmds_Test_AddTestCases(void)
 {
     UtTest_Add(SCH_ProcessCommands_Test_NoMessage,
