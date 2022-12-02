@@ -239,7 +239,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hes/Reset', {});]]></text>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display_4</name>
       <file>TO_TlmManagement.bob</file>
-      <x>-4</x>
       <y>12</y>
       <width>140</width>
       <height>60</height>
@@ -477,5 +476,29 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hes/Reset', {});]]></text>
     <y>28</y>
     <width>200</width>
     <height>390</height>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>/cfs/cpd/apps/hes/HES_HK_TLM_MID.RcSignalLost</pv_name>
+    <bit>0</bit>
+    <x>396</x>
+    <y>441</y>
+    <width>25</width>
+    <height>25</height>
+    <off_color>
+      <color name="On" red="0" green="255" blue="0">
+      </color>
+    </off_color>
+    <on_color>
+      <color name="MAJOR" red="255" green="0" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Rc Signal</text>
+    <x>324</x>
+    <y>443</y>
+    <width>72</width>
   </widget>
 </display>
