@@ -343,7 +343,7 @@ int32 CI_InitApp(void)
     int8   hasEvents = 0;
     
     /* Enable ingest by default */
-    CI_AppData.IngestActive = TRUE;
+    CI_AppData.HkTlm.IngestActive = TRUE;
 
     iStatus = CI_InitEvent();
     if (iStatus != CFE_SUCCESS)
@@ -436,7 +436,7 @@ CI_InitApp_Exit_Tag:
 void CI_CleanupCallback()
 {
     CI_CleanupCustom();
-    CI_AppData.IngestActive = FALSE;
+    CI_AppData.HkTlm.IngestActive = FALSE;
     OS_MutSemGive(CI_AppData.ConfigTblMutex);
     OS_MutSemGive(CI_AppData.TimeoutTblMutex);
 }
@@ -1094,7 +1094,6 @@ void CI_IngestCommands(void)
 {
     uint32          MsgSize = 0;
     CFE_SB_MsgPtr_t CmdMsgPtr = NULL;
-
     do{
         /* Receive cmd and gather data on it */
         MsgSize = CI_MAX_CMD_INGEST;
@@ -1149,8 +1148,10 @@ int32 CI_RcvMsg(int32 iBlocking)
                 break;
 
             case CI_INGEST_COMMANDS_MID:
-            	if(TRUE == CI_AppData.IngestActive)
-            	{
+                CI_AppData.HkTlm.IngestActive = TRUE;
+                if(TRUE == CI_AppData.HkTlm.IngestActive)
+                {
+                    CI_AppData.HkTlm.IngestActiveCount++;
                     CI_IngestCommands();
             	}
                 break;
@@ -1171,7 +1172,7 @@ int32 CI_RcvMsg(int32 iBlocking)
          * want CI to pass commands. */
         CI_ProcessNewCmds();
         CI_ReportHousekeeping();
-    	if(TRUE == CI_AppData.IngestActive)
+        if(TRUE == CI_AppData.HkTlm.IngestActive)
     	{
             CI_IngestCommands();
     	}
