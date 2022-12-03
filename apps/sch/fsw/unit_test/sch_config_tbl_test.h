@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its
-*    contributors may be used to endorse or promote products derived
+* 3. Neither the name Windhover Labs nor the names of its 
+*    contributors may be used to endorse or promote products derived 
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef SCH_APP_TEST_H
-#define SCH_APP_TEST_H
+#ifndef SCH_CONFIG_TBL_TEST_H
+#define SCH_CONFIG_TBL_TEST_H
 
 
 #ifdef __cplusplus
@@ -40,7 +40,7 @@ extern "C" {
 #endif
 
 
-void SCH_App_Test_AddTestCases(void);
+void SCH_Config_Tbl_Test_AddTestCases(void);
 
 
 #ifdef __cplusplus
@@ -48,4 +48,4 @@ void SCH_App_Test_AddTestCases(void);
 #endif
 
 
-#endif /* SCH_APP_TEST_H */
+#endif /* SCH_CONFIG_TBL_TEST_H */

@@ -1,173 +1,75 @@
- /*************************************************************************
- ** File:
- **   $Id: sch_test_utils.h 1.2 2017/06/21 15:28:58EDT mdeschu Exp  $
- **
- ** Purpose: 
- **   This file contains the function prototypes and global variables for the unit test utilities for the SCH application.
- **
- ** References:
- **   Flight Software Branch C Coding Standard Version 1.2
- **   CFS Development Standards Document
- ** Notes:
- **
- *************************************************************************/
+/****************************************************************************
+*
+*   Copyright (c) 2017 Windhover Labs, L.L.C. All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions
+* are met:
+*
+* 1. Redistributions of source code must retain the above copyright
+*    notice, this list of conditions and the following disclaimer.
+* 2. Redistributions in binary form must reproduce the above copyright
+*    notice, this list of conditions and the following disclaimer in
+*    the documentation and/or other materials provided with the
+*    distribution.
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
+*    from this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+* COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+* OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+* AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+* POSSIBILITY OF SUCH DAMAGE.
+*
+*****************************************************************************/
 
-/*
- * Includes
- */
+#ifndef SCH_TEST_UTILS_H
+#define SCH_TEST_UTILS_H
+
 
 #include "sch_app.h"
-#include "ut_cfe_evs_hooks.h"
-// FIXME: these need to be implemented/updated in UT-Assert (by copying from sch_test_utils.c/.h):
-//#include "ut_cfe_evs_stubs.h"
-//#include "ut_cfe_time_stubs.h"
-//#include "ut_ostimer_stubs.h"
-#include "ut_cfe_sb_stubs.h"
-#include "ut_cfe_sb_hooks.h"
-#include "ut_cfe_time_hooks.h"
-#include "ut_cfe_psp_memutils_stubs.h"
-#include "ut_cfe_tbl_stubs.h"
-#include "ut_cfe_tbl_hooks.h"
-#include "ut_cfe_fs_stubs.h"
-#include "ut_osapi_stubs.h"
-#include "ut_osfileapi_stubs.h"
-#include "ut_cfe_es_stubs.h"
-#include <time.h>
+#include "sch_apipriv.h"
 
-/*
- * Function Definitions
- */
+
+extern SCH_AppData_t  SCH_AppData;
+extern SCH_LibData_t  SCH_LibData;
+
+extern int32 SCH_ChildTaskInit(void);
+extern void  SCH_ADChildTask(void);
+extern void  SCH_ActivityComplete(CFE_SB_MsgId_t MsgID);
+
+extern SCH_ScheduleEntry_t  *SCH_DefaultScheduleTable;
+extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define SCH_TEST_MID      0x1FFF
+#define SCH_TEST_GROUP    0x80000000
 
 void SCH_Test_Setup(void);
+void SCH_Test_SetupUnitTest(void);
 void SCH_Test_TearDown(void);
 
-/*
- * Additional UT-Assert Stub Functions and Required Data Structures
- *
- * Note: This code needs to be moved into the UT-Assert library.  We are including it here for now because the 
- * next release of the UT-Assert library is not expected to happen in the near future.
- */
+void SCH_Test_PrintCmdMsg(void *pMsg, uint32 size);
 
-/* ut_osapi_stubs */
+time_t SCH_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t SCH_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
-typedef enum 
-{
-    UT_CFE_EVS_REGISTER_INDEX,
-    UT_CFE_EVS_SENDEVENT_INDEX,
-    UT_CFE_EVS_SENDTIMEDEVENT_INDEX,
-    UT_CFE_EVS_SENDEVENTWITHAPPID_INDEX,
-    UT_CFE_EVS_CLEANUPAPP_INDEX,
-    UT_CFE_EVS_RESETALLFILTERS_INDEX,
-    UT_CFE_EVS_MAX_INDEX
-} Ut_CFE_EVS_INDEX_t;
 
-typedef struct
-{
-    int32 (*CFE_EVS_Register)(void *Filters, uint16 NumEventFilters, uint16 FilterScheme);
-    int32 (*CFE_EVS_SendEvent)(uint16 EventID, uint16 EventType, const char *EventText);
-    int32 (*CFE_EVS_SendTimedEvent)(CFE_TIME_SysTime_t Time, uint16 EventID, uint16 EventType, const char *Spec, ... );
-    int32 (*CFE_EVS_SendEventWithAppID)(uint16 EventID, uint16 EventType, uint32 AppID, const char *Spec, ... );
-    int32 (*CFE_EVS_CleanUpApp)(uint32 AppId);
-    int32 (*CFE_EVS_ResetAllFilters)(void);
-} Ut_CFE_EVS_HookTable_t;
+#ifdef __cplusplus
+}
+#endif
 
-typedef struct
-{
-    int32   Value;
-    uint32  Count;
-    boolean ContinueReturnCodeAfterCountZero;
-} Ut_CFE_EVS_ReturnCodeTable_t;
 
-void Ut_CFE_EVS_Reset(void);
-void Ut_CFE_EVS_SetFunctionHook(uint32 Index, void *FunPtr);
-void Ut_CFE_EVS_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-void Ut_CFE_EVS_ContinueReturnCodeAfterCountZero(uint32 Index);
-int32 CFE_EVS_ResetAllFilters(void);
-
-/* end ut_osapi_stubs */
-
-/* ut_ostimer_stubs */
-
-typedef enum 
-{
-    UT_OSTIMER_CREATE_INDEX,
-    UT_OSTIMER_SET_INDEX,
-    UT_OSTIMER_MAX_INDEX
-} Ut_OSTIMER_INDEX_t;
-
-typedef struct
-{
-    int32 (*OS_TimerCreate)(uint32 *timer_id, const char *timer_name, uint32 *clock_accuracy, OS_TimerCallback_t  callback_ptr);
-    int32 (*OS_TimerSet)(uint32 timer_id, uint32 start_time, uint32 interval_time);
-} Ut_OSTIMER_HookTable_t;
-
-typedef struct
-{
-    int32   Value;
-    uint32  Count;
-    boolean ContinueReturnCodeAfterCountZero;
-} Ut_OSTIMER_ReturnCodeTable_t;
-
-void Ut_OSTIMER_Reset(void);
-void Ut_OSTIMER_SetFunctionHook(uint32 Index, void *FunPtr);
-void Ut_OSTIMER_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-void Ut_OSTIMER_ContinueReturnCodeAfterCountZero(uint32 Index);
-
-/* end ut_ostimer_stubs */
-
-/* ut_cfe_time_stubs */
-
-typedef enum 
-{
-    UT_CFE_TIME_GETUTC_INDEX,
-    UT_CFE_TIME_GETTAI_INDEX,
-    UT_CFE_TIME_GETTIME_INDEX,
-    UT_CFE_TIME_SUB2MICROSECS_INDEX,
-    UT_CFE_TIME_SUBTRACT_INDEX,
-    UT_CFE_TIME_MICRO2SUBSECS_INDEX,
-    UT_CFE_TIME_ADD_INDEX,
-    UT_CFE_TIME_PRINT_INDEX,
-    UT_CFE_TIME_COMPARE_INDEX,
-    UT_CFE_TIME_FS2CFESECONDS_INDEX,
-    UT_CFE_TIME_REGISTERSYNCHCALLBACK_INDEX,
-    UT_CFE_TIME_UNREGISTERSYNCHCALLBACK_INDEX,
-    UT_CFE_TIME_GETMETSUBSECS_INDEX,
-    UT_CFE_TIME_GETCLOCKINFO_INDEX,
-    UT_CFE_TIME_MAX_INDEX
-} Ut_CFE_TIME_INDEX_t;
-
-typedef struct
-{
-    CFE_TIME_SysTime_t (*CFE_TIME_GetUTC)(void);
-    CFE_TIME_SysTime_t (*CFE_TIME_GetTAI)(void);
-    CFE_TIME_SysTime_t (*CFE_TIME_GetTime)(void);
-    uint32 (*CFE_TIME_Micro2SubSecs)(uint32 MicroSeconds);
-    uint32 (*CFE_TIME_Sub2MicroSecs)(uint32 SubSeconds);
-    CFE_TIME_SysTime_t (*CFE_TIME_Add)(CFE_TIME_SysTime_t Time1, CFE_TIME_SysTime_t Time2);
-    CFE_TIME_SysTime_t (*CFE_TIME_Subtract)(CFE_TIME_SysTime_t Time1, CFE_TIME_SysTime_t Time2);
-    void (*CFE_TIME_Print)(char *PrintBuffer, CFE_TIME_SysTime_t TimeToPrint);
-    CFE_TIME_Compare_t (*CFE_TIME_Compare)(CFE_TIME_SysTime_t TimeA, CFE_TIME_SysTime_t TimeB);
-    uint32 (*CFE_TIME_FS2CFESeconds)(uint32 SecondsFS);
-    int32  (*CFE_TIME_RegisterSynchCallback)(CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr);
-    int32  (*CFE_TIME_UnregisterSynchCallback)(CFE_TIME_SynchCallbackPtr_t CallbackFuncPtr);
-    uint32 (*CFE_TIME_GetMETsubsecs)(void);
-    uint16 (*CFE_TIME_GetClockInfo)(void);
-} Ut_CFE_TIME_HookTable_t;
-
-typedef struct
-{
-    int32   Value;
-    uint32  Count;
-    boolean ContinueReturnCodeAfterCountZero;
-} Ut_CFE_TIME_ReturnCodeTable_t;
-
-void Ut_CFE_TIME_Reset(void);
-void Ut_CFE_TIME_SetFunctionHook(uint32 Index, void *FunPtr);
-void Ut_CFE_TIME_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-void Ut_CFE_TIME_ContinueReturnCodeAfterCountZero(uint32 Index);
-
-/* end ut_cfe_time_stubs */
-
-/************************/
-/*  End of File Comment */
-/************************/
+#endif /* SCH_TEST_UTILS_H */

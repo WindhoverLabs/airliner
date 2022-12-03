@@ -177,3 +177,16 @@ int32 CFE_EVS_CleanUpApp (uint32 AppId)
 
     return CFE_SUCCESS;
 }
+
+int32 CFE_EVS_ResetAllFilters(void)
+{
+    /* Check for specified return */
+    if (Ut_CFE_EVS_UseReturnCode(UT_CFE_EVS_RESETALLFILTERS_INDEX))
+        return Ut_CFE_EVS_ReturnCodeTable[UT_CFE_EVS_RESETALLFILTERS_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_CFE_EVS_HookTable.CFE_EVS_ResetAllFilters)
+        return(Ut_CFE_EVS_HookTable.CFE_EVS_ResetAllFilters());
+
+    return CFE_SUCCESS;
+}

@@ -25,6 +25,9 @@ buildliner_add_table(
     INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/src/
 )
 
+buildliner_add_app_unit_test_src(${APP_NAME} SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tables/sch_def_schtbl.c)
+buildliner_add_app_unit_test_src(${APP_NAME} SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tables/sch_def_msgtbl.c)
+
 #buildliner_add_app_unit_test(sch-custom-ut
 #    UTASSERT 
 #    NO_HELGRIND
