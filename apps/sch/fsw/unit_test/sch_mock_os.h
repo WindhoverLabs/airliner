@@ -31,8 +31,23 @@
 *
 *****************************************************************************/
 
+#ifndef SCH_MOCK_OS_H
+#define SCH_MOCK_OS_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "cfe.h"
 
 /* Return codes */
 extern int OS_RUNTIME_MODE; // 0 = realtime   1 = frame lock step
 extern int MINOR_FRAME;
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SCH_MOCK_OS_H */

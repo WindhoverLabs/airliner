@@ -31,16 +31,43 @@
 *
 *****************************************************************************/
 
-#ifndef SCH_APP_TEST_H
-#define SCH_APP_TEST_H
+#ifndef SCH_CUSTOM_STUBS_H
+#define SCH_CUSTOM_STUBS_H
 
+
+#include "cfe.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-void SCH_App_Test_AddTestCases(void);
+typedef enum 
+{
+    UT_OSTIMER_CREATE_INDEX,
+    UT_OSTIMER_SET_INDEX,
+    UT_OSTIMER_MAX_INDEX
+} Ut_OSTIMER_INDEX_t;
+
+typedef struct
+{
+    int32 (*OS_TimerCreate)(uint32 *timer_id, const char *timer_name,
+                     uint32 *clock_accuracy, OS_TimerCallback_t  callback_ptr);
+    int32 (*OS_TimerSet)(uint32 timer_id, uint32 start_time,
+                         uint32 interval_time);
+} Ut_OSTIMER_HookTable_t;
+
+typedef struct
+{
+    int32   Value;
+    uint32  Count;
+    boolean ContinueReturnCodeAfterCountZero;
+} Ut_OSTIMER_ReturnCodeTable_t;
+
+void Ut_OSTIMER_Reset(void);
+void Ut_OSTIMER_SetFunctionHook(uint32 Index, void *FunPtr);
+void Ut_OSTIMER_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
+void Ut_OSTIMER_ContinueReturnCodeAfterCountZero(uint32 Index);
 
 
 #ifdef __cplusplus
@@ -48,4 +75,4 @@ void SCH_App_Test_AddTestCases(void);
 #endif
 
 
-#endif /* SCH_APP_TEST_H */
+#endif /* SCH_CUSTOM_STUBS_H */
