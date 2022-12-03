@@ -33,9 +33,8 @@
 
 #include "sch_cmds_test.h"
 #include "sch_test_utils.h"
-#include "sch_app.h"
+
 #include "sch_cmds.h"
-#include "sch_msg.h"
 #include "sch_msgdefs.h"
 #include "sch_msgids.h"
 #include "sch_grpids.h"
@@ -59,9 +58,6 @@
 #include "ut_cfe_fs_stubs.h"
 
 #include <time.h>
-
-
-#define SCH_TEST_GROUP    0x80000000
 
 
 CFE_SB_MsgId_t     SendHK_SendMsgHook_MsgId = 0;

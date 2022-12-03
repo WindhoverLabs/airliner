@@ -34,19 +34,23 @@
 #include "sch_api_test.h"
 #include "sch_test_utils.h"
 
-#include "sch_app.h"
-#include "sch_apipriv.h"
-
 #include "uttest.h"
 #include "utassert.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_es_hooks.h"
+#include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_psp_watchdog_stubs.h"
 #include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
+
+#include <time.h>
+
+
+CFE_SB_MsgId_t  ActivityComplete_SendMsgHook_MsgId = 0;
 
 
 /*
@@ -110,12 +114,13 @@ void SCH_GetProcessingState_Test_True(void)
     Result = SCH_GetProcessingState();
     
     /* Verify results */
-    UtAssert_True (Result == TRUE, "Result == TRUE");
+    UtAssert_True(Result == TRUE, "GetProcessingState_Test_True");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-} /* end SCH_GetProcessingState_Test_True */
-
+/*
+ * SCH_GetProcessingState_Test_False
+ */
 void SCH_GetProcessingState_Test_False(void)
 {
     boolean   Result;
@@ -126,25 +131,106 @@ void SCH_GetProcessingState_Test_False(void)
     Result = SCH_GetProcessingState();
     
     /* Verify results */
-    UtAssert_True (Result == FALSE, "Result == FALSE");
+    UtAssert_True(Result == FALSE, "GetProcessingState_Test_False");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
 
-} /* end SCH_GetProcessingState_Test_False */
+/*
+ * SCH_ActivityComplete_Test_Nominal_SendMsgHook
+ */
+int32 SCH_ActivityComplete_Test_Nominal_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
+{
+    unsigned char*        pBuff = NULL;
+    uint16                msgLen = 0;
+    int                   i = 0;
+    CFE_SB_MsgId_t        MsgId;
+    time_t                localTime;
+    struct tm             *loc_time;
+    CFE_TIME_SysTime_t    TimeFromMsg;
+    SCH_ActivityDoneMsg_t DoneMsg;
 
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###ActivityComplete_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = SCH_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    if (MsgId == SCH_ACTIVITY_DONE_MID)
+    {
+        ActivityComplete_SendMsgHook_MsgId = MsgId;
+        CFE_PSP_MemCpy((void*)&DoneMsg, (void*)MsgPtr, sizeof(DoneMsg));
+
+        printf("Sent SCH_ACTIVITY_DONE_MID:\n");
+        printf("MsgID: 0x%04X\n", DoneMsg.MsgID);
+    }
+    else
+    {
+        printf("Sent MID(0x%04X)\n", MsgId);
+    }
+
+    return CFE_SUCCESS;
+}
+
+
+/*
+ * SCH_ActivityComplete_Test_Nominal
+ */
+void SCH_ActivityComplete_Test_Nominal(void)
+{
+    int32  SlotIdx = 0;
+    int32  ActIdx = 2;
+
+    ActivityComplete_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                 (void *)&SCH_ActivityComplete_Test_Nominal_SendMsgHook);
+
+    /* Execute the function being tested */
+    SCH_AppInit();
+    SCH_ActivityComplete(SCH_TEST_MID);
+
+    /* Verify results */
+    UtAssert_True(ActivityComplete_SendMsgHook_MsgId == SCH_ACTIVITY_DONE_MID,
+                  "SCH_ActivityComplete_Test_Nominal");
+}
+
+
+
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void SCH_API_Test_AddTestCases(void)
 {
-    UtTest_Add(SCH_LibInit_Test, SCH_Test_Setup, SCH_Test_TearDown, "SCH_LibInit_Test");
+    UtTest_Add(SCH_LibInit_Test,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_LibInit_Test");
 
-    UtTest_Add(SCH_EnableProcessing_Test, SCH_Test_Setup, SCH_Test_TearDown, "SCH_EnableProcessing_Test");
+    UtTest_Add(SCH_EnableProcessing_Test,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_EnableProcessing_Test");
 
-    UtTest_Add(SCH_DisableProcessing_Test, SCH_Test_Setup, SCH_Test_TearDown, "SCH_DisableProcessing_Test");
+    UtTest_Add(SCH_DisableProcessing_Test,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_DisableProcessing_Test");
 
-    UtTest_Add(SCH_GetProcessingState_Test_True, SCH_Test_Setup, SCH_Test_TearDown, "SCH_GetProcessingState_Test_True");
-    UtTest_Add(SCH_GetProcessingState_Test_False, SCH_Test_Setup, SCH_Test_TearDown, "SCH_GetProcessingState_Test_False");
+    UtTest_Add(SCH_GetProcessingState_Test_True,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_GetProcessingState_Test_True");
+    UtTest_Add(SCH_GetProcessingState_Test_False,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_GetProcessingState_Test_False");
 
-} /* end SCH_API_Test_AddTestCases */
-
-/************************/
-/*  End of File Comment */
-/************************/
+    UtTest_Add(SCH_ActivityComplete_Test_Nominal,
+               SCH_Test_Setup, SCH_Test_TearDown,
+               "SCH_ActivityComplete_Test_Nominal");
+}

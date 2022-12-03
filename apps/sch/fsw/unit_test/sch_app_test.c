@@ -34,9 +34,7 @@
 #include "sch_app_test.h"
 #include "sch_test_utils.h"
 #include "sch_custom_stubs.h"
-#include "sch_app.h"
-#include "sch_apipriv.h"
-#include "sch_msg.h"
+
 #include "sch_events.h"
 #include "sch_version.h"
 

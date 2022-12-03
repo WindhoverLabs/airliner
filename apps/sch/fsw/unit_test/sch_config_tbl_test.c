@@ -35,7 +35,6 @@
 #include "sch_config_tbl_test.h"
 #include "sch_test_utils.h"
 
-#include "sch_app.h"
 #include "sch_cmds.h"
 #include "sch_events.h"
 

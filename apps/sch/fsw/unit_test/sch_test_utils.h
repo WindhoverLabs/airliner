@@ -44,6 +44,7 @@ extern SCH_LibData_t  SCH_LibData;
 
 extern int32 SCH_ChildTaskInit(void);
 extern void  SCH_ADChildTask(void);
+extern void  SCH_ActivityComplete(CFE_SB_MsgId_t MsgID);
 
 extern SCH_ScheduleEntry_t  *SCH_DefaultScheduleTable;
 extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
@@ -53,7 +54,8 @@ extern SCH_MessageEntry_t   *SCH_DefaultMessageTable;
 extern "C" {
 #endif
 
-#define SCH_TEST_MID   0x1FFF
+#define SCH_TEST_MID      0x1FFF
+#define SCH_TEST_GROUP    0x80000000
 
 void SCH_Test_Setup(void);
 void SCH_Test_SetupUnitTest(void);
