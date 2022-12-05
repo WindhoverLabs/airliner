@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its
-*    contributors may be used to endorse or promote products derived
+* 3. Neither the name Windhover Labs nor the names of its 
+*    contributors may be used to endorse or promote products derived 
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,18 +31,29 @@
 *
 *****************************************************************************/
 
-#ifndef SENS_CMDS_TEST_H
-#define SENS_CMDS_TEST_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "sens_test_utils.hpp"
 
-void SENS_Cmds_Test_AddTestCases(void);
+#include "cfe.h"
 
+#include <time.h>
 
-#ifdef __cplusplus
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
 }
-#endif
 
-#endif /* SENS_CMDS_TEST_H */
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
+}

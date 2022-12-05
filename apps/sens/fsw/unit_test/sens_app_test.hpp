@@ -31,18 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef SENS_APP_TEST_H
-#define SENS_APP_TEST_H
+#ifndef SENS_APP_TEST_HPP
+#define SENS_APP_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void SENS_App_Test_AddTestCases(void);
 
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* SENS_APP_TEST_H */
+#endif /* SENS_APP_TEST_HPP */

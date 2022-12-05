@@ -31,17 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef SENS_CONFIG_TBL_TEST_H
-#define SENS_CONFIG_TBL_TEST_H
+#ifndef SENS_CONFIG_TBL_TEST_HPP
+#define SENS_CONFIG_TBL_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void SENS_Config_Tbl_Test_AddTestCases(void);
 
-#ifdef __cplusplus
-}
-#endif
 
-#endif /* SENS_CONFIG_TBL_TEST_H */
+#endif /* SENS_CONFIG_TBL_TEST_HPP */

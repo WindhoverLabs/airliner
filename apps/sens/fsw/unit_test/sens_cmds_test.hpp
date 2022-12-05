@@ -31,19 +31,11 @@
 *
 *****************************************************************************/
 
-#include "sens_app_test.hpp"
-#include "sens_cmds_test.hpp"
-#include "sens_config_tbl_test.hpp"
+#ifndef SENS_CMDS_TEST_HPP
+#define SENS_CMDS_TEST_HPP
 
-#include "uttest.h"
 
-int main(void)
-{   
-    SENS_App_Test_AddTestCases();
-    SENS_Cmds_Test_AddTestCases();
-    SENS_Config_Tbl_Test_AddTestCases();
+void SENS_Cmds_Test_AddTestCases(void);
 
-    return(UtTest_Run());
 
-}
-
+#endif /* SENS_CMDS_TEST_HPP */

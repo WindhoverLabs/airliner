@@ -32,30 +32,27 @@
 *****************************************************************************/
 
 
-#ifndef SENS_TEST_UTILS_H
-#define SENS_TEST_UTILS_H
-
-/*
- * Includes
- */
+#ifndef SENS_TEST_UTILS_HPP
+#define SENS_TEST_UTILS_HPP
 
 #include "sens_app.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-/*
- * Function Definitions
- */
+extern "C" void SENS_AppMain();
+extern "C" SENS_ConfigTbl_t SENS_ConfigTbl;
+
 
 void SENS_Test_Setup(void);
 void SENS_Test_TearDown(void);
 
+void SENS_Test_PrintCmdMsg(void *pMsg, uint32 size);
+uint64 SENS_Test_GetTimeUs(void);
 
-#ifdef __cplusplus
-}
-#endif
+time_t SENS_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t SENS_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
-#endif /* SENS_TEST_UTILS_H */
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
+
+#endif /* SENS_TEST_UTILS_HPP */
