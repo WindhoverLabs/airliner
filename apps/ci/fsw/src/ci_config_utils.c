@@ -235,6 +235,7 @@ int32 CI_AcquireConfigPointers(void)
 		(void) CFE_EVS_SendEvent(CI_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
 								 "Failed to get Config table's address (0x%08X)",
 								 (unsigned int)iStatus);
+		goto CI_AcquireConfigPointers_Exit_Tag;
 	}
 
 	iStatus = CFE_TBL_GetAddress((void*)&CI_AppData.TimeoutTbl,

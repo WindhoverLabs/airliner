@@ -50,15 +50,129 @@
 #include "ut_cfe_time_stubs.h"
 
 
-void CI_Config_Tbl_Test_Case1(void)
+/**************************************************************************
+ * Tests for CI InitTbls()
+ **************************************************************************/
+/**
+ * Test CI InitTbls(), fail TblRegister
+ */
+void Test_CI_InitTbls_Fail_TblRegister(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
 
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CI_InitTbls();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitTbls(), fail TblRegister");
 }
+
+
+/**
+ * Test CI InitTbls(), fail TblLoad
+ */
+void Test_CI_InitTbls_Fail_TblLoad(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CI_InitTbls();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitTbls(), fail TblLoad");
+}
+
+
+/**
+ * Test CI InitTbls(), fail TblManage
+ */
+void Test_CI_InitTbls_Fail_TblManage(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CI_InitTbls();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitTbls(), fail TblManage");
+}
+
+
+/**
+ * Test CI InitTbls(), fail TblGetAddress
+ */
+void Test_CI_InitTbls_Fail_TblGetAddress(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CI_InitTbls();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitTbls(), fail TblGetAddress");
+    UtAssert_True (CI_AppData.ConfigTblPtr == 0,
+                   "InitTbls(), fail TblGetAddress, ConfigTblPtr");
+}
+
+
+/**
+ * Test CI InitTbls(), Nominal
+ */
+void Test_CI_InitTbls_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = CI_InitTbls();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitTbls(), Nominal");
+}
+
 
 
 void CI_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(CI_Config_Tbl_Test_Case1, CI_Test_Setup, CI_Test_TearDown, "CI_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_CI_InitTbls_Fail_TblRegister,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_InitTbls_Fail_TblRegister");
+    UtTest_Add(Test_CI_InitTbls_Fail_TblLoad,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_InitTbls_Fail_TblLoad");
+    UtTest_Add(Test_CI_InitTbls_Fail_TblManage,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_InitTbls_Fail_TblManage");
+    UtTest_Add(Test_CI_InitTbls_Fail_TblGetAddress,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_InitTbls_Fail_TblGetAddress");
+    UtTest_Add(Test_CI_InitTbls_Nominal,
+               CI_Test_Setup, CI_Test_TearDown,
+               "Test_CI_InitTbls_Nominal");
 }
-
-
