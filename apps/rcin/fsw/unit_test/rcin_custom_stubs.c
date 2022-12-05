@@ -32,11 +32,12 @@
 *****************************************************************************/
 
 #include "rcin_custom_stubs.h"
+#include "rcin_platform_cfg.h"
 #include "px4_msgs.h"
 
 void RCIN_Custom_InitData(void)
 {
-    
+    return;
 }
 
 
@@ -52,6 +53,19 @@ boolean RCIN_Custom_Uninit(void)
 }
 
 
+boolean RCIN_Custom_Max_Events_Not_Reached(int32 ind)
+{
+    boolean returnBool = FALSE;
+
+    if ((ind < RCIN_MAX_EVENT_FILTERS) && (ind > 0))
+    {
+        returnBool = TRUE;
+    }
+
+    return (returnBool);
+}
+
+
 boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
 {
     return TRUE;
@@ -60,11 +74,29 @@ boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
 
 int32 RCIN_Custom_Init_EventFilters(int32 ind, CFE_EVS_BinFilter_t *EventTbl)
 {
-    return 0;
-}
+    int32 customEventCount = ind;
 
+    /* Null check */
+    if(0 == EventTbl)
+    {
+        customEventCount = -1;
+        goto end_of_function;
+    }
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
+    if(TRUE == RCIN_Custom_Max_Events_Not_Reached(customEventCount + 2))
+    {
+        EventTbl[  customEventCount].EventID = 14;
+        EventTbl[customEventCount++].Mask    = CFE_EVS_FIRST_16_STOP;
+        EventTbl[  customEventCount].EventID = 15;
+        EventTbl[customEventCount++].Mask    = CFE_EVS_FIRST_16_STOP;
+    }
+    else
+    {
+        customEventCount = -1;
+        goto end_of_function;
+    }
+
+end_of_function:
+
+    return(customEventCount);
 }

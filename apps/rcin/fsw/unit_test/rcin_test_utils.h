@@ -52,6 +52,10 @@ extern "C" {
 void RCIN_Test_Setup(void);
 void RCIN_Test_TearDown(void);
 
+time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+uint64 PX4LIB_GetPX4TimeUs(void);
 
 #ifdef __cplusplus
 }

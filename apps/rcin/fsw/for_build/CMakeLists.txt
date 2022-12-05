@@ -64,6 +64,7 @@ buildliner_add_app_unit_test(rcin-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_stubs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_app.cpp

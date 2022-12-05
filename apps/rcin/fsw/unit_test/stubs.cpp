@@ -32,60 +32,20 @@
 *****************************************************************************/
 
 #include "cfe.h"
-#include "rcin_test_utils.h"
-#include "ut_cfe_evs_hooks.h"
-#include "ut_cfe_time_stubs.h"
-#include "ut_cfe_psp_memutils_stubs.h"
-#include "ut_cfe_tbl_stubs.h"
-#include "ut_cfe_tbl_hooks.h"
-#include "ut_cfe_fs_stubs.h"
-#include "ut_cfe_time_stubs.h"
-#include "ut_osapi_stubs.h"
-#include "ut_osfileapi_stubs.h"
-#include "ut_cfe_sb_stubs.h"
-#include "ut_cfe_es_stubs.h"
-#include "ut_cfe_evs_stubs.h"
 
 #include <time.h>
 
-/*
- * Function Definitions
- */
 
-void RCIN_Test_Setup(void)
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    /* initialize test environment to default state for every test */
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
 
-    Ut_CFE_EVS_Reset();
-    Ut_CFE_FS_Reset();
-    Ut_CFE_TIME_Reset();
-    Ut_CFE_TBL_Reset();
-    Ut_CFE_SB_Reset();
-    Ut_CFE_ES_Reset();
-    Ut_OSAPI_Reset();
-    Ut_OSFILEAPI_Reset();
+    CFE_PSP_GetTime(&localTime);
 
-}
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
 
-void RCIN_Test_TearDown(void) {
-
-}
-
-
-time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp)
-{
-    time_t  local_time;
-
-    local_time = (time_t)(timestamp / 1000000);
-
-    return local_time;
-}
-
-time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
-{
-    time_t   local_time;
-
-    local_time = (time_t)cfe_time.Seconds;
-
-    return local_time;
+    return outTime;
 }

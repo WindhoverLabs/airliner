@@ -33,8 +33,10 @@
 
 #include "cfe.h"
 #include "rcin_app.h"
+
 #include "rcin_test_utils.h"
 #include "rcin_app_test.h"
+
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -45,16 +47,41 @@
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 hookCalledCount = 0;
+#include <time.h>
+#include <inttypes.h>
+
+
+CFE_SB_MsgId_t SendHK_SendMsgHook_MsgId = 0;
+CFE_SB_MsgId_t Wakeup_SendMsgHook_MsgId = 0;
+
+
+/**
+ * Test RCIN GetPSPTimeHook
+ */
+void Test_RCIN_GetPSPTimeHook(OS_time_t *LocalTime)
+{
+    int              iStatus;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        LocalTime->seconds = time.tv_sec;
+        LocalTime->microsecs = time.tv_nsec / 1000;
+    }
+
+    return;
+}
+
 
 /**************************************************************************
  * Tests for RCIN_InitEvent()
  **************************************************************************/
-
 /**
  * Test RCIN_InitEvent() with failed CFE_EVS_Register
  */
@@ -66,14 +93,21 @@ void Test_RCIN_InitEvent_Fail_Register(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EVENTS_SERVICE | CFE_EVS_NOT_IMPLEMENTED;
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCIN.InitEvent();
 
+    sprintf(expSysLog, "RCIN - Failed to register with EVS (0x%08lX)\n",
+                       (long unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitEvent, failed EVS Register");
+    UtAssert_True(result == expected, "InitEvent, failed EVS Register");
+
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "InitEvent, failed EVS Register SysLog Written");
 }
 
 
@@ -91,14 +125,21 @@ void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCIN.InitPipe();
 
+    sprintf(expEvent, "Failed to create SCH pipe (0x%08lX)",
+                      (long unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create SCH pipe");
+    UtAssert_True(result == expected, "InitPipe, fail SB create SCH pipe");
+
+    UtAssert_EventSent(RCIN_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitPipe, fail SB create SCH pipe Event Sent");
 }
 
 
@@ -113,14 +154,23 @@ void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCIN.InitPipe();
 
+    sprintf(expEvent,
+            "Sch Pipe failed to subscribe to RCIN_WAKEUP_MID. (0x%08lX)",
+            (long unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+
+    UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
+                  "InitPipe, fail CFE_SB_SubscribeEx for wakeup Event Sent");
 }
 
 
@@ -135,14 +185,23 @@ void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 2);
 
     /* Execute the function being tested */
     result = oRCIN.InitPipe();
 
+    sprintf(expEvent,
+            "Sch Pipe failed to subscribe to RCIN_SEND_HK_MID. (0x%08X)",
+            (unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+
+    UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
+                  "InitPipe, fail CFE_SB_SubscribeEx for sendhk Event Sent");
 }
 
 
@@ -157,14 +216,21 @@ void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
 
     /* Execute the function being tested */
     result = oRCIN.InitPipe();
 
+    sprintf(expEvent, "Failed to create CMD pipe (0x%08lX)",
+                      (long unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create CMD pipe");
+    UtAssert_True(result == expected, "InitPipe, fail SB create CMD pipe");
+
+    UtAssert_EventSent(RCIN_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitPipe, fail SB create CMD pipe Event Sent");
 }
 
 
@@ -179,36 +245,23 @@ void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCIN.InitPipe();
 
-    /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_Subscribe for CMD");
-}
-
-
-/**
- * Test RCIN_InitPipe(), fail DATA CFE_SB_CreatePipe
- */
-void Test_RCIN_InitPipe_Fail_CreateDATAPipe(void)
-{
-    RCIN oRCIN;
-
-    /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
-    int32 expected = CFE_SB_BAD_ARGUMENT;
-
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
-
-    /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    sprintf(expEvent,
+            "CMD Pipe failed to subscribe to RCIN_CMD_MID. (0x%08lX)",
+            (long unsigned int)expected);
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create DATA pipe");
+    UtAssert_True(result == expected,
+                  "InitPipe, fail CFE_SB_Subscribe for CMD");
+
+    UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitPipe, fail CFE_SB_Subscribe for CMD Event Sent");
 }
 
 
@@ -245,14 +298,24 @@ void Test_RCIN_InitApp_Fail_InitEvent(void)
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCIN.InitApp();
 
+    sprintf(expSysLog, "RCIN - Failed to init events (0x%08lX)\n",
+                       (long unsigned int)expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init event");
+    UtAssert_True(result == expected, "InitApp, fail init event");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
+                  "InitApp, fail init event Sys Log QueueDepth");
+
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "InitApp, fail init event Sys Log Written");
 }
 
 
@@ -314,6 +377,7 @@ void Test_RCIN_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
 /**************************************************************************
  * Tests for RCIN_AppMain()
  **************************************************************************/
@@ -324,11 +388,21 @@ void Test_RCIN_AppMain_Fail_RegisterApp(void)
 {
     RCIN oRCIN;
 
+    int32 expected = CFE_ES_ERR_APP_REGISTER;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, expected, 1);
 
     /* Execute the function being tested */
     oRCIN.AppMain();
+
+    sprintf(expSysLog, "RCIN - Failed to register the app (0x%08lX)\n",
+                       (long unsigned int)expected);
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "RCIN_AppMain, Fail RegisterApp SysLog Written");
 }
 
 
@@ -339,11 +413,23 @@ void Test_RCIN_AppMain_Fail_InitApp(void)
 {
     RCIN oRCIN;
 
+    int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
     oRCIN.AppMain();
+
+    sprintf(expSysLog, "RCIN - Application failed to initialize\n");
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
+                  "RCIN_AppMain(), Fail InitApp SysLog Queue Depth");
+
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "RCIN_AppMain(), Fail InitApp SysLog Written");
 }
 
 
@@ -354,7 +440,9 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
 {
     RCIN oRCIN;
 
-    /* The following will emulate behavior of receiving a SCH message to send HK */
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will the emulate behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
 
@@ -363,6 +451,19 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
     /* Execute the function being tested */
     oRCIN.AppMain();
 
+    sprintf(expEvent, "Recvd invalid SCH msgId (0x%04X)", 0);
+
+    /* Verify results */
+    UtAssert_EventSent(RCIN_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                  "RCIN_AppMain, Invalid Schedule Message Event Sent");
+}
+
+
+/**
+ * Test RCIN_AppMain(), No Schedule Message
+ */
+void Test_RCIN_AppMain_NoSchMessage(void)
+{
 }
 
 
@@ -371,9 +472,51 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
  */
 int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
-    /* TODO:  Test the contents of your HK message here. */
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    RCIN_HkTlm_t       HkMsg;
 
-    hookCalledCount++;
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = RCIN_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case RCIN_HK_TLM_MID:
+        {
+            SendHK_SendMsgHook_MsgId = RCIN_HK_TLM_MID;
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+
+            printf("Sent RCIN_HK_TLM_MID:\n");
+            printf("usCmdCnt: %u\n", HkMsg.usCmdCnt);
+            printf("usCmdErrCnt: %u\n", HkMsg.usCmdErrCnt);
+            printf("State: %u\n", HkMsg.State);
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04X)\n", MsgId);
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
@@ -385,22 +528,94 @@ void Test_RCIN_AppMain_Nominal_SendHK(void)
 {
     RCIN oRCIN;
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook);
+    SendHK_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     oRCIN.AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
+    UtAssert_True(SendHK_SendMsgHook_MsgId == RCIN_HK_TLM_MID,
+                  "AppMain_Nominal_SendHK");
+}
 
+
+/**
+ * Hook to support: RCIN_AppMain(), Nominal - Wakeup
+ */
+int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
+{
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    PX4_InputRcMsg_t   InputRcMsg;
+
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    printf("###AppMain_Wakeup_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = RCIN_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case PX4_INPUT_RC_MID:
+        {
+            Wakeup_SendMsgHook_MsgId = PX4_INPUT_RC_MID;
+            CFE_PSP_MemCpy((void*)&InputRcMsg, (void*)MsgPtr,
+                           sizeof(InputRcMsg));
+
+            printf("Sent PX4_INPUT_RC_MID:\n");
+            localTime = RCIN_Test_GetTimeFromTimestamp(InputRcMsg.Timestamp);
+            loc_time = localtime(&localTime);
+            printf("Timestamp: %s", asctime(loc_time));
+            printf("LastSignal: %" PRIu64"\n", InputRcMsg.LastSignal);
+            printf("ChannelCount: %lu\n", InputRcMsg.ChannelCount);
+            printf("RSSI: %ld\n", InputRcMsg.RSSI);
+            printf("RcLostFrameCount: %u\n", InputRcMsg.RcLostFrameCount);
+            printf("RcTotalFrameCount: %u\n", InputRcMsg.RcTotalFrameCount);
+            printf("RcPpmFrameLength: %u\n", InputRcMsg.RcPpmFrameLength);
+            printf("Values: ");
+            for (i = 0; i < PX4_RC_INPUT_MAX_CHANNELS; i++)
+            {
+                printf("%02x ", InputRcMsg.Values[i]);
+            }
+            printf("\n");
+            printf("RcFailsafe: %u\n", InputRcMsg.RcFailsafe);
+            printf("RcLost: %u\n", InputRcMsg.RcLost);
+            printf("InputSource: %d\n", InputRcMsg.InputSource);
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04X)\n", MsgId);
+            break;
+        }
+    }
+
+    return CFE_SUCCESS;
 }
 
 
@@ -411,15 +626,33 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
 {
     RCIN oRCIN;
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate the behavior of receiving a SCH message
+       to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_WAKEUP_MID, 1);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    //oRCIN.AppMain();
+    oRCIN.AppMain();
 
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "RCIN_AppMain(), Nominal - Wakeup");
+}
+
+
+/**
+ * Test RCIN_ReadDevice()
+ */
+void Test_RCIN_ReadDevice(void)
+{
 }
 
 
@@ -442,8 +675,6 @@ void RCIN_App_Test_AddTestCases(void)
                "Test_RCIN_InitPipe_Fail_CreateCMDPipe");
     UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeCMD, RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_SubscribeCMD");
-    UtTest_Add(Test_RCIN_InitPipe_Fail_CreateDATAPipe, RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_InitPipe_Fail_CreateDATAPipe");
 
     UtTest_Add(Test_RCIN_InitData, RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitData");
