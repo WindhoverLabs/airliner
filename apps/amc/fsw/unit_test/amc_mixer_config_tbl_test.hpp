@@ -31,31 +31,9 @@
 *
 *****************************************************************************/
 
+#ifndef AMC_MIXER_CONFIG_TBL_TEST_HPP
+#define AMC_MIXER_CONFIG_TBL_TEST_HPP
 
-#ifndef AMC_TEST_UTILS_H
-#define AMC_TEST_UTILS_H
+void AMC_Mixer_Config_Tbl_Test_AddTestCases(void);
 
-/*
- * Includes
- */
-
-#include "amc_app.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/*
- * Function Definitions
- */
-
-void AMC_Test_Setup(void);
-void AMC_Test_TearDown(void);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* AMC_TEST_UTILS_H */
-
+#endif /* AMC_MIXER_CONFIG_TBL_TEST_HPP */

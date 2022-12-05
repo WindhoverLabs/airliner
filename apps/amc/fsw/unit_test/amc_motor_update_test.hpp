@@ -31,17 +31,9 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_CONFIG_TBL_TEST_H
-#define AMC_CONFIG_TBL_TEST_H
+#ifndef AMC_MOTOR_UPDATE_TEST_HPP
+#define AMC_MOTOR_UPDATE_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void AMC_Motor_Update_Test_AddTestCases(void);
 
-void AMC_Config_Tbl_Test_AddTestCases(void);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* AMC_CONFIG_TBL_TEST_H */
+#endif /* AMC_MOTOR_UPDATE_TEST_HPP */

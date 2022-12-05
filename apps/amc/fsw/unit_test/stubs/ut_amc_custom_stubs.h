@@ -44,7 +44,7 @@ typedef enum
 
 typedef struct
 {
-    uint32 (*InitDevice)(void);
+    int32  (*InitDevice)(void);
     void   (*SetMotorOutputs)(const uint16 *PWM);
     uint64 (*PX4LIB_GetPX4TimeUs)(void);
 } Ut_AMC_Custom_HookTable_t;

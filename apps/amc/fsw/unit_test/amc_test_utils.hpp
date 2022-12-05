@@ -31,18 +31,40 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_CMDS_TEST_H
-#define AMC_CMDS_TEST_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef AMC_TEST_UTILS_HPP
+#define AMC_TEST_UTILS_HPP
 
-void AMC_Cmds_Test_AddTestCases(void);
+/*
+ * Includes
+ */
+
+#include "amc_app.h"
+
+extern "C" void AMC_AppMain();
+
+extern "C" AMC_ConfigTbl_t AMC_ConfigTbl;
+extern "C" AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl;
+
+extern "C" uint64 PX4LIB_GetPX4TimeUs();
+
+/*
+ * Function Definitions
+ */
+
+void AMC_Test_Setup(void);
+void AMC_Test_Setup_CfgTblInvalid(void);
+void AMC_Test_TearDown(void);
+
+double GetConfigTblChecksum(AMC *pAMC);
+double GetMultirotorMixerConfigTblChecksum(AMC *pAMC);
+double GetSimpleMixerConfigTblChecksum(AMC *pAMC);
+void   AMC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+void   AMC_Test_PrintSimpleMixerOutputScaler(AMC *pAMC, uint8 MixerIndex);
+void   AMC_Test_PrintSimpleMixerControls(AMC *pAMC, uint8 MixerIndex, uint8 Control);
+void   AMC_Test_PrintSimpleMixerControlsScaler(AMC *pAMC, uint8 MixerIndex, uint8 Control);
+time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* AMC_CMDS_TEST_H */
+#endif /* AMC_TEST_UTILS_HPP */

@@ -31,18 +31,9 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_APP_TEST_H
-#define AMC_APP_TEST_H
+#ifndef AMC_CMDS_TEST_HPP
+#define AMC_CMDS_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void AMC_Cmds_Test_AddTestCases(void);
 
-void AMC_App_Test_AddTestCases(void);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* AMC_APP_TEST_H */
+#endif /* AMC_CMDS_TEST_HPP */
