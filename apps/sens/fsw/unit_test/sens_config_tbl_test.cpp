@@ -77,17 +77,21 @@ void Test_SENS_InitConfigTbl_Fail_TblRegister(void)
 
 
 /**
- * Test SENS InitConfigTbl(), fail ValidateConfigTbl
+ * Test SENS InitConfigTbl(), ValidateConfigTbl_Nominal
  * Can not call private function, InitConfigTbl directly
- * Currently there are no way to make this fail
  */
-void Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl(void)
+void Test_SENS_InitConfigTbl_ValidateConfigTbl_Nominal(void)
 {
     SENS  oSENS;
     int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SUCCESS;
 
     /* Execute the function being tested */
     result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, ValidateConfigTbl_Nominal");
 }
 
 
@@ -191,7 +195,7 @@ void Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers(void)
  * Test SENS InitConfigTbl(), Nominal
  * Can not call private function, InitConfigTbl directly
  */
-void Test_SENS_InitConfigTbl_Fail_Nominal(void)
+void Test_SENS_InitConfigTbl_Nominal(void)
 {
     SENS  oSENS;
 
@@ -218,9 +222,9 @@ void SENS_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblRegister,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitConfigTbl_Fail_TblRegister");
-    UtTest_Add(Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl,
+    UtTest_Add(Test_SENS_InitConfigTbl_ValidateConfigTbl_Nominal,
                SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl");
+               "Test_SENS_InitConfigTbl_ValidateConfigTbl_Nominal");
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblLoad,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitConfigTbl_Fail_TblLoad");
@@ -233,7 +237,7 @@ void SENS_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers,
                SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers");
-    UtTest_Add(Test_SENS_InitConfigTbl_Fail_Nominal,
+    UtTest_Add(Test_SENS_InitConfigTbl_Nominal,
                SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_InitConfigTbl_Fail_Nominal");
+               "Test_SENS_InitConfigTbl_Nominal");
 }
