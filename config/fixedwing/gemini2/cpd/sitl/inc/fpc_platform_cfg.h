@@ -107,7 +107,7 @@ extern "C" {
 
 #define FPC_DATA_PIPE_DEPTH            (11)
 
-#define FPC_DATA_PIPE_NAME      ("FPC_DATA_PIPE_NAME")
+#define FPC_DATA_PIPE_NAME      ("FPC_DATA_PIPE")
 
 #define FPC_NUM_MSG                    (11)
 

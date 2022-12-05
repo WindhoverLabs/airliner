@@ -31,8 +31,8 @@
  *
  *****************************************************************************/
 
-#include "fpc_config_tbl_test.h"
-#include "fpc_test_utils.h"
+#include "fpc_config_tbl_test.hpp"
+#include "fpc_test_utils.hpp"
 
 #include "fpc_msg.h"
 
@@ -58,7 +58,7 @@
  */
 void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -79,7 +79,7 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
  */
 void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -94,7 +94,7 @@ void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
  */
 void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -113,7 +113,7 @@ void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -134,7 +134,7 @@ void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblManage(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -155,7 +155,7 @@ void Test_FPC_InitConfigTbl_Fail_TblManage(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -176,7 +176,7 @@ void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
  */
 void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -197,7 +197,7 @@ void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_InitConfigTbl_Nominal(void)
 {
-    FPC   oFPC{};
+    FPC  oFPC{};
 
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -214,7 +214,6 @@ void Test_FPC_InitConfigTbl_Nominal(void)
 
 void FPC_Config_Tbl_Test_AddTestCases(void)
 {
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblRegister, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Fail_TblRegister");
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl, FPC_Test_Setup_ConfigInvalid,
@@ -231,5 +230,4 @@ void FPC_Config_Tbl_Test_AddTestCases(void)
                "Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FPC_InitConfigTbl_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Nominal");
-#endif
 }

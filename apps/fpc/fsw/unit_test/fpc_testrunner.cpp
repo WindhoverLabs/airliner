@@ -31,12 +31,13 @@
  *
  *****************************************************************************/
 
+#include "fpc_app_test.hpp"
+#include "fpc_cmds_test.hpp"
+#include "fpc_config_tbl_test.hpp"
+#include "fpc_test_utils.hpp"
+
 #include "uttest.h"
 
-#include "fpc_app_test.h"
-#include "fpc_cmds_test.h"
-#include "fpc_config_tbl_test.h"
-#include "fpc_test_utils.h"
 
 int main(void)
 {   

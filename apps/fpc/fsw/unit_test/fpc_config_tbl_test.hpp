@@ -31,45 +31,11 @@
  *
  *****************************************************************************/
 
-#ifndef FPC_TEST_UTILS_H
-#define FPC_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "fpc_app.h"
+#ifndef FPC_CONFIG_TBL_TEST_HPP
+#define FPC_CONFIG_TBL_TEST_HPP
 
 
-#if 1
-    #define     FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-#else
-    #define     FPC_UT_TEST_WITH_EXTERN_APPMAIN
-#endif
+void FPC_Config_Tbl_Test_AddTestCases(void);
 
 
-extern "C" void FPC_AppMain();
-extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
-
-
-/*
- * Function Definitions
- */
-
-void       FPC_Test_InitTest();
-void       FPC_Test_Setup(void);
-void       FPC_Test_Setup_ConfigInvalid(void);
-void       FPC_Test_TearDown(void);
-
-double     FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl);
-void       FPC_Test_PrintCmdMsg(void *pMsg, uint32 size);
-uint64     FPC_Test_GetTimeUs(void);
-time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
-time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
-
-extern uint64 PX4LIB_GetPX4TimeUs(void);
-extern uint64 PX4LIB_GetPX4TimeMs(void);
-extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
-
-
-#endif /* FPC_TEST_UTILS_H */
+#endif /* FPC_CONFIG_TBL_TEST_HPP */
