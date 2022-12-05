@@ -289,9 +289,13 @@ RCIN_InitApp_Exit_Tag:
     }
     else
     {
-        if (hasEvents != 1)
+        if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("RCIN - Application failed to initialize\n");
+            CFE_EVS_SendEvent(RCIN_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("RCIN - Application failed to initialize\n");
         }
     }
 

@@ -9,46 +9,48 @@
   events: 
     MPC_INIT_INF_EID: 
       id: 1
-    MPC_CMD_NOOP_EID: 
+    MPC_INIT_ERR_EID: 
       id: 2
-    MPC_SUBSCRIBE_ERR_EID: 
+    MPC_CMD_NOOP_EID: 
       id: 3
-    MPC_PIPE_INIT_ERR_EID: 
+    MPC_SUBSCRIBE_ERR_EID: 
       id: 4
-    MPC_CFGTBL_MANAGE_ERR_EID: 
+    MPC_PIPE_INIT_ERR_EID: 
       id: 5
-    MPC_CFGTBL_GETADDR_ERR_EID: 
+    MPC_CFGTBL_MANAGE_ERR_EID: 
       id: 6
-    MPC_RCVMSG_ERR_EID: 
+    MPC_CFGTBL_GETADDR_ERR_EID: 
       id: 7
-    MPC_MSGID_ERR_EID: 
+    MPC_RCVMSG_ERR_EID: 
       id: 8
-    MPC_CC_ERR_EID: 
+    MPC_MSGID_ERR_EID: 
       id: 9
-    MPC_MSGLEN_ERR_EID: 
+    MPC_CC_ERR_EID: 
       id: 10
-    MPC_CFGTBL_REG_ERR_EID: 
+    MPC_MSGLEN_ERR_EID: 
       id: 11
-    MPC_CFGTBL_LOAD_ERR_EID: 
+    MPC_CFGTBL_REG_ERR_EID: 
       id: 12
-    MPC_UNK_VEL_FRM_ERR_EID: 
+    MPC_CFGTBL_LOAD_ERR_EID: 
       id: 13
-    MPC_PID_UPDATE_EID: 
+    MPC_UNK_VEL_FRM_ERR_EID: 
       id: 14
-    MPC_SEND_DIAG_EID: 
+    MPC_PID_UPDATE_EID: 
       id: 15
-    MPC_SET_DZ_EID: 
+    MPC_SEND_DIAG_EID: 
       id: 16
-    MPC_SET_EXPO_EID: 
+    MPC_SET_DZ_EID: 
       id: 17
-    MPC_SET_TKO_RAMP_EID: 
+    MPC_SET_EXPO_EID: 
       id: 18
-    MPC_UNKNOWN_USER_INTENTION_ERR_EID: 
+    MPC_SET_TKO_RAMP_EID: 
       id: 19
-    MPC_POS_SP_NOT_FINITE_ERR_EID: 
+    MPC_UNKNOWN_USER_INTENTION_ERR_EID: 
       id: 20
-    MPC_INVLD_PARAM_ERR_EID: 
+    MPC_POS_SP_NOT_FINITE_ERR_EID: 
       id: 21
+    MPC_INVLD_PARAM_ERR_EID: 
+      id: 22
   telemetry: 
     MPC_DIAG_TLM_MID: 
       msgID: 

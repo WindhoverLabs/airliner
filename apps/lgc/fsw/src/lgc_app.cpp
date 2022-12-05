@@ -221,7 +221,11 @@ LGC_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("LGC - Application failed to initialize\n");
+            CFE_EVS_SendEvent(LGC_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("LGC - Application failed to initialize\n");
         }
     }
 

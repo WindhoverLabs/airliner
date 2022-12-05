@@ -397,7 +397,11 @@ MPU9250_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("MPU9250 - Application failed to initialize\n");
+            CFE_EVS_SendEvent(MPU9250_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("MPU9250 - Application failed to initialize\n");
         }
     }
 

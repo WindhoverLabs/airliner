@@ -336,6 +336,10 @@ AK8963_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
+            (void) CFE_EVS_SendEvent(ADSBR_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
             (void) CFE_ES_WriteToSysLog("AK8963 - Application failed to initialize\n");
         }
     }
