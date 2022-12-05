@@ -71,7 +71,20 @@ typedef enum {
      **  The fourth \c %d field contains the application revision number defined
      **      in #VM_MISSION_REV.
      */
-    VM_INIT_INF_EID                              = 1,
+    VM_INIT_INF_EID,
+
+	/** \brief <tt> 'Application failed to initialize' </tt>
+	**  \event <tt> 'Application failed to initialize' </tt>
+	**
+	**  \par Type: ERROR
+	**
+	**  \par Cause:
+	**
+	**  This event message is issued when the application has
+	**  had an error in initialization.
+	**
+	*/
+	VM_INIT_ERR_EID,
 
     /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
      **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
@@ -94,7 +107,7 @@ typedef enum {
      **  The fourth \c %d field contains the application revision number defined
      **      in #VM_MISSION_REV.
      */
-    VM_CMD_NOOP_EID                              = 2,
+    VM_CMD_NOOP_EID,
 
     /** \brief <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
      **  \event <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
@@ -111,7 +124,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    VM_SUBSCRIBE_ERR_EID                         = 3,
+    VM_SUBSCRIBE_ERR_EID,
 
     /** \brief <tt> 'Failed to create \%s pipe (0x\%08X)' </tt>
      **  \event <tt> 'Failed to create \%s pipe (0x\%08X' </tt>
@@ -127,7 +140,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    VM_PIPE_INIT_ERR_EID                         = 4,
+    VM_PIPE_INIT_ERR_EID,
 
     /** \brief <tt> 'Failed to update parameter: %s' </tt>
      **  \event <tt> 'Failed to update parameter: %s' </tt>
@@ -140,7 +153,7 @@ typedef enum {
      **  update one of its named parameters.
      **
      */
-    VM_PARAM_UPDATE_ERR_EID                      = 5,
+    VM_PARAM_UPDATE_ERR_EID,
 
     /** \brief <tt> 'Failed to manage Config table (0x\%08X)' </tt>
      **  \event <tt> 'Failed to manage Config table (0x\%08X)' </tt>
@@ -153,7 +166,7 @@ typedef enum {
      **  #CFE_TBL_Manage function.
      **
      */
-    VM_CFGTBL_MANAGE_ERR_EID                     = 6,
+    VM_CFGTBL_MANAGE_ERR_EID,
 
     /** \brief <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
      **  \event <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
@@ -166,7 +179,7 @@ typedef enum {
      **  #CFE_TBL_GetAddress function.
      **
      */
-    VM_CFGTBL_GETADDR_ERR_EID                    = 7,
+    VM_CFGTBL_GETADDR_ERR_EID,
 
     /** \brief <tt> '\%s pipe read error (0x\%08X).' </tt>
      **  \event <tt> '\%s pipe read error (0x\%08X).' </tt>
@@ -182,7 +195,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    VM_RCVMSG_ERR_EID                            = 8,
+    VM_RCVMSG_ERR_EID,
 
     /** \brief <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
      **  \event <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
@@ -197,7 +210,7 @@ typedef enum {
      **  The \c %s field contains the name of the pipe.
      **  The 16 bit hexadecimal number is the actual message ID received.
      */
-    VM_MSGID_ERR_EID                             = 9,
+    VM_MSGID_ERR_EID,
 
     /** \brief <tt> 'Recvd invalid command code (\%u)' </tt>
      **  \event <tt> 'Recvd invalid command code (\%u)' </tt>
@@ -211,7 +224,7 @@ typedef enum {
      **
      **  The %u field contains the actual command code received.
      */
-    VM_CC_ERR_EID                                = 10,
+    VM_CC_ERR_EID,
 
     /** \brief <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
      **  \event <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
@@ -228,7 +241,7 @@ typedef enum {
      **  The third \c %d field contains the actual length.
      **  The fourth \c %d field contains the expected length.
      */
-    VM_MSGLEN_ERR_EID                            = 11,
+    VM_MSGLEN_ERR_EID,
 
     /** \brief <tt> 'Failed to register config table (0x%08X)' </tt>
      **  \event <tt> 'Failed to register config table (0x%08X)' </tt>
@@ -244,7 +257,7 @@ typedef enum {
      **  #CFE_TBL_Register function.
      **
      */
-    VM_CFGTBL_REG_ERR_EID                        = 12,
+    VM_CFGTBL_REG_ERR_EID,
 
     /** \brief <tt> 'Failed to load Config Table (0x%08X)' </tt>
      **  \event <tt> 'Failed to load Config Table (0x%08X)' </tt>
@@ -260,7 +273,7 @@ typedef enum {
      **  #CFE_TBL_Load function.
      **
      */
-    VM_CFGTBL_LOAD_ERR_EID                       = 13,
+    VM_CFGTBL_LOAD_ERR_EID,
 
     /** \brief <tt> 'Illegal Arming transition. [%s] Command rejected.' </tt>
      **  \event <tt> 'Illegal Arming transition. [%s] Command rejected.' </tt>
@@ -275,7 +288,7 @@ typedef enum {
      **  The first \c %s field contains the command name.
      **
      */
-    VM_ARMING_ILLEGAL_TRANSITION_ERR_EID         = 14,
+    VM_ARMING_ILLEGAL_TRANSITION_ERR_EID,
 
     /** \brief <tt> 'Illegal Nav transition [%s -> %s].  Command rejected.' </tt>
      **  \event <tt> 'Illegal Nav transition [%s -> %s].  Command rejected.' </tt>
@@ -288,7 +301,7 @@ typedef enum {
      **  illegal navigation state transition.
      **
      */
-    VM_NAV_ILLEGAL_TRANSITION_ERR_EID            = 15,
+    VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
 
     /** \brief <tt> 'Arming::Standby' </tt>
      **  \event <tt> 'Arming::Standby' </tt>
@@ -302,7 +315,7 @@ typedef enum {
      **
      **
      */
-    VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID     = 16,
+    VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID,
 
     /** \brief <tt> 'Arming::Armed' </tt>
      **  \event <tt> 'Arming::Armed' </tt>
@@ -315,7 +328,7 @@ typedef enum {
      **  arming - armed state.
      **
      */
-    VM_ARMING_ENTERED_ARMED_STATE_INFO_EID       = 17,
+    VM_ARMING_ENTERED_ARMED_STATE_INFO_EID,
 
     /** \brief <tt> 'Arming::StandbyError' </tt>
      **  \event <tt> 'Arming::StandbyError' </tt>
@@ -327,7 +340,7 @@ typedef enum {
      **  This event message is issued when the CFS VM Task enters
      **  arming - standby error state.
      */
-    VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID = 18,
+    VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID,
 
     /** \brief <tt> 'Arming::ArmedError' </tt>
      **  \event <tt> 'Arming::ArmedError' </tt>
@@ -340,7 +353,7 @@ typedef enum {
      **  arming - armed error state.
      **
      */
-    VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID = 19,
+    VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID,
 
     /** \brief <tt> 'Navigation::Manual' </tt>
      **  \event <tt> 'Navigation::Manual' </tt>
@@ -353,7 +366,7 @@ typedef enum {
      **  manual navigation mode.
      **
      */
-    VM_NAVSM_ENTERED_MANUAL_INFO_EID             = 20,
+    VM_NAVSM_ENTERED_MANUAL_INFO_EID,
 
     /** \brief <tt> 'Navigation::AltitudeControl' </tt>
      **  \event <tt> 'Navigation::AltitudeControl' </tt>
@@ -366,7 +379,7 @@ typedef enum {
      **  atlitude control navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_ALTCTL_INFO_EID             = 21,
+    VM_NAVSN_ENTERED_ALTCTL_INFO_EID,
 
     /** \brief <tt> 'Navigation::PositionControl' </tt>
      **  \event <tt> 'Navigation::PositionControl' </tt>
@@ -379,7 +392,7 @@ typedef enum {
      **  position control navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_POSCTL_INFO_EID             = 22,
+    VM_NAVSN_ENTERED_POSCTL_INFO_EID,
 
     /** \brief <tt> 'Navigation::AutoLoiter' </tt>
      **  \event <tt> 'Navigation::AutoLoiter' </tt>
@@ -392,7 +405,7 @@ typedef enum {
      **  auto loiter navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID         = 23,
+    VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID,
 
     /** \brief <tt> 'Navigation::AutoRTL' </tt>
      **  \event <tt> 'Navigation::AutoRTL' </tt>
@@ -405,7 +418,7 @@ typedef enum {
      **  auto return to launch navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_RTL_INFO_EID                = 24,
+    VM_NAVSN_ENTERED_RTL_INFO_EID,
 
     /** \brief <tt> 'Navigation::Acrobatic' </tt>
      **  \event <tt> 'Navigation::Acrobatic' </tt>
@@ -418,7 +431,7 @@ typedef enum {
      **  acrobatic navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_ACRO_INFO_EID               = 25,
+    VM_NAVSN_ENTERED_ACRO_INFO_EID,
 
     /** \brief <tt> 'Navigation::Stabilize' </tt>
      **  \event <tt> 'Navigation::Stabilize' </tt>
@@ -431,7 +444,7 @@ typedef enum {
      **  stabilized naviagation mode.
      **
      */
-    VM_NAVSN_ENTERED_STABILIZE_INFO_EID          = 26,
+    VM_NAVSN_ENTERED_STABILIZE_INFO_EID,
 
     /** \brief <tt> 'Navigation::Rattitude' </tt>
      **  \event <tt> 'Navigation::Rattitude' </tt>
@@ -445,7 +458,7 @@ typedef enum {
      **
      **
      */
-    VM_NAVSN_ENTERED_RATTITUDE_INFO_EID          = 27,
+    VM_NAVSN_ENTERED_RATTITUDE_INFO_EID,
 
     /** \brief <tt> 'Navigation::AutoTakeoff' </tt>
      **  \event <tt> 'Navigation::AutoTakeoff' </tt>
@@ -458,7 +471,7 @@ typedef enum {
      **  auto takeoff navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID       = 28,
+    VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID,
 
     /** \brief <tt> 'Navigation::AutoLand' </tt>
      **  \event <tt> 'Navigation::AutoLand' </tt>
@@ -471,7 +484,7 @@ typedef enum {
      **  auto land navigation mode.
      **
      */
-    VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID          = 29,
+    VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID,
 
     /** \brief <tt> 'VM_NavigationMap is in unknown state (%u, '%s')' </tt>
      **  \event <tt> 'VM_NavigationMap is in unknown state (%u, '%s')' </tt>
@@ -487,7 +500,7 @@ typedef enum {
      **  The second \c %s field contains the navigation state name.
      **
      */
-    VM_IN_UNKNOWN_STATE_ERR_EID                  = 30,
+    VM_IN_UNKNOWN_STATE_ERR_EID,
 
     /** \brief <tt> 'Home Position set to Lat (%.2f) Lon (%.2f) Alt (%.2f)' </tt>
      **  \event <tt> 'Home Position set to Lat (%.2f) Lon (%.2f) Alt (%.2f)' </tt>
@@ -504,7 +517,7 @@ typedef enum {
      **  The third \c %.2f field contains the home altitude.
      **
      */
-    VM_HOMESET_INFO_EID                          = 31,
+    VM_HOMESET_INFO_EID,
 
     /** \brief <tt> 'Flight initialized' </tt>
      **  \event <tt> 'Flight initialized' </tt>
@@ -517,7 +530,7 @@ typedef enum {
      **  flight parameters.
      **
      */
-    VM_LND_INIT_INFO_EID                         = 32,
+    VM_LND_INIT_INFO_EID,
 
     /** \brief <tt> 'Vehicle disarming by safety message' </tt>
      **  \event <tt> 'Vehicle disarming by safety message' </tt>
@@ -530,7 +543,7 @@ typedef enum {
      **  vehicle while the safety is turned ON.
      **
      */
-    VM_SAFETY_DISARM_INFO_EID                    = 33,
+    VM_SAFETY_DISARM_INFO_EID,
 
     /** \brief <tt> 'Safety is OFF/ON' </tt>
      **  \event <tt> 'Safety is OFF/ON' </tt>
@@ -543,7 +556,7 @@ typedef enum {
      **  if changed to either OFF or ON.
      **
      */
-    VM_SAFETY_INFO_EID                           = 34,
+    VM_SAFETY_INFO_EID,
 
     /** \brief <tt> 'Low battery, return to land/takeoff discouraged' </tt>
      **  \event <tt> 'Low battery, return to land/takeoff discouraged' </tt>
@@ -557,7 +570,7 @@ typedef enum {
      **  on arming status.
      **
      */
-    VM_LOW_BAT_INFO_EID                          = 35,
+    VM_LOW_BAT_INFO_EID,
 
     /** \brief <tt> 'Critical battery, shutdown system/return to launch' </tt>
      **  \event <tt> 'Critical battery, shutdown system/return to launch' </tt>
@@ -571,7 +584,7 @@ typedef enum {
      **  on arming status.
      **
      */
-    VM_CRITICAL_BAT_INFO_EID                     = 36,
+    VM_CRITICAL_BAT_INFO_EID,
 
     /** \brief <tt> 'Dangerously low battery, shutdown system/landing immediately' </tt>
      **  \event <tt> 'Dangerously low battery, shutdown system/landing immediately' </tt>
@@ -585,7 +598,7 @@ typedef enum {
      **  on arming status.
      **
      */
-    VM_DANGER_BAT_LEVEL_INFO_EID                 = 37,
+    VM_DANGER_BAT_LEVEL_INFO_EID,
 
     /** \brief <tt> 'Manual control regained after (%llu)ums' </tt>
      **  \event <tt> 'Manual control regained after (%llu)ums' </tt>
@@ -600,7 +613,7 @@ typedef enum {
      **  The first \c %llu field contains the timestamp of event.
      **
      */
-    VM_RC_SIGN_REGAINED_INFO_EID                 = 38,
+    VM_RC_SIGN_REGAINED_INFO_EID,
 
     /** \brief <tt> 'Manual control lost at t = (%llu)ums' </tt>
      **  \event <tt> 'Manual control lost at t = (%llu)ums' </tt>
@@ -615,7 +628,7 @@ typedef enum {
      **  The first \c %llu field contains the timestamp of event.
      **
      */
-    VM_RC_SIGN_LOST_INFO_EID                     = 39,
+    VM_RC_SIGN_LOST_INFO_EID,
 
     /** \brief <tt> 'Stick disarm rejected, vehicle in flight' </tt>
      **  \event <tt> 'Stick disarm rejected, vehicle in flight' </tt>
@@ -628,7 +641,7 @@ typedef enum {
      **  disarm since vehicle is in flight.
      **
      */
-    VM_RC_STK_DISARM_REJ_INFO_EID                = 40,
+    VM_RC_STK_DISARM_REJ_INFO_EID,
 
     /** \brief <tt> 'Stick arm rejected, vehicle not in manual mode ' </tt>
      **  \event <tt> 'Stick arm rejected, vehicle not in manual mode ' </tt>
@@ -641,7 +654,7 @@ typedef enum {
      **  arming since vehicle not in manual mode.
      **
      */
-    VM_RC_STK_ARM_REJ_INFO_EID                   = 41,
+    VM_RC_STK_ARM_REJ_INFO_EID,
 
     /** \brief <tt> 'Disarm engaged by rc' </tt>
      **  \event <tt> 'Disarm engaged by rc' </tt>
@@ -654,7 +667,7 @@ typedef enum {
      **  disarm action, called by rc.
      **
      */
-    VM_RC_DISARM_INFO_EID                        = 42,
+    VM_RC_DISARM_INFO_EID,
 
     /** \brief <tt> 'Arm engaged by rc' </tt>
      **  \event <tt> 'Arm engaged by rc' </tt>
@@ -667,7 +680,7 @@ typedef enum {
      **  arm action, called by rc.
      **
      */
-    VM_RC_ARM_INFO_EID                           = 43,
+    VM_RC_ARM_INFO_EID,
 
     /** \brief <tt> 'Killswitch engaged/disengaged' </tt>
      **  \event <tt> 'Killswitch engaged/disengaged' </tt>
@@ -680,7 +693,7 @@ typedef enum {
      **  disengages killswitch.
      **
      */
-    VM_RC_KIL_SWTCH_INFO_EID                     = 44,
+    VM_RC_KIL_SWTCH_INFO_EID,
 
     /** \brief <tt> 'Mode switched to auto loiter by rc' </tt>
      **  \event <tt> 'Mode switched to auto loiter by rc' </tt>
@@ -693,7 +706,7 @@ typedef enum {
      **  navigation mode to auto loiter from rc.
      **
      */
-    VM_RC_LTR_INFO_EID                           = 45,
+    VM_RC_LTR_INFO_EID,
 
     /** \brief <tt> 'Mode switched to auto rtl by rc' </tt>
      **  \event <tt> 'Mode switched to auto rtl by rc' </tt>
@@ -706,7 +719,7 @@ typedef enum {
      **  navigation mode to auto rtl from rc.
      **
      */
-    VM_RC_RTL_INFO_EID                           = 46,
+    VM_RC_RTL_INFO_EID,
 
     /** \brief <tt> 'Mode switched to position control by rc' </tt>
      **  \event <tt> 'Mode switched to position control by rc' </tt>
@@ -719,7 +732,7 @@ typedef enum {
      **  navigation mode to position control from rc.
      **
      */
-    VM_RC_POSCTL_INFO_EID                        = 47,
+    VM_RC_POSCTL_INFO_EID,
 
     /** \brief <tt> 'Mode switched to Manual by rc/autonomously' </tt>
      **  \event <tt> 'Mode switched to Manual by rc/autonomously' </tt>
@@ -732,7 +745,7 @@ typedef enum {
      **  navigation mode to manual control from rc or as a fall back.
      **
      */
-    VM_RC_MAN_INFO_EID                           = 48,
+    VM_RC_MAN_INFO_EID,
 
     /** \brief <tt> 'Mode switched to auto takeoff by rc' </tt>
      **  \event <tt> 'Mode switched to auto takeoff by rc' </tt>
@@ -745,7 +758,7 @@ typedef enum {
      **  navigation mode to auto takeoff from rc.
      **
      */
-    VM_RC_TAKE_OFF_INFO_EID                      = 49,
+    VM_RC_TAKE_OFF_INFO_EID,
 
     /** \brief <tt> 'Low battery, cannot arm' </tt>
      **  \event <tt> 'Low battery, cannot arm' </tt>
@@ -758,7 +771,7 @@ typedef enum {
      **  in low battery.
      **
      */
-    VM_PRE_ARM_BAT_CHECK_INFO_EID                = 50,
+    VM_PRE_ARM_BAT_CHECK_INFO_EID,
 
     /** \brief <tt> 'Safety is ON, cannot arm' </tt>
      **  \event <tt> 'Safety is ON, cannot arm' </tt>
@@ -771,7 +784,7 @@ typedef enum {
      **  with safety on.
      **
      */
-    VM_PRE_ARM_SAFETY_CHECK_INFO_EID             = 51,
+    VM_PRE_ARM_SAFETY_CHECK_INFO_EID,
 
     /** \brief <tt> 'Sensors not setup correctly' </tt>
      **  \event <tt> 'Sensors not setup correctly' </tt>
@@ -784,7 +797,7 @@ typedef enum {
      **  not setup correctly.
      **
      */
-    VM_PRE_ARM_SENSORS_CHECK_INFO_EID            = 52,
+    VM_PRE_ARM_SENSORS_CHECK_INFO_EID,
 
     /** \brief <tt> 'Sensors not ready' </tt>
      **  \event <tt> 'Sensors not ready' </tt>
@@ -797,7 +810,7 @@ typedef enum {
      **  not ready yet.
      **
      */
-    VM_SEN_NOT_READY_INFO_EID                    = 53,
+    VM_SEN_NOT_READY_INFO_EID,
 
     /** \brief <tt> 'Position hold mode requirement failed' </tt>
      **  \event <tt> 'Position hold mode requirement failed' </tt>
@@ -810,7 +823,7 @@ typedef enum {
      **  mode switch guard.
      **
      */
-    VM_REQ_POS_CTL_ERR_EID                       = 54,
+    VM_REQ_POS_CTL_ERR_EID,
 
     /** \brief <tt> 'Altitude hold mode requirement failed' </tt>
      **  \event <tt> 'Altitude hold mode requirement failed' </tt>
@@ -823,7 +836,7 @@ typedef enum {
      **  mode switch guard.
      **
      */
-    VM_REQ_ALT_CTL_ERR_EID                       = 55,
+    VM_REQ_ALT_CTL_ERR_EID,
 
     /** \brief <tt> 'Acrobatic mode requirement failed' </tt>
      **  \event <tt> 'Acrobatic mode requirement failed' </tt>
@@ -836,7 +849,7 @@ typedef enum {
      **  mode switch guard.
      **
      */
-    VM_REQ_ACRO_ERR_EID                          = 56,
+    VM_REQ_ACRO_ERR_EID,
 
     /** \brief <tt> 'WARN!!! position estimation not initialized' </tt>
      **  \event <tt> 'WARN!!! position estimation not initialized' </tt>
@@ -849,7 +862,7 @@ typedef enum {
      **  without position estimator initialized
      **
      */
-    VM_NOPE_ERR_EID                              = 57,
+    VM_NOPE_ERR_EID,
 
     /** \brief <tt> 'Set config parameter %s to %u' </tt>
      **  \event <tt> 'Set config parameter COM_LOW_BAT_ACT to %u' </tt>
@@ -862,7 +875,7 @@ typedef enum {
      **  command.
      **
      */
-    VM_CONFIG_CHANGE_EID                         = 58,
+    VM_CONFIG_CHANGE_EID,
 
     /** \brief <tt> 'Configuration parameter '%s = %u' out of bounds.' </tt>
      **  \event <tt> 'Configuration parameter 'COM_LOW_BAT_ACT' = %u' out of bounds.' </tt>
@@ -875,7 +888,7 @@ typedef enum {
      **  command.
      **
      */
-    VM_CONFIG_PARAMETER_OUT_OF_BOUNDS_EID        = 59,
+    VM_CONFIG_PARAMETER_OUT_OF_BOUNDS_EID,
 
     /** \brief <tt> 'Failed to initialize parameter: %s' </tt>
      **  \event <tt> 'Failed to initialize parameter: %s' </tt>
@@ -888,7 +901,7 @@ typedef enum {
      **  register all the named parameters.
      **
      */
-    VM_PARAM_INIT_ERR_EID                        = 60,
+    VM_PARAM_INIT_ERR_EID,
 
     /** \brief <tt> 'Invalid Config Table: %s' </tt>
      **  \event <tt> 'Invalid Config Table.  COM_RC_IN_MODE.  Exp:<0-%u>  Act: %u', #COM_RC_IN_MODE_MAX </tt>
@@ -909,7 +922,7 @@ typedef enum {
      **  validate a table or a table parameter.
      **
      */
-    VM_INVALID_CONFIG_TABLE_ERR_EID              = 61,
+    VM_INVALID_CONFIG_TABLE_ERR_EID,
 
     /** \brief <tt> 'Home position cannot be set.' </tt>
      **  \event <tt> 'Home position cannot be set.' </tt>
@@ -922,7 +935,7 @@ typedef enum {
      **  because the Vehicle Global Position EpH and EpV is too large.
      **
      */
-    VM_HOMESET_ERROR_EID                         = 62,
+    VM_HOMESET_ERROR_EID,
 
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     VM_EVT_CNT

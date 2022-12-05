@@ -7,28 +7,30 @@
   events: 
     SENS_INIT_INF_EID: 
       id: 1
-    SENS_CMD_NOOP_EID: 
+    SENS_INIT_ERR_EID: 
       id: 2
-    SENS_SUBSCRIBE_ERR_EID: 
+    SENS_CMD_NOOP_EID: 
       id: 3
-    SENS_PIPE_INIT_ERR_EID: 
+    SENS_SUBSCRIBE_ERR_EID: 
       id: 4
-    SENS_CFGTBL_MANAGE_ERR_EID: 
+    SENS_PIPE_INIT_ERR_EID: 
       id: 5
-    SENS_CFGTBL_GETADDR_ERR_EID: 
+    SENS_CFGTBL_MANAGE_ERR_EID: 
       id: 6
-    SENS_RCVMSG_ERR_EID: 
+    SENS_CFGTBL_GETADDR_ERR_EID: 
       id: 7
-    SENS_MSGID_ERR_EID: 
+    SENS_RCVMSG_ERR_EID: 
       id: 8
-    SENS_CC_ERR_EID: 
+    SENS_MSGID_ERR_EID: 
       id: 9
-    SENS_MSGLEN_ERR_EID: 
+    SENS_CC_ERR_EID: 
       id: 10
-    SENS_CFGTBL_REG_ERR_EID: 
+    SENS_MSGLEN_ERR_EID: 
       id: 11
-    ENS_CFGTBL_LOAD_ERR_EID: 
+    SENS_CFGTBL_REG_ERR_EID: 
       id: 12
+    ENS_CFGTBL_LOAD_ERR_EID: 
+      id: 13
   telemetry: 
     SENS_HK_TLM_MID: 
       msgID: 

@@ -357,7 +357,11 @@ HMC5883_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("HMC5883 - Application failed to initialize\n");
+            CFE_EVS_SendEvent(HMC5883_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("HMC5883 - Application failed to initialize\n");
         }
     }
 

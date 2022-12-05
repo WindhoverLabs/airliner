@@ -72,7 +72,20 @@ typedef enum {
 **  The fourth \c %d field contains the application revision number defined
 **      in #PE_MISSION_REV.
 */
-	PE_INIT_INF_EID = 1,
+	PE_INIT_INF_EID,
+
+/** \brief <tt> 'Application failed to initialize' </tt>
+**  \event <tt> 'Application failed to initialize' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the application has
+**  had an error in initialization.
+**
+*/
+	PE_INIT_ERR_EID,
 
 /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
@@ -95,7 +108,7 @@ typedef enum {
 **  The fourth \c %d field contains the application revision number defined
 **      in #PE_MISSION_REV.
 */
-	PE_CMD_NOOP_EID = 2,
+	PE_CMD_NOOP_EID,
 
     /** \brief <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
     **  \event <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
@@ -112,7 +125,7 @@ typedef enum {
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-	PE_SUBSCRIBE_ERR_EID = 3,
+	PE_SUBSCRIBE_ERR_EID,
 
 /** \brief <tt> 'Failed to create \%s pipe (0x\%08X)' </tt>
 **  \event <tt> 'Failed to create \%s pipe (0x\%08X' </tt>
@@ -128,7 +141,7 @@ typedef enum {
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-	PE_PIPE_INIT_ERR_EID = 4,
+	PE_PIPE_INIT_ERR_EID,
 
 /** \brief <tt> 'Failed to manage Config table (0x\%08X)' </tt>
 **  \event <tt> 'Failed to manage Config table (0x\%08X)' </tt>
@@ -141,7 +154,7 @@ typedef enum {
 **  #CFE_TBL_Manage function.
 **
 */
-	PE_CFGTBL_MANAGE_ERR_EID = 5,
+	PE_CFGTBL_MANAGE_ERR_EID,
 
 /** \brief <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
 **  \event <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
@@ -154,7 +167,7 @@ typedef enum {
 **  #CFE_TBL_GetAddress function.
 **
 */
-	PE_CFGTBL_GETADDR_ERR_EID = 6,
+	PE_CFGTBL_GETADDR_ERR_EID,
 
 /** \brief <tt> '\%s pipe read error (0x\%08X).' </tt>
 **  \event <tt> '\%s pipe read error (0x\%08X).' </tt>
@@ -170,7 +183,7 @@ typedef enum {
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-	PE_RCVMSG_ERR_EID = 7,
+	PE_RCVMSG_ERR_EID,
 
 /** \brief <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
 **  \event <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
@@ -185,7 +198,7 @@ typedef enum {
 **  The \c %s field contains the name of the pipe.
 **  The 16 bit hexadecimal number is the actual message ID received.
 */
-	PE_MSGID_ERR_EID = 8,
+	PE_MSGID_ERR_EID,
 
 /** \brief <tt> 'Recvd invalid command code (\%u)' </tt>
 **  \event <tt> 'Recvd invalid command code (\%u)' </tt>
@@ -199,7 +212,7 @@ typedef enum {
 **
 **  The %u field contains the actual command code received.
 */
-	PE_CC_ERR_EID = 9,
+	PE_CC_ERR_EID,
 
 /** \brief <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
 **  \event <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
@@ -216,7 +229,7 @@ typedef enum {
 **  The third \c %d field contains the actual length.
 **  The fourth \c %d field contains the expected length.
 */
-	PE_MSGLEN_ERR_EID = 10,
+	PE_MSGLEN_ERR_EID,
 
 /** \brief <tt> 'Failed to register config table (0x%08X)' </tt>
 **  \event <tt> 'Failed to register config table (0x%08X)' </tt>
@@ -232,7 +245,7 @@ typedef enum {
 **  #CFE_TBL_Register function.
 **
 */
-	PE_CFGTBL_REG_ERR_EID = 11,
+	PE_CFGTBL_REG_ERR_EID,
 
 /** \brief <tt> 'Failed to load Config Table (0x%08X)' </tt>
 **  \event <tt> 'Failed to load Config Table (0x%08X)' </tt>
@@ -248,7 +261,7 @@ typedef enum {
 **  #CFE_TBL_Load function.
 **
 */
-	PE_CFGTBL_LOAD_ERR_EID = 12,
+	PE_CFGTBL_LOAD_ERR_EID,
 
 
 /** \brief Local estimation initialized
@@ -261,7 +274,7 @@ typedef enum {
 **  This event message is issued when the local estimation has received enough data to initialize
 **
 */
-	PE_LOCAL_ESTIMATOR_INF_EID = 13,
+	PE_LOCAL_ESTIMATOR_INF_EID,
 
 /** \brief Global estimation initialized
 **  \event Global estimation initialized
@@ -273,7 +286,7 @@ typedef enum {
 **  This event message is issued when the global estimation has received enough data to initialize
 **
 */
-	PE_GLOBAL_ESTIMATOR_INF_EID = 14,
+	PE_GLOBAL_ESTIMATOR_INF_EID,
 
 /** \brief Reinit state covariance. Index (%i, %i) not finite
 **  \event Reinit state covariance. Index (%i, %i) not finite
@@ -286,7 +299,7 @@ typedef enum {
 **  The estimator will reinitialize after this event is broadcast.
 **
 */
-	PE_ESTIMATOR_ERR_EID = 15,
+	PE_ESTIMATOR_ERR_EID,
 
 /** \brief Baro fault, r %5.2f m, beta %5.2f
 **  \event Baro fault, r %5.2f m, beta %5.2f
@@ -299,7 +312,7 @@ typedef enum {
 **  Baro will reinitialize after this event is broadcast.
 **
 */
-	PE_BARO_FAULT_ERR_EID = 16,
+	PE_BARO_FAULT_ERR_EID,
 
 /** \brief Baro initialized. Mean: (%d) Std dev: (%d) cm
 **  \event Baro initialized. Mean: (%d) Std dev: (%d) cm
@@ -311,7 +324,7 @@ typedef enum {
 **  This event message is issued when baro has (re)initialized successfully.
 **
 */
-    PE_BARO_OK_INF_EID = 17,
+    PE_BARO_OK_INF_EID,
 
 /** \brief Baro timeout
 **  \event Baro timeout
@@ -323,7 +336,7 @@ typedef enum {
 **  This event message is issued when the baro data times out and needs to be reset
 **
 */
-	PE_BARO_TIMEOUT_ERR_EID = 18,
+	PE_BARO_TIMEOUT_ERR_EID,
 
 /** \brief GPS timeout
 **  \event GPS timeout
@@ -335,7 +348,7 @@ typedef enum {
 **  This event message is issued when the gps data times out and needs to be reset
 **
 */
-	PE_GPS_TIMEOUT_ERR_EID = 19,
+	PE_GPS_TIMEOUT_ERR_EID,
 
 /** \brief gps fault, %3g %3g %3g %3g %3g %3g
 **  \event gps fault, %3g %3g %3g %3g %3g %3g
@@ -348,7 +361,7 @@ typedef enum {
 **  GPS will reinitialize after this event is broadcast.
 **
 */
-	PE_GPS_FAULT_ERR_EID = 20,
+	PE_GPS_FAULT_ERR_EID,
 
 /** \brief GPS OK
 **  \event GPS OK
@@ -360,7 +373,7 @@ typedef enum {
 **  This event message is issued when GPS has (re)initialized successfully.
 **
 */
-    PE_GPS_OK_INF_EID = 21,
+    PE_GPS_OK_INF_EID,
 
 /** \brief Land fault, beta %5.2f
 **  \event Land fault, beta %5.2f
@@ -373,7 +386,7 @@ typedef enum {
 **  Land detector will reinitialize after this event is broadcast.
 **
 */
-	PE_LAND_FAULT_ERR_EID = 22,
+	PE_LAND_FAULT_ERR_EID,
 
 /** \brief Land detector initialized
 **  \event Land detector initialized
@@ -385,7 +398,7 @@ typedef enum {
 **  This event message is issued when land detector has (re)initialized successfully.
 **
 */
-	PE_LAND_OK_INF_EID = 23,
+	PE_LAND_OK_INF_EID,
 
 /** \brief Land detector timeout
 **  \event Land detector timeout
@@ -397,7 +410,7 @@ typedef enum {
 **  This event message is issued when the land detector data times out and needs to be reset
 **
 */
-	PE_LAND_TIMEOUT_ERR_EID = 24,
+	PE_LAND_TIMEOUT_ERR_EID,
 
 /** \brief Dist fault, r %5.2f m, beta %5.2f
 **  \event Dist fault, r %5.2f m, beta %5.2f
@@ -410,7 +423,7 @@ typedef enum {
 **  Dist will reinitialize after this event is broadcast.
 **
 */
-	PE_DIST_FAULT_ERR_EID = 25,
+	PE_DIST_FAULT_ERR_EID,
 
 /** \brief Dist initialized. Mean: (%d) Std dev: (%d) cm
 **  \event Dist initialized. Mean: (%d) Std dev: (%d) cm
@@ -422,7 +435,7 @@ typedef enum {
 **  This event message is issued when dist has (re)initialized successfully.
 **
 */
-	PE_DIST_OK_INF_EID = 26,
+	PE_DIST_OK_INF_EID,
 
 /** \brief Dist timeout
 **  \event Dist timeout
@@ -434,7 +447,7 @@ typedef enum {
 **  This event message is issued when the dist data times out and needs to be reset
 **
 */
-	PE_DIST_TIMEOUT_ERR_EID = 27,
+	PE_DIST_TIMEOUT_ERR_EID,
 
 /** \brief PE - mutex creation failed (0x%08lX)
 **  \event PE - mutex creation failed (0x%08lX)
@@ -446,7 +459,7 @@ typedef enum {
 **  This event message is issued when mutex creation failed.
 **
 */
-	PE_MUTEX_ERR_EID = 28,
+	PE_MUTEX_ERR_EID,
 
 /** \brief Local position message data invalid
 **  \event Local position message data invalid
@@ -458,7 +471,7 @@ typedef enum {
 **  This event message is issued when the local position message data fails validity checks.
 **
 */
-	PE_LOCAL_POS_MSG_ERR_EID = 29,
+	PE_LOCAL_POS_MSG_ERR_EID,
 
 /** \brief Global position message data invalid
 **  \event Global position message data invalid
@@ -470,7 +483,7 @@ typedef enum {
 **  This event message is issued when the global position message data fails validity checks.
 **
 */
-	PE_GLOBAL_POS_MSG_ERR_EID = 30,
+	PE_GLOBAL_POS_MSG_ERR_EID,
 
 /** \brief Fusing distance sensor into estimation.
 **  \event Fusing distance sensor into estimation.
@@ -482,7 +495,7 @@ typedef enum {
 **  This event message is issued when commanded to fuse distance sensor into estimator.
 **
 */
-	PE_FUSE_DIST_INF_EID = 31,
+	PE_FUSE_DIST_INF_EID,
 
 /** \brief Already fusing distance sensor into estimation.
 **  \event Already fusing distance sensor into estimation.
@@ -495,7 +508,7 @@ typedef enum {
 **  but we are already fusing.
 **
 */
-	PE_FUSE_DIST_ERR_EID = 32,
+	PE_FUSE_DIST_ERR_EID,
 
 /** \brief Disabling distance sensor fusion into estimation.
 **  \event Disabling distance sensor fusion into estimation.
@@ -507,7 +520,7 @@ typedef enum {
 **  This event message is issued when commanded to disable distance sensor fusion into estimator.
 **
 */
-	PE_DISABLE_DIST_INF_EID = 33,
+	PE_DISABLE_DIST_INF_EID,
 
 /** \brief Failed to disable distance sensor fusion into estimation.
 **  \event Failed to disable distance sensor fusion into estimation.
@@ -520,7 +533,7 @@ typedef enum {
 **  but it is not already fusing.
 **
 */
-	PE_DISABLE_DIST_ERR_EID = 34,
+	PE_DISABLE_DIST_ERR_EID,
 
 /** \brief Fusing GPS into estimation.
 **  \event Fusing GPS into estimation.
@@ -532,7 +545,7 @@ typedef enum {
 **  This event message is issued when commanded to fuse GPS into estimator.
 **
 */
-	PE_FUSE_GPS_INF_EID = 35,
+	PE_FUSE_GPS_INF_EID,
 
 /** \brief Already fusing GPS into estimation.
 **  \event Already fusing GPS into estimation.
@@ -545,7 +558,7 @@ typedef enum {
 **  but we are already fusing.
 **
 */
-	PE_FUSE_GPS_ERR_EID = 36,
+	PE_FUSE_GPS_ERR_EID,
 
 /** \brief Disabling GPS fusion into estimation.
 **  \event Disabling GPS fusion into estimation.
@@ -557,7 +570,7 @@ typedef enum {
 **  This event message is issued when commanded to disable GPS fusion into estimator.
 **
 */
-	PE_DISABLE_GPS_INF_EID = 37,
+	PE_DISABLE_GPS_INF_EID,
 
 /** \brief Failed to disable GPS fusion into estimation.
 **  \event Failed to disable GPS fusion into estimation.
@@ -570,7 +583,7 @@ typedef enum {
 **  but it is not already fusing.
 **
 */
-	PE_DISABLE_GPS_ERR_EID = 38,
+	PE_DISABLE_GPS_ERR_EID,
 
 /** \brief Fusing Baro into estimation.
 **  \event Fusing Baro into estimation.
@@ -582,7 +595,7 @@ typedef enum {
 **  This event message is issued when commanded to fuse Baro into estimator.
 **
 */
-	PE_FUSE_BARO_INF_EID = 39,
+	PE_FUSE_BARO_INF_EID,
 
 /** \brief Already fusing Baro into estimation.
 **  \event Already fusing Baro into estimation.
@@ -595,7 +608,7 @@ typedef enum {
 **  but we are already fusing.
 **
 */
-	PE_FUSE_BARO_ERR_EID = 40,
+	PE_FUSE_BARO_ERR_EID,
 
 /** \brief Disabling Baro fusion into estimation.
 **  \event Disabling Baro fusion into estimation.
@@ -607,7 +620,7 @@ typedef enum {
 **  This event message is issued when commanded to disable Baro fusion into estimator.
 **
 */
-	PE_DISABLE_BARO_INF_EID = 41,
+	PE_DISABLE_BARO_INF_EID,
 
 /** \brief Failed to disable Baro fusion into estimation.
 **  \event Failed to disable Baro fusion into estimation.
@@ -620,7 +633,7 @@ typedef enum {
 **  but it is not already fusing.
 **
 */
-	PE_DISABLE_BARO_ERR_EID = 42,
+	PE_DISABLE_BARO_ERR_EID,
 
 /** \brief Fusing land into estimation.
 **  \event Fusing land into estimation.
@@ -632,7 +645,7 @@ typedef enum {
 **  This event message is issued when commanded to fuse Land into estimator.
 **
 */
-	PE_FUSE_LAND_INF_EID = 43,
+	PE_FUSE_LAND_INF_EID,
 
 /** \brief Already fusing land into estimation.
 **  \event Already fusing land into estimation.
@@ -645,7 +658,7 @@ typedef enum {
 **  but we are already fusing.
 **
 */
-	PE_FUSE_LAND_ERR_EID = 44,
+	PE_FUSE_LAND_ERR_EID,
 
 /** \brief Disabling land fusion into estimation.
 **  \event Disabling land fusion into estimation.
@@ -657,7 +670,7 @@ typedef enum {
 **  This event message is issued when commanded to disable Land fusion into estimator.
 **
 */
-	PE_DISABLE_LAND_INF_EID = 45,
+	PE_DISABLE_LAND_INF_EID,
 
 /** \brief Failed to disable land fusion into estimation.
 **  \event Failed to disable land fusion into estimation.
@@ -670,7 +683,7 @@ typedef enum {
 **  but it is not already fusing.
 **
 */
-	PE_DISABLE_LAND_ERR_EID = 46,
+	PE_DISABLE_LAND_ERR_EID,
 
 /** \brief Fusing flow into estimation.
 **  \event Fusing flow into estimation.
@@ -682,7 +695,7 @@ typedef enum {
 **  This event message is issued when commanded to fuse flow into estimator.
 **
 */
-	PE_FUSE_FLOW_INF_EID = 47,
+	PE_FUSE_FLOW_INF_EID,
 
 /** \brief Already fusing flow into estimation.
 **  \event Already fusing flow into estimation.
@@ -695,7 +708,7 @@ typedef enum {
 **  but we are already fusing.
 **
 */
-	PE_FUSE_FLOW_ERR_EID = 48,
+	PE_FUSE_FLOW_ERR_EID,
 
 /** \brief Disabling flow fusion into estimation.
 **  \event Disabling flow fusion into estimation.
@@ -707,7 +720,7 @@ typedef enum {
 **  This event message is issued when commanded to disable flow fusion into estimator.
 **
 */
-	PE_DISABLE_FLOW_INF_EID = 49,
+	PE_DISABLE_FLOW_INF_EID,
 
 /** \brief Failed to disable flow fusion into estimation.
 **  \event Failed to disable flow fusion into estimation.
@@ -720,7 +733,7 @@ typedef enum {
 **  but it is not already fusing.
 **
 */
-	PE_DISABLE_FLOW_ERR_EID = 50,
+	PE_DISABLE_FLOW_ERR_EID,
 
 /** \brief Flow fault, r %5.2f m, beta %5.2f
 **  \event Flow fault, r %5.2f m, beta %5.2f
@@ -733,7 +746,7 @@ typedef enum {
 **  flow will reinitialize after this event is broadcast.
 **
 */
-	PE_FLOW_FAULT_ERR_EID = 51,
+	PE_FLOW_FAULT_ERR_EID,
 
 /** \brief Flow initialized. Mean: (%d) Std dev: (%d) cm
 **  \event Flow initialized. Mean: (%d) Std dev: (%d) cm
@@ -745,7 +758,7 @@ typedef enum {
 **  This event message is issued when flow has (re)initialized successfully.
 **
 */
-	PE_FLOW_OK_INF_EID = 52,
+	PE_FLOW_OK_INF_EID,
 
 /** \brief Flow timeout
 **  \event Flow timeout
@@ -757,7 +770,7 @@ typedef enum {
 **  This event message is issued when the flow data times out and needs to be reset
 **
 */
-	PE_FLOW_TIMEOUT_ERR_EID = 53,
+	PE_FLOW_TIMEOUT_ERR_EID,
 
 /** \brief <tt> 'Table validation failed for parameter (%s)' </tt>
 **  \event <tt> 'Table validation failed for parameter (%s)' </tt>
@@ -769,7 +782,7 @@ typedef enum {
 **  This event message is issued when the PE configuration table fails to validate.
 **
 */
-	PE_TBL_VALIDATE_ERR_EID = 54,
+	PE_TBL_VALIDATE_ERR_EID,
 
 /** \brief Sending diagnostic telemetry.
 **  \event Sending diagnostic telemetry.
@@ -781,7 +794,7 @@ typedef enum {
 **  This event message is issued when commanded to send diagnostic telemetry.
 **
 */
-	PE_SEND_DIAG_INF_EID =  55,
+	PE_SEND_DIAG_INF_EID,
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
 	PE_EVT_CNT

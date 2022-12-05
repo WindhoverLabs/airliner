@@ -308,6 +308,10 @@ FLOW_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
+            (void) CFE_EVS_SendEvent(FLOW_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
             (void) CFE_ES_WriteToSysLog("FLOW - Application failed to initialize\n");
         }
     }

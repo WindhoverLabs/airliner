@@ -336,7 +336,11 @@ NAV_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("NAV - Application failed to initialize\n");
+            CFE_EVS_SendEvent(NAV_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("NAV - Application failed to initialize\n");
         }
     }
 
