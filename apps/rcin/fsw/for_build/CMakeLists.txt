@@ -67,6 +67,8 @@ buildliner_add_app_unit_test(rcin-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_stubs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_hooks.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/rcin_custom_hooks.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_events.h
@@ -77,6 +79,7 @@ buildliner_add_app_unit_test(rcin-ut
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../private/config/obc/cpd/apps/rcin/sed/src/
 
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp

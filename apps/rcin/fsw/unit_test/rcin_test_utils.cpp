@@ -32,7 +32,10 @@
 *****************************************************************************/
 
 #include "cfe.h"
+
 #include "rcin_test_utils.h"
+#include "rcin_custom_stubs.h"
+
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
@@ -64,6 +67,8 @@ void RCIN_Test_Setup(void)
     Ut_CFE_ES_Reset();
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
+
+    Ut_RCIN_Custom_Reset();
 
 }
 

@@ -35,6 +35,8 @@
 #include "rcin_app.h"
 
 #include "rcin_test_utils.h"
+#include "rcin_custom_stubs.h"
+#include "rcin_custom_hooks.h"
 #include "rcin_app_test.h"
 
 #include "uttest.h"
@@ -170,7 +172,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
                   "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                  "InitPipe, fail CFE_SB_SubscribeEx for wakeup Event Sent");
+                "InitPipe, fail CFE_SB_SubscribeEx for wakeup Event Sent");
 }
 
 
@@ -201,7 +203,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
                   "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                  "InitPipe, fail CFE_SB_SubscribeEx for sendhk Event Sent");
+                "InitPipe, fail CFE_SB_SubscribeEx for sendhk Event Sent");
 }
 
 
@@ -261,7 +263,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
                   "InitPipe, fail CFE_SB_Subscribe for CMD");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "InitPipe, fail CFE_SB_Subscribe for CMD Event Sent");
+                     "InitPipe, fail CFE_SB_Subscribe for CMD Event Sent");
 }
 
 
@@ -426,10 +428,10 @@ void Test_RCIN_AppMain_Fail_InitApp(void)
 
     /* Verify results */
     UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
-                  "RCIN_AppMain(), Fail InitApp SysLog Queue Depth");
+                  "RCIN_AppMain, Fail InitApp SysLog Queue Depth");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
-                  "RCIN_AppMain(), Fail InitApp SysLog Written");
+                  "RCIN_AppMain, Fail InitApp SysLog Written");
 }
 
 
@@ -460,10 +462,59 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
 
 
 /**
- * Test RCIN_AppMain(), No Schedule Message
+ * Test RCIN_AppMain(), NoSchMessage
  */
 void Test_RCIN_AppMain_NoSchMessage(void)
 {
+    RCIN oRCIN;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCIN.AppMain();
+}
+
+
+/**
+ * Test RCIN_AppMain(), SB_Timeout
+ */
+void Test_RCIN_AppMain_SB_Timeout(void)
+{
+    RCIN oRCIN;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_TIME_OUT, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCIN.AppMain();
+}
+
+
+/**
+ * Test RCIN_AppMain(), SchPipeError
+ */
+void Test_RCIN_AppMain_SchPipeError(void)
+{
+    RCIN oRCIN;
+
+    char expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCIN.AppMain();
+
+    sprintf(expEvent, "SCH pipe read error (0x%08lX).",
+                      (long unsigned int)CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(RCIN_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "RCIN_AppMain, SchPipeError Event Sent");
 }
 
 
@@ -653,6 +704,26 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
  */
 void Test_RCIN_ReadDevice(void)
 {
+    RCIN oRCIN;
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+
+    RCIN_CleanupCallback();
 }
 
 
@@ -662,43 +733,69 @@ void Test_RCIN_ReadDevice(void)
  **************************************************************************/
 void RCIN_App_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_RCIN_InitEvent_Fail_Register, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitEvent_Fail_Register,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitEvent_Fail_Register");
 
-    UtTest_Add(Test_RCIN_InitPipe_Fail_CreateSCHPipe, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitPipe_Fail_CreateSCHPipe,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeWakeup, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeWakeup,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_SubscribeWakeup");
-    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeSendHK, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeSendHK,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_SubscribeSendHK");
-    UtTest_Add(Test_RCIN_InitPipe_Fail_CreateCMDPipe, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitPipe_Fail_CreateCMDPipe,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_CreateCMDPipe");
-    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeCMD, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitPipe_Fail_SubscribeCMD,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitPipe_Fail_SubscribeCMD");
 
-    UtTest_Add(Test_RCIN_InitData, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitData,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitData");
 
-    UtTest_Add(Test_RCIN_InitApp_Fail_InitEvent, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitApp_Fail_InitEvent,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Fail_InitEvent");
-    UtTest_Add(Test_RCIN_InitApp_Fail_InitPipe, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitApp_Fail_InitPipe,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Fail_InitPipe");
-    UtTest_Add(Test_RCIN_InitApp_Fail_InitData, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitApp_Fail_InitData,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Fail_InitData");
-    UtTest_Add(Test_RCIN_InitApp_Nominal, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_InitApp_Nominal,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Nominal");
 
-    UtTest_Add(Test_RCIN_AppMain_Fail_RegisterApp, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_AppMain_Fail_RegisterApp,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Fail_RegisterApp");
-    UtTest_Add(Test_RCIN_AppMain_Fail_InitApp, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_AppMain_Fail_InitApp,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Fail_InitApp");
-    UtTest_Add(Test_RCIN_AppMain_InvalidSchMessage, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_AppMain_InvalidSchMessage,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_InvalidSchMessage");
-    UtTest_Add(Test_RCIN_AppMain_Nominal_SendHK, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_AppMain_NoSchMessage,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_AppMain_NoSchMessage");
+    UtTest_Add(Test_RCIN_AppMain_SB_Timeout,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_AppMain_SB_Timeout");
+    UtTest_Add(Test_RCIN_AppMain_SchPipeError,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_AppMain_SchPipeError");
+    UtTest_Add(Test_RCIN_AppMain_Nominal_SendHK,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_RCIN_AppMain_Nominal_Wakeup, RCIN_Test_Setup, RCIN_Test_TearDown,
+    UtTest_Add(Test_RCIN_AppMain_Nominal_Wakeup,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Nominal_Wakeup");
 
+    UtTest_Add(Test_RCIN_ReadDevice,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice");
 }
-
-
