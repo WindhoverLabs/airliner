@@ -61,6 +61,9 @@
 int OS_RUNTIME_MODE;
 int MINOR_FRAME;
 
+uint32  MessageIdError_RcvMsgHook_CalledCnt = 0;
+uint32  NoActivityFound_RcvMsgHook_CalledCnt = 0;
+
 
 /**************************************************************************
  * Hook functions to support
@@ -1097,6 +1100,22 @@ void SCH_ADChildTask_Test_RegisterChildTaskError(void)
 
 
 /**
+ * SCH_ADChildTask, Test_MessageIdError_RcvMsgHook
+ */
+int32 SCH_ADChildTask_Test_MessageIdError_RcvMsgHook(CFE_SB_MsgPtr_t *BufPtr,
+                                      CFE_SB_PipeId_t  PipeId, int32 TimeOut)
+{
+    MessageIdError_RcvMsgHook_CalledCnt ++;
+    if (MessageIdError_RcvMsgHook_CalledCnt > 1)
+    {
+        SCH_AppData.ADChildTaskRunStatus = CFE_SB_PIPE_RD_ERR;
+    }
+
+    return CFE_SUCCESS;
+}
+
+
+/**
  * SCH_ADChildTask, Test_MessageIdError
  */
 void SCH_ADChildTask_Test_MessageIdError(void)
@@ -1105,17 +1124,16 @@ void SCH_ADChildTask_Test_MessageIdError(void)
     SCH_ActivityDoneMsg_t DoneMsg;
     char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    ADPipe = Ut_CFE_SB_CreatePipe(SCH_AD_PIPE_NAME);
-    CFE_SB_InitMsg((void*)&DoneMsg, SCH_UNUSED_MID, sizeof(DoneMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&DoneMsg, (CFE_SB_PipeId_t)ADPipe);
-
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
                             CFE_SUCCESS, 1);
 
     /* To finish the Child Task after receiving a message */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 2);
+    MessageIdError_RcvMsgHook_CalledCnt = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX,
+                     (void*)&SCH_ADChildTask_Test_MessageIdError_RcvMsgHook);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SCH_UNUSED_MID, 1);
+    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_GETMSGID_INDEX);
 
     /* Execute the function being tested */
     SCH_ADChildTask();
@@ -1130,12 +1148,28 @@ void SCH_ADChildTask_Test_MessageIdError(void)
 
 
 /**
+ * SCH_ADChildTask, Test_NoActivityFound_RcvMsgHook
+ */
+int32 SCH_ADChildTask_Test_NoActivityFound_RcvMsgHook(CFE_SB_MsgPtr_t *BufPtr,
+                                      CFE_SB_PipeId_t  PipeId, int32 TimeOut)
+{
+    NoActivityFound_RcvMsgHook_CalledCnt ++;
+    if (NoActivityFound_RcvMsgHook_CalledCnt > 1)
+    {
+        SCH_AppData.ADChildTaskRunStatus = CFE_SB_PIPE_RD_ERR;
+    }
+
+    return CFE_SUCCESS;
+}
+
+
+/**
  * SCH_ADChildTask, Test_NoActivityFound
  */
 void SCH_ADChildTask_Test_NoActivityFound(void)
 {
     int32                 SlotIdx = 0;
-    int32                 ActIdx = 2;
+    int32                 ActIdx = 0;
     int32                 ADPipe;
     SCH_ActivityDoneMsg_t DoneMsg;
     char   expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1147,11 +1181,34 @@ void SCH_ADChildTask_Test_NoActivityFound(void)
     DoneMsg.MsgID =  SCH_TEST_MID;
     Ut_CFE_SB_AddMsgToPipe((void*)&DoneMsg, (CFE_SB_PipeId_t)ADPipe);
 
+    for (SlotIdx = 0; SlotIdx < SCH_TOTAL_SLOTS; SlotIdx ++)
+    {
+        for (ActIdx = 0; ActIdx < SCH_DEADLINES_PER_SLOT; ActIdx ++)
+        {
+            SCH_AppData.DeadlineTable->Slot[SlotIdx].Status[ActIdx].State
+                                       = SCH_DEADLINE_STATE_UNKNOWN;
+            SCH_AppData.DeadlineTable->Slot[SlotIdx].Status[ActIdx].MsgID
+                                       = 0;
+            SCH_AppData.DeadlineTable->Slot[SlotIdx].Status[ActIdx].OverrunCount
+                                       = 0;
+        }
+    }
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
                             CFE_SUCCESS, 1);
 
     /* To finish the Child Task after receiving a message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 2);
+
+#if 0
+    /* To finish the Child Task after receiving a message */
+    NoActivityFound_RcvMsgHook_CalledCnt = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX,
+                     (void*)&SCH_ADChildTask_Test_NoActivityFound_RcvMsgHook);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, SCH_ACTIVITY_DONE_MID, 1);
+    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_GETMSGID_INDEX);
+#endif
 
     /* Execute the function being tested */
     SCH_ADChildTask();
