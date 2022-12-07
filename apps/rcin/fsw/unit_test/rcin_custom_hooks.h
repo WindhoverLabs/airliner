@@ -41,10 +41,20 @@ extern "C" {
 
 #include "rcin_custom_stubs.h"
 
+extern uint32  SEDLIB_ReadMsg_Cnt;
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
                                        uint32 *PipeHandle);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook(uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
+                                                 CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 
 
 #ifdef __cplusplus

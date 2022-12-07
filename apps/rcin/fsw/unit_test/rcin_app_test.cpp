@@ -700,30 +700,286 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
 
 
 /**
- * Test RCIN_ReadDevice()
+ * Test RCIN_ReadDevice(), 1Msg_Normal
  */
-void Test_RCIN_ReadDevice(void)
+void Test_RCIN_ReadDevice_1Msg_Normal(void)
 {
     RCIN oRCIN;
 
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
                             CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
     Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
                                  SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook);
+                                   (void*)&SEDLIB_ReadMsgHook_1Msg_Normal);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
 
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
     RCIN_CleanupCallback();
+
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 1Msg_Normal: Sent PX4_INPUT_RC_MID");
+}
+
+
+/**
+ * Test RCIN_ReadDevice(), 2Msg_Normal
+ */
+void Test_RCIN_ReadDevice_2Msg_Normal(void)
+{
+    RCIN oRCIN;
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_2Msg_Normal);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
+    RCIN_CleanupCallback();
+
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 2Msg_Normal: Sent PX4_INPUT_RC_MID");
+}
+
+
+/**
+ * Test RCIN_ReadDevice(), 2Msg_1NoFooter
+ */
+void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
+{
+    RCIN oRCIN;
+
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_2Msg_1NoFooter);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEvent, "%s", "RCIN out of sync.");
+
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 2Msg_1NoFooter: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
+                       "RCIN_ReadDevice_2Msg_1NoFooter Event Sent");
+}
+
+
+/**
+ * Test RCIN_ReadDevice(), 2Msg_1NoHdr
+ */
+void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
+{
+    RCIN oRCIN;
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_2Msg_1NoHdr);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
+    RCIN_CleanupCallback();
+
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 2Msg_1NoHdr: Sent PX4_INPUT_RC_MID");
+}
+
+
+/**
+ * Test RCIN_ReadDevice(), 10Msg_1NoHdr1NoFooter
+ */
+void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
+{
+    RCIN oRCIN;
+
+    char  expEventInSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                         (void*)&SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEventInSync, "%s", "RCIN in sync.");
+    sprintf(expEventOutSync, "%s", "RCIN out of sync.");
+
+    /* Verify results */
+    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEventInSync,
+                   "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter InSync Event Sent");
+
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEventOutSync,
+                "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter OutOfSync Event Sent");
 }
 
 
@@ -795,7 +1051,19 @@ void RCIN_App_Test_AddTestCases(void)
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Nominal_Wakeup");
 
-    UtTest_Add(Test_RCIN_ReadDevice,
+    UtTest_Add(Test_RCIN_ReadDevice_1Msg_Normal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice");
+               "Test_RCIN_ReadDevice_1Msg_Normal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Msg_Normal,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_2Msg_Normal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoFooter,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_2Msg_1NoFooter");
+    UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoHdr,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_2Msg_1NoHdr");
+    UtTest_Add(Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter");
 }

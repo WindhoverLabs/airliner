@@ -58,6 +58,7 @@
 void RCIN_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
+    CFE_PSP_MemSet(&RCIN_AppCustomData, 0, sizeof(RCIN_AppCustomData));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
