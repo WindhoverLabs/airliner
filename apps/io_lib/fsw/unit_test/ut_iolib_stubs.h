@@ -52,8 +52,14 @@ typedef enum
 	UT_TM_SDLP_STARTFRAME_INDEX,
 	UT_TM_SDLP_SETOIDFRAME_INDEX,
 	UT_TM_SDLP_COMPLETEFRAME_INDEX,
+	UT_COP1_INITCLCW_INDEX,
 	UT_COP1_GETCLCWVCID_INDEX,
+	UT_COP1_PROCESSFRAME_INDEX,
 	UT_TM_SYNC_SYNCHRONIZE_INDEX,
+	UT_TC_SYNC_GETTRANSFERFRAME_INDEX,
+	UT_TCTF_GETSCID_INDEX,
+	UT_TCTF_GETVCID_INDEX,
+	UT_TCTF_GETPAYLOADLENGTH_INDEX,
     UT_IO_LIB_MAX_INDEX
 } Ut_IOLIB_INDEX_t;
 
@@ -77,9 +83,18 @@ typedef struct
 	                          CFE_SB_Msg_t *pIdlePacket);
 	int32  (*TM_SDLP_CompleteFrame)(TM_SDLP_FrameInfo_t *pFrameInfo,
 	                            uint8 *pMcFrameCnt, uint8 *pOcf);
+	uint32 (*COP1_InitClcw)(COP1_Clcw_t *clcwPtr, uint16 vcId);
 	uint16 (*COP1_GetClcwVcId)(COP1_Clcw_t *clcwPtr);
+	int32  (*COP1_ProcessFrame)(uint8* toBuffer, COP1_Clcw_t *clcwPtr, TCTF_Hdr_t *tfPtr,
+	                       TCTF_ChannelService_t *channelService);
 	int32  (*TM_SYNC_Synchronize)(uint8 *pBuff, char *asmStr, uint8 asmSize,
 	                          uint16 frameSize, boolean randomize);
+	int32  (*TC_SYNC_GetTransferFrame)(uint8 *pTfBuff, uint8 *pCltu,
+                              uint16 tfBuffSize, uint16 cltuLength,
+                              boolean derandomize);
+	uint16 (*TCTF_GetScId)(TCTF_Hdr_t *tfPtr);
+	uint16 (*TCTF_GetVcId)(TCTF_Hdr_t *tfPtr);
+	uint16 (*TCTF_GetPayloadLength)(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService);
 
 } Ut_IOLIB_HookTable_t;
 

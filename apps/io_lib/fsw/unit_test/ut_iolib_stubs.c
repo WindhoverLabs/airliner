@@ -34,7 +34,6 @@
 #include "cfe.h"
 #include "utassert.h"
 #include "ut_iolib_stubs.h"
-#include "ut_iolib_hooks.h"
 #include <string.h>
 #include "io_lib.h"
 
@@ -59,8 +58,15 @@ void Ut_IOLIB_SetFunctionHook(uint32 Index, void *FunPtr)
     else if (Index == UT_TM_SDLP_STARTFRAME_INDEX)              { Ut_IOLIB_HookTable.TM_SDLP_StartFrame = (int32 (*)(TM_SDLP_FrameInfo_t*))FunPtr; }
     else if (Index == UT_TM_SDLP_SETOIDFRAME_INDEX)             { Ut_IOLIB_HookTable.TM_SDLP_SetOidFrame = (int32 (*)(TM_SDLP_FrameInfo_t*, CFE_SB_Msg_t*))FunPtr; }
     else if (Index == UT_TM_SDLP_COMPLETEFRAME_INDEX)           { Ut_IOLIB_HookTable.TM_SDLP_CompleteFrame = (int32 (*)(TM_SDLP_FrameInfo_t*, uint8*, uint8*))FunPtr; }
+    else if (Index == UT_COP1_INITCLCW_INDEX)                   { Ut_IOLIB_HookTable.COP1_InitClcw = (int32 (*)(COP1_Clcw_t*, uint16))FunPtr; }
     else if (Index == UT_COP1_GETCLCWVCID_INDEX)                { Ut_IOLIB_HookTable.COP1_GetClcwVcId = (uint16 (*)(COP1_Clcw_t*))FunPtr; }
+    else if (Index == UT_COP1_PROCESSFRAME_INDEX)               { Ut_IOLIB_HookTable.COP1_ProcessFrame = (uint16 (*)(uint8*, COP1_Clcw_t*, TCTF_Hdr_t*, TCTF_ChannelService_t*))FunPtr; }
     else if (Index == UT_TM_SYNC_SYNCHRONIZE_INDEX)             { Ut_IOLIB_HookTable.TM_SYNC_Synchronize = (int32 (*)(uint8*, char*, uint8, uint16, boolean))FunPtr; }
+    else if (Index == UT_TC_SYNC_GETTRANSFERFRAME_INDEX)        { Ut_IOLIB_HookTable.TC_SYNC_GetTransferFrame = (int32 (*)(uint8*, uint8*, uint16, uint16, boolean))FunPtr; }
+    else if (Index == UT_TCTF_GETSCID_INDEX)                    { Ut_IOLIB_HookTable.TCTF_GetScId = (uint16 (*)(TCTF_Hdr_t*))FunPtr; }
+    else if (Index == UT_TCTF_GETVCID_INDEX)                    { Ut_IOLIB_HookTable.TCTF_GetVcId = (uint16 (*)(TCTF_Hdr_t*))FunPtr; }
+    else if (Index == UT_TCTF_GETPAYLOADLENGTH_INDEX)           { Ut_IOLIB_HookTable.TCTF_GetPayloadLength = (uint16 (*)(TCTF_Hdr_t*, TCTF_ChannelService_t*))FunPtr; }
+
     else
     {
         printf("Unsupported IOLIB Index In SetFunctionHook Call %lu\n", Index);
@@ -269,4 +275,97 @@ int32  TM_SYNC_Synchronize(uint8 *pBuff, char *asmStr, uint8 asmSize,
     return 0;
 }
 
+
+
+
+
+
+
+
+
+int32   COP1_InitClcw(COP1_Clcw_t *clcwPtr, uint16 vcId)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_COP1_INITCLCW_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_COP1_INITCLCW_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.COP1_InitClcw)
+        return Ut_IOLIB_HookTable.COP1_InitClcw(clcwPtr, vcId);
+
+    return 0;
+}
+
+
+int32   COP1_ProcessFrame(uint8* toBuffer, COP1_Clcw_t *clcwPtr, TCTF_Hdr_t *tfPtr,
+                       TCTF_ChannelService_t *channelService)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_COP1_PROCESSFRAME_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_COP1_PROCESSFRAME_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.COP1_ProcessFrame)
+        return Ut_IOLIB_HookTable.COP1_ProcessFrame(toBuffer, clcwPtr, tfPtr, channelService);
+
+    return 0;
+}
+
+
+int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu,
+                               uint16 tfBuffSize, uint16 cltuLength,
+                               boolean derandomize)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_TC_SYNC_GETTRANSFERFRAME_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_TC_SYNC_GETTRANSFERFRAME_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.TC_SYNC_GetTransferFrame)
+        return Ut_IOLIB_HookTable.TC_SYNC_GetTransferFrame(pTfBuff, pCltu, tfBuffSize, cltuLength, derandomize);
+
+    return 0;
+}
+
+
+uint16  TCTF_GetScId(TCTF_Hdr_t *tfPtr)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_TCTF_GETSCID_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_TCTF_GETSCID_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.TCTF_GetScId)
+        return Ut_IOLIB_HookTable.TCTF_GetScId(tfPtr);
+
+    return 0;
+}
+
+
+uint16  TCTF_GetVcId(TCTF_Hdr_t *tfPtr)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_TCTF_GETVCID_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_TCTF_GETVCID_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.TCTF_GetVcId)
+        return Ut_IOLIB_HookTable.TCTF_GetVcId(tfPtr);
+
+    return 0;
+}
+
+
+uint16  TCTF_GetPayloadLength(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService)
+{
+    /* Check for specified return */
+    if (Ut_IOLIB_UseReturnCode(UT_TCTF_GETPAYLOADLENGTH_INDEX))
+        return Ut_IOLIB_ReturnCodeTable[UT_TCTF_GETPAYLOADLENGTH_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_IOLIB_HookTable.TCTF_GetPayloadLength)
+        return Ut_IOLIB_HookTable.TCTF_GetPayloadLength(tfPtr, channelService);
+
+    return 0;
+}
 
