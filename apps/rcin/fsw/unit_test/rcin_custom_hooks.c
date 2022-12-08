@@ -92,7 +92,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
     printf("##SEDLIB_ReadMsgHook_1Msg_Normal entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt == 0)
+    if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
@@ -114,7 +114,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
     printf("##SEDLIB_ReadMsgHook_2Msg_Normal entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt == 0)
+    if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
@@ -136,7 +136,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
     printf("##SEDLIB_ReadMsgHook_2Msg_1NoFooter entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt == 0)
+    if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
@@ -158,7 +158,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
     printf("##SEDLIB_ReadMsgHook_2Msg_1NoHdr entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt == 0)
+    if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
@@ -180,7 +180,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
     printf("##SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt == 0)
+    if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }

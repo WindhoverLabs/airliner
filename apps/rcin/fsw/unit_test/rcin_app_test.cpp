@@ -89,7 +89,7 @@ void Test_RCIN_GetPSPTimeHook(OS_time_t *LocalTime)
  */
 void Test_RCIN_InitEvent_Fail_Register(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for EVS */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -100,7 +100,7 @@ void Test_RCIN_InitEvent_Fail_Register(void)
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitEvent();
+    result = oRCINut.InitEvent();
 
     sprintf(expSysLog, "RCIN - Failed to register with EVS (0x%08lX)\n",
                        (long unsigned int)expected);
@@ -121,7 +121,7 @@ void Test_RCIN_InitEvent_Fail_Register(void)
  */
 void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -132,7 +132,7 @@ void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    result = oRCINut.InitPipe();
 
     sprintf(expEvent, "Failed to create SCH pipe (0x%08lX)",
                       (long unsigned int)expected);
@@ -150,7 +150,7 @@ void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
  */
 void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -161,7 +161,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    result = oRCINut.InitPipe();
 
     sprintf(expEvent,
             "Sch Pipe failed to subscribe to RCIN_WAKEUP_MID. (0x%08lX)",
@@ -181,7 +181,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
  */
 void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -192,7 +192,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 2);
 
     /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    result = oRCINut.InitPipe();
 
     sprintf(expEvent,
             "Sch Pipe failed to subscribe to RCIN_SEND_HK_MID. (0x%08X)",
@@ -212,7 +212,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
  */
 void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -223,7 +223,7 @@ void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
 
     /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    result = oRCINut.InitPipe();
 
     sprintf(expEvent, "Failed to create CMD pipe (0x%08lX)",
                       (long unsigned int)expected);
@@ -241,7 +241,7 @@ void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
  */
 void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -252,7 +252,7 @@ void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitPipe();
+    result = oRCINut.InitPipe();
 
     sprintf(expEvent,
             "CMD Pipe failed to subscribe to RCIN_CMD_MID. (0x%08lX)",
@@ -275,13 +275,13 @@ void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
  */
 void Test_RCIN_InitData(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     /* Set a fail result */
     int32 expected = CFE_SUCCESS;
 
     /* Execute the function being tested */
-    oRCIN.InitData();
+    oRCINut.InitData();
 
     /* Verify results */
     //UtAssert_True (result == expected, "InitData");
@@ -296,7 +296,7 @@ void Test_RCIN_InitData(void)
  */
 void Test_RCIN_InitApp_Fail_InitEvent(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
@@ -305,7 +305,7 @@ void Test_RCIN_InitApp_Fail_InitEvent(void)
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
 
     sprintf(expSysLog, "RCIN - Failed to init events (0x%08lX)\n",
                        (long unsigned int)expected);
@@ -326,7 +326,7 @@ void Test_RCIN_InitApp_Fail_InitEvent(void)
  */
 void Test_RCIN_InitApp_Fail_InitPipe(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -334,7 +334,7 @@ void Test_RCIN_InitApp_Fail_InitPipe(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
 
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail init pipe");
@@ -347,16 +347,69 @@ void Test_RCIN_InitApp_Fail_InitPipe(void)
  */
 void Test_RCIN_InitApp_Fail_InitData(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SUCCESS;
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
 
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail init data");
+}
+
+
+/**
+ * Test RCIN_InitApp(), fail Custom_Init
+ */
+void Test_RCIN_InitApp_Fail_Custom_Init(void)
+{
+    int32 result = CFE_SUCCESS;
+    int32 expected = RCIN_ERROR;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_PIPE_NOT_FOUND, 1);
+
+    /* Execute the function being tested */
+    result = oRCIN.InitApp();
+
+    sprintf(expEvent, "Failed to initialize UART MsgPort. (0x%08lX)",
+                      (long unsigned int)SEDLIB_PIPE_NOT_FOUND);
+
+    /* Verify results */
+    UtAssert_True(result == expected, "RCIN_InitApp(), fail Custom_Init");
+
+    UtAssert_EventSent(RCIN_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "RCIN_InitApp(), fail Custom_Init Event Sent");
+}
+
+
+/**
+ * Test RCIN_InitApp(), fail OS_TaskInstallDeleteHandler
+ */
+void Test_RCIN_InitApp_Fail_OS_TaskInstallDeleteHandler(void)
+{
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_OS_ERROR;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           expected, 1);
+
+    /* Execute the function being tested */
+    result = oRCIN.InitApp();
+
+    sprintf(expEvent, "Failed to init register cleanup callback (0x%08X)",
+                      (unsigned int)expected);
+
+    /* Verify results */
+    UtAssert_True(result == expected,
+                  "RCIN_InitApp(), fail OS_TaskInstallDeleteHandler");
+
+    UtAssert_EventSent(RCIN_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+            "RCIN_InitApp(), fail OS_TaskInstallDeleteHandler Event Sent");
 }
 
 
@@ -365,8 +418,6 @@ void Test_RCIN_InitApp_Fail_InitData(void)
  */
 void Test_RCIN_InitApp_Nominal(void)
 {
-    RCIN oRCIN;
-
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
@@ -381,14 +432,29 @@ void Test_RCIN_InitApp_Nominal(void)
 
 
 /**************************************************************************
- * Tests for RCIN_AppMain()
+ * Tests for extern RCIN_AppMain()
+ **************************************************************************/
+/**
+ * Test extern RCIN_AppMain()
+ */
+void Test_Extern_RCIN_AppMain(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    RCIN_AppMain();
+}
+
+
+/**************************************************************************
+ * Tests for RCIN AppMain()
  **************************************************************************/
 /**
  * Test RCIN_AppMain(), Fail RegisterApp
  */
 void Test_RCIN_AppMain_Fail_RegisterApp(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     int32 expected = CFE_ES_ERR_APP_REGISTER;
     char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -397,7 +463,7 @@ void Test_RCIN_AppMain_Fail_RegisterApp(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expSysLog, "RCIN - Failed to register the app (0x%08lX)\n",
                        (long unsigned int)expected);
@@ -413,7 +479,7 @@ void Test_RCIN_AppMain_Fail_RegisterApp(void)
  */
 void Test_RCIN_AppMain_Fail_InitApp(void)
 {
-    RCIN oRCIN;
+    RCIN oRCINut;
 
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
     char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -422,7 +488,7 @@ void Test_RCIN_AppMain_Fail_InitApp(void)
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expSysLog, "RCIN - Application failed to initialize\n");
 
@@ -440,8 +506,6 @@ void Test_RCIN_AppMain_Fail_InitApp(void)
  */
 void Test_RCIN_AppMain_InvalidSchMessage(void)
 {
-    RCIN oRCIN;
-
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will the emulate behavior of receiving a SCH message */
@@ -466,8 +530,6 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
  */
 void Test_RCIN_AppMain_NoSchMessage(void)
 {
-    RCIN oRCIN;
-
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -482,8 +544,6 @@ void Test_RCIN_AppMain_NoSchMessage(void)
  */
 void Test_RCIN_AppMain_SB_Timeout(void)
 {
-    RCIN oRCIN;
-
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_TIME_OUT, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -498,8 +558,6 @@ void Test_RCIN_AppMain_SB_Timeout(void)
  */
 void Test_RCIN_AppMain_SchPipeError(void)
 {
-    RCIN oRCIN;
-
     char expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
@@ -577,8 +635,6 @@ int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_RCIN_AppMain_Nominal_SendHK(void)
 {
-    RCIN oRCIN;
-
     /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
@@ -675,8 +731,6 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_RCIN_AppMain_Nominal_Wakeup(void)
 {
-    RCIN oRCIN;
-
     /* The following will emulate the behavior of receiving a SCH message
        to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -704,7 +758,7 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
  */
 void Test_RCIN_ReadDevice_1Msg_Normal(void)
 {
-    RCIN oRCIN;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
@@ -719,6 +773,8 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
@@ -740,15 +796,25 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
+    RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
+    RCIN_AppCustomData.Measure.RcLost = FALSE;
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
 
     RCIN_CleanupCallback();
 
+    sprintf(expEvent, "%s", "RCIN is publishing fresh data");
+
     /* Verify results */
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 1Msg_Normal: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
+             expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
 }
 
 
@@ -757,7 +823,7 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
  */
 void Test_RCIN_ReadDevice_2Msg_Normal(void)
 {
-    RCIN oRCIN;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
@@ -772,6 +838,8 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
@@ -799,9 +867,14 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
 
     RCIN_CleanupCallback();
 
+    sprintf(expEvent, "%s", "RCIN is publishing fresh data");
+
     /* Verify results */
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 2Msg_Normal: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR,
+             expEvent, "ReadDevice, 2Msg_Normal: Event Sent");
 }
 
 
@@ -810,8 +883,6 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
  */
 void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
 {
-    RCIN oRCIN;
-
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
@@ -827,6 +898,8 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
@@ -870,8 +943,6 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
  */
 void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
 {
-    RCIN oRCIN;
-
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
@@ -885,6 +956,8 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
@@ -923,8 +996,6 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
  */
 void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 {
-    RCIN oRCIN;
-
     char  expEventInSync[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -941,6 +1012,8 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
 
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
 
@@ -983,6 +1056,30 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 }
 
 
+/**
+ * Test RCIN_ReadDevice, Custom_Measure_Error
+ */
+void Test_RCIN_ReadDevice_Custom_Measure_Error(void)
+{
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+//    RCIN_AppCustomData.Status = RCIN_CUSTOM_UNINITIALIZED;
+    oRCIN.StrikeCount = RCIN_STRIKE_COUNT_THRES;
+    oRCIN.HkTlm.State = RCIN_UNINITIALIZED;
+
+    oRCIN.ReadDevice();
+
+    sprintf(expEvent, "%s", "RCIN is NOT publishing fresh data");
+
+    /* Verify results */
+    UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "RCIN_ReadDevice, Custom_Measure_Error Event Sent");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -1022,9 +1119,19 @@ void RCIN_App_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_InitApp_Fail_InitData,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Fail_InitData");
+    UtTest_Add(Test_RCIN_InitApp_Fail_Custom_Init,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_InitApp_Fail_Custom_Init");
+    UtTest_Add(Test_RCIN_InitApp_Fail_OS_TaskInstallDeleteHandler,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_InitApp_Fail_OS_TaskInstallDeleteHandler");
     UtTest_Add(Test_RCIN_InitApp_Nominal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_InitApp_Nominal");
+
+    UtTest_Add(Test_Extern_RCIN_AppMain,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_Extern_RCIN_AppMain");
 
     UtTest_Add(Test_RCIN_AppMain_Fail_RegisterApp,
                RCIN_Test_Setup, RCIN_Test_TearDown,
@@ -1066,4 +1173,7 @@ void RCIN_App_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter");
+    UtTest_Add(Test_RCIN_ReadDevice_Custom_Measure_Error,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_Custom_Measure_Error");
 }
