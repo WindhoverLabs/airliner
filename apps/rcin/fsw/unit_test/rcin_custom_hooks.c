@@ -47,7 +47,12 @@ uint8 Ut_RxBuffer_1Msg_Normal[UT_TEST_BUFFER_SIZE_1MSG] = {
 };
 
 uint8 Ut_RxBuffer_2Msg_Normal[UT_TEST_BUFFER_SIZE_2MSG] = {
-    15, 173, 165,  56,  54,   3, 190, 148, 166,  60,  32, 104, 252, 226,  29, 248, 168, 235, 140,  99,  86, 102, 188,   3,  0,
+    15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0,
+    15, 173, 165,  56,  54,   3, 190, 148, 166,  60,  32, 104, 252, 226,  29, 248, 168, 235, 140,  99,  86, 102, 188,   3,  0
+};
+
+uint8 Ut_RxBuffer_2Msg_RcLost[UT_TEST_BUFFER_SIZE_2MSG] = {
+    15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0,
     15, 243, 156,   9, 243, 143, 143, 170, 122, 141,  25,  21, 167, 166, 103, 199,  37, 119,  64, 127, 155, 135,  83, 159,  0
 };
 
@@ -121,6 +126,28 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
 
     pMsg = (UART_StatusTlm_t *)Msg;
     memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Normal,
+           UT_TEST_BUFFER_SIZE_2MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
+
+    return SEDLIB_MSG_FRESH_OK;
+}
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg)
+{
+    UART_StatusTlm_t  *pMsg;
+
+    printf("##SEDLIB_ReadMsgHook_2Msg_RcLost entered\n");
+
+    SEDLIB_ReadMsg_Cnt --;
+    if (SEDLIB_ReadMsg_Cnt <= 0)
+    {
+        RCIN_AppCustomData.ContinueFlag = FALSE;
+    }
+
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_RcLost,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 

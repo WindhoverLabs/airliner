@@ -49,6 +49,8 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,

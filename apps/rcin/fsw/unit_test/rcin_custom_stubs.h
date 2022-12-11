@@ -39,7 +39,6 @@ extern "C" {
 #endif
 
 #include "cfe.h"
-#include "sedlib.h"
 #include "rcin_sed.h"
 
 

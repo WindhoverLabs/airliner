@@ -256,6 +256,44 @@ void Test_RCIN_ProcessCmdPipe_Reset(void)
 }
 
 
+/**
+ * Test RCIN VerifyCmdLength(), Fail CmdLength
+ */
+void Test_RCIN_VerifyCmdLength_Fail_CmdLength(void)
+{
+    RCIN oRCINut;
+
+    boolean          bResult = TRUE;
+    boolean          bExpected = FALSE;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)RCIN_NOOP_CC);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oRCINut.InitApp();
+
+    bResult = oRCINut.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
+                                      sizeof(CmdMsg) + 5);
+
+    sprintf(expEvent, "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+                      "msgLen=%d, expectedLen=%d",
+                      RCIN_CMD_MID, RCIN_NOOP_CC,
+                      sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((bResult == bExpected) &&
+                  (oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
+                  "VerifyCmdLength(), Fail CmdLength");
+
+    UtAssert_EventSent(RCIN_MSGLEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "VerifyCmdLength(), Fail CmdLength Event Sent");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -280,4 +318,8 @@ void RCIN_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_ProcessCmdPipe_Reset,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ProcessCmdPipe_Reset");
+
+    UtTest_Add(Test_RCIN_VerifyCmdLength_Fail_CmdLength,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_VerifyCmdLength_Fail_CmdLength");
 }

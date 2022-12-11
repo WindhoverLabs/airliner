@@ -797,7 +797,7 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
 
     RCIN_Stream_Task();
     /* To recover the streaming status after the ChildTask is finished,
-       Because all the status will reset */
+       Because all the status will be reset */
     RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
     RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
     RCIN_AppCustomData.Measure.RcLost = FALSE;
@@ -813,8 +813,11 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 1Msg_Normal: Sent PX4_INPUT_RC_MID");
 
+    UtAssert_True(oRCIN.StrikeCount == 0,
+                  "RCIN_ReadDevice(), 1Msg_Normal: StrikeCount");
+
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-             expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
+        expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
 }
 
 
@@ -861,6 +864,11 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will be reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
+    RCIN_AppCustomData.Measure.RcFailsafe = FALSE;
+    RCIN_AppCustomData.Measure.RcLost = FALSE;
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -873,8 +881,69 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 2Msg_Normal: Sent PX4_INPUT_RC_MID");
 
-    UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR,
-             expEvent, "ReadDevice, 2Msg_Normal: Event Sent");
+    UtAssert_True(oRCIN.StrikeCount == 0,
+                  "RCIN_ReadDevice(), 2Msg_Normal: StrikeCount");
+
+    UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
+                       expEvent, "ReadDevice, 2Msg_Normal: Event Sent");
+}
+
+
+/**
+ * Test RCIN_ReadDevice(), 2Msg_RcLost
+ */
+void Test_RCIN_ReadDevice_2Msg_RcLost(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
+                            CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    SEDLIB_ReadMsg_Cnt = 2;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_2Msg_RcLost);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&Test_RCIN_GetPSPTimeHook);
+
+    Wakeup_SendMsgHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will be reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
+    RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
+    RCIN_AppCustomData.Measure.RcLost = TRUE;
+
+    oRCIN.ReadDevice();
+    oRCIN.SendInputRcMsg();
+
+    RCIN_CleanupCallback();
+
+    /* Verify results */
+    UtAssert_True(oRCIN.StrikeCount > 0,
+                  "RCIN_ReadDevice(), 2Msg_RcLost: StrikeCount");
 }
 
 
@@ -921,6 +990,9 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will be reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_NOTSTREAMING;
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -933,8 +1005,11 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 2Msg_1NoFooter: Sent PX4_INPUT_RC_MID");
 
-    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
-                       "RCIN_ReadDevice_2Msg_1NoFooter Event Sent");
+    UtAssert_True(oRCIN.StrikeCount > 0,
+                  "RCIN_ReadDevice_2Msg_1NoFooter: StrikeCount");
+
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR,
+                    expEvent, "RCIN_ReadDevice_2Msg_1NoFooter Event Sent");
 }
 
 
@@ -979,6 +1054,11 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will be reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING; // should check this status
+    RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
+    RCIN_AppCustomData.Measure.RcLost = FALSE;
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -996,8 +1076,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
  */
 void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 {
-    char  expEventInSync[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
@@ -1035,24 +1114,25 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
     oRCIN.InitApp();
 
     RCIN_Stream_Task();
+    /* To recover the streaming status after the ChildTask is finished,
+       Because all the status will be reset */
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
+    RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
+    RCIN_AppCustomData.Measure.RcLost = TRUE;
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
 
     RCIN_CleanupCallback();
 
-    sprintf(expEventInSync, "%s", "RCIN in sync.");
-    sprintf(expEventOutSync, "%s", "RCIN out of sync.");
+    sprintf(expEvent, "%s", "RCIN out of sync.");
 
     /* Verify results */
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
 
-    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEventInSync,
-                   "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter InSync Event Sent");
-
-    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEventOutSync,
-                "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter OutOfSync Event Sent");
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR,
+         expEvent, "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter Event Sent");
 }
 
 
@@ -1063,14 +1143,34 @@ void Test_RCIN_ReadDevice_Custom_Measure_Error(void)
 {
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
+                           CFE_SUCCESS, 1);
+
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-//    RCIN_AppCustomData.Status = RCIN_CUSTOM_UNINITIALIZED;
-    oRCIN.StrikeCount = RCIN_STRIKE_COUNT_THRES;
-    oRCIN.HkTlm.State = RCIN_UNINITIALIZED;
-
+    RCIN_AppCustomData.Status = RCIN_CUSTOM_ENABLED;
+    oRCIN.HkTlm.State = RCIN_INITIALIZED;
+    oRCIN.StrikeCount = UCHAR_MAX;
     oRCIN.ReadDevice();
+
+    oRCIN.StrikeCount = RCIN_STRIKE_COUNT_THRES - 1;
+    oRCIN.ReadDevice();
+
+    RCIN_CleanupCallback();
 
     sprintf(expEvent, "%s", "RCIN is NOT publishing fresh data");
 
@@ -1164,6 +1264,9 @@ void RCIN_App_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_ReadDevice_2Msg_Normal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_2Msg_Normal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Msg_RcLost,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_2Msg_RcLost");
     UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_2Msg_1NoFooter");
