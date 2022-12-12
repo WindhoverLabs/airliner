@@ -83,8 +83,6 @@ uint8 Ut_RxBuffer_10Msg_1NoHdr1NoFooter[UT_TEST_BUFFER_SIZE_10MSG] = {
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName,
                                        uint32 Size, uint32 *PipeHandle)
 {
-    printf("##SEDLIB_GetPipeHook entered\n");
-
     return SEDLIB_OK;
 }
 
@@ -93,8 +91,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg)
 {
     UART_StatusTlm_t  *pMsg;
-
-    printf("##SEDLIB_ReadMsgHook_1Msg_Normal entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
@@ -116,8 +112,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
-    printf("##SEDLIB_ReadMsgHook_2Msg_Normal entered\n");
-
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
@@ -137,8 +131,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg)
 {
     UART_StatusTlm_t  *pMsg;
-
-    printf("##SEDLIB_ReadMsgHook_2Msg_RcLost entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
@@ -160,8 +152,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
-    printf("##SEDLIB_ReadMsgHook_2Msg_1NoFooter entered\n");
-
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
@@ -182,8 +172,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
-    printf("##SEDLIB_ReadMsgHook_2Msg_1NoHdr entered\n");
-
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
@@ -203,8 +191,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg)
 {
     UART_StatusTlm_t  *pMsg;
-
-    printf("##SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter entered\n");
 
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
