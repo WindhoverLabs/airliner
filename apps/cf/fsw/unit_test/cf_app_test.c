@@ -31,20 +31,37 @@
 *
 *****************************************************************************/
 
-#include "uttest.h"
-
 #include "cf_app_test.h"
-#include "cf_cmds_test.h"
-#include "cf_config_tbl_test.h"
+#include "cf_test_utils.h"
+
+#include "uttest.h"
+#include "ut_osapi_stubs.h"
+#include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
+#include "ut_cfe_es_stubs.h"
+#include "ut_cfe_es_hooks.h"
+#include "ut_cfe_evs_stubs.h"
+#include "ut_cfe_evs_hooks.h"
+#include "ut_cfe_time_stubs.h"
+#include "ut_cfe_psp_memutils_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
+#include "ut_cfe_tbl_stubs.h"
+#include "ut_cfe_fs_stubs.h"
+
+#include <time.h>
 
 
-int main(void)
+void Test_CF_App_TestCase1(void)
 {
+}
 
-    /* Call AddTestSuite or AddTestCase functions here */
-    CF_App_Test_AddTestCases();
-    CF_Cmds_Test_AddTestCases();
-    CF_Config_Tbl_Test_AddTestCases();
 
-    return(UtTest_Run());
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
+void CF_App_Test_AddTestCases(void)
+{
+    UtTest_Add(Test_CF_App_TestCase1,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_App_TestCase1");
 }

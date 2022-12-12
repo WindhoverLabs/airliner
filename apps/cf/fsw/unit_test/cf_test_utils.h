@@ -31,20 +31,26 @@
 *
 *****************************************************************************/
 
-#include "uttest.h"
+#ifndef CF_TEST_UTILS_H
+#define CF_TEST_UTILS_H
 
-#include "cf_app_test.h"
-#include "cf_cmds_test.h"
-#include "cf_config_tbl_test.h"
+#include "cf_app.h"
+
+extern CF_AppData_t        CF_AppData;
 
 
-int main(void)
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    /* Call AddTestSuite or AddTestCase functions here */
-    CF_App_Test_AddTestCases();
-    CF_Cmds_Test_AddTestCases();
-    CF_Config_Tbl_Test_AddTestCases();
 
-    return(UtTest_Run());
+void CF_Test_Setup(void);
+void CF_Test_TearDown(void);
+
+
+#ifdef __cplusplus
 }
+#endif
+
+
+#endif /* CF_TEST_UTILS_H */
