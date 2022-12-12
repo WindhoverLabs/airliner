@@ -32,39 +32,127 @@
 *****************************************************************************/
 
 #include "rcin_custom_stubs.h"
-#include "px4_msgs.h"
+#include "utassert.h"
 
-void RCIN_Custom_InitData(void)
+#include <string.h>
+
+
+Ut_RCIN_Custom_HookTable_t        Ut_RCIN_Custom_HookTable;
+Ut_RCIN_Custom_ReturnCodeTable_t
+            Ut_RCIN_Custom_ReturnCodeTable[UT_RCIN_CUSTOM_MAX_INDEX];
+
+
+void Ut_RCIN_Custom_Reset(void)
 {
-    
+    memset(&Ut_RCIN_Custom_HookTable, 0x00,
+                                      sizeof(Ut_RCIN_Custom_HookTable));
+    memset(&Ut_RCIN_Custom_ReturnCodeTable, 0x00,
+                                sizeof(Ut_RCIN_Custom_ReturnCodeTable));
 }
 
 
-boolean RCIN_Custom_Init(void)
+void Ut_RCIN_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
-    return TRUE;
+    if(Index == UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX)
+    {
+        Ut_RCIN_Custom_HookTable.SEDLIB_GetPipe =
+                (SEDLIB_ReturnCode_t (*)(char *, uint32, uint32 *))FunPtr;
+    }
+    else if (Index == UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX)
+    {
+        Ut_RCIN_Custom_HookTable.SEDLIB_ReadMsg =
+                 (SEDLIB_ReturnCode_t (*)(uint32, CFE_SB_MsgPtr_t))FunPtr;
+    }
+    else
+    {
+        printf("Unsupported RCIN_CUSTOM Index In SetFunctionHook "
+                                                     "Call %lu\n", Index);
+        UtAssert_True(FALSE,
+                "Unsupported RCIN_CUSTOM Index In SetFunctionHook Call");
+    }
 }
 
 
-boolean RCIN_Custom_Uninit(void)
+void Ut_RCIN_Custom_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 {
-    return TRUE;
+    if (Index < UT_RCIN_CUSTOM_MAX_INDEX)
+    {
+        Ut_RCIN_Custom_ReturnCodeTable[Index].Value = RtnVal;
+        Ut_RCIN_Custom_ReturnCodeTable[Index].Count = CallCnt;
+    }
+    else
+    {
+        printf("Unsupported RCIN_CUSTOM Index In SetReturnCode "
+                                                     "Call %lu\n", Index);
+        UtAssert_True(FALSE,
+                   "Unsupported RCIN_CUSTOM Index In SetReturnCode Call");
+    }
 }
 
 
-boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
+boolean Ut_RCIN_Custom_UseReturnCode(uint32 Index)
 {
-    return TRUE;
+    if (Ut_RCIN_Custom_ReturnCodeTable[Index].Count > 0)
+    {
+        Ut_RCIN_Custom_ReturnCodeTable[Index].Count --;
+        if (Ut_RCIN_Custom_ReturnCodeTable[Index].Count == 0)
+        {
+            return(TRUE);
+        }
+    }
+    else if(
+         Ut_RCIN_Custom_ReturnCodeTable[Index].ContinueReturnCodeAfterCountZero
+         == TRUE)
+    {
+        return(TRUE);
+    }
+
+    return(FALSE);
 }
 
 
-int32 RCIN_Custom_Init_EventFilters(int32 ind, CFE_EVS_BinFilter_t *EventTbl)
+void Ut_RCIN_Custom_ContinueReturnCodeAfterCountZero(uint32 Index)
 {
-    return 0;
+    Ut_RCIN_Custom_ReturnCodeTable[Index].ContinueReturnCodeAfterCountZero
+        = TRUE;
 }
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
+SEDLIB_ReturnCode_t SEDLIB_GetPipe(char *PipeName, uint32 Size,
+                                   uint32 *PipeHandle)
 {
-    return 0;
+    /* Check for specified return */
+    if (Ut_RCIN_Custom_UseReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX))
+    {
+        return
+          (SEDLIB_ReturnCode_t)Ut_RCIN_Custom_ReturnCodeTable[UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX].Value;
+    }
+
+    /* Check for Function Hook */
+    if (Ut_RCIN_Custom_HookTable.SEDLIB_GetPipe)
+    {
+        return Ut_RCIN_Custom_HookTable.SEDLIB_GetPipe(
+                                        PipeName, Size, PipeHandle);
+    }
+
+    return SEDLIB_OK;
+}
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsg(uint32 PipeHandle, CFE_SB_MsgPtr_t Msg)
+{
+    /* Check for specified return */
+    if (Ut_RCIN_Custom_UseReturnCode(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX))
+    {
+        return
+          (SEDLIB_ReturnCode_t)Ut_RCIN_Custom_ReturnCodeTable[UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX].Value;
+    }
+
+    /* Check for Function Hook */
+    if (Ut_RCIN_Custom_HookTable.SEDLIB_ReadMsg)
+    {
+        return Ut_RCIN_Custom_HookTable.SEDLIB_ReadMsg(PipeHandle, Msg);
+    }
+
+    return SEDLIB_MSG_FRESH_OK;
 }

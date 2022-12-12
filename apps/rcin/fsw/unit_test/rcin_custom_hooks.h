@@ -31,51 +31,37 @@
 *
 *****************************************************************************/
 
-#ifndef RCIN_CUSTOM_STUBS_H
-#define RCIN_CUSTOM_STUBS_H
+#ifndef RCIN_CUSTOM_HOOKS_H
+#define RCIN_CUSTOM_HOOKS_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "cfe.h"
-#include "rcin_sed.h"
 
+#include "rcin_custom_stubs.h"
 
-extern RCIN_AppCustomData_t RCIN_AppCustomData;
+extern uint32  SEDLIB_ReadMsg_Cnt;
 
-
-typedef enum
-{
-    UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
-    UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-    UT_RCIN_CUSTOM_MAX_INDEX
-} Ut_RCIN_Custom_INDEX_t;
-
-
-typedef struct
-{
-    SEDLIB_ReturnCode_t (*SEDLIB_GetPipe)(char *PipeName, uint32 Size, uint32 *PipeHandle);
-    SEDLIB_ReturnCode_t (*SEDLIB_ReadMsg)(uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
-} Ut_RCIN_Custom_HookTable_t;
-
-
-typedef struct
-{
-    int32   Value;
-    uint32  Count;
-    boolean ContinueReturnCodeAfterCountZero;
-} Ut_RCIN_Custom_ReturnCodeTable_t;
-
-
-void Ut_RCIN_Custom_Reset(void);
-void Ut_RCIN_Custom_SetFunctionHook(uint32 Index, void *FunPtr);
-void Ut_RCIN_Custom_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-void Ut_RCIN_Custom_ContinueReturnCodeAfterCountZero(uint32 Index);
+SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
+                                       uint32 *PipeHandle);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
+                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
+                                                 CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* RCIN_CUSTOM_STUBS_H */
+
+#endif /* RCIN_CUSTOM_HOOKS_H */

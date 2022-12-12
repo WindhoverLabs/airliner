@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its 
-*    contributors may be used to endorse or promote products derived 
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,51 +31,21 @@
 *
 *****************************************************************************/
 
-#ifndef RCIN_CUSTOM_STUBS_H
-#define RCIN_CUSTOM_STUBS_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "cfe.h"
-#include "rcin_sed.h"
+
+#include <time.h>
 
 
-extern RCIN_AppCustomData_t RCIN_AppCustomData;
-
-
-typedef enum
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
-    UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-    UT_RCIN_CUSTOM_MAX_INDEX
-} Ut_RCIN_Custom_INDEX_t;
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
 
+    CFE_PSP_GetTime(&localTime);
 
-typedef struct
-{
-    SEDLIB_ReturnCode_t (*SEDLIB_GetPipe)(char *PipeName, uint32 Size, uint32 *PipeHandle);
-    SEDLIB_ReturnCode_t (*SEDLIB_ReadMsg)(uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
-} Ut_RCIN_Custom_HookTable_t;
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
 
-
-typedef struct
-{
-    int32   Value;
-    uint32  Count;
-    boolean ContinueReturnCodeAfterCountZero;
-} Ut_RCIN_Custom_ReturnCodeTable_t;
-
-
-void Ut_RCIN_Custom_Reset(void);
-void Ut_RCIN_Custom_SetFunctionHook(uint32 Index, void *FunPtr);
-void Ut_RCIN_Custom_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-void Ut_RCIN_Custom_ContinueReturnCodeAfterCountZero(uint32 Index);
-
-
-#ifdef __cplusplus
+    return outTime;
 }
-#endif
-
-#endif /* RCIN_CUSTOM_STUBS_H */
