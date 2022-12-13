@@ -37,6 +37,7 @@
 #include "cf_app.h"
 
 extern CF_AppData_t        CF_AppData;
+extern cf_config_table_t   CF_ConfigTable;
 
 
 #ifdef __cplusplus
