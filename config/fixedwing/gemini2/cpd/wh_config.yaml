@@ -1103,6 +1103,7 @@ modules:
         telemetry:
           HES_HK_TLM_MID:
             msgID: 0x0b61              # TLM_MSG(  353 )
+            min_rate: 10
         commands:
           HES_CMD_MID:
             msgID: 0x1b5d              # CMD_MSG(  349 )

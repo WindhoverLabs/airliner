@@ -1155,6 +1155,7 @@ typedef struct
     boolean ControlClimbRateEnabled;
     boolean ControlTerminationEnabled;
     boolean ControlFixedHdgEnabled;
+    boolean ControlAutoMissionEnabled;
 } PX4_VehicleControlModeMsg_t;
 
 typedef struct

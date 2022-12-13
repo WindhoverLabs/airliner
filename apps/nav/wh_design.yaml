@@ -7,31 +7,31 @@
   events: 
     NAV_INIT_INF_EID: 
       id: 1
-    NAV_INIT_ERR_EID: 
-      id: 2
     NAV_CMD_NOOP_EID: 
-      id: 3
+      id: 2
     NAV_SUBSCRIBE_ERR_EID: 
-      id: 4
+      id: 3
     NAV_PIPE_INIT_ERR_EID: 
-      id: 5
+      id: 4
     NAV_CFGTBL_MANAGE_ERR_EID: 
-      id: 6
+      id: 5
     NAV_CFGTBL_GETADDR_ERR_EID: 
-      id: 7
+      id: 6
     NAV_RCVMSG_ERR_EID: 
-      id: 8
+      id: 7
     NAV_MSGID_ERR_EID : 
-      id: 9
+      id: 8
     NAV_CC_ERR_EID: 
-      id: 10
+      id: 9
     NAV_MSGLEN_ERR_EID: 
-      id: 11
+      id: 10
     NAV_CFGTBL_REG_ERR_EID: 
-      id: 12
+      id: 11
     NAV_CFGTBL_LOAD_ERR_EID: 
-      id: 13
+      id: 12
     NAV_MSN_FAILED_ERR_EID: 
+      id: 13
+    NAV_LOW_CLEARANCE_ALT_EID:
       id: 14
     NAV_HIGH_ALT_EID: 
       id: 15
@@ -55,6 +55,8 @@
       id: 24
     NAV_SUBSEQ_TAKEOFF_EID: 
       id: 25
+    NAV_AUTO_MISSION_STATE_EID: 
+      id: 26
   telemetry: 
     NAV_HK_TLM_MID: 
       msgID: 
@@ -68,6 +70,18 @@
           struct: NAV_NoArgCmd_t
         Reset: 
           cc: 1
+          struct: NAV_NoArgCmd_t
+        Arrakis:
+          cc: 2
+          struct: NAV_NoArgCmd_t
+        Beethoven:
+          cc: 3
+          struct: NAV_NoArgCmd_t
+        Caladan:
+          cc: 4
+          struct: NAV_NoArgCmd_t
+        Dumbledore:
+          cc: 5
           struct: NAV_NoArgCmd_t
     NAV_SEND_HK_MID: 
       msgID: 

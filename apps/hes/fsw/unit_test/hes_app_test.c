@@ -293,22 +293,22 @@ void Test_HES_InitApp_Fail_InitConfigTbl(void)
 }
 
 
-/**
- * Test HES_InitApp(), fail init CDS table
- */
-void Test_HES_InitApp_Fail_InitCDSTbl(void)
-{
-    int32 result = CFE_SUCCESS;
-    int32 expected = CFE_ES_CDS_INVALID_NAME;
+// /**
+//  * Test HES_InitApp(), fail init CDS table
+//  */
+// void Test_HES_InitApp_Fail_InitCDSTbl(void)
+// {
+//     int32 result = CFE_SUCCESS;
+//     int32 expected = CFE_ES_CDS_INVALID_NAME;
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCDS_INDEX, expected, 1);
+//     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCDS_INDEX, expected, 1);
 
-    /* Execute the function being tested */
-    result = HES_InitApp();
+//     /* Execute the function being tested */
+//     result = HES_InitApp();
 
-    /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init CDS table");
-}
+//     /* Verify results */
+//     UtAssert_True (result == expected, "InitApp, fail init CDS table");
+// }
 
 
 /**
@@ -440,32 +440,32 @@ void Test_HES_AppMain_Nominal_Wakeup(void)
 }
 
 
-/**
- * Test HES_AppMain(), ProcessNewData - InvalidMsgID
- */
-void Test_HES_AppMain_ProcessNewData_InvalidMsgID(void)
-{
-    HES_InData_t  InMsg;
-    int32 DataPipe;
+// /**
+//  * Test HES_AppMain(), ProcessNewData - InvalidMsgID
+//  */
+// void Test_HES_AppMain_ProcessNewData_InvalidMsgID(void)
+// {
+//     HES_InData_t  InMsg;
+//     int32 DataPipe;
 
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe("HES_DATA_PIPE");
-    CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(HES_InData_t), TRUE);
-    Ut_CFE_SB_AddMsgToPipe(&InMsg, DataPipe);
+//     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
+//        and gives it data to process. */
+//     DataPipe = Ut_CFE_SB_CreatePipe("HES_DATA_PIPE");
+//     CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(HES_InData_t), TRUE);
+//     Ut_CFE_SB_AddMsgToPipe(&InMsg, DataPipe);
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, HES_WAKEUP_MID, 1);
+//     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+//     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, HES_WAKEUP_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+//     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    /* Execute the function being tested */
-    HES_AppMain();
+//     /* Execute the function being tested */
+//     HES_AppMain();
 
-    /* Verify results */
-    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==3,"Event Count = 3");
-    UtAssert_EventSent(HES_MSGID_ERR_EID, CFE_EVS_ERROR, "", "Error Event Sent");
-}
+//     /* Verify results */
+//     UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==3,"Event Count = 3");
+//     UtAssert_EventSent(HES_MSGID_ERR_EID, CFE_EVS_ERROR, "", "Error Event Sent");
+// }
 
 
 
@@ -501,8 +501,8 @@ void HES_App_Test_AddTestCases(void)
                "Test_HES_InitApp_Fail_InitData");
     UtTest_Add(Test_HES_InitApp_Fail_InitConfigTbl, HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Fail_InitConfigTbl");
-    UtTest_Add(Test_HES_InitApp_Fail_InitCDSTbl, HES_Test_Setup, HES_Test_TearDown,
-               "Test_HES_InitApp_Fail_InitCDSTbl");
+    // UtTest_Add(Test_HES_InitApp_Fail_InitCDSTbl, HES_Test_Setup, HES_Test_TearDown,
+    //            "Test_HES_InitApp_Fail_InitCDSTbl");
     UtTest_Add(Test_HES_InitApp_Nominal, HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_InitApp_Nominal");
 
@@ -518,8 +518,8 @@ void HES_App_Test_AddTestCases(void)
                "Test_HES_AppMain_Nominal_SendHK");
     UtTest_Add(Test_HES_AppMain_Nominal_Wakeup, HES_Test_Setup, HES_Test_TearDown,
                "Test_HES_AppMain_Nominal_Wakeup");
-    UtTest_Add(Test_HES_AppMain_ProcessNewData_InvalidMsgID, HES_Test_Setup, HES_Test_TearDown,
-               "Test_HES_AppMain_ProcessNewData_InvalidMsgID");
+    // UtTest_Add(Test_HES_AppMain_ProcessNewData_InvalidMsgID, HES_Test_Setup, HES_Test_TearDown,
+    //            "Test_HES_AppMain_ProcessNewData_InvalidMsgID");
 
 }
 

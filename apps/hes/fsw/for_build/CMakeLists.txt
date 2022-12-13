@@ -67,4 +67,7 @@ buildliner_add_app_unit_test(HES-UT
 
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
+
+    LIBS 
+        m
 )

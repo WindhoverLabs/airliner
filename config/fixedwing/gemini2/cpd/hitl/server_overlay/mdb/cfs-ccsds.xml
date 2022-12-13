@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xtce:SpaceSystem xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xtce="http://www.omg.org/spec/XTCE/20180204" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 SpaceSystem.xsd " name="cfs">
+	<xtce:Header validationStatus="Unknown"></xtce:Header>
+	<xtce:TelemetryMetaData>
+		<xtce:ParameterSet>
+			<xtce:Parameter name="packet-id" parameterTypeRef="BaseType/uint32_LE"></xtce:Parameter>
+			<xtce:Parameter name="ccsds-version" parameterTypeRef="BaseType/uint3_LE"></xtce:Parameter>
+			<xtce:Parameter name="ccsds-packet-type" shortDescription="Meant to be an ENUM{(TELEMETRY,0), (COMMAND,1)}" parameterTypeRef="BaseType/uint1_LE">
+			</xtce:Parameter>
+			<xtce:Parameter name="ccsds-sec-hdr-present"
+				shortDescription="Meant to be an ENUM{(ABSENT,0), (PRESENT,1)}" parameterTypeRef="BaseType/uint1_BE">
+			</xtce:Parameter>
+			<xtce:Parameter name="ccsds-apid" parameterTypeRef="BaseType/uint11_BE"></xtce:Parameter>
+			<xtce:Parameter name="ccsds-seg-flag"
+				parameterTypeRef="BaseType/uint2_BE" shortDescription="Meant to be an ENUM{(UNKOWN_0,0), (UNKNOWN_1,1), (UNKNOWN_2,2), (COMPLETE,3)}">
+			</xtce:Parameter>
+			<xtce:Parameter name="ccsds-seq-cnt" parameterTypeRef="BaseType/uint14_BE"></xtce:Parameter>
+			<xtce:Parameter name="ccsds-length" parameterTypeRef="BaseType/uint16_BE"></xtce:Parameter>
+			<xtce:Parameter name="tlm-course-time" parameterTypeRef="BaseType/uint32_BE"></xtce:Parameter>
+			<xtce:Parameter name="tlm-fine-time" parameterTypeRef="BaseType/uint16_BE"></xtce:Parameter>
+		</xtce:ParameterSet>
+		<xtce:ContainerSet>
+			<xtce:SequenceContainer name="cfs-tlm-hdr">
+				<xtce:EntryList>
+					<xtce:ParameterRefEntry parameterRef="ccsds-packet-type"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-version"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-sec-hdr-present"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-apid"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-seg-flag"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-seq-cnt"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="ccsds-length"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="tlm-course-time"></xtce:ParameterRefEntry>
+					<xtce:ParameterRefEntry parameterRef="tlm-fine-time"></xtce:ParameterRefEntry></xtce:EntryList>
+			</xtce:SequenceContainer>
+		</xtce:ContainerSet></xtce:TelemetryMetaData>
+	<xtce:CommandMetaData>
+		<xtce:MetaCommandSet>
+			<xtce:MetaCommand abstract="true" name="cfs-cmd">
+				<xtce:ArgumentList>
+					<xtce:Argument argumentTypeRef="BaseType/uint11_BE" name="ccsds-apid"></xtce:Argument>
+					<xtce:Argument initialValue="0" argumentTypeRef="BaseType/uint14_BE" name="ccsds-seq-cnt">
+					</xtce:Argument>
+					<xtce:Argument argumentTypeRef="BaseType/uint16_BE" name="ccsds-length"></xtce:Argument>
+					<xtce:Argument name="cfs-cmd-code" argumentTypeRef="BaseType/uint7_BE"></xtce:Argument>
+				</xtce:ArgumentList>
+				<xtce:CommandContainer name="cfs-command-container">
+					<xtce:EntryList>
+						<xtce:FixedValueEntry sizeInBits="3" name="ccsds-version" binaryValue="00">
+						</xtce:FixedValueEntry>
+						<xtce:FixedValueEntry name="ccsds-packet-type" sizeInBits="1" binaryValue="01">
+						</xtce:FixedValueEntry>
+						<xtce:FixedValueEntry name="ccsds-sec-hdr-present" sizeInBits="1" binaryValue="01">
+						</xtce:FixedValueEntry>
+						<xtce:ArgumentRefEntry argumentRef="ccsds-apid"></xtce:ArgumentRefEntry>
+						<xtce:FixedValueEntry sizeInBits="2"
+							name="ccsds-seqFlags" binaryValue="03">
+						</xtce:FixedValueEntry>
+						<xtce:ArgumentRefEntry argumentRef="ccsds-seq-cnt"></xtce:ArgumentRefEntry>
+						<xtce:ArgumentRefEntry argumentRef="ccsds-length"></xtce:ArgumentRefEntry>
+						<xtce:ArgumentRefEntry argumentRef="cfs-cmd-code" sizeInBits="7">
+							<xtce:LocationInContainerInBits referenceLocation="previousEntry">
+								<xtce:FixedValue>1</xtce:FixedValue>
+							</xtce:LocationInContainerInBits>
+						</xtce:ArgumentRefEntry>
+						<xtce:FixedValueEntry sizeInBits="8"
+							binaryValue="00" name="cfs-cmd-checksum">
+						</xtce:FixedValueEntry>
+					</xtce:EntryList>
+				</xtce:CommandContainer>
+			</xtce:MetaCommand>
+		</xtce:MetaCommandSet></xtce:CommandMetaData>
+	<xtce:SpaceSystem name="BaseType">
+		<xtce:TelemetryMetaData>
+			<xtce:ParameterTypeSet>
+				<xtce:IntegerParameterType name="uint1_LE">
+					<xtce:IntegerDataEncoding sizeInBits="1"
+						byteOrder="leastSignificantByteFirst" encoding="unsigned"
+						bitOrder="mostSignificantBitFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint1_BE">
+					<xtce:IntegerDataEncoding
+						sizeInBits="1"
+						encoding="unsigned" byteOrder="leastSignificantByteFirst" bitOrder="leastSignificantBitFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint2_LE">
+					<xtce:IntegerDataEncoding sizeInBits="2"
+						encoding="unsigned" byteOrder="leastSignificantByteFirst" bitOrder="leastSignificantBitFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint2_BE">
+					<xtce:IntegerDataEncoding sizeInBits="2"
+						bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst" encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint3_LE">
+					<xtce:IntegerDataEncoding sizeInBits="3"
+						bitOrder="leastSignificantBitFirst" encoding="unsigned" byteOrder="leastSignificantByteFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint8_LE">
+					<xtce:IntegerDataEncoding
+						bitOrder="leastSignificantBitFirst" sizeInBits="8"
+						encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint11_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst" sizeInBits="11"
+						encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint14_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst" sizeInBits="14"
+						encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint16_LE">
+					<xtce:IntegerDataEncoding
+						bitOrder="leastSignificantBitFirst" encoding="unsigned"
+						byteOrder="leastSignificantByteFirst" sizeInBits="16">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint16_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst" sizeInBits="16"
+						encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint32_LE">
+					<xtce:IntegerDataEncoding
+						bitOrder="leastSignificantBitFirst"
+						byteOrder="leastSignificantByteFirst" encoding="unsigned" sizeInBits="32">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:IntegerParameterType name="uint32_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst" sizeInBits="32"
+						encoding="unsigned">
+					</xtce:IntegerDataEncoding></xtce:IntegerParameterType>
+				<xtce:StringParameterType name="uchar160_LE">
+					<xtce:StringDataEncoding
+						bitOrder="leastSignificantBitFirst"
+						byteOrder="leastSignificantByteFirst" encoding="UTF-8">
+						<xtce:SizeInBits>
+							<xtce:Fixed>
+								<xtce:FixedValue>160</xtce:FixedValue>
+							</xtce:Fixed>
+						</xtce:SizeInBits>
+					</xtce:StringDataEncoding></xtce:StringParameterType>
+
+			</xtce:ParameterTypeSet></xtce:TelemetryMetaData>
+		<xtce:CommandMetaData>
+			<xtce:ArgumentTypeSet>
+				<xtce:IntegerArgumentType name="uint7_BE">
+					<xtce:IntegerDataEncoding sizeInBits="7"
+						encoding="unsigned" bitOrder="mostSignificantBitFirst"
+						byteOrder="mostSignificantByteFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerArgumentType>
+				<xtce:IntegerArgumentType name="uint8_LE">
+					<xtce:IntegerDataEncoding sizeInBits="8"
+						encoding="unsigned" bitOrder="mostSignificantBitFirst" byteOrder="mostSignificantByteFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerArgumentType>
+				<xtce:IntegerArgumentType name="uint11_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst" sizeInBits="11"
+						byteOrder="mostSignificantByteFirst" encoding="unsigned">
+					</xtce:IntegerDataEncoding>
+				</xtce:IntegerArgumentType>
+				<xtce:IntegerArgumentType name="uint14_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst" sizeInBits="14"
+						encoding="unsigned" byteOrder="mostSignificantByteFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerArgumentType>
+				<xtce:IntegerArgumentType name="uint16_BE">
+					<xtce:IntegerDataEncoding
+						bitOrder="mostSignificantBitFirst" sizeInBits="16"
+						encoding="unsigned" byteOrder="mostSignificantByteFirst">
+					</xtce:IntegerDataEncoding></xtce:IntegerArgumentType>
+
+			</xtce:ArgumentTypeSet></xtce:CommandMetaData></xtce:SpaceSystem>
+</xtce:SpaceSystem>
