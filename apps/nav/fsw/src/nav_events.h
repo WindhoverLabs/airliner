@@ -73,6 +73,18 @@ typedef enum {
      */
     NAV_INIT_INF_EID                     = 1,
 
+	/** \brief <tt> 'Application failed to initialize' </tt>
+	 **  \event <tt> 'Application failed to initialize' </tt>
+	 **
+	 **  \par Type: ERROR
+	 **
+	 **  \par Cause:
+	 **
+	 **  This event message is issued when the application has
+	 **  had an error in initialization.
+	 **
+	 */
+	NAV_INIT_ERR_EID                      = 2,
     /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
      **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
      **
@@ -94,7 +106,7 @@ typedef enum {
      **  The fourth \c %d field contains the application revision number defined
      **      in #NAV_MISSION_REV.
      */
-    NAV_CMD_NOOP_EID                     = 2,
+    NAV_CMD_NOOP_EID                     = 3,
 
     /** \brief <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
      **  \event <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
@@ -111,7 +123,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    NAV_SUBSCRIBE_ERR_EID                = 3,
+    NAV_SUBSCRIBE_ERR_EID                = 4,
 
     /** \brief <tt> 'Failed to create \%s pipe (0x\%08X)' </tt>
      **  \event <tt> 'Failed to create \%s pipe (0x\%08X' </tt>
@@ -127,7 +139,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    NAV_PIPE_INIT_ERR_EID                = 4,
+    NAV_PIPE_INIT_ERR_EID                = 5,
 
     /** \brief <tt> 'Failed to manage Config table (0x\%08X)' </tt>
      **  \event <tt> 'Failed to manage Config table (0x\%08X)' </tt>
@@ -140,7 +152,7 @@ typedef enum {
      **  #CFE_TBL_Manage function.
      **
      */
-    NAV_CFGTBL_MANAGE_ERR_EID            = 5,
+    NAV_CFGTBL_MANAGE_ERR_EID            = 6,
 
     /** \brief <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
      **  \event <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
@@ -153,7 +165,7 @@ typedef enum {
      **  #CFE_TBL_GetAddress function.
      **
      */
-    NAV_CFGTBL_GETADDR_ERR_EID           = 6,
+    NAV_CFGTBL_GETADDR_ERR_EID           = 7,
 
     /** \brief <tt> '\%s pipe read error (0x\%08X).' </tt>
      **  \event <tt> '\%s pipe read error (0x\%08X).' </tt>
@@ -169,7 +181,7 @@ typedef enum {
      **  The 32 bit hexadecimal number is the error code returned by CFE.
      **
      */
-    NAV_RCVMSG_ERR_EID                   = 7,
+    NAV_RCVMSG_ERR_EID                   = 8,
 
     /** \brief <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
      **  \event <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
@@ -184,7 +196,7 @@ typedef enum {
      **  The \c %s field contains the name of the pipe.
      **  The 16 bit hexadecimal number is the actual message ID received.
      */
-    NAV_MSGID_ERR_EID                    = 8,
+    NAV_MSGID_ERR_EID                    = 9,
 
     /** \brief <tt> 'Recvd invalid command code (\%u)' </tt>
      **  \event <tt> 'Recvd invalid command code (\%u)' </tt>
@@ -198,7 +210,7 @@ typedef enum {
      **
      **  The %u field contains the actual command code received.
      */
-    NAV_CC_ERR_EID                       = 9,
+    NAV_CC_ERR_EID                       = 10,
 
     /** \brief <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
      **  \event <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
@@ -215,7 +227,7 @@ typedef enum {
      **  The third \c %d field contains the actual length.
      **  The fourth \c %d field contains the expected length.
      */
-    NAV_MSGLEN_ERR_EID                   = 10,
+    NAV_MSGLEN_ERR_EID                   = 11,
 
     /** \brief <tt> 'Failed to register config table (0x%08X)' </tt>
      **  \event <tt> 'Failed to register config table (0x%08X)' </tt>
@@ -231,7 +243,7 @@ typedef enum {
      **  #CFE_TBL_Register function.
      **
      */
-    NAV_CFGTBL_REG_ERR_EID               = 11,
+    NAV_CFGTBL_REG_ERR_EID               = 12,
 
     /** \brief <tt> 'Failed to load Config Table (0x%08X)' </tt>
      **  \event <tt> 'Failed to load Config Table (0x%08X)' </tt>
@@ -247,7 +259,7 @@ typedef enum {
      **  #CFE_TBL_Load function.
      **
      */
-    NAV_CFGTBL_LOAD_ERR_EID              = 12,
+    NAV_CFGTBL_LOAD_ERR_EID              = 13,
 
     /** \brief <tt> 'Mission failed (\%s)' </tt>
      **  \event <tt> 'Mission failed (\%s)' </tt>
@@ -262,7 +274,7 @@ typedef enum {
      **  The first \c %s field contains the reason for mission failure.
      **
      */
-    NAV_MSN_FAILED_ERR_EID               = 13,
+    NAV_MSN_FAILED_ERR_EID               = 14,
 
     /** \brief <tt> 'Set altitude lower than minimum clearance : \%f meters' </tt>
      **  \event <tt> 'Set altitude lower than minimum clearance : \%f meters' </tt>
@@ -277,7 +289,7 @@ typedef enum {
      **  The first \c %f field contains the altitude.
      **
      */
-    NAV_LOW_CLEARANCE_ALT_EID            = 14,
+    NAV_LOW_CLEARANCE_ALT_EID            = 15,
 
     /** \brief <tt> 'Set altitude already higher than take off altitude' </tt>
      **  \event <tt> 'Set altitude already higher than take off altitude' </tt>
@@ -290,7 +302,7 @@ typedef enum {
      **  altitude is higher than current altitude.
      **
      */
-    NAV_HIGH_ALT_EID                     = 15,
+    NAV_HIGH_ALT_EID                     = 16,
 
     /** \brief <tt> 'Commencing \%s' </tt>
      **  \event <tt> 'Commencing \%s' </tt>
@@ -305,7 +317,7 @@ typedef enum {
      **  The first \c %s field contains the action.
      **
      */
-    NAV_ACTION_ST_EID                    = 16,
+    NAV_ACTION_ST_EID                    = 17,
 
     /** \brief <tt> 'RTL: Commencing climb to \%d m (\%d m above home)' </tt>
      **  \event <tt> 'RTL: Commencing climb to \%d m (\%d m above home)' </tt>
@@ -321,7 +333,7 @@ typedef enum {
      **  The second \c %d field contains the altitude from home position.
      **
      */
-    NAV_RTL_CLIMB_ST_EID                 = 17,
+    NAV_RTL_CLIMB_ST_EID                 = 18,
 
     /** \brief <tt> 'RTL: Commencing return at \%d m (\%d m above home)' </tt>
      **  \event <tt> 'RTL: Commencing return at \%d m (\%d m above home)' </tt>
@@ -337,7 +349,7 @@ typedef enum {
      **  The second \c %d field contains the altitude from home position.
      **
      */
-    NAV_RTL_RETURN_ST_EID                = 18,
+    NAV_RTL_RETURN_ST_EID                = 19,
 
     /** \brief <tt> 'RTL: Commencing descend to \%d m (\%d m above home)' </tt>
      **  \event <tt> 'RTL: Commencing descend to \%d m (\%d m above home)' </tt>
@@ -353,7 +365,7 @@ typedef enum {
      **  The second \c %d field contains the altitude from home position.
      **
      */
-    NAV_RTL_DESCEND_ST_EID               = 19,
+    NAV_RTL_DESCEND_ST_EID               = 20,
 
     /** \brief <tt> 'RTL: Commencing loiter for \%.1fs' </tt>
      **  \event <tt> 'RTL: Commencing loiter for \%.1fs' </tt>
@@ -368,7 +380,7 @@ typedef enum {
      **  The first \c %f field contains the loiter time.
      **
      */
-    NAV_RTL_LOITER_ST_EID                = 20,
+    NAV_RTL_LOITER_ST_EID                = 21,
 
     /** \brief <tt> 'RTL: Loiter completed' </tt>
      **  \event <tt> 'RTL: Loiter completed' </tt>
@@ -381,7 +393,7 @@ typedef enum {
      **  RTL loiter action end.
      **
      */
-    NAV_RTL_LOITER_EN_EID                = 21,
+    NAV_RTL_LOITER_EN_EID                = 22,
 
     /** \brief <tt> 'RTL: Commencing land at home' </tt>
      **  \event <tt> 'RTL: Commencing land at home' </tt>
@@ -394,7 +406,7 @@ typedef enum {
      **  RTL land action start.
      **
      */
-    NAV_RTL_LAND_ST_EID                  = 22,
+    NAV_RTL_LAND_ST_EID                  = 23,
 
     /** \brief <tt> 'RTL: Land completed' </tt>
      **  \event <tt> 'RTL: Land completed' </tt>
@@ -407,7 +419,7 @@ typedef enum {
      **  RTL land action end.
      **
      */
-    NAV_RTL_LAND_EN_EID                  = 23,
+    NAV_RTL_LAND_EN_EID                  = 24,
 
     /** \brief <tt> 'Already landed, not executing RTL' </tt>
      **  \event <tt> 'Already landed, not executing RTL' </tt>
@@ -420,7 +432,7 @@ typedef enum {
      **  RTL execution when in landed state.
      **
      */
-    NAV_RTL_LND_SFGA_EID                 = 24,
+    NAV_RTL_LND_SFGA_EID                 = 25,
 
     /** \brief <tt> 'Subsequent takeoff is not allowed' </tt>
      **  \event <tt> 'Subsequent takeoff is not allowed' </tt>
@@ -433,8 +445,8 @@ typedef enum {
      **  subsequent takeoff is requested.
      **
      */
-    NAV_SUBSEQ_TAKEOFF_EID               = 25,
-    NAV_AUTO_MISSION_STATE_EID           = 26,
+    NAV_SUBSEQ_TAKEOFF_EID               = 26,
+    NAV_AUTO_MISSION_STATE_EID           = 27,
 
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     NAV_EVT_CNT
