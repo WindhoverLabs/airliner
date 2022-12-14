@@ -114,6 +114,7 @@ void Test_CF_ChannelInit_Nominal(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_POOLCREATEEX_INDEX, expected, 1);
 
     /* Execute the function being tested */
+    CF_TableInit();
     result = CF_ChannelInit();
 
     /* Verify results */
@@ -461,6 +462,134 @@ void Test_CF_AppInit_Nominal(void)
 }
 
 
+/**************************************************************************
+ * Tests for CF_AppMain()
+ **************************************************************************/
+/**
+ * Test CF_AppMain, fail RegisterApp
+ */
+void Test_CF_AppMain_Fail_RegisterApp(void)
+{
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* fail the register app */
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX,
+                            CFE_ES_ERR_APP_REGISTER, 1);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expSysLog, "%s", "");
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "CF_AppMain, fail RegisterApp: SysLog Written");
+}
+
+
+/**
+ * Test CF_AppMain, fail AppInit
+ */
+void Test_CF_AppMain_Fail_AppInit(void)
+{
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* fail the register app */
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX,
+                             CFE_EVS_APP_NOT_REGISTERED, 1);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expSysLog, "CF App: Error Registering Events,RC=0x%08X",
+                       (unsigned int)CFE_EVS_APP_NOT_REGISTERED);
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "CF_AppMain, fail AppInit: SysLog Written");
+}
+
+
+/**
+ * Test CF_AppMain, fail AcquireConfigPtrs
+ */
+void Test_CF_AppMain_Fail_AcquireConfigPtrs(void)
+{
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX,
+                             CFE_TBL_ERR_INVALID_HANDLE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEvent, "%s", "");
+
+    /* Verify results */
+}
+
+
+/**
+ * Test CF_AppMain, fail InvalidCmdMessage
+ */
+void Test_CF_AppMain_Fail_InvalidCmdMessage(void)
+{
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEvent, "Unexpected Msg Received MsgId -- ID = 0x%04X", 0);
+
+    /* Verify results */
+    UtAssert_EventSent(CF_MID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppMain, fail InvalidCmdMessage: Event Sent");
+}
+
+
+/**
+ * Test CF_AppMain, fail PipeError
+ */
+void Test_CF_AppMain_Fail_PipeError(void)
+{
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEvent, "CF_APP Exiting due to CFE_SB_RcvMsg error 0x%08X",
+                      (unsigned int)CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(CF_RCV_MSG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppMain, fail PipeError: Event Sent");
+}
+
+
+/**
+ * Test CF_AppMain, Nominal
+ */
+void Test_CF_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+}
+
+
 
 
 /**************************************************************************
@@ -505,4 +634,26 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppInit_Nominal,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppInit_Nominal");
+
+    UtTest_Add(Test_CF_AppMain_Fail_RegisterApp,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_RegisterApp");
+#if 0
+    UtTest_Add(Test_CF_AppMain_Fail_AppInit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_AppInit");
+#endif
+    UtTest_Add(Test_CF_AppMain_Fail_AcquireConfigPtrs,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_CF_AppMain_Fail_InvalidCmdMessage,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_InvalidCmdMessage");
+    UtTest_Add(Test_CF_AppMain_Fail_PipeError,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_PipeError");
+
+    UtTest_Add(Test_CF_AppMain_Nominal,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Nominal");
 }
