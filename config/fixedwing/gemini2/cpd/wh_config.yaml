@@ -704,7 +704,7 @@ modules:
             msgID: 0x1aab              # CMD_MSG(  171 )
     
       vm:
-        definition: ${PROJECT_SOURCE_DIR}/apps/vm/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/vm/gemini2/wh_design.yaml
         telemetry:
           VM_CONFIG_TLM_MID:
             msgID: 0x0aac              # TLM_MSG(  172 )

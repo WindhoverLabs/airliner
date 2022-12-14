@@ -270,8 +270,8 @@ buildliner_add_app(
 buildliner_add_app(
     vm
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/vm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/vm/gemini2/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/vm
 )
 
 buildliner_add_app(
