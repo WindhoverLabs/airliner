@@ -34,6 +34,8 @@
 #include "cf_cmds_test.h"
 #include "cf_test_utils.h"
 
+#include "cf_events.h"
+
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -49,8 +51,35 @@
 #include "ut_cfe_fs_stubs.h"
 
 
-void Test_CF_Cmds_TestCase1(void)
+/**************************************************************************
+ * Tests for CF_AppPipe()
+ **************************************************************************/
+/**
+ * Test CF_AppPipe, InvalidCmdMessage
+ */
+void Test_CF_AppPipe_InvalidCmdMessage(void)
 {
+    int32           CmdPipe;
+    CF_NoArgsCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, 0, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEvent, "Unexpected Msg Received MsgId -- ID = 0x%04X", 0);
+
+    /* Verify results */
+    UtAssert_EventSent(CF_MID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppMain, fail InvalidCmdMessage: Event Sent");
 }
 
 
@@ -60,7 +89,7 @@ void Test_CF_Cmds_TestCase1(void)
  **************************************************************************/
 void CF_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_CF_Cmds_TestCase1,
+    UtTest_Add(Test_CF_AppPipe_InvalidCmdMessage,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_Cmds_TestCase1");
+               "Test_CF_AppPipe_InvalidCmdMessage");
 }

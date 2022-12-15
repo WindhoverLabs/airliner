@@ -31,13 +31,12 @@
 *
 *****************************************************************************/
 
-#ifndef CF_TEST_UTILS_H
-#define CF_TEST_UTILS_H
+#ifndef CF_CUSTOM_HOOKS_H
+#define CF_CUSTOM_HOOKS_H
 
-#include "cf_app.h"
+#include "cfe.h"
 
-extern CF_AppData_t        CF_AppData;
-extern cf_config_table_t   CF_ConfigTable;
+extern uint32 CFE_ES_GetPoolBufHookCallCnt;
 
 
 #ifdef __cplusplus
@@ -45,10 +44,13 @@ extern "C" {
 #endif
 
 
-void CF_Test_Setup(void);
-void CF_Test_TearDown(void);
+int32          CFE_ES_GetPoolBufHook(uint32 **BufPtr,
+                                   CFE_ES_MemHandle_t HandlePtr, uint32 Size);
+int32          OS_statHook(const char *path, os_fstat_t *filestats);
+int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
+os_dirent_t *  OS_readdirHook (os_dirp_t directory);
 
-void CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
+void           Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
 
 
 #ifdef __cplusplus
@@ -56,4 +58,4 @@ void CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
 #endif
 
 
-#endif /* CF_TEST_UTILS_H */
+#endif /* CF_CUSTOM_HOOKS_H */

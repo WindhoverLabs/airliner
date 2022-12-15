@@ -33,12 +33,21 @@
 
 #include "cf_app_test.h"
 #include "cf_test_utils.h"
+#include "cf_custom_hooks.h"
 
 #include "cf_events.h"
 #include "cf_version.h"
+#include "cf_callbacks.h"
+#include "cf_playback.h"
+
+#include "structures.h"
+#include "timer.h"
+#include "machine.h"
+#include "misc.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
+#include "ut_osfileapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
 #include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_es_stubs.h"
@@ -54,22 +63,184 @@
 #include <time.h>
 
 
+/**************************************************************************
+ * CF Test Utilities needed for unit test
+ **************************************************************************/
 /**
- * Test CF GetPSPTimeHook
+ * CF_TstUtil_VerifyListOrder
  */
-void Test_CF_GetPSPTimeHook(OS_time_t *LocalTime)
+int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 {
-    int              iStatus;
-    struct timespec  time;
+    CF_QueueEntry_t   *PtrToEntry;
+    char              Buf[64];
+    uint32            i=0;
 
-    iStatus = clock_gettime(CLOCK_REALTIME, &time);
-    if (iStatus == 0)
+    PtrToEntry = CF_AppData.Chan[0].PbQ[CF_PB_PENDINGQ].HeadPtr;
+
+    while(PtrToEntry != NULL)
     {
-        LocalTime->seconds = time.tv_sec;
-        LocalTime->microsecs = time.tv_nsec / 1000;
+        sprintf(&Buf[i],"%d",(int)PtrToEntry->TransNum);
+        PtrToEntry = PtrToEntry->Next;
+        i++;
     }
 
-    return;
+    if(strncmp(OrderGiven,Buf,64)==0)
+    {
+        return CF_SUCCESS;
+    }
+    else
+    {
+        printf("VerfiyList is comparing given %s with %s\n",
+               OrderGiven,Buf);
+
+        return CF_ERROR;
+    }
+}
+
+
+/**
+ * CF_TstUtil_CreateOnePendingQueueEntry
+ */
+void CF_TstUtil_CreateOnePendingQueueEntry(void)
+{
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+
+    /* reset CF globals etc */
+    CF_AppInit();
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Execute a playback file command so that one queue entry is added
+       to the pending queue */
+    CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackFileCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg, CF_PLAYBACK_FILE_CC);
+    PbFileCmdMsg.Class = 1;
+    PbFileCmdMsg.Channel = 0;
+    PbFileCmdMsg.Priority = 0;
+    PbFileCmdMsg.Preserve = 0;
+    strcpy(PbFileCmdMsg.PeerEntityId, "2.25");
+    strcpy(PbFileCmdMsg.SrcFilename, "/cf/testfile.txt");
+    strcpy(PbFileCmdMsg.DstFilename, "gndpath/");
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* execute the playback file cmd to get a queue entry on the
+       pending queue */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbFileCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbFileCmdMsg);
+}
+
+
+/**
+ * CF_TstUtil_CreateOnePbActiveQueueEntry
+ */
+void CF_TstUtil_CreateOnePbActiveQueueEntry(void)
+{
+    CF_TstUtil_CreateOnePendingQueueEntry();
+
+    /* Force OS_stat to return a valid size and success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
+    CF_StartNextFile(0);
+}
+
+
+/**
+ * CF_TstUtil_CreateOnePbHistoryQueueEntry
+ */
+void CF_TstUtil_CreateOnePbHistoryQueueEntry(void)
+{
+    CF_CARSCmd_t    CmdMsg;
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
+    strcpy(CmdMsg.Trans,"All");
+
+    CF_TstUtil_CreateOnePbActiveQueueEntry();
+
+    cfdp_cycle_each_transaction();
+
+    /* Send Abandon Cmd */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+
+    cfdp_cycle_each_transaction();
+
+    cfdp_cycle_each_transaction();
+}
+
+
+/**
+ * CF_TstUtil_CreateOneUpActiveQueueEntry
+ */
+void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    /* reset CF globals etc */
+    CF_AppInit();
+
+    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    CF_Indication (IndType,TransInfo);
+}
+
+
+/**
+ * CF_TstUtil_CreateOneUpHistoryQueueEntry
+ */
+void CF_TstUtil_CreateOneUpHistoryQueueEntry(void)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    CF_TstUtil_CreateOneUpActiveQueueEntry();
+
+    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name,"/ram/uploadedfile.txt");
+
+    CF_Indication (IndType,TransInfo);
+}
+
+
+/**
+ * CF_ResetEngine
+ */
+void CF_ResetEngine(void)
+{
+
+    CF_CARSCmd_t  CmdMsg;
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
+    strcpy(CmdMsg.Trans,"All");
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+
+    cfdp_cycle_each_transaction();
+
+    misc__set_trans_seq_num(1);
 }
 
 
@@ -383,6 +554,37 @@ void Test_CF_AppInit_Fail_ChannelInit(void)
 
 
 /**
+ * Test CF_AppInit, fail SendEvent
+ */
+void Test_CF_AppInit_Fail_SendEvent(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+    int32 NumEventsExp;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    NumEventsExp = 8;/* cfdp debug events for set mib calls */
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_SENDEVENT_INDEX, expected,
+                             NumEventsExp + 1);
+
+    /* Execute the function being tested */
+    result = CF_AppInit();
+
+    sprintf(expSysLog,
+            "CF App:Error Sending Initialization Event,RC=0x%08X\n",
+            (unsigned int)expected);
+
+    /* Verify results */
+    UtAssert_True(result == expected, "CF_AppInit, fail SendEvent");
+
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
+                  "CF_AppInit, fail SendEvent: SysLog Written");
+}
+
+
+/**
  * Test CF_AppInit, Nominal
  */
 void Test_CF_AppInit_Nominal(void)
@@ -494,7 +696,6 @@ void Test_CF_AppMain_Fail_AppInit(void)
 {
     char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* fail the register app */
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX,
                              CFE_EVS_APP_NOT_REGISTERED, 1);
 
@@ -505,8 +706,45 @@ void Test_CF_AppMain_Fail_AppInit(void)
                        (unsigned int)CFE_EVS_APP_NOT_REGISTERED);
 
     /* Verify results */
+    UtAssert_True(CF_AppData.RunStatus == CFE_ES_APP_ERROR,
+                  "CF_AppMain, fail AppInit");
+
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
                   "CF_AppMain, fail AppInit: SysLog Written");
+}
+
+
+/**
+ * Test CF_AppMain, fail SemGetIdByName
+ */
+void Test_CF_AppMain_Fail_SemGetIdByName(void)
+{
+    char  expEventCh0[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventCh1[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                           OS_INVALID_POINTER, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(
+                           UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEventCh0,
+         "SemGetId Err:Chan %d downlink PDUs cannot be throttled.0x%08X",
+         0, (unsigned int)OS_INVALID_POINTER);
+    sprintf(expEventCh1,
+         "SemGetId Err:Chan %d downlink PDUs cannot be throttled.0x%08X",
+         1, (unsigned int)OS_INVALID_POINTER);
+
+    /* Verify results */
+    UtAssert_EventSent(CF_HANDSHAKE_ERR1_EID, CFE_EVS_ERROR, expEventCh0,
+                       "CF_AppMain, fail SemGetIdByName: Ch0 Event Sent");
+
+    UtAssert_EventSent(CF_HANDSHAKE_ERR1_EID, CFE_EVS_ERROR, expEventCh1,
+                       "CF_AppMain, fail SemGetIdByName: Ch1 Event Sent");
 }
 
 
@@ -517,7 +755,6 @@ void Test_CF_AppMain_Fail_AcquireConfigPtrs(void)
 {
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX,
                              CFE_TBL_ERR_INVALID_HANDLE, 2);
 
@@ -527,30 +764,6 @@ void Test_CF_AppMain_Fail_AcquireConfigPtrs(void)
     sprintf(expEvent, "%s", "");
 
     /* Verify results */
-}
-
-
-/**
- * Test CF_AppMain, fail InvalidCmdMessage
- */
-void Test_CF_AppMain_Fail_InvalidCmdMessage(void)
-{
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* The following will emulate the behavior of receiving a message */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    CF_AppMain();
-
-    sprintf(expEvent, "Unexpected Msg Received MsgId -- ID = 0x%04X", 0);
-
-    /* Verify results */
-    UtAssert_EventSent(CF_MID_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppMain, fail InvalidCmdMessage: Event Sent");
 }
 
 
@@ -587,6 +800,40 @@ void Test_CF_AppMain_Nominal(void)
 
     /* Execute the function being tested */
     CF_AppMain();
+}
+
+
+/**
+ * Test CF_AppMain, WakeupReqCmd
+ */
+void Test_CF_AppMain_WakeupReqCmd(void)
+{
+    int32           CmdPipe;
+    CF_NoArgsCmd_t  CmdMsg;
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_WAKE_UP_REQ_CMD_MID,
+                   sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Force OS_opendir to return success, instead of default NULL */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
+
+    /* Force OS_readdir to first return a 'dot filename, then a Sub Dir,
+       then the Queue Full Check will fail due to line above */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
+                                 (void*)&OS_readdirHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    /* Verify results */
 }
 
 
@@ -631,6 +878,9 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppInit_Fail_ChannelInit,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppInit_Fail_ChannelInit");
+    UtTest_Add(Test_CF_AppInit_Fail_SendEvent,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppInit_Fail_SendEvent");
     UtTest_Add(Test_CF_AppInit_Nominal,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppInit_Nominal");
@@ -643,12 +893,12 @@ void CF_App_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Fail_AppInit");
 #endif
+    UtTest_Add(Test_CF_AppMain_Fail_SemGetIdByName,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_Fail_SemGetIdByName");
     UtTest_Add(Test_CF_AppMain_Fail_AcquireConfigPtrs,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Fail_AcquireConfigPtrs");
-    UtTest_Add(Test_CF_AppMain_Fail_InvalidCmdMessage,
-               CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppMain_Fail_InvalidCmdMessage");
     UtTest_Add(Test_CF_AppMain_Fail_PipeError,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Fail_PipeError");
@@ -656,4 +906,8 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppMain_Nominal,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Nominal");
+
+    UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppMain_WakeupReqCmd");
 }

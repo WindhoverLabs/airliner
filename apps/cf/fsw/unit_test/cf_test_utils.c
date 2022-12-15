@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "cf_test_utils.h"
+#include "cf_custom_hooks.h"
 
 #include "to_platform_cfg.h"
 #include "sbnd_platform_cfg.h"
@@ -379,6 +380,8 @@ void CF_Test_Setup(void)
     /* initialize test environment to default state for every test */
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -388,7 +391,7 @@ void CF_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 0
+#if 1
     Ut_CFE_TBL_AddTable(CF_CONFIG_TABLE_FILENAME, (void*)&CF_ConfigTable);
 #else
     Ut_CFE_TBL_AddTable(CF_CONFIG_TABLE_FILENAME, (void*)&CF_ConfigTableUnitTest);
@@ -398,4 +401,22 @@ void CF_Test_Setup(void)
 
 void CF_Test_TearDown(void)
 {
+}
+
+
+void CF_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
 }

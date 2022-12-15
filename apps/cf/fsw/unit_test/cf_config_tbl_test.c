@@ -55,13 +55,13 @@
  * Tests for CF_TableInit()
  **************************************************************************/
 /**
- * Test CF TableInit(), fail TBL Register
+ * Test CF_TableInit(), fail TBL Register
  */
 void Test_CF_TableInit_Fail_TblRegister(void)
 {
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
-    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_NAME;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* fail the register app */
@@ -82,7 +82,7 @@ void Test_CF_TableInit_Fail_TblRegister(void)
 
 
 /**
- * Test CF TableInit(), fail TblValFlightEntityId
+ * Test CF_TableInit(), fail TblValFlightEntityId
  */
 void Test_CF_TableInit_Fail_TblValFlightEntityId(void)
 {
@@ -119,7 +119,7 @@ void Test_CF_TableInit_Fail_TblValFlightEntityId(void)
 
 
 /**
- * Test CF TableInit(), fail TblValIncomingMsgId
+ * Test CF_TableInit(), fail TblValIncomingMsgId
  */
 void Test_CF_TableInit_Fail_TblValIncomingMsgId(void)
 {
@@ -157,7 +157,7 @@ void Test_CF_TableInit_Fail_TblValIncomingMsgId(void)
 
 
 /**
- * Test CF TableInit(), fail TblValOutgoingFileChunk
+ * Test CF_TableInit(), fail TblValOutgoingFileChunk
  */
 void Test_CF_TableInit_Fail_TblValOutgoingFileChunk(void)
 {
@@ -195,7 +195,7 @@ void Test_CF_TableInit_Fail_TblValOutgoingFileChunk(void)
 
 
 /**
- * Test CF TableInit(), fail TblValChanInUse
+ * Test CF_TableInit(), fail TblValChanInUse
  */
 void Test_CF_TableInit_Fail_TblValChanInUse(void)
 {
@@ -231,7 +231,7 @@ void Test_CF_TableInit_Fail_TblValChanInUse(void)
 
 
 /**
- * Test CF TableInit(), fail TblValDequeEnable
+ * Test CF_TableInit(), fail TblValDequeEnable
  */
 void Test_CF_TableInit_Fail_TblValDequeEnable(void)
 {
@@ -268,7 +268,7 @@ void Test_CF_TableInit_Fail_TblValDequeEnable(void)
 
 
 /**
- * Test CF TableInit(), fail TblValOutgoingMsgId
+ * Test CF_TableInit(), fail TblValOutgoingMsgId
  */
 void Test_CF_TableInit_Fail_TblValOutgoingMsgId(void)
 {
@@ -307,7 +307,7 @@ void Test_CF_TableInit_Fail_TblValOutgoingMsgId(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollDirInUse
+ * Test CF_TableInit(), fail TblValPollDirInUse
  */
 void Test_CF_TableInit_Fail_TblValPollDirInUse(void)
 {
@@ -344,7 +344,7 @@ void Test_CF_TableInit_Fail_TblValPollDirInUse(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollEnable
+ * Test CF_TableInit(), fail TblValPollEnable
  */
 void Test_CF_TableInit_Fail_TblValPollEnable(void)
 {
@@ -381,7 +381,7 @@ void Test_CF_TableInit_Fail_TblValPollEnable(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollClass
+ * Test CF_TableInit(), fail TblValPollClass
  */
 void Test_CF_TableInit_Fail_TblValPollClass(void)
 {
@@ -418,7 +418,7 @@ void Test_CF_TableInit_Fail_TblValPollClass(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollPreserve
+ * Test CF_TableInit(), fail TblValPollPreserve
  */
 void Test_CF_TableInit_Fail_TblValPollPreserve(void)
 {
@@ -455,7 +455,7 @@ void Test_CF_TableInit_Fail_TblValPollPreserve(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollSrcPath
+ * Test CF_TableInit(), fail TblValPollSrcPath
  */
 void Test_CF_TableInit_Fail_TblValPollSrcPath(void)
 {
@@ -492,7 +492,7 @@ void Test_CF_TableInit_Fail_TblValPollSrcPath(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPollDstPath
+ * Test CF_TableInit(), fail TblValPollDstPath
  */
 void Test_CF_TableInit_Fail_TblValPollDstPath(void)
 {
@@ -528,7 +528,7 @@ void Test_CF_TableInit_Fail_TblValPollDstPath(void)
 
 
 /**
- * Test CF TableInit(), fail TblValPeerEntityId
+ * Test CF_TableInit(), fail TblValPeerEntityId
  */
 void Test_CF_TableInit_Fail_TblValPeerEntityId(void)
 {
@@ -566,16 +566,15 @@ void Test_CF_TableInit_Fail_TblValPeerEntityId(void)
 
 
 /**
- * Test CF TableInit(), fail TblLoad
+ * Test CF_TableInit(), fail TblLoad
  */
 void Test_CF_TableInit_Fail_TblLoad(void)
 {
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
-    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -589,6 +588,76 @@ void Test_CF_TableInit_Fail_TblLoad(void)
 
     UtAssert_EventSent(CF_CFGTBL_LD_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "TableInit(), fail TblLoad: Event Sent");
+}
+
+
+/**
+ * Test CF_TableInit(), fail TblManage
+ */
+void Test_CF_TableInit_Fail_TblManage(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CF_TableInit();
+
+    sprintf(expEvent,
+            "Error from TBL Manage call for Config Table,RC=0x%08X",
+            (unsigned int)expected);
+
+    /* Verify results */
+    UtAssert_True(result == expected, "CF TableInit(), fail TblManage");
+
+    UtAssert_EventSent(CF_CFGTBL_MNG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF TableInit(), fail TblManage: Event Sent");
+}
+
+
+/**
+ * Test CF_TableInit(), fail TblGetAdr
+ */
+void Test_CF_TableInit_Fail_TblGetAdr(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = CF_TableInit();
+
+    sprintf(expEvent, "Error Getting Adr for Config Tbl,RC=0x%08X",
+            (unsigned int)expected);
+
+    /* Verify results */
+    UtAssert_True(result == expected, "CF TableInit(), fail TblGetAdr");
+
+    UtAssert_EventSent(CF_CFGTBL_GADR_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF TableInit(), fail TblGetAdr: Event Sent");
+}
+
+
+/**
+ * Test CF_TableInit(), Nominal
+ */
+void Test_CF_TableInit_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = CF_TableInit();
+
+    /* Verify results */
+    UtAssert_True(result == expected, "CF TableInit(), Nominal");
 }
 
 
@@ -645,4 +714,13 @@ void CF_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_CF_TableInit_Fail_TblLoad,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_TableInit_Fail_TblLoad");
+    UtTest_Add(Test_CF_TableInit_Fail_TblManage,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_TableInit_Fail_TblManage");
+    UtTest_Add(Test_CF_TableInit_Fail_TblGetAdr,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_TableInit_Fail_TblGetAdr");
+    UtTest_Add(Test_CF_TableInit_Nominal,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_TableInit_Nominal");
 }

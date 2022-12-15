@@ -127,6 +127,8 @@ buildliner_add_app_unit_test(cf-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_cmds_test.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_config_tbl_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_custom_hooks.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_custom_hooks.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_test_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_test_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/cf_testrunner.c
