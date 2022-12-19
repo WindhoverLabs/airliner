@@ -36,6 +36,12 @@
 
 #include "to_platform_cfg.h"
 #include "sbnd_platform_cfg.h"
+#include "structures.h"
+#include "timer.h"
+#include "machine.h"
+#include "misc.h"
+#include "cf_playback.h"
+#include "cf_callbacks.h"
 
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_evs_stubs.h"
@@ -404,6 +410,163 @@ void CF_Test_TearDown(void)
 }
 
 
+int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
+{
+    CF_QueueEntry_t   *PtrToEntry;
+    char              Buf[64];
+    uint32            i=0;
+
+    PtrToEntry = CF_AppData.Chan[0].PbQ[CF_PB_PENDINGQ].HeadPtr;
+
+    while(PtrToEntry != NULL)
+    {
+        sprintf(&Buf[i],"%d",(int)PtrToEntry->TransNum);
+        PtrToEntry = PtrToEntry->Next;
+        i++;
+    }
+
+    if(strncmp(OrderGiven,Buf,64)==0)
+    {
+        return CF_SUCCESS;
+    }
+    else
+    {
+        printf("VerfiyList is comparing given %s with %s\n",
+               OrderGiven,Buf);
+
+        return CF_ERROR;
+    }
+}
+
+
+void CF_TstUtil_CreateOnePendingQueueEntry(void)
+{
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+
+    /* reset CF globals etc */
+    CF_AppInit();
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Execute a playback file command so that one queue entry is added
+       to the pending queue */
+    CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackFileCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg, CF_PLAYBACK_FILE_CC);
+    PbFileCmdMsg.Class = 1;
+    PbFileCmdMsg.Channel = 0;
+    PbFileCmdMsg.Priority = 0;
+    PbFileCmdMsg.Preserve = 0;
+    strcpy(PbFileCmdMsg.PeerEntityId, "2.25");
+    strcpy(PbFileCmdMsg.SrcFilename, "/cf/testfile.txt");
+    strcpy(PbFileCmdMsg.DstFilename, "gndpath/");
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* execute the playback file cmd to get a queue entry on the
+       pending queue */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbFileCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbFileCmdMsg);
+}
+
+
+void CF_TstUtil_CreateOnePbActiveQueueEntry(void)
+{
+    CF_TstUtil_CreateOnePendingQueueEntry();
+
+    /* Force OS_stat to return a valid size and success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
+    CF_StartNextFile(0);
+}
+
+
+void CF_TstUtil_CreateOnePbHistoryQueueEntry(void)
+{
+    CF_CARSCmd_t    CmdMsg;
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
+    strcpy(CmdMsg.Trans,"All");
+
+    CF_TstUtil_CreateOnePbActiveQueueEntry();
+
+    cfdp_cycle_each_transaction();
+
+    /* Send Abandon Cmd */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+
+    cfdp_cycle_each_transaction();
+
+    cfdp_cycle_each_transaction();
+}
+
+
+void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    /* reset CF globals etc */
+    CF_AppInit();
+
+    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    CF_Indication (IndType,TransInfo);
+}
+
+
+void CF_TstUtil_CreateOneUpHistoryQueueEntry(void)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    CF_TstUtil_CreateOneUpActiveQueueEntry();
+
+    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name,"/ram/uploadedfile.txt");
+
+    CF_Indication (IndType,TransInfo);
+}
+
+
+void CF_ResetEngine(void)
+{
+
+    CF_CARSCmd_t  CmdMsg;
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
+    strcpy(CmdMsg.Trans,"All");
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+
+    cfdp_cycle_each_transaction();
+
+    misc__set_trans_seq_num(1);
+}
+
+
 void CF_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
     unsigned char *pBuff;
@@ -419,4 +582,14 @@ void CF_Test_PrintCmdMsg(void *pMsg, uint32 size)
     printf("\n");
 
     return;
+}
+
+
+time_t CF_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
 }

@@ -52,6 +52,9 @@
 #include "ut_cfe_fs_stubs.h"
 
 
+CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
+
+
 /**************************************************************************
  * Tests for CF_AppPipe()
  **************************************************************************/
@@ -234,6 +237,214 @@ void Test_CF_AppPipe_RstCtrsCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, RstCtrsCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Hook to support: Test CF_AppPipe, HousekeepingCmd
+ */
+int32 Test_CF_AppPipe_HousekeepingCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
+{
+    unsigned char       *pBuff = NULL;
+    uint16              msgLen = 0;
+    int                 i = 0;
+    CFE_SB_MsgId_t      MsgId = 0;
+    time_t              localTime;
+    struct tm           *loc_time;
+    CFE_TIME_SysTime_t  TimeFromMsg;
+    CF_HkPacket_t       HkTlm;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+
+    pBuff = (unsigned char *)MsgPtr;
+    printf("###HousekeepingCmd_SendMsgHook(msgLen %u): ", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = CF_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    switch(MsgId)
+    {
+        case CF_HK_TLM_MID:
+        {
+            SendHkHook_MsgId = CF_HK_TLM_MID;
+            printf("Sent CF_HK_TLM_MID\n");
+            memcpy((void *)&HkTlm, (void *)MsgPtr, sizeof(HkTlm));
+
+            printf("CmdCounter: %u\n", HkTlm.CmdCounter);
+            printf("ErrCounter: %u\n", HkTlm.ErrCounter);
+
+            printf("App.WakeupForFileProc: %lu\n",
+                    HkTlm.App.WakeupForFileProc);
+            printf("App.EngineCycleCount: %lu\n",
+                    HkTlm.App.EngineCycleCount);
+            printf("App.MemInUse: %lu\n", HkTlm.App.MemInUse);
+            printf("App.PeakMemInUse: %lu\n", HkTlm.App.PeakMemInUse);
+            printf("App.LowMemoryMark: %lu\n", HkTlm.App.LowMemoryMark);
+            printf("App.MaxMemNeeded: %lu\n", HkTlm.App.MaxMemNeeded);
+            printf("App.MemAllocated: %lu\n", HkTlm.App.MemAllocated);
+            printf("App.BufferPoolHandle: %lu\n",
+                    HkTlm.App.BufferPoolHandle);
+            printf("App.QNodesAllocated: %lu\n", HkTlm.App.QNodesAllocated);
+            printf("App.QNodesDeallocated: %lu\n",
+                    HkTlm.App.QNodesDeallocated);
+            printf("App.PDUsReceived: %lu\n", HkTlm.App.PDUsReceived);
+            printf("App.PDUsRejected: %lu\n", HkTlm.App.PDUsRejected);
+            printf("App.TotalInProgTrans: %lu\n",
+                    HkTlm.App.TotalInProgTrans);
+            printf("App.TotalFailedTrans: %lu\n",
+                    HkTlm.App.TotalFailedTrans);
+            printf("App.TotalAbandonTrans: %lu\n",
+                    HkTlm.App.TotalAbandonTrans);
+            printf("App.TotalSuccessTrans: %lu\n",
+                    HkTlm.App.TotalSuccessTrans);
+            printf("App.TotalCompletedTrans: %lu\n",
+                    HkTlm.App.TotalCompletedTrans);
+            printf("App.LastFailedTrans: ");
+            for (i = 0; i < CF_MAX_TRANSID_CHARS; i++)
+            {
+                printf("%d ", HkTlm.App.LastFailedTrans[i]);
+            }
+            printf("\n");
+
+            printf("AutoSuspend.EnFlag: %lu\n", HkTlm.AutoSuspend.EnFlag);
+            printf("AutoSuspend.LowFreeMark: %lu\n",
+                    HkTlm.AutoSuspend.LowFreeMark);
+
+            printf("Cond.PosAckNum: %u\n", HkTlm.Cond.PosAckNum);
+            printf("Cond.FileStoreRejNum: %u\n", HkTlm.Cond.FileStoreRejNum);
+            printf("Cond.FileChecksumNum: %u\n", HkTlm.Cond.FileChecksumNum);
+            printf("Cond.FileSizeNum: %u\n", HkTlm.Cond.FileSizeNum);
+            printf("Cond.NakLimitNum: %u\n", HkTlm.Cond.NakLimitNum);
+            printf("Cond.InactiveNum: %u\n", HkTlm.Cond.InactiveNum);
+            printf("Cond.SuspendNum: %u\n", HkTlm.Cond.SuspendNum);
+            printf("Cond.CancelNum: %u\n", HkTlm.Cond.CancelNum);
+
+            printf("Eng.FlightEngineEntityId: ");
+            for (i = 0; i < CF_MAX_CFG_VALUE_CHARS; i++)
+            {
+                printf("%d ", HkTlm.Eng.FlightEngineEntityId[i]);
+            }
+            printf("\n");
+            printf("Eng.Flags: %lu\n", HkTlm.Eng.Flags);
+            printf("Eng.MachinesAllocated: %lu\n",
+                    HkTlm.Eng.MachinesAllocated);
+            printf("Eng.MachinesDeallocated: %lu\n",
+                    HkTlm.Eng.MachinesDeallocated);
+            printf("Eng.are_any_partners_frozen: %u\n",
+                    HkTlm.Eng.are_any_partners_frozen);
+            printf("Eng.how_many_senders: %lu\n",
+                    HkTlm.Eng.how_many_senders);
+            printf("Eng.how_many_receivers: %lu\n",
+                    HkTlm.Eng.how_many_receivers);
+            printf("Eng.how_many_frozen: %lu\n",
+                    HkTlm.Eng.how_many_frozen);
+            printf("Eng.how_many_suspended: %lu\n",
+                    HkTlm.Eng.how_many_suspended);
+            printf("Eng.total_files_sent: %lu\n",
+                    HkTlm.Eng.total_files_sent);
+            printf("Eng.total_files_received: %lu\n",
+                    HkTlm.Eng.total_files_received);
+            printf("Eng.total_unsuccessful_senders: %lu\n",
+                    HkTlm.Eng.total_unsuccessful_senders);
+            printf("Eng.total_unsuccessful_receivers: %lu\n",
+                    HkTlm.Eng.total_unsuccessful_receivers);
+
+            printf("Up.MetaCount: %lu\n", HkTlm.Up.MetaCount);
+            printf("Up.UplinkActiveQFileCnt: %lu\n",
+                    HkTlm.Up.UplinkActiveQFileCnt);
+            printf("Up.SuccessCounter: %lu\n", HkTlm.Up.SuccessCounter);
+            printf("Up.FailedCounter: %lu\n", HkTlm.Up.FailedCounter);
+            printf("Up.LastFileUplinked: %s\n", HkTlm.Up.LastFileUplinked);
+
+            for (i = 0; i < CF_MAX_PLAYBACK_CHANNELS; i++)
+            {
+                printf("Chan[%d].PDUsSent: %lu\n",
+                        i, HkTlm.Chan[i].PDUsSent);
+                printf("Chan[%d].FilesSent: %lu\n",
+                        i, HkTlm.Chan[i].FilesSent);
+                printf("Chan[%d].SuccessCounter: %lu\n",
+                        i, HkTlm.Chan[i].SuccessCounter);
+                printf("Chan[%d].FailedCounter: %lu\n",
+                        i, HkTlm.Chan[i].FailedCounter);
+                printf("Chan[%d].PendingQFileCnt: %lu\n",
+                        i, HkTlm.Chan[i].PendingQFileCnt);
+                printf("Chan[%d].ActiveQFileCnt: %lu\n",
+                        i, HkTlm.Chan[i].ActiveQFileCnt);
+                printf("Chan[%d].HistoryQFileCnt: %lu\n",
+                        i, HkTlm.Chan[i].HistoryQFileCnt);
+                printf("Chan[%d].Flags: %lu\n", i, HkTlm.Chan[i].Flags);
+                printf("Chan[%d].RedLightCntr: %lu\n",
+                        i, HkTlm.Chan[i].RedLightCntr);
+                printf("Chan[%d].GreenLightCntr: %lu\n",
+                        i, HkTlm.Chan[i].GreenLightCntr);
+                printf("Chan[%d].PollDirsChecked: %lu\n",
+                        i, HkTlm.Chan[i].PollDirsChecked);
+                printf("Chan[%d].PendingQChecked: %lu\n",
+                        i, HkTlm.Chan[i].PendingQChecked);
+                printf("Chan[%d].SemValue: %lu\n",
+                        i, HkTlm.Chan[i].SemValue);
+            }
+
+            break;
+        }
+        default:
+        {
+            printf("Sent MID(0x%04X)\n", MsgId);
+            break;
+        }
+    }
+
+    return CFE_SUCCESS;
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmd
+ */
+void Test_CF_AppPipe_HousekeepingCmd(void)
+{
+    CF_NoArgsCmd_t  CmdMsg;
+    CF_NoArgsCmd_t  InPDUMsg;
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_CMD_MID,
+                   sizeof(InPDUMsg), TRUE);
+
+    /* Used to verify HK was transmitted correctly. */
+    SendHkHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                    (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
+
+    /* Execute the function being tested */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_TstUtil_CreateOneUpActiveQueueEntry();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+    UtAssert_True(CF_AppData.Hk.ErrCounter == 0,
+                  "CF_AppPipe, HousekeepingCmd: No ErrCount");
+
+    UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
+                  "CF_AppPipe, HousekeepingCmd: Sent HK Telemetry");
+
+    UtAssert_True(CF_AppData.Hk.App.QNodesAllocated == 1,
+                  "CF_AppPipe, HousekeepingCmd: Hk.App.QNodesAllocated");
+
+    UtAssert_True(CF_AppData.Hk.Up.UplinkActiveQFileCnt == 1,
+                  "CF_AppPipe, HousekeepingCmd: Hk.Up.UplinkActiveQFileCnt");
 }
 
 
@@ -483,6 +694,9 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_RstCtrsCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_RstCtrsCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmd,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmd");
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_FreezeCmd");

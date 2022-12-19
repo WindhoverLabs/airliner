@@ -48,7 +48,16 @@ extern "C" {
 void CF_Test_Setup(void);
 void CF_Test_TearDown(void);
 
-void CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
+int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
+void  CF_TstUtil_CreateOnePendingQueueEntry(void);
+void  CF_TstUtil_CreateOnePbActiveQueueEntry(void);
+void  CF_TstUtil_CreateOnePbHistoryQueueEntry(void);
+void  CF_TstUtil_CreateOneUpActiveQueueEntry(void);
+void  CF_TstUtil_CreateOneUpHistoryQueueEntry(void);
+void  CF_ResetEngine(void);
+
+void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
+time_t CF_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
 #ifdef __cplusplus
