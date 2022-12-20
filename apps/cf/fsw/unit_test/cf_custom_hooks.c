@@ -32,6 +32,8 @@
 *****************************************************************************/
 
 #include "cf_custom_hooks.h"
+#include "cf_test_utils.h"
+
 #include "cf_app.h"
 
 #include <string.h>
@@ -77,7 +79,7 @@ int32 OS_statHook(const char *path, os_fstat_t *filestats)
 
 int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 {
-    strcpy(fd_prop->Path,"/cf/testfile.txt");
+    strcpy(fd_prop->Path, TestPbSrcFile);
 
     return OS_FS_SUCCESS;
 }
