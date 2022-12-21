@@ -36,7 +36,9 @@
 
 #include "cfe.h"
 
-extern uint32 CFE_ES_GetPoolBufHookCallCnt;
+extern uint32       ReaddirHookCallCnt;
+extern os_dirent_t  ReaddirHookDirEntry;
+extern uint32       CFE_ES_GetPoolBufHookCallCnt;
 
 
 #ifdef __cplusplus

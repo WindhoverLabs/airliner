@@ -634,9 +634,11 @@ void Test_CF_AppMain_WakeupReqCmd(void)
 
     /* Force OS_readdir to first return a 'dot filename, then a Sub Dir,
        then the Queue Full Check will fail due to line above */
+    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 

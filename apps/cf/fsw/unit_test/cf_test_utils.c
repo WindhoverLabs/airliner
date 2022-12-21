@@ -58,9 +58,13 @@
 
 
 const char TestUpLinkDestFile[] = "/ram/uploadedfile.txt";
+
 const char TestPbSrcFile[] = "/cf/testfile.txt";
 const char TestPbDestFile[] = "gndpath/";
 const char TestPbPeerEntityId[] = "2.25";
+
+const char TestPbSrcDir[] = "/cf/";
+const char TestPbDstDir[] = "gndpath/";
 
 
 void CF_Test_Setup(void)
@@ -69,6 +73,8 @@ void CF_Test_Setup(void)
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
+    ReaddirHookCallCnt = 0;
+    memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();

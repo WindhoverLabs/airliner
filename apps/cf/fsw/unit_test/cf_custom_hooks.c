@@ -39,10 +39,10 @@
 #include <string.h>
 
 
-static uint32 ReaddirHookCallCnt;
-os_dirent_t   ReaddirHookDirEntry;
+uint32       ReaddirHookCallCnt = 0;
+os_dirent_t  ReaddirHookDirEntry;
 
-uint32 CFE_ES_GetPoolBufHookCallCnt;
+uint32       CFE_ES_GetPoolBufHookCallCnt = 0;
 
 
 /**************************************************************************
@@ -54,6 +54,7 @@ int32 CFE_ES_GetPoolBufHook(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr,
 {
     uint32  Offset;
     uint8   *BytePtr;
+printf("###CFE_ES_GetPoolBufHook entered: HookCallCnt(%lu)\n", CFE_ES_GetPoolBufHookCallCnt);
 
     Offset = (CFE_ES_GetPoolBufHookCallCnt * sizeof (CF_QueueEntry_t));
 
@@ -87,6 +88,7 @@ int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 
 os_dirent_t *  OS_readdirHook (os_dirp_t directory)
 {
+printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     ReaddirHookCallCnt++;
 
     if(ReaddirHookCallCnt == 1)

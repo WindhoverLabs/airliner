@@ -275,6 +275,7 @@ void Test_CF_AppPipe_PbFileCmd(void)
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -323,6 +324,12 @@ void Test_CF_AppPipe_PbFileNoMem(void)
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
     strcpy(PbFileCmdMsg.SrcFilename, TestPbSrcFile);
     strcpy(PbFileCmdMsg.DstFilename, TestPbDestFile);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETPOOLBUF_INDEX,
+                            CFE_ES_ERR_MEM_HANDLE, 1);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -713,27 +720,524 @@ void Test_CF_AppPipe_PbFileFileOnQ(void)
     strcpy(PbFileCmdMsg.SrcFilename, TestPbSrcFile);
     strcpy(PbFileCmdMsg.DstFilename, TestPbDestFile);
 
-    /* Execute the function being tested */
-    CF_AppInit();
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
+    /* Execute the function being tested */
+    CF_AppInit();
+
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbFileCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbFileCmdMsg);
+
     CF_AppPipe((CFE_SB_MsgPtr_t)&PbFileCmdMsg);
 
     sprintf(expEvent, "CF:Playback File Cmd Error, File is Already "
             "Pending or Active:%s", TestPbSrcFile);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, PbFileFileOnQ");
 
     UtAssert_EventSent(CF_PB_FILE_ERR5_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileFileOnQ: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirCmd
+ */
+void Test_CF_AppPipe_PbDirCmd(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Force OS_opendir to return success, instead of default NULL */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_OPENDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX, OS_FS_SUCCESS, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSEDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    ReaddirHookCallCnt = 0;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
+                                 (void*)&OS_readdirHook);
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "Playback Dir Cmd Rcvd,Ch %d,Cl %d,Pri %d,Pre %d,"
+            "Peer %s, Src %s,Dst %s",
+            PbDirCmdMsg.Chan, PbDirCmdMsg.Class, PbDirCmdMsg.Priority,
+            PbDirCmdMsg.Preserve, PbDirCmdMsg.PeerEntityId,
+            TestPbSrcDir, TestPbDstDir);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, PbDirCmd");
+
+    UtAssert_EventSent(CF_PLAYBACK_DIR_EID, CFE_EVS_DEBUG, expEvent,
+                       "CF_AppPipe, PbDirCmd: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirCmdOpenErr
+ */
+void Test_CF_AppPipe_PbDirCmdOpenErr(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 0, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_OPENDIR_INDEX);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "Playback Dir Error %d,cannot open directory %s",
+            0, TestPbSrcDir);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirCmdOpenErr");
+
+    UtAssert_EventSent(CF_OPEN_DIR_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirCmdOpenErr: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirCmdInvLen
+ */
+void Test_CF_AppPipe_PbDirCmdInvLen(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t) + 5, TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d",
+            CF_CMD_MID, CF_PLAYBACK_DIR_CC, sizeof(CF_PlaybackDirCmd_t),
+            sizeof(CF_PlaybackDirCmd_t) + 5);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirCmdParamErr
+ */
+void Test_CF_AppPipe_PbDirCmdParamErr(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 3;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "Playback Dir Cmd Parameter error,class %d,"
+            "chan %d,preserve %d",
+            PbDirCmdMsg.Class, PbDirCmdMsg.Chan, PbDirCmdMsg.Preserve);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirCmdParamErr");
+
+    UtAssert_EventSent(CF_PB_DIR_ERR1_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirCmdParamErr: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirChanNotInUse
+ */
+void Test_CF_AppPipe_PbDirChanNotInUse(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 1;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.Tbl->OuCh[PbDirCmdMsg.Chan].EntryInUse = CF_ENTRY_UNUSED;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent,
+            "CF:Playback Dir Cmd Parameter Error, Chan %u is not in use.",
+            PbDirCmdMsg.Chan);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirChanNotInUse");
+
+    UtAssert_EventSent(CF_PB_DIR_ERR2_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirChanNotInUse: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirInvSrcPath
+ */
+void Test_CF_AppPipe_PbDirInvSrcPath(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    /* the last char has forward slash */
+    strcpy(PbDirCmdMsg.SrcPath, "/cf/testfile.txt");
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "%s", "SrcPath in PB Dir Cmd must be terminated,"
+            "have no spaces,slash at end");
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirInvSrcPath");
+
+    UtAssert_EventSent(CF_PB_DIR_ERR3_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirInvSrcPath: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirInvDstPath
+ */
+void Test_CF_AppPipe_PbDirInvDstPath(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    /* dest filename not terminated */
+    CFE_PSP_MemSet(PbDirCmdMsg.DstPath, 0xFF, OS_MAX_PATH_LEN);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "%s", "DstPath in PB Dir Cmd must be terminated "
+            "and have no spaces");
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirInvDstPath");
+
+    UtAssert_EventSent(CF_PB_DIR_ERR4_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirInvDstPath: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirInvPeerId
+ */
+void Test_CF_AppPipe_PbDirInvPeerId(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, "2555.255");
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "CF:PB Dir Cmd Err,PeerEntityId %s must be 2 byte,"
+            "dotted decimal fmt.ex 0.24", PbDirCmdMsg.PeerEntityId);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirInvPeerId");
+
+    UtAssert_EventSent(CF_PB_DIR_ERR5_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirInvPeerId: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirQFull
+ */
+void Test_CF_AppPipe_PbDirQFull(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    /* Force OS_opendir to return success, instead of default NULL */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_OPENDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX, OS_FS_SUCCESS, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSEDIR_INDEX);
+
+    ReaddirHookCallCnt = 0;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
+                                 (void*)&OS_readdirHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    /* makes the pending queue appear full */
+    CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[0].EntryCnt =
+                    CF_AppData.Tbl->OuCh[PbDirCmdMsg.Chan].PendingQDepth;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "Queue Dir %s Aborted,Ch %d Pending Queue is Full,"
+            "%u Entries", TestPbSrcDir, PbDirCmdMsg.Chan,
+            (unsigned int)CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[0].EntryCnt);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirQFull");
+
+    UtAssert_EventSent(CF_QDIR_PQFUL_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirQFull: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, PbDirNoMem
+ */
+void Test_CF_AppPipe_PbDirNoMem(void)
+{
+    CF_PlaybackDirCmd_t  PbDirCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
+                   sizeof(CF_PlaybackDirCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbDirCmdMsg,
+                      (uint16)CF_PLAYBACK_DIR_CC);
+    PbDirCmdMsg.Class = 1;
+    PbDirCmdMsg.Chan = 0;
+    PbDirCmdMsg.Priority = 0;
+    PbDirCmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(PbDirCmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(PbDirCmdMsg.SrcPath, TestPbSrcDir);
+    strcpy(PbDirCmdMsg.DstPath, TestPbDstDir);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_OPENDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX, OS_FS_SUCCESS, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSEDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETPOOLBUF_INDEX,
+                            CFE_ES_ERR_MEM_HANDLE, 1);
+
+    ReaddirHookCallCnt = 0;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
+                                 (void*)&OS_readdirHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
+    CF_AppPipe((CFE_SB_MsgPtr_t)&PbDirCmdMsg);
+
+    sprintf(expEvent, "PB Dir %s Aborted,Error Allocating Queue Node.",
+            TestPbSrcDir);
+
+    /* Verify Outputs */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, PbDirNoMem");
+
+    UtAssert_EventSent(CF_QDIR_NOMEM2_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, PbDirNoMem: Event Sent");
 }
 
 
@@ -1222,6 +1726,36 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_PbFileFileOnQ,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileFileOnQ");
+    UtTest_Add(Test_CF_AppPipe_PbDirCmd,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirCmd");
+    UtTest_Add(Test_CF_AppPipe_PbDirCmdOpenErr,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirCmdOpenErr");
+    UtTest_Add(Test_CF_AppPipe_PbDirCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_PbDirCmdParamErr,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirCmdParamErr");
+    UtTest_Add(Test_CF_AppPipe_PbDirChanNotInUse,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirChanNotInUse");
+    UtTest_Add(Test_CF_AppPipe_PbDirInvSrcPath,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirInvSrcPath");
+    UtTest_Add(Test_CF_AppPipe_PbDirInvDstPath,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirInvDstPath");
+    UtTest_Add(Test_CF_AppPipe_PbDirInvPeerId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirInvPeerId");
+    UtTest_Add(Test_CF_AppPipe_PbDirQFull,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirQFull");
+    UtTest_Add(Test_CF_AppPipe_PbDirNoMem,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_PbDirNoMem");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmd");

@@ -44,6 +44,8 @@ extern const char TestUpLinkDestFile[];
 extern const char TestPbSrcFile[];
 extern const char TestPbDestFile[];
 extern const char TestPbPeerEntityId[];
+extern const char TestPbSrcDir[];
+extern const char TestPbDstDir[];
 
 
 #ifdef __cplusplus
