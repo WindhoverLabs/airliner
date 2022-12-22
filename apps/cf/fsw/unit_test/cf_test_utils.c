@@ -59,12 +59,14 @@
 
 const char TestUpLinkDestFile[] = "/ram/uploadedfile.txt";
 
-const char TestPbSrcFile[] = "/cf/testfile.txt";
-const char TestPbDestFile[] = "gndpath/";
-const char TestPbPeerEntityId[] = "2.25";
+const char TestPbSrcFile1[] = "testfile1.txt";
+const char TestPbSrcFile2[] = "testfile2.txt";
+const char TestPbSrcFile3[] = "testfile3.txt";
 
 const char TestPbSrcDir[] = "/cf/";
 const char TestPbDstDir[] = "gndpath/";
+
+const char TestPbPeerEntityId[] = "2.25";
 
 
 void CF_Test_Setup(void)
@@ -127,44 +129,49 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 }
 
 
-void CF_TstUtil_CreateOnePendingQueueEntry(void)
+void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    CF_PlaybackFileCmd_t  PbFileCmdMsg;
-
-    /* reset CF globals etc */
-    CF_AppInit();
-
     /* reset the transactions seq number used by the engine */
     misc__set_trans_seq_num(1);
 
     /* Execute a playback file command so that one queue entry is added
        to the pending queue */
-    CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
+    CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg, CF_PLAYBACK_FILE_CC);
-    PbFileCmdMsg.Class = 1;
-    PbFileCmdMsg.Channel = 0;
-    PbFileCmdMsg.Priority = 0;
-    PbFileCmdMsg.Preserve = CF_KEEP_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbSrcFile);
-    strcpy(PbFileCmdMsg.DstFilename, TestPbDestFile);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
+    pCmd->Class = 1;
+    pCmd->Channel = 0;
+    pCmd->Priority = 0;
+    pCmd->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
+    strcpy(pCmd->SrcFilename, TestPbSrcDir);
+    strcat(pCmd->SrcFilename, TestPbSrcFile1);
+    strcpy(pCmd->DstFilename, TestPbDstDir);
+
+    /* Set to return that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
     /* execute the playback file cmd to get a queue entry on the
        pending queue */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbFileCmdMsg;
-    CF_AppPipe((CFE_SB_MsgPtr_t)&PbFileCmdMsg);
+    CF_AppInit();     /* reset CF globals etc */
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
+    CF_AppPipe(CF_AppData.MsgPtr);
 }
 
 
-void CF_TstUtil_CreateOnePbActiveQueueEntry(void)
+void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    CF_TstUtil_CreateOnePendingQueueEntry();
+    CF_TstUtil_CreateOnePendingQueueEntry(pCmd);
 
     /* Force OS_stat to return a valid size and success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
@@ -174,22 +181,22 @@ void CF_TstUtil_CreateOnePbActiveQueueEntry(void)
 }
 
 
-void CF_TstUtil_CreateOnePbHistoryQueueEntry(void)
+void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    CF_CARSCmd_t    CmdMsg;
+    CF_CARSCmd_t    CARSCmdMsg;
 
     /* Setup Inputs */
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
-    strcpy(CmdMsg.Trans,"All");
+    CFE_SB_InitMsg((void*)&CARSCmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CARSCmdMsg, CF_ABANDON_CC);
+    strcpy(CARSCmdMsg.Trans, "All");
 
-    CF_TstUtil_CreateOnePbActiveQueueEntry();
+    CF_TstUtil_CreateOnePbActiveQueueEntry(pCmd);
 
     cfdp_cycle_each_transaction();
 
     /* Send Abandon Cmd */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
-    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CARSCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
 
     cfdp_cycle_each_transaction();
 
@@ -205,7 +212,7 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
     /* reset CF globals etc */
     CF_AppInit();
 
-    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
     TransInfo.trans.source_id.value[1] = 23;
@@ -215,7 +222,7 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    CF_Indication (IndType,TransInfo);
+    CF_Indication(IndType,TransInfo);
 }
 
 
@@ -226,14 +233,14 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntry(void)
 
     CF_TstUtil_CreateOneUpActiveQueueEntry();
 
-    TransInfo.role =  CLASS_1_RECEIVER;
+    TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
     TransInfo.trans.source_id.value[1] = 23;
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
     strcpy(TransInfo.md.dest_file_name, TestUpLinkDestFile);
 
-    CF_Indication (IndType,TransInfo);
+    CF_Indication(IndType,TransInfo);
 }
 
 
@@ -244,10 +251,10 @@ void CF_ResetEngine(void)
 
     CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
-    strcpy(CmdMsg.Trans,"All");
+    strcpy(CmdMsg.Trans, "All");
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
-    CF_AppPipe((CFE_SB_MsgPtr_t)&CmdMsg);
+    CF_AppPipe(CF_AppData.MsgPtr);
 
     cfdp_cycle_each_transaction();
 

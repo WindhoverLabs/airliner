@@ -41,11 +41,15 @@ extern cf_config_table_t   CF_ConfigTable;
 extern cf_config_table_t   CF_ConfigTableUnitTest;
 
 extern const char TestUpLinkDestFile[];
-extern const char TestPbSrcFile[];
-extern const char TestPbDestFile[];
-extern const char TestPbPeerEntityId[];
+
+extern const char TestPbSrcFile1[];
+extern const char TestPbSrcFile2[];
+extern const char TestPbSrcFile3[];
+
 extern const char TestPbSrcDir[];
 extern const char TestPbDstDir[];
+
+extern const char TestPbPeerEntityId[];
 
 
 #ifdef __cplusplus
@@ -57,9 +61,9 @@ void CF_Test_Setup(void);
 void CF_Test_TearDown(void);
 
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
-void  CF_TstUtil_CreateOnePendingQueueEntry(void);
-void  CF_TstUtil_CreateOnePbActiveQueueEntry(void);
-void  CF_TstUtil_CreateOnePbHistoryQueueEntry(void);
+void  CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateOneUpActiveQueueEntry(void);
 void  CF_TstUtil_CreateOneUpHistoryQueueEntry(void);
 void  CF_ResetEngine(void);
