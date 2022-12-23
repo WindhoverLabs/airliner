@@ -58,6 +58,7 @@
 #include "ut_cfe_fs_stubs.h"
 
 #include <string.h>
+#include <ctype.h>
 
 
 CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
@@ -1829,9 +1830,9 @@ void Test_CF_AppPipe_SuspendFilenameCmd(void)
 
 
 /**
- * Test CF_AppPipe, SetMibCmd
+ * Test CF_AppPipe, SetMibCmdSaveIncompleteFiles
  */
-void Test_CF_AppPipe_SetMibCmd(void)
+void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
 {
     CF_SetMibParam_t  CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1854,17 +1855,17 @@ void Test_CF_AppPipe_SetMibCmd(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, SetMibCmd");
+                  "CF_AppPipe, SetMibCmdSaveIncompleteFiles");
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
-                       "CF_AppPipe, SetMibCmd: Event Sent");
+                  "CF_AppPipe, SetMibCmdSaveIncompleteFiles: Event Sent");
 }
 
 
 /**
- * Test CF_AppPipe, SetMibCmdInvLen
+ * Test CF_AppPipe, SetMibCmdSaveIncompleteFilesInvLen
  */
-void Test_CF_AppPipe_SetMibCmdInvLen(void)
+void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen(void)
 {
     CF_SetMibParam_t  CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1888,17 +1889,17 @@ void Test_CF_AppPipe_SetMibCmdInvLen(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 1),
-                  "CF_AppPipe, SetMibCmdInvLen");
+                  "CF_AppPipe, SetMibCmdSaveIncompleteFilesInvLen");
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppPipe, SetMibCmdInvLen: Event Sent");
+             "CF_AppPipe, SetMibCmdSaveIncompleteFilesInvLen: Event Sent");
 }
 
 
 /**
- * Test CF_AppPipe, SetMibCmdUntermParam
+ * Test CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermParam
  */
-void Test_CF_AppPipe_SetMibCmdUntermParam(void)
+void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam(void)
 {
     CF_SetMibParam_t  CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1921,17 +1922,17 @@ void Test_CF_AppPipe_SetMibCmdUntermParam(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 1),
-                  "CF_AppPipe, SetMibCmdUntermParam");
+                  "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermParam");
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppPipe, SetMibCmdUntermParam: Event Sent");
+        "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermParam: Event Sent");
 }
 
 
 /**
- * Test CF_AppPipe, SetMibCmdUntermValue
+ * Test CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermValue
  */
-void Test_CF_AppPipe_SetMibCmdUntermValue(void)
+void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue(void)
 {
     CF_SetMibParam_t  CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1954,14 +1955,466 @@ void Test_CF_AppPipe_SetMibCmdUntermValue(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 1),
-                  "CF_AppPipe, SetMibCmdUntermValue");
+                  "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermValue");
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppPipe, SetMibCmdUntermValue: Event Sent");
+       "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermValue: Event Sent");
 }
 
 
-#if 0
+/**
+ * Test CF_AppPipe, SetMibCmdAckLimit
+ */
+void Test_CF_AppPipe_SetMibCmdAckLimit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "ack_limit");
+    strcpy(CmdMsg.Value, "4");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'ack_limit' set to '%lu'.",
+            (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdAckLimit");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->AckLimit, CmdMsg.Value) == 0,
+                  "CF_AppPipe, SetMibCmdAckLimit: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdAckLimit: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_AppPipe, SetMibCmdAckLimit: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdAckLimitNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdAckLimitNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "ack_limit");
+    strcpy(CmdMsg.Value, "four");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set 'ack_limit'; "
+            "value (%s) must be numeric.", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdAckLimitNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+                  "CF_AppPipe, SetMibCmdAckLimitNonDigit: CFDP Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdAckTimeout
+ */
+void Test_CF_AppPipe_SetMibCmdAckTimeout(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "ACK_TIMEOUT");
+    strcpy(CmdMsg.Value, "25");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'ack_timeout' set to '%lu'.",
+            (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdAckTimeout");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->AckTimeout, CmdMsg.Value) == 0,
+                  "CF_AppPipe, SetMibCmdAckTimeout: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdAckTimeout: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, SetMibCmdAckTimeout: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdAckTimeoutNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "ACK_TIMEOUT");
+    strcpy(CmdMsg.Value, "ab");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set 'ack_timeout'; "
+            "value (%s) must be numeric.", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdAckTimeoutNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+             "CF_AppPipe, SetMibCmdAckTimeoutNonDigit: CFDP Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdInactTimeout
+ */
+void Test_CF_AppPipe_SetMibCmdInactTimeout(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "INACTIVITY_TIMEOUT");
+    strcpy(CmdMsg.Value, "40");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'inactivity_timeout' set to '%lu'.",
+            (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdInactTimeout");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->InactivityTimeout, CmdMsg.Value)
+                  == 0,
+                  "CF_AppPipe, SetMibCmdInactTimeout: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdInactTimeout: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, SetMibCmdInactTimeout: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdInactTimeoutNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "INACTIVITY_TIMEOUT");
+    strcpy(CmdMsg.Value, "cde");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set 'inactivity_timeout'; "
+            "value (%s) must be numeric.", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdInactTimeoutNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+              "CF_AppPipe, SetMibCmdInactTimeoutNonDigit: CFDP Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdNakLimit
+ */
+void Test_CF_AppPipe_SetMibCmdNakLimit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "nak_limit");
+    strcpy(CmdMsg.Value, "5");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'nak_limit' set to '%lu'.",
+            (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdNakLimit");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->NakLimit, CmdMsg.Value) == 0,
+                  "CF_AppPipe, SetMibCmdNakLimit: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdNakLimit: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_AppPipe, SetMibCmdNakLimit: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdNakLimitNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdNakLimitNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "nak_limit");
+    strcpy(CmdMsg.Value, "FIVE");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set 'nak_limit'; "
+            "value (%s) must be numeric.", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdNakLimitNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+                 "CF_AppPipe, SetMibCmdNakLimitNonDigit: CFDP Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdNakTimeout
+ */
+void Test_CF_AppPipe_SetMibCmdNakTimeout(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "NAK_TIMEOUT");
+    strcpy(CmdMsg.Value, "2");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'nak_timeout' set to '%lu'.",
+            (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdNakTimeout");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->NakTimeout, CmdMsg.Value) == 0,
+                  "CF_AppPipe, SetMibCmdNakTimeout: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdNakTimeout: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, SetMibCmdNakTimeout: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdNakTimeoutNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "NAK_TIMEOUT");
+    strcpy(CmdMsg.Value, "hg");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set 'nak_timeout'; "
+            "value (%s) must be numeric.", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdNakTimeoutNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+               "CF_AppPipe, SetMibCmdNakTimeoutNonDigit: CFDP Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdFileChunkSize
+ */
+void Test_CF_AppPipe_SetMibCmdFileChunkSize(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "OUTGOING_FILE_CHUNK_SIZE");
+    strcpy(CmdMsg.Value, "250");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: 'outgoing_file_chunk_size' "
+            "set to '%lu'.", (uint32)atoi(CmdMsg.Value));
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdFileChunkSize");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->OutgoingFileChunkSize, CmdMsg.Value)
+                  == 0,
+                  "CF_AppPipe, SetMibCmdFileChunkSize: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                      "CF_AppPipe, SetMibCmdFileChunkSize: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, SetMibCmdFileChunkSize: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdFileChunkSizeNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "OUTGOING_FILE_CHUNK_SIZE");
+    strcpy(CmdMsg.Value, "cde");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set "
+            "'outgoing_file_chunk_size'; value (%s) must be numeric.",
+            CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdFileChunkSizeNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+            "CF_AppPipe, SetMibCmdFileChunkSizeNonDigit: CFDP Event Sent");
+}
+
+
 /**
  * Test CF_AppPipe, SetMibCmdFileChunkOverLimit
  */
@@ -1973,7 +2426,7 @@ void Test_CF_AppPipe_SetMibCmdFileChunkOverLimit(void)
     CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
                       (uint16)CF_SET_MIB_PARAM_CC);
-    strcpy(CmdMsg.Param, "outgoing_file_chunk_size");
+    strcpy(CmdMsg.Param, "OUTGOING_FILE_CHUNK_SIZE");
     strcpy(CmdMsg.Value, "10000");
 
     /* Execute the function being tested */
@@ -1987,8 +2440,132 @@ void Test_CF_AppPipe_SetMibCmdFileChunkOverLimit(void)
             atoi(CmdMsg.Value), CF_MAX_OUTGOING_CHUNK_SIZE);
 
     /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdFileChunkOverLimit");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_ERR1_EID, CFE_EVS_ERROR, expEvent,
+            "CF_AppPipe, SetMibCmdFileChunkOverLimit: CFDP Event Sent");
 }
-#endif
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdMyId
+ */
+void Test_CF_AppPipe_SetMibCmdMyId(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "MY_ID");
+    strcpy(CmdMsg.Value, "25.29");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEventCfdp, "cfdp_engine: entity-id set to '%s'.",
+            CmdMsg.Value);
+    sprintf(expEvent, "Set MIB command received.Param %s Value %s",
+            CmdMsg.Param, CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetMibCmdMyId");
+
+    UtAssert_True(strcmp(CF_AppData.Tbl->FlightEntityId, CmdMsg.Value)
+                  == 0,
+                  "CF_AppPipe, SetMibCmdMyId: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+                       "CF_AppPipe, SetMibCmdMyId: CFDP Event Sent");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_AppPipe, SetMibCmdMyId: Success Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdMyIdInvalid
+ */
+void Test_CF_AppPipe_SetMibCmdMyIdInvalid(void)
+{
+    CF_SetMibParam_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "MY_ID");
+    strcpy(CmdMsg.Value, "10000");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Cannot set Flight Entity Id to %s, must be 2 byte, "
+            "dotted decimal fmt", CmdMsg.Value);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdMyIdInvalid");
+
+    UtAssert_EventSent(CF_SET_MIB_CMD_ERR2_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetMibCmdMyIdInvalid: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetMibCmdMyIdNonDigit
+ */
+void Test_CF_AppPipe_SetMibCmdMyIdNonDigit(void)
+{
+    int               i;
+    CF_SetMibParam_t  CmdMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  upperValue[CF_MAX_CFG_VALUE_CHARS];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_MIB_PARAM_CC);
+    strcpy(CmdMsg.Param, "MY_ID");
+    strcpy(CmdMsg.Value, "ab.10");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    i = 0;
+    while(CmdMsg.Value[i] != '\0')
+    {
+        upperValue[i] = (char)toupper((int)CmdMsg.Value[i]);
+        i++;
+    }
+    upperValue[i] = '\0';
+
+    sprintf(expEventCfdp, "cfdp_engine: can't set entity-id to illegal "
+            "value (%s).", upperValue);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetMibCmdMyIdNonDigit");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+                  "CF_AppPipe, SetMibCmdMyIdNonDigit: CFDP Event Sent");
+}
 
 
 
@@ -2111,16 +2688,64 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SuspendFilenameCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendFilenameCmd");
-    UtTest_Add(Test_CF_AppPipe_SetMibCmd,
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_SetMibCmd");
-    UtTest_Add(Test_CF_AppPipe_SetMibCmdInvLen,
+               "Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_SetMibCmdInvLen");
-    UtTest_Add(Test_CF_AppPipe_SetMibCmdUntermParam,
+               "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_SetMibCmdUntermParam");
-    UtTest_Add(Test_CF_AppPipe_SetMibCmdUntermValue,
+               "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_SetMibCmdUntermValue");
+               "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdAckLimit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdAckLimit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdAckLimitNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdAckLimitNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdAckTimeout,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdAckTimeout");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdInactTimeout,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdInactTimeout");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdNakLimit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdNakLimit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdNakLimitNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdNakLimitNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdNakTimeout,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdNakTimeout");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkSize,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdFileChunkSize");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkOverLimit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdFileChunkOverLimit");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdMyId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdMyId");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdMyIdInvalid,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdMyIdInvalid");
+    UtTest_Add(Test_CF_AppPipe_SetMibCmdMyIdNonDigit,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetMibCmdMyIdNonDigit");
 }
