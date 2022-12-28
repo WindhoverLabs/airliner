@@ -80,8 +80,8 @@ int32 OS_statHook(const char *path, os_fstat_t *filestats)
 
 int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 {
-    strcpy(fd_prop->Path, TestPbSrcDir);
-    strcat(fd_prop->Path, TestPbSrcFile1);
+    strcpy(fd_prop->Path, TestPbDir);
+    strcat(fd_prop->Path, TestPbFile1);
 
     return OS_FS_SUCCESS;
 }
@@ -102,7 +102,7 @@ printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     }
     else if(ReaddirHookCallCnt == 3)
     {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbSrcFile3);
+        strcpy(ReaddirHookDirEntry.d_name, TestPbFile3);
         ReaddirHookDirEntry.d_type = OS_DT_DIR;
     }
     else if(ReaddirHookCallCnt == 4)
@@ -118,11 +118,11 @@ printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     }
     else if(ReaddirHookCallCnt == 6)
     {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbSrcFile2);
+        strcpy(ReaddirHookDirEntry.d_name, TestPbFile2);
     }
     else if(ReaddirHookCallCnt == 7)
     {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbSrcFile1);
+        strcpy(ReaddirHookDirEntry.d_name, TestPbFile1);
     }
     else
     {

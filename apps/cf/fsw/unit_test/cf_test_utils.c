@@ -57,16 +57,19 @@
 #include <string.h>
 
 
-const char TestUpLinkDestFile[] = "/ram/uploadedfile.txt";
+const char TestPbFile1[] = "pbfile1.dat";
+const char TestPbFile2[] = "pbfile2.dat";
+const char TestPbFile3[] = "pbfile3.dat";
 
-const char TestPbSrcFile1[] = "testfile1.txt";
-const char TestPbSrcFile2[] = "testfile2.txt";
-const char TestPbSrcFile3[] = "testfile3.txt";
+const char TestInFile1[] = "infile1.dat";
 
-const char TestPbSrcDir[] = "/cf/";
-const char TestPbDstDir[] = "gndpath/";
+const char TestQInfoFile1[] = "qinfofile1.dat";
 
-const char TestPbPeerEntityId[] = "2.25";
+const char TestPbDir[] = "/cf/";
+const char TestDstDir[] = "gndpath/";
+const char TestInDir[] = "inpath/";
+
+const char TestPeerEntityId[] = "2.25";
 
 
 void CF_Test_Setup(void)
@@ -143,10 +146,10 @@ void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     pCmd->Channel = 0;
     pCmd->Priority = 0;
     pCmd->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
-    strcpy(pCmd->SrcFilename, TestPbSrcDir);
-    strcat(pCmd->SrcFilename, TestPbSrcFile1);
-    strcpy(pCmd->DstFilename, TestPbDstDir);
+    strcpy(pCmd->PeerEntityId, TestPeerEntityId);
+    strcpy(pCmd->SrcFilename, TestPbDir);
+    strcat(pCmd->SrcFilename, TestPbFile1);
+    strcpy(pCmd->DstFilename, TestDstDir);
 
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
@@ -238,7 +241,8 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntry(void)
     TransInfo.trans.source_id.value[0] = 0;
     TransInfo.trans.source_id.value[1] = 23;
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
-    strcpy(TransInfo.md.dest_file_name, TestUpLinkDestFile);
+    strcpy(TransInfo.md.dest_file_name, TestInDir);
+    strcat(TransInfo.md.dest_file_name, TestInFile1);
 
     CF_Indication(IndType,TransInfo);
 }

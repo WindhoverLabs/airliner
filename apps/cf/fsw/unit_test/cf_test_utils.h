@@ -40,16 +40,19 @@ extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
 extern cf_config_table_t   CF_ConfigTableUnitTest;
 
-extern const char TestUpLinkDestFile[];
+extern const char TestPbFile1[];
+extern const char TestPbFile2[];
+extern const char TestPbFile3[];
 
-extern const char TestPbSrcFile1[];
-extern const char TestPbSrcFile2[];
-extern const char TestPbSrcFile3[];
+extern const char TestInFile1[];
 
-extern const char TestPbSrcDir[];
-extern const char TestPbDstDir[];
+extern const char TestQInfoFile1[];
 
-extern const char TestPbPeerEntityId[];
+extern const char TestPbDir[];
+extern const char TestDstDir[];
+extern const char TestInDir[];
+
+extern const char TestPeerEntityId[];
 
 
 #ifdef __cplusplus
