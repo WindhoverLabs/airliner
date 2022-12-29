@@ -51,6 +51,7 @@ extern const char TestQInfoFile1[];
 extern const char TestPbDir[];
 extern const char TestDstDir[];
 extern const char TestInDir[];
+extern const char TestQInfoDir[];
 
 extern const char TestPeerEntityId[];
 

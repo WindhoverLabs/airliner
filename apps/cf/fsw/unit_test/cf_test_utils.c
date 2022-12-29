@@ -68,6 +68,7 @@ const char TestQInfoFile1[] = "qinfofile1.dat";
 const char TestPbDir[] = "/cf/";
 const char TestDstDir[] = "gndpath/";
 const char TestInDir[] = "inpath/";
+const char TestQInfoDir[] = "qinfopath/";
 
 const char TestPeerEntityId[] = "2.25";
 
