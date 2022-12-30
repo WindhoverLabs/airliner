@@ -53,7 +53,8 @@ extern const char TestDstDir[];
 extern const char TestInDir[];
 extern const char TestQInfoDir[];
 
-extern const char TestPeerEntityId[];
+extern const char TestPbPeerEntityId[];
+extern const char TestInSrcEntityId[];
 
 
 #ifdef __cplusplus

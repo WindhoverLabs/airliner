@@ -70,7 +70,8 @@ const char TestDstDir[] = "gndpath/";
 const char TestInDir[] = "inpath/";
 const char TestQInfoDir[] = "qinfopath/";
 
-const char TestPeerEntityId[] = "2.25";
+const char TestPbPeerEntityId[] = "2.25";
+const char TestInSrcEntityId[] = "0.23";
 
 
 void CF_Test_Setup(void)
@@ -147,7 +148,7 @@ void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     pCmd->Channel = 0;
     pCmd->Priority = 0;
     pCmd->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd->PeerEntityId, TestPeerEntityId);
+    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd->SrcFilename, TestPbDir);
     strcat(pCmd->SrcFilename, TestPbFile1);
     strcpy(pCmd->DstFilename, TestDstDir);

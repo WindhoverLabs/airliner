@@ -52,7 +52,9 @@ int32          OS_statHook(const char *path, os_fstat_t *filestats);
 int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
 os_dirent_t *  OS_readdirHook (os_dirp_t directory);
 
-void           Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
+void                Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
+CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void);
+void                Test_CF_SBTimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
 
 
 #ifdef __cplusplus
