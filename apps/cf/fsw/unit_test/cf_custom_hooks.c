@@ -70,6 +70,18 @@ printf("###CFE_ES_GetPoolBufHook entered: HookCallCnt(%lu)\n", CFE_ES_GetPoolBuf
 }
 
 
+int32 CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr)
+{
+printf("###CFE_ES_PutPoolBufHook entered\n");
+
+    /* Note the actual memory pool has not been deallocated:
+       the CFE_ES_GetPoolBufHookCallCnt remains the same value,
+       but the CF_AppData.Hk.App.MemInUse will be reduced
+       as it supposed to be in the actual environment */
+    return sizeof(CF_QueueEntry_t);
+}
+
+
 int32 OS_statHook(const char *path, os_fstat_t *filestats)
 {
     filestats->st_size = 123;

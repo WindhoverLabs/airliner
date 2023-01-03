@@ -4996,6 +4996,223 @@ void Test_CF_AppPipe_SetPollParamCmd(void)
 }
 
 
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdInvLen
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdInvLen(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID,
+                   sizeof(DeQCmdMsg) + 5, TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId);
+    strcat(DeQCmdMsg.Trans, "_209");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_CMD_MID, CF_DELETE_QUEUE_NODE_CC,
+            sizeof(DeQCmdMsg), sizeof(DeQCmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, DeleteQueueNodeCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, DeleteQueueNodeCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdTransUnterm
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    CFE_PSP_MemSet(DeQCmdMsg.Trans, 0xFF, OS_MAX_PATH_LEN);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Unterminated string found in %s",
+            "DequeueNode Cmd, Trans parameter");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, DeleteQueueNodeCmdTransUnterm");
+
+    UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
+             "CF_AppPipe, DeleteQueueNodeCmdTransUnterm: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdInvFilename
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    strcpy(DeQCmdMsg.Trans, TestPbDir);
+    strcat(DeQCmdMsg.Trans, "p bfile1.dat");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Filename in %s must be terminated and have no spaces",
+            "DequeueNodeCmd");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, DeleteQueueNodeCmdInvFilename");
+
+    UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_AppPipe, DeleteQueueNodeCmdInvFilename: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdFileNotFound
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    strcpy(DeQCmdMsg.Trans, TestPbDir);
+    strcat(DeQCmdMsg.Trans, TestPbFile1);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Dequeue Node Cmd Error, %s not found.",
+            DeQCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, DeleteQueueNodeCmdFileNotFound");
+
+    UtAssert_EventSent(CF_DEQ_NODE_ERR1_EID, CFE_EVS_ERROR, expEvent,
+             "CF_AppPipe, DeleteQueueNodeCmdFileNotFound: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdIdNotFound
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId);
+    strcat(DeQCmdMsg.Trans, "_209");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Dequeue Node Cmd Error, %s not found.",
+            DeQCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, DeleteQueueNodeCmdIdNotFound");
+
+    UtAssert_EventSent(CF_DEQ_NODE_ERR1_EID, CFE_EVS_ERROR, expEvent,
+             "CF_AppPipe, DeleteQueueNodeCmdIdNotFound: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdUpActive
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
+{
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    CF_NoArgsCmd_t       InPDUMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEventWarn[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId);
+    strcat(DeQCmdMsg.Trans, "_500");
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_CMD_MID, sizeof(InPDUMsg), TRUE);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    /* Execute the function being tested */
+    CF_TstUtil_CreateOneUpActiveQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg);
+
+    /* This first dequeue command will produce the warning */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* This identical second cmd will dequeue without warning */
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(FullTransString, "%s", DeQCmdMsg.Trans);
+    sprintf(expEventWarn, "DequeueNodeCmd:Trans %s is ACTIVE! Must send "
+            "cmd again to remove", FullTransString);
+    sprintf(expEvent, "DequeueNodeCmd %s Removed from %s Queue,Stat %d",
+            DeQCmdMsg.Trans, "Incoming Active", CF_SUCCESS);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdUpActive");
+
+    UtAssert_EventSent(CF_DEQ_NODE_ERR2_EID, CFE_EVS_CRITICAL, expEventWarn,
+             "CF_AppPipe, DeleteQueueNodeCmdUpActive: Warning Event Sent");
+
+    UtAssert_EventSent(CF_DEQ_NODE1_EID, CFE_EVS_DEBUG, expEvent,
+             "CF_AppPipe, DeleteQueueNodeCmdUpActive: Success Event Sent");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -5352,4 +5569,23 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmd");
+
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpActive,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdUpActive");
 }

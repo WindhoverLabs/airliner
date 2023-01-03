@@ -48,6 +48,8 @@ extern "C" {
 
 int32          CFE_ES_GetPoolBufHook(uint32 **BufPtr,
                                    CFE_ES_MemHandle_t HandlePtr, uint32 Size);
+int32          CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr,
+                                     uint32 *BufPtr);
 int32          OS_statHook(const char *path, os_fstat_t *filestats);
 int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
 os_dirent_t *  OS_readdirHook (os_dirp_t directory);

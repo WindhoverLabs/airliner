@@ -209,7 +209,7 @@ void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
-void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
+void CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 {
     INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
     TRANS_STATUS    TransInfo;
@@ -227,16 +227,18 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(void)
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
+    CF_AppData.MsgPtr = MsgPtr;
+
     CF_Indication(IndType,TransInfo);
 }
 
 
-void CF_TstUtil_CreateOneUpHistoryQueueEntry(void)
+void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
 
-    CF_TstUtil_CreateOneUpActiveQueueEntry();
+    CF_TstUtil_CreateOneUpActiveQueueEntry(MsgPtr);
 
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;

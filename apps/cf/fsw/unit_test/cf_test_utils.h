@@ -69,8 +69,8 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
 void  CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_CreateOneUpActiveQueueEntry(void);
-void  CF_TstUtil_CreateOneUpHistoryQueueEntry(void);
+void  CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
+void  CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
 void  CF_ResetEngine(void);
 
 void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
