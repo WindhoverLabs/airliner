@@ -4314,6 +4314,108 @@ void Test_CF_AppPipe_SendTransDiagCmdTransNotFound(void)
 
 
 /**
+ * Test CF_AppPipe, SendTransDiagCmdInvLen
+ */
+void Test_CF_AppPipe_SendTransDiagCmdInvLen(void)
+{
+    CF_SendTransCmd_t     SndTrCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&SndTrCmdMsg, CF_CMD_MID,
+                   sizeof(SndTrCmdMsg) + 5, TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
+                      (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
+    strcpy(SndTrCmdMsg.Trans, TestPbDir);
+    strcat(SndTrCmdMsg.Trans, TestPbFile1);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_CMD_MID, CF_SEND_TRANS_DIAG_DATA_CC,
+            sizeof(SndTrCmdMsg), sizeof(SndTrCmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SendTransDiagCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SendTransDiagCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SendTransDiagCmdUntermString
+ */
+void Test_CF_AppPipe_SendTransDiagCmdUntermString(void)
+{
+    CF_SendTransCmd_t     SndTrCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&SndTrCmdMsg, CF_CMD_MID,
+                   sizeof(SndTrCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
+                      (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
+    CFE_PSP_MemSet(SndTrCmdMsg.Trans, 0xFF, OS_MAX_PATH_LEN);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Unterminated string found in %s",
+            "SendTransData Cmd, Trans parameter");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SendTransDiagCmdUntermString");
+
+    UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_AppPipe, SendTransDiagCmdUntermString: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SendTransDiagCmdInvFilename
+ */
+void Test_CF_AppPipe_SendTransDiagCmdInvFilename(void)
+{
+    CF_SendTransCmd_t     SndTrCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&SndTrCmdMsg, CF_CMD_MID,
+                   sizeof(SndTrCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
+                      (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
+    strcpy(SndTrCmdMsg.Trans, TestPbDir);
+    strcat(SndTrCmdMsg.Trans, "This string has spaces");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Filename in %s must be terminated and have no spaces",
+            "SendTransDataCmd");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SendTransDiagCmdInvFilename");
+
+    UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SendTransDiagCmdInvFilename: Event Sent");
+}
+
+
+/**
  * Hook to support: Test CF_AppPipe, SendTransDiagCmd
  */
 int32 Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
@@ -4521,6 +4623,379 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
 }
 
 
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvLen
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvLen(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg) + 5, TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_CMD_MID, CF_SET_POLL_PARAM_CC,
+            sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvChan
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvChan(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 130;  /* 0 to (CF_MAX_PLAYBACK_CHANNELS - 1) */
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Invalid Chan Param %u in SetPollParamCmd,Max %u",
+            CmdMsg.Chan, CF_MAX_PLAYBACK_CHANNELS-1);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvChan");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR1_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvChan: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvDir
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvDir(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = CF_MAX_POLLING_DIRS_PER_CHAN;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Invalid PollDir Param %u in SetPollParamCmd,Max %u",
+            CmdMsg.Dir, CF_MAX_POLLING_DIRS_PER_CHAN-1);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvDir");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR2_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvDir: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvClass
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvClass(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 0;  /* 1=class 1, 2=class 2 */
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Invalid Class Param %u in "
+            "SetPollParamCmd,Min %u,Max %u",
+            CmdMsg.Class, CF_CLASS_1, CF_CLASS_2);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvClass");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR3_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvClass: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvPreserve
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvPreserve(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = 2;  /* 0=delete, 1=keep */
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Invalid Preserve Param %u in SetPollParamCmd,Max %u",
+            CmdMsg.Preserve, CF_KEEP_FILE);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvPreserve");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR4_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_AppPipe, SetPollParamCmdInvPreserve: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvSrc
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvSrc(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, "/cf /");
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "%s", "SrcPath in SetPollParam Cmd must be terminated,"
+            "have no spaces,slash at end");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvSrc");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR5_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvSrc: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvDst
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvDst(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, "gnd path");
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "%s", "DstPath in SetPollParam Cmd must be "
+            "terminated and have no spaces");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvDst");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR6_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvDst: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmdInvId
+ */
+void Test_CF_AppPipe_SetPollParamCmdInvId(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, "234200");
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "PeerEntityId %s in SetPollParam Cmd must "
+            "be 2 byte,dotted decimal fmt.ex 0.24", CmdMsg.PeerEntityId);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, SetPollParamCmdInvId");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM_ERR7_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, SetPollParamCmdInvId: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, SetPollParamCmd
+ */
+void Test_CF_AppPipe_SetPollParamCmd(void)
+{
+    CF_SetPollParamCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_SET_POLL_PARAM_CC);
+    CmdMsg.Chan = 0;
+    CmdMsg.Dir = 1;
+    CmdMsg.Class = 1;
+    CmdMsg.Priority = 1;
+    CmdMsg.Preserve = CF_KEEP_FILE;
+    strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
+    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.DstPath, TestDstDir);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "SetPollParam Cmd Rcvd,Ch=%u,Dir=%u,Cl=%u,Pri=%u,Pre=%u",
+            CmdMsg.Chan, CmdMsg.Dir, CmdMsg.Class,
+            CmdMsg.Priority, CmdMsg.Preserve);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SetPollParamCmd");
+
+    UtAssert_True(CF_AppData.Tbl->OuCh[CmdMsg.Chan].PollDir[CmdMsg.Dir].Preserve
+                  == CF_KEEP_FILE,
+                  "CF_AppPipe, SetPollParamCmd: Config Tbl Polling Preserve");
+
+    UtAssert_True(strcmp(
+             CF_AppData.Tbl->OuCh[CmdMsg.Chan].PollDir[CmdMsg.Dir].PeerEntityId,
+             CmdMsg.PeerEntityId) == 0,
+             "CF_AppPipe, SetPollParamCmd: Config Tbl Polling PeerEntityId");
+
+    UtAssert_True(strcmp(
+             CF_AppData.Tbl->OuCh[CmdMsg.Chan].PollDir[CmdMsg.Dir].SrcPath,
+             CmdMsg.SrcPath) == 0,
+             "CF_AppPipe, SetPollParamCmd: Config Tbl Polling SrcPath");
+
+    UtAssert_True(strcmp(
+             CF_AppData.Tbl->OuCh[CmdMsg.Chan].PollDir[CmdMsg.Dir].DstPath,
+             CmdMsg.DstPath) == 0,
+             "CF_AppPipe, SetPollParamCmd: Config Tbl Polling DstPath");
+
+    UtAssert_EventSent(CF_SET_POLL_PARAM1_EID, CFE_EVS_DEBUG, expEvent,
+                       "CF_AppPipe, SetPollParamCmd: Event Sent");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -4533,6 +5008,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_InvalidCmdCode,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_InvalidCmdCode");
+
     UtTest_Add(Test_CF_AppPipe_NoopCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_NoopCmd");
@@ -4545,6 +5021,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_RstCtrsCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_RstCtrsCmdInvLen");
+
     UtTest_Add(Test_CF_AppPipe_PbFileCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmd");
@@ -4578,6 +5055,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_PbFileCmdFileOnQ,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdFileOnQ");
+
     UtTest_Add(Test_CF_AppPipe_PbDirCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmd");
@@ -4617,21 +5095,25 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_PbDirCmdAllGood,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdAllGood");
+
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmd");
+
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_FreezeCmd");
     UtTest_Add(Test_CF_AppPipe_FreezeCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_FreezeCmdInvLen");
+
     UtTest_Add(Test_CF_AppPipe_ThawCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmd");
     UtTest_Add(Test_CF_AppPipe_ThawCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmdInvLen");
+
     UtTest_Add(Test_CF_AppPipe_SuspendTransIdCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendTransIdCmd");
@@ -4641,6 +5123,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SuspendFilenameCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendFilenameCmd");
+
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles");
@@ -4701,6 +5184,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SetMibCmdMyIdNonDigit,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdMyIdNonDigit");
+
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles");
@@ -4736,12 +5220,14 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdMyId");
 #endif
+
     UtTest_Add(Test_CF_AppPipe_SendCfgParamsCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendCfgParamsCmd");
     UtTest_Add(Test_CF_AppPipe_SendCfgParamsCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendCfgParamsCmdInvLen");
+
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdCreatErr,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdCreatErr");
@@ -4784,6 +5270,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOneEntry,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOneEntry");
+
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdInvLen");
@@ -4808,22 +5295,61 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdCustFilename,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdCustFilename");
+
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdFilenameNotFound,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdFilenameNotFound");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdFilename,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdFilename");
+
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdFileNotFound,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdFileNotFound");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdTransNotFound,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdTransNotFound");
+    UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SendTransDiagCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdUntermString,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SendTransDiagCmdUntermString");
+    UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdInvFilename,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SendTransDiagCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdFilename,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdFilename");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdTransId,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdTransId");
+
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvChan,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvChan");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvDir,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvDir");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvClass,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvClass");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvPreserve,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvPreserve");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvSrc,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvSrc");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvDst,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvDst");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmdInvId");
+    UtTest_Add(Test_CF_AppPipe_SetPollParamCmd,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SetPollParamCmd");
 }
