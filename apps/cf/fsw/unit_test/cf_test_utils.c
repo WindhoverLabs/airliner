@@ -144,7 +144,7 @@ void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
-    pCmd->Class = 1;
+    pCmd->Class = CF_CLASS_1;
     pCmd->Channel = 0;
     pCmd->Priority = 0;
     pCmd->Preserve = CF_KEEP_FILE;
@@ -197,14 +197,18 @@ void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 
     CF_TstUtil_CreateOnePbActiveQueueEntry(pCmd);
 
+printf("####CreateOnePbHistoryQueueEntry: cfdp_cycle_each_transaction#1\n");
     cfdp_cycle_each_transaction();
 
     /* Send Abandon Cmd */
+printf("####CreateOnePbHistoryQueueEntry: AbandonCmd\n");
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CARSCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+printf("####CreateOnePbHistoryQueueEntry: cfdp_cycle_each_transaction#2\n");
     cfdp_cycle_each_transaction();
 
+printf("####CreateOnePbHistoryQueueEntry: cfdp_cycle_each_transaction#3\n");
     cfdp_cycle_each_transaction();
 }
 
