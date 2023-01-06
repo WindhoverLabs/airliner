@@ -45,6 +45,7 @@ extern const char TestPbFile2[];
 extern const char TestPbFile3[];
 
 extern const char TestInFile1[];
+extern const char TestInFile2[];
 
 extern const char TestQInfoFile1[];
 
@@ -54,7 +55,8 @@ extern const char TestInDir[];
 extern const char TestQInfoDir[];
 
 extern const char TestPbPeerEntityId[];
-extern const char TestInSrcEntityId[];
+extern const char TestInSrcEntityId1[];
+extern const char TestInSrcEntityId2[];
 
 
 #ifdef __cplusplus
@@ -63,14 +65,23 @@ extern "C" {
 
 
 void CF_Test_Setup(void);
+void CF_Test_SetupUnitTest(void);
 void CF_Test_TearDown(void);
 
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
 void  CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+
 void  CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
+void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
+                                             CFE_SB_MsgPtr_t MsgPtr2);
 void  CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
+void  CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
+                                              CFE_SB_MsgPtr_t MsgPtr2);
 void  CF_ResetEngine(void);
 
 void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);

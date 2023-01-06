@@ -62,6 +62,7 @@ const char TestPbFile2[] = "pbfile2.dat";
 const char TestPbFile3[] = "pbfile3.dat";
 
 const char TestInFile1[] = "infile1.dat";
+const char TestInFile2[] = "infile2.dat";
 
 const char TestQInfoFile1[] = "qinfofile1.dat";
 
@@ -71,7 +72,8 @@ const char TestInDir[] = "inpath/";
 const char TestQInfoDir[] = "qinfopath/";
 
 const char TestPbPeerEntityId[] = "2.25";
-const char TestInSrcEntityId[] = "0.23";
+const char TestInSrcEntityId1[] = "0.23";
+const char TestInSrcEntityId2[] = "0.50";
 
 
 void CF_Test_Setup(void)
@@ -92,11 +94,29 @@ void CF_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 0
     Ut_CFE_TBL_AddTable(CF_CONFIG_TABLE_FILENAME, (void*)&CF_ConfigTable);
-#else
+}
+
+
+void CF_Test_SetupUnitTest(void)
+{
+    /* initialize test environment to default state for every test */
+    CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
+
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    ReaddirHookCallCnt = 0;
+    memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
+
+    Ut_CFE_ES_Reset();
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+
     Ut_CFE_TBL_AddTable(CF_CONFIG_TABLE_FILENAME, (void*)&CF_ConfigTableUnitTest);
-#endif
 }
 
 
@@ -174,13 +194,70 @@ void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
+void CF_TstUtil_CreateTwoPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+{
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
+    /* Execute a playback file command so that one queue entry is added
+       to the pending queue */
+    CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
+                   sizeof(CF_PlaybackFileCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
+    pCmd->Class = CF_CLASS_1;
+    pCmd->Channel = 0;
+    pCmd->Priority = 0;
+    pCmd->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
+    strcpy(pCmd->SrcFilename, TestPbDir);
+    strcat(pCmd->SrcFilename, TestPbFile1);
+    strcpy(pCmd->DstFilename, TestDstDir);
+
+    /* Set to return that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* execute the playback file cmd to get a queue entry on the
+       pending queue */
+    CF_AppInit();     /* reset CF globals etc */
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    strcpy(pCmd->SrcFilename, TestPbDir);
+    strcat(pCmd->SrcFilename, TestPbFile2);
+
+    CF_AppPipe(CF_AppData.MsgPtr);
+}
+
+
 void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    CF_TstUtil_CreateOnePendingQueueEntry(pCmd);
-
     /* Force OS_stat to return a valid size and success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
+
+    CF_TstUtil_CreateOnePendingQueueEntry(pCmd);
+
+    CF_StartNextFile(0);
+}
+
+
+void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+{
+    /* Force OS_stat to return a valid size and success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
+    CF_TstUtil_CreateTwoPendingQueueEntry(pCmd);
 
     CF_StartNextFile(0);
 }
@@ -213,6 +290,24 @@ printf("####CreateOnePbHistoryQueueEntry: cfdp_cycle_each_transaction#3\n");
 }
 
 
+void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+{
+    CF_CARSCmd_t    CARSCmdMsg;
+
+    /* Setup Inputs */
+    CFE_SB_InitMsg((void*)&CARSCmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CARSCmdMsg, CF_ABANDON_CC);
+    strcpy(CARSCmdMsg.Trans, "All");
+
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(pCmd);
+
+    /* Send Abandon Cmd */
+printf("####CreateTwoPbHistoryQueueEntry: AbandonCmd\n");
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CARSCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+}
+
+
 void CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 {
     INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
@@ -237,6 +332,38 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 }
 
 
+void CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
+                                            CFE_SB_MsgPtr_t MsgPtr2)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* reset CF globals etc */
+    CF_AppInit();
+
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+
+    CF_AppData.MsgPtr = MsgPtr1;
+    CF_Indication(IndType,TransInfo);
+
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 700;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 50;
+
+    CF_AppData.MsgPtr = MsgPtr2;
+    CF_Indication(IndType,TransInfo);
+}
+
+
 void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
@@ -251,6 +378,36 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
     strcpy(TransInfo.md.dest_file_name, TestInDir);
     strcat(TransInfo.md.dest_file_name, TestInFile1);
+
+    CF_Indication(IndType,TransInfo);
+}
+
+
+void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
+                                             CFE_SB_MsgPtr_t MsgPtr2)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    CF_TstUtil_CreateTwoUpActiveQueueEntry(MsgPtr1, MsgPtr2);
+
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name, TestInDir);
+    strcat(TransInfo.md.dest_file_name, TestInFile1);
+
+    CF_Indication(IndType,TransInfo);
+
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 700;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 50;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name, TestInDir);
+    strcat(TransInfo.md.dest_file_name, TestInFile2);
 
     CF_Indication(IndType,TransInfo);
 }
