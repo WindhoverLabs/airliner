@@ -121,6 +121,7 @@ typedef struct
     float LonFloatPadding;
     /** \brief The altitude in meters    (AMSL) */
     float Altitude;
+    float CruisingSpeed;
     /** \brief The array to store mission command values for MAV_FRAME_MISSION */
     float Params[7];
     /** \brief The navigation command */
@@ -157,6 +158,18 @@ typedef enum
     /*! Onboard originated mission item */
     ORIGIN_ONBOARD = 1
 }NAV_Origin_t;
+
+/**
+ * \brief mission origin
+ */
+typedef enum
+{
+    ARRAKIS = 0,
+    BEETHOVEN = 1,
+    CALADAN = 2,
+    DUMBLEDORE = 3
+}NAV_Mission_Index_t;
+
 
 /**
  * \brief Return to Launch states
@@ -230,8 +243,15 @@ public:
     PX4_VehicleStatusMsg_t PreviousState;
     /** \brief This variable stores previously encountered navigation command */
     PX4_VehicleCommandMsg_t PreviousCommand;
+    /** \brief the array index of the mission being run*/
+    NAV_Mission_Index_t missionId;
+    uint8 waypointIndex;
+    osalbool missionStarted;
+    osalbool waypointStarted;
     /** \brief Flag is set to true if a previously unseen command is encountered */
     osalbool NewCommandArrived;
+    /** \brief Flag is set to true if a previously unseen command code is encountered */
+    osalbool NewCCArrived;
     /** \brief Will allow to loiter at setpoint */
     osalbool CanLoiterAtSetpoint;
     /** \brief True if loiter position is set */
@@ -480,6 +500,9 @@ public:
      *************************************************************************/
     int32 Execute(void);
     
+    void DoMission(void);
+    void DoMissionActive(void);
+
     /************************************************************************/
     /** \brief Vehicle Takeoff
      **

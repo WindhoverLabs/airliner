@@ -132,11 +132,40 @@ extern "C" {
 /* \brief Maximun value for minimum distance from home RTL climb stage */ 
 #define NAV_RTL_MIN_DIST_MAX     (20.0f)
 
+/* \brief Number of waypoints in a mission*/
+#define NAV_NUM_WPS_IN_MISSION   (4)
+
+/* \brief Number of waypoints in a mission*/
+#define NAV_NUM_MISSIONS_IN_APP  (4)
+
+
 /**
  * \brief Defines the table identification name used for the
  * configuration table registration.
  */
 #define NAV_CONFIG_TABLENAME ("CONFIG_TBL")
+
+typedef struct
+{
+    /* Lat degrees*/
+    double Lat;
+
+    /* Lon degrees */
+    double Lon;
+
+    /* Altitude in m */
+    float alt;
+
+    /* cruising speed in m/s */
+    float cruisingSpeed;
+}NAV_waypoint_t;
+
+typedef struct
+{
+    /* Array of waypoints */
+    NAV_waypoint_t navWayPoints[NAV_NUM_WPS_IN_MISSION];
+}NAV_mission_t;
+
 
 /** \brief Definition for a single config table entry */
 typedef struct
@@ -240,6 +269,7 @@ typedef struct
      */
     float NAV_RTL_MIN_DIST;
 
+    NAV_mission_t NAV_MISSIONS[NAV_NUM_MISSIONS_IN_APP];
 }NAV_ConfigTbl_t;
 
 #ifdef __cplusplus

@@ -578,4 +578,31 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/PosCtl', {});]]></text>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_18</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AutoMission', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Mission</text>
+    <x>18</x>
+    <y>247</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
 </display>
