@@ -107,15 +107,17 @@ printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     if(ReaddirHookCallCnt == 1)
     {
         strcpy(ReaddirHookDirEntry.d_name, ".");
+        ReaddirHookDirEntry.d_type = OS_DT_DIR;
     }
     else if(ReaddirHookCallCnt == 2)
     {
         strcpy(ReaddirHookDirEntry.d_name, "..");
+        ReaddirHookDirEntry.d_type = OS_DT_DIR;
     }
     else if(ReaddirHookCallCnt == 3)
     {
         strcpy(ReaddirHookDirEntry.d_name, TestPbFile3);
-        ReaddirHookDirEntry.d_type = OS_DT_DIR;
+        ReaddirHookDirEntry.d_type = OS_DT_FILE;
     }
     else if(ReaddirHookCallCnt == 4)
     {
@@ -127,14 +129,17 @@ printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     {
         strcpy(ReaddirHookDirEntry.d_name,
            "ThisFilenameIsTooLongWhenThePathIsAttachedToIt.ItIs63Characters");
+        ReaddirHookDirEntry.d_type = 5;
     }
     else if(ReaddirHookCallCnt == 6)
     {
         strcpy(ReaddirHookDirEntry.d_name, TestPbFile2);
+        ReaddirHookDirEntry.d_type = OS_DT_FILE;
     }
     else if(ReaddirHookCallCnt == 7)
     {
         strcpy(ReaddirHookDirEntry.d_name, TestPbFile1);
+        ReaddirHookDirEntry.d_type = OS_DT_FILE;
     }
     else
     {

@@ -66,7 +66,7 @@ const char TestInFile2[] = "infile2.dat";
 
 const char TestQInfoFile1[] = "qinfofile1.dat";
 
-const char TestPbDir[] = "/cf/";
+const char TestPbDir[] = "/ram/downlink/cpd_to_gnd/class1/priority2/";
 const char TestDstDir[] = "gndpath/";
 const char TestInDir[] = "inpath/";
 const char TestQInfoDir[] = "qinfopath/";
@@ -122,6 +122,7 @@ void CF_Test_SetupUnitTest(void)
 
 void CF_Test_TearDown(void)
 {
+    CF_ResetEngine();
 }
 
 
