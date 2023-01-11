@@ -68,13 +68,18 @@ void CF_Test_Setup(void);
 void CF_Test_SetupUnitTest(void);
 void CF_Test_TearDown(void);
 
+void CF_ShowQs();
+
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
-void  CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_CreateTwoPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                              CF_PlaybackFileCmd_t *pCmd2);
 void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                             CF_PlaybackFileCmd_t *pCmd2);
 void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
+void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                              CF_PlaybackFileCmd_t *pCmd2);
 
 void  CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
 void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,

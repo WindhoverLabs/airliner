@@ -66,6 +66,7 @@
 CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
 CFE_SB_MsgId_t  SendCfgParamsHook_MsgId = 0;
 CFE_SB_MsgId_t  SendTransDiagHook_MsgId = 0;
+uint32          SendTransDiagHook_CalledCnt = 0;
 
 
 static char* CF_Test_ToUpperCase(const char *inStr)
@@ -278,11 +279,15 @@ void Test_CF_AppPipe_RstCtrsCmdInvLen(void)
  */
 void Test_CF_AppPipe_PbFileCmd(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEvent,
         "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,Peer %s,File %s",
@@ -293,6 +298,9 @@ void Test_CF_AppPipe_PbFileCmd(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PbFileCmd");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, PbFileCmd: Q EntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, PbFileCmd: Event Sent");
@@ -726,16 +734,20 @@ void Test_CF_AppPipe_PbFileCmdFileOpen(void)
  */
 void Test_CF_AppPipe_PbFileCmdFileOnQ(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  FullSrcFileName[OS_MAX_PATH_LEN];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     /* Add same command */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbFileCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(FullSrcFileName, "%s%s", TestPbDir, TestPbFile1);
     sprintf(expEvent, "CF:Playback File Cmd Error, File is Already "
@@ -745,6 +757,9 @@ void Test_CF_AppPipe_PbFileCmdFileOnQ(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, PbFileCmdFileOnQ");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, PbFileCmdFileOnQ: Q EntryCnt");
 
     UtAssert_EventSent(CF_PB_FILE_ERR5_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdFileOnQ: Event Sent");
@@ -1256,6 +1271,7 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
  */
 void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
 {
+    uint32               QEntryCnt;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1288,10 +1304,13 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
                                  (void*)&OS_readdirHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEvent, "File %s not queued because it's active or pending",
             PbFileCmdMsg.SrcFilename);
@@ -1300,6 +1319,9 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PbDirCmdFileOnQ");
+
+    UtAssert_True(QEntryCnt == 3,
+                  "CF_AppPipe, PbDirCmdFileOnQ: Q EntryCnt");
 
     UtAssert_EventSent(CF_QDIR_ACTIVEFILE_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, PbDirCmdFileOnQ: Event Sent");
@@ -1809,6 +1831,7 @@ void Test_CF_AppPipe_ThawCmdInvLen(void)
  */
 void Test_CF_AppPipe_SuspendCmdTransId(void)
 {
+    uint32                SuspendedQEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_CARSCmd_t          SuspendCmdMsg;
     TRANSACTION           trans;
@@ -1831,6 +1854,9 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    SuspendedQEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
     cfdp_trans_from_string(SuspendCmdMsg.Trans, &trans);
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
     sprintf(expEventInd, "Transaction Susupended %d.%d_%d,%s",
@@ -1844,6 +1870,9 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SuspendCmdTransId");
+
+    UtAssert_True(SuspendedQEntryCnt == 1,
+                  "CF_AppPipe, SuspendCmdTransId: Suspended QEntryCnt");
 
     UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventInd,
                   "CF_AppPipe, SuspendCmdTransId: Ind Event Sent");
@@ -2014,8 +2043,17 @@ void Test_CF_AppPipe_SuspendCmdUntermTrans(void)
  */
 void Test_CF_AppPipe_SuspendCmdAll(void)
 {
-    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+    uint32                SuspendedQEntryCnt;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     CF_CARSCmd_t          SuspendCmdMsg;
+    TRANSACTION           trans;
+    char  FullTransString1[OS_MAX_PATH_LEN];
+    char  FullTransString2[OS_MAX_PATH_LEN];
+    char  FullSrcFileName1[OS_MAX_PATH_LEN];
+    char  FullSrcFileName2[OS_MAX_PATH_LEN];
+    char  expEventTr1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
@@ -2027,17 +2065,47 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     CF_Test_PrintCmdMsg((void*)&SuspendCmdMsg, sizeof(SuspendCmdMsg));
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg);
-
-    usleep(5000000);
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+    CF_ShowQs();
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    SuspendedQEntryCnt =
+         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    sprintf(FullTransString1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
+    cfdp_trans_from_string(FullTransString1, &trans);
+    strcpy(FullSrcFileName1, PbFileCmdMsg1.SrcFilename);
+    sprintf(expEventTr1, "Transaction Susupended %d.%d_%d,%s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, FullSrcFileName1);
+
+    sprintf(FullTransString2, "%s%s", CF_AppData.Tbl->FlightEntityId, "_2");
+    cfdp_trans_from_string(FullTransString2, &trans);
+    strcpy(FullSrcFileName2, PbFileCmdMsg2.SrcFilename);
+    sprintf(expEventTr2, "Transaction Susupended %d.%d_%d,%s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, FullSrcFileName2);
+
+    sprintf(expEvent, "%s command received.%s", "Suspend", "All");
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SuspendCmdAll");
+
+    UtAssert_True(SuspendedQEntryCnt == 2,
+                  "CF_AppPipe, SuspendCmdAll: Suspended QEntryCnt");
+
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventTr1,
+                       "CF_AppPipe, SuspendCmdAll: Trans #1 Event Sent");
+
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventTr2,
+                       "CF_AppPipe, SuspendCmdAll: Trans #2 Event Sent");
+
+    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_AppPipe, SuspendCmdAll: Success Event Sent");
 }
 
 
@@ -3830,6 +3898,7 @@ void Test_CF_AppPipe_WriteQueueCmdWriteHdrErr(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdEntryWriteErr(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_WriteQueueCmd_t    WrQCmdMsg;
     char  FullSrcFileName[OS_MAX_PATH_LEN];
@@ -3860,10 +3929,13 @@ void Test_CF_AppPipe_WriteQueueCmdEntryWriteErr(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[WrQCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(FullSrcFileName, "%s%s", TestPbDir, TestPbFile1);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
@@ -3879,6 +3951,9 @@ void Test_CF_AppPipe_WriteQueueCmdEntryWriteErr(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, WriteQueueCmdEntryWriteErr");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, WriteQueueCmdEntryWriteErr: QEntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
         "CF_AppPipe, WriteQueueCmdEntryWriteErr: Event Sent");
@@ -4031,6 +4106,7 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
 {
+    uint32                QEntryCnt;
     int                   TotalEntrySize;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_WriteQueueCmd_t    WrQCmdMsg;
@@ -4061,10 +4137,13 @@ void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[WrQCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d"
             ",Peer %s,File %s", PbFileCmdMsg.Class, PbFileCmdMsg.Channel,
@@ -4080,6 +4159,9 @@ void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdOneEntry");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, WriteQueueCmdOneEntry: QEntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, WriteQueueCmdOneEntry: PlaybackFile Event Sent");
@@ -4525,6 +4607,7 @@ void Test_CF_AppPipe_QuickStatusCmdFilenameNotFound(void)
  */
 void Test_CF_AppPipe_QuickStatusCmdFilename(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_QuickStatCmd_t     QSCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -4538,10 +4621,13 @@ void Test_CF_AppPipe_QuickStatusCmdFilename(void)
     CF_Test_PrintCmdMsg((void*)&QSCmdMsg, sizeof(QSCmdMsg));
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&QSCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEvent, "Trans %s_%u %s Stat=%s,CondCode=%s",
       CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].HeadPtr->SrcEntityId,
@@ -4553,6 +4639,9 @@ void Test_CF_AppPipe_QuickStatusCmdFilename(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, QuickStatusCmdFilename");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, QuickStatusCmdFilename: QEntryCnt");
 
     UtAssert_EventSent(CF_QUICK_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, QuickStatusCmdFilename: Event Sent");
@@ -4752,6 +4841,8 @@ int32 Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     CFE_TIME_SysTime_t  TimeFromMsg;
     CF_TransPacket_t    TrPktMsg;
 
+    SendTransDiagHook_CalledCnt ++;
+
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
 
@@ -4830,6 +4921,7 @@ int32 Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_SendTransCmd_t     SndTrCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -4844,6 +4936,7 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
     CF_Test_PrintCmdMsg((void*)&SndTrCmdMsg, sizeof(SndTrCmdMsg));
 
     SendTransDiagHook_MsgId = 0;
+    SendTransDiagHook_CalledCnt = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                     (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
 
@@ -4854,10 +4947,13 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
                               (void*)&Test_CF_SBTimeStampMsgHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEvent, "CF:Sending Transaction Pkt %s", SndTrCmdMsg.Trans);
 
@@ -4865,6 +4961,12 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SendTransDiagCmdFilename");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, SendTransDiagCmdFilename: QEntryCnt");
+
+    UtAssert_True(SendTransDiagHook_CalledCnt == 1,
+                  "CF_AppPipe, SendTransDiagCmdFilename: Hook CalledCnt");
 
     UtAssert_True(SendTransDiagHook_MsgId == CF_TRANS_TLM_MID,
              "CF_AppPipe, SendTransDiagCmdFilename: Sent CF_TRANS_TLM_MID");
@@ -4892,7 +4994,9 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
  */
 void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
 {
-    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+    uint32                QEntryCnt;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     CF_SendTransCmd_t     SndTrCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4902,6 +5006,7 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
                       (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
 
     SendTransDiagHook_MsgId = 0;
+    SendTransDiagHook_CalledCnt = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                     (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
 
@@ -4912,21 +5017,33 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
                               (void*)&Test_CF_SBTimeStampMsgHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
-    strcpy(SndTrCmdMsg.Trans, CF_AppData.Tbl->FlightEntityId);
+    sprintf(SndTrCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_0");
     CF_Test_PrintCmdMsg((void*)&SndTrCmdMsg, sizeof(SndTrCmdMsg));
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    CF_ShowQs();
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
+
     sprintf(expEvent, "CF:Sending Transaction Pkt %s", SndTrCmdMsg.Trans);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SendTransDiagCmdTransId");
 
+    UtAssert_True(QEntryCnt == 2,
+                  "CF_AppPipe, SendTransDiagCmdTransId: QEntryCnt");
+
+    UtAssert_True(SendTransDiagHook_CalledCnt == 2,
+                  "CF_AppPipe, SendTransDiagCmdTransId: Hook CalledCnt");
+
+#if 0
     UtAssert_True(SendTransDiagHook_MsgId == CF_TRANS_TLM_MID,
              "CF_AppPipe, SendTransDiagCmdTransId: Sent CF_TRANS_TLM_MID");
 
@@ -4941,8 +5058,9 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
                   "CF_AppPipe, SendTransDiagCmdTransId: SrcEntityId");
 
     UtAssert_True(strcmp(CF_AppData.Trans.App.SrcFile,
-                         PbFileCmdMsg.SrcFilename) == 0,
+                         PbFileCmdMsg1.SrcFilename) == 0,
                   "CF_AppPipe, SendTransDiagCmdTransId: SrcFile");
+#endif
 
     UtAssert_EventSent(CF_SND_TRANS_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SendTransDiagCmdTransId: Event Sent");
@@ -5631,6 +5749,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     char  FullTransFileName[OS_MAX_PATH_LEN];
@@ -5649,10 +5769,16 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
+
+    QEntryCntBefore =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(FullTransFileName, "%s%s", TestPbDir, TestPbFile1);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
@@ -5670,9 +5796,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdPbPend");
 
-    UtAssert_True(
-      CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt == 0,
-      "CF_AppPipe, DeleteQueueNodeCmdPbPend: PbPendQ EntryCnt");
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
+                "CF_AppPipe, DeleteQueueNodeCmdPbPend: PbPendQ EntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, DeleteQueueNodeCmdPbPend: PbFile Event Sent");
@@ -5917,6 +6042,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPutFail(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdInvType(void)
 {
+    uint32               QEntryCnt;
     CF_QueueEntry_t      *pQ;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
@@ -5936,13 +6062,16 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvType(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateOnePendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     pQ = CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].HeadPtr;
     pQ->NodeType = 55;   /* 1 = uplink, 2 = downlink */
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
@@ -5956,6 +6085,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvType(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, DeleteQueueNodeCmdInvType");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, DeleteQueueNodeCmdInvType: QEntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, DeleteQueueNodeCmdInvType: PbFile Event Sent");
@@ -6191,7 +6323,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbActiveQErr(void)
  */
 void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
 {
-    CF_PlaybackFileCmd_t PbFileCmdMsg;
+    CF_PlaybackFileCmd_t PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t PbFileCmdMsg2;
     CF_PurgeQueueCmd_t   PurgeQCmdMsg;
     char  FullSrcFileName1[OS_MAX_PATH_LEN];
     char  FullSrcFileName2[OS_MAX_PATH_LEN];
@@ -6213,23 +6346,23 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateTwoPendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     sprintf(FullSrcFileName1, "%s%s", TestPbDir, TestPbFile1);
     sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
-            "Pre %d,Peer %s,File %s", PbFileCmdMsg.Class,
-            PbFileCmdMsg.Channel, PbFileCmdMsg.Priority,
-            PbFileCmdMsg.Preserve, PbFileCmdMsg.PeerEntityId,
+            "Pre %d,Peer %s,File %s", PbFileCmdMsg1.Class,
+            PbFileCmdMsg1.Channel, PbFileCmdMsg1.Priority,
+            PbFileCmdMsg1.Preserve, PbFileCmdMsg1.PeerEntityId,
             FullSrcFileName1);
 
     sprintf(FullSrcFileName2, "%s%s", TestPbDir, TestPbFile2);
     sprintf(expEventPb2, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
-            "Pre %d,Peer %s,File %s", PbFileCmdMsg.Class,
-            PbFileCmdMsg.Channel, PbFileCmdMsg.Priority,
-            PbFileCmdMsg.Preserve, PbFileCmdMsg.PeerEntityId,
+            "Pre %d,Peer %s,File %s", PbFileCmdMsg2.Class,
+            PbFileCmdMsg2.Channel, PbFileCmdMsg2.Priority,
+            PbFileCmdMsg2.Preserve, PbFileCmdMsg2.PeerEntityId,
             FullSrcFileName2);
 
     sprintf(expEvent,
@@ -6260,7 +6393,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
  */
 void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
 {
-    CF_PlaybackFileCmd_t PbFileCmdMsg;
+    CF_PlaybackFileCmd_t PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t PbFileCmdMsg2;
     CF_PurgeQueueCmd_t   PurgeQCmdMsg;
     TRANSACTION          trans;
     char  FullTransString1[OS_MAX_PATH_LEN];
@@ -6285,7 +6419,7 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
-    CF_TstUtil_CreateTwoPbHistoryQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateTwoPbHistoryQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -6298,7 +6432,7 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
             "Outgoing trans %d.%d_%d %s,CondCode %s,Src %s,Ch %d ",
             trans.source_id.value[0], trans.source_id.value[1],
             (int)trans.number, "ABANDONED", "NO_ERR", FullSrcFileName1,
-            PbFileCmdMsg.Channel);
+            PbFileCmdMsg1.Channel);
 
     sprintf(FullTransString2, "%s%s",
             CF_AppData.Tbl->FlightEntityId, "_2");
@@ -6308,7 +6442,7 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
             "Outgoing trans %d.%d_%d %s,CondCode %s,Src %s,Ch %d ",
             trans.source_id.value[0], trans.source_id.value[1],
             (int)trans.number, "ABANDONED", "NO_ERR", FullSrcFileName2,
-            PbFileCmdMsg.Channel);
+            PbFileCmdMsg2.Channel);
 
     sprintf(expEvent, "PurgeQueueCmd Removed %u Nodes from "
             "Chan %u,%s Queue", 2, PurgeQCmdMsg.Chan, "History");

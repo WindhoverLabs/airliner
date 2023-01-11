@@ -126,6 +126,82 @@ void CF_Test_TearDown(void)
 }
 
 
+void CF_ShowQs()
+{
+    uint32              i;
+    CF_QueueEntry_t     *PtrToEntry;
+
+    OS_printf("\nUplink Active Queue files:\n");
+    PtrToEntry = CF_AppData.UpQ[CF_UP_ACTIVEQ].HeadPtr;
+    while(PtrToEntry != NULL)
+    {
+        OS_printf("%s_%d %s\n",PtrToEntry->SrcEntityId,
+                        (int)PtrToEntry->TransNum, PtrToEntry->SrcFile);
+        PtrToEntry = PtrToEntry->Next;
+    }
+    OS_printf("Uplink Active Queue - File Count = %d\n\n",
+                    (int)CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt);
+
+    OS_printf("Uplink History Queue files:\n");
+    PtrToEntry = CF_AppData.UpQ[CF_UP_HISTORYQ].HeadPtr;
+    while(PtrToEntry != NULL)
+    {
+        OS_printf("%s_%d %s\n",PtrToEntry->SrcEntityId,
+                  (int)PtrToEntry->TransNum, PtrToEntry->SrcFile);
+        PtrToEntry = PtrToEntry->Next;
+    }
+    OS_printf("Uplink History Queue - File Count = %d\n\n",
+              (int)CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt);
+
+    for(i = 0; i < CF_MAX_PLAYBACK_CHANNELS; i++)
+    {
+        if(CF_AppData.Tbl->OuCh[i].EntryInUse == CF_ENTRY_IN_USE)
+        {
+            OS_printf("Playback Pending Queue %d files:\n", (int)i);
+            PtrToEntry = CF_AppData.Chan[i].PbQ[CF_PB_PENDINGQ].HeadPtr;
+            while(PtrToEntry != NULL)
+            {
+                OS_printf("%s_%d %s %d\n",PtrToEntry->SrcEntityId,
+                          (int)PtrToEntry->TransNum, PtrToEntry->SrcFile,
+                          PtrToEntry->Priority);
+                PtrToEntry = PtrToEntry->Next;
+            }
+
+            OS_printf("Playback Pending Queue %d File Count = %d\n\n", (int)i,
+                       (int)CF_AppData.Chan[i].PbQ[CF_PB_PENDINGQ].EntryCnt);
+
+            OS_printf("Playback Active Queue %d files:\n", (int)i);
+            PtrToEntry = CF_AppData.Chan[i].PbQ[CF_PB_ACTIVEQ].HeadPtr;
+            while(PtrToEntry != NULL)
+            {
+                OS_printf("%s_%d %s %d\n",PtrToEntry->SrcEntityId,
+                          (int)PtrToEntry->TransNum, PtrToEntry->SrcFile,
+                          PtrToEntry->Priority);
+                PtrToEntry = PtrToEntry->Next;
+            }
+
+            OS_printf("Playback Active Queue %d File Count = %d\n\n", (int)i,
+                      (int)CF_AppData.Chan[i].PbQ[CF_PB_ACTIVEQ].EntryCnt);
+
+            OS_printf("Playback History Queue %d files:\n", (int)i);
+            PtrToEntry = CF_AppData.Chan[i].PbQ[CF_PB_HISTORYQ].HeadPtr;
+            while(PtrToEntry != NULL)
+            {
+                OS_printf("%s_%d %s %d\n",PtrToEntry->SrcEntityId,
+                          (int)PtrToEntry->TransNum, PtrToEntry->SrcFile,
+                          PtrToEntry->Priority);
+                PtrToEntry = PtrToEntry->Next;
+            }
+
+            OS_printf("Playback History Queue %d File Count = %d\n\n", (int)i,
+                      (int)CF_AppData.Chan[i].PbQ[CF_PB_HISTORYQ].EntryCnt);
+        }/* end if */
+
+    }/* end for */
+
+}/* end CF_ShowQs */
+
+
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 {
     CF_QueueEntry_t   *PtrToEntry;
@@ -155,7 +231,7 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 }
 
 
-void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
     /* reset the transactions seq number used by the engine */
     misc__set_trans_seq_num(1);
@@ -195,24 +271,25 @@ void CF_TstUtil_CreateOnePendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
-void CF_TstUtil_CreateTwoPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                             CF_PlaybackFileCmd_t *pCmd2)
 {
     /* reset the transactions seq number used by the engine */
     misc__set_trans_seq_num(1);
 
-    /* Execute a playback file command so that one queue entry is added
-       to the pending queue */
-    CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
+    /* Execute first playback file command so that one queue entry is
+       added to the pending queue */
+    CFE_SB_InitMsg((void*)pCmd1, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
-    pCmd->Class = CF_CLASS_1;
-    pCmd->Channel = 0;
-    pCmd->Priority = 0;
-    pCmd->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
-    strcpy(pCmd->SrcFilename, TestPbDir);
-    strcat(pCmd->SrcFilename, TestPbFile1);
-    strcpy(pCmd->DstFilename, TestDstDir);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd1, CF_PLAYBACK_FILE_CC);
+    pCmd1->Class = CF_CLASS_1;
+    pCmd1->Channel = 0;
+    pCmd1->Priority = 3;
+    pCmd1->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd1->PeerEntityId, TestPbPeerEntityId);
+    strcpy(pCmd1->SrcFilename, TestPbDir);
+    strcat(pCmd1->SrcFilename, TestPbFile1);
+    strcpy(pCmd1->DstFilename, TestDstDir);
 
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
@@ -230,12 +307,24 @@ void CF_TstUtil_CreateTwoPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
        pending queue */
     CF_AppInit();     /* reset CF globals etc */
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    strcpy(pCmd->SrcFilename, TestPbDir);
-    strcat(pCmd->SrcFilename, TestPbFile2);
+    /* Execute second playback file command so that one queue entry is
+       added to the pending queue */
+    CFE_SB_InitMsg((void*)pCmd2, CF_CMD_MID,
+                   sizeof(CF_PlaybackFileCmd_t), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd2, CF_PLAYBACK_FILE_CC);
+    pCmd2->Class = CF_CLASS_1;
+    pCmd2->Channel = 0;
+    pCmd2->Priority = 5;
+    pCmd2->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd2->PeerEntityId, TestPbPeerEntityId);
+    strcpy(pCmd2->SrcFilename, TestPbDir);
+    strcat(pCmd2->SrcFilename, TestPbFile2);
+    strcpy(pCmd2->DstFilename, TestDstDir);
 
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
     CF_AppPipe(CF_AppData.MsgPtr);
 }
 
@@ -246,19 +335,22 @@ void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
-    CF_TstUtil_CreateOnePendingQueueEntry(pCmd);
+    CF_TstUtil_CreateOnePbPendingQueueEntry(pCmd);
 
     CF_StartNextFile(0);
 }
 
 
-void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                            CF_PlaybackFileCmd_t *pCmd2)
 {
     /* Force OS_stat to return a valid size and success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
-    CF_TstUtil_CreateTwoPendingQueueEntry(pCmd);
+    CF_TstUtil_CreateTwoPbPendingQueueEntry(pCmd1, pCmd2);
+
+    CF_StartNextFile(0);
 
     CF_StartNextFile(0);
 }
@@ -291,7 +383,8 @@ printf("####CreateOnePbHistoryQueueEntry: cfdp_cycle_each_transaction#3\n");
 }
 
 
-void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                             CF_PlaybackFileCmd_t *pCmd2)
 {
     CF_CARSCmd_t    CARSCmdMsg;
 
@@ -300,7 +393,7 @@ void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CARSCmdMsg, CF_ABANDON_CC);
     strcpy(CARSCmdMsg.Trans, "All");
 
-    CF_TstUtil_CreateTwoPbActiveQueueEntry(pCmd);
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(pCmd1, pCmd2);
 
     /* Send Abandon Cmd */
 printf("####CreateTwoPbHistoryQueueEntry: AbandonCmd\n");
