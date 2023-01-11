@@ -284,6 +284,8 @@ void Test_CF_AppPipe_PbFileCmd(void)
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     QEntryCnt =
@@ -304,6 +306,8 @@ void Test_CF_AppPipe_PbFileCmd(void)
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, PbFileCmd: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -357,6 +361,8 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
 
     UtAssert_EventSent(CF_QDIR_NOMEM1_EID, CFE_EVS_ERROR, expEvent,
                    "CF_AppPipe, PbFileCmdNoMem: AllocQ Error Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -394,6 +400,8 @@ void Test_CF_AppPipe_PbFileCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -440,6 +448,8 @@ void Test_CF_AppPipe_PbFileCmdParamErr(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR1_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdParamErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -489,6 +499,8 @@ void Test_CF_AppPipe_PbFileCmdChanNotInUse(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdChanNotInUse: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -535,6 +547,8 @@ void Test_CF_AppPipe_PbFileCmdInvSrcFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdInvSrcFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -582,6 +596,8 @@ void Test_CF_AppPipe_PbFileCmdInvDstFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdInvDstFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -632,6 +648,8 @@ void Test_CF_AppPipe_PbFileCmdPendQFull(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR3_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdPendQFull: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -678,6 +696,8 @@ void Test_CF_AppPipe_PbFileCmdInvPeerId(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR6_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdInvPeerId: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -726,6 +746,8 @@ void Test_CF_AppPipe_PbFileCmdFileOpen(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR4_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdFileOpen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -740,6 +762,8 @@ void Test_CF_AppPipe_PbFileCmdFileOnQ(void)
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     /* Add same command */
@@ -763,6 +787,8 @@ void Test_CF_AppPipe_PbFileCmdFileOnQ(void)
 
     UtAssert_EventSent(CF_PB_FILE_ERR5_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbFileCmdFileOnQ: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -816,6 +842,8 @@ void Test_CF_AppPipe_PbDirCmdNoFileSuccess(void)
 
     UtAssert_EventSent(CF_PLAYBACK_DIR_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, PbDirCmdNoFileSuccess: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -865,6 +893,8 @@ void Test_CF_AppPipe_PbDirCmdOpenErr(void)
 
     UtAssert_EventSent(CF_OPEN_DIR_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdOpenErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -904,6 +934,8 @@ void Test_CF_AppPipe_PbDirCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -950,6 +982,8 @@ void Test_CF_AppPipe_PbDirCmdParamErr(void)
 
     UtAssert_EventSent(CF_PB_DIR_ERR1_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdParamErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -998,6 +1032,8 @@ void Test_CF_AppPipe_PbDirCmdChanNotInUse(void)
 
     UtAssert_EventSent(CF_PB_DIR_ERR2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdChanNotInUse: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1044,6 +1080,8 @@ void Test_CF_AppPipe_PbDirCmdInvSrcPath(void)
 
     UtAssert_EventSent(CF_PB_DIR_ERR3_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdInvSrcPath: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1090,6 +1128,8 @@ void Test_CF_AppPipe_PbDirCmdInvDstPath(void)
 
     UtAssert_EventSent(CF_PB_DIR_ERR4_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdInvDstPath: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1135,6 +1175,8 @@ void Test_CF_AppPipe_PbDirCmdInvPeerId(void)
 
     UtAssert_EventSent(CF_PB_DIR_ERR5_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdInvPeerId: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1199,6 +1241,8 @@ void Test_CF_AppPipe_PbDirCmdQFull(void)
 
     UtAssert_EventSent(CF_QDIR_PQFUL_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdQFull: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1263,6 +1307,8 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
 
     UtAssert_EventSent(CF_QDIR_NOMEM2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PbDirCmdNoMem: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1304,6 +1350,8 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
                                  (void*)&OS_readdirHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
@@ -1325,6 +1373,8 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
 
     UtAssert_EventSent(CF_QDIR_ACTIVEFILE_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, PbDirCmdFileOnQ: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1392,6 +1442,8 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
 
     UtAssert_EventSent(CF_QDIR_OPENFILE_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, PbDirCmdFileOpen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1479,6 +1531,8 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
 
     UtAssert_EventSent(CF_PLAYBACK_DIR_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, PbDirCmdSuccess: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1662,6 +1716,8 @@ void Test_CF_AppPipe_HousekeepingCmd(void)
 
     /* Execute the function being tested */
 #if 0
+    CF_AppInit();
+
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
     CF_TstUtil_CreateOneUpHistoryQueueEntry();
 
@@ -1692,6 +1748,8 @@ void Test_CF_AppPipe_HousekeepingCmd(void)
                   == 0,
                   "CF_AppPipe, HousekeepingCmd: Hk.Up.LastFileUplinked");
 #endif
+
+    CF_ResetEngine();
 }
 
 
@@ -1725,6 +1783,8 @@ void Test_CF_AppPipe_FreezeCmd(void)
 
     UtAssert_EventSent(CF_FREEZE_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, FreezeCmd: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1757,6 +1817,8 @@ void Test_CF_AppPipe_FreezeCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, FreezeCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1791,6 +1853,8 @@ void Test_CF_AppPipe_ThawCmd(void)
 
     UtAssert_EventSent(CF_THAW_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, ThawCmd: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1823,6 +1887,8 @@ void Test_CF_AppPipe_ThawCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, ThawCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1845,6 +1911,8 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
                       (uint16)CF_SUSPEND_CC);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
 
     strcpy(SuspendCmdMsg.Trans, CF_AppData.Tbl->FlightEntityId);
@@ -1879,6 +1947,8 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SuspendCmdTransId: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1914,6 +1984,8 @@ void Test_CF_AppPipe_SuspendCmdTransIdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SuspendCmdTransIdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -1922,6 +1994,7 @@ void Test_CF_AppPipe_SuspendCmdTransIdInvLen(void)
  */
 void Test_CF_AppPipe_SuspendCmdFilename(void)
 {
+    uint32                QEntryCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_CARSCmd_t          SuspendCmdMsg;
     TRANSACTION           trans;
@@ -1940,10 +2013,15 @@ void Test_CF_AppPipe_SuspendCmdFilename(void)
     CF_Test_PrintCmdMsg((void*)&SuspendCmdMsg, sizeof(SuspendCmdMsg));
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     sprintf(FullTransString, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
     cfdp_trans_from_string(FullTransString, &trans);
@@ -1960,11 +2038,16 @@ void Test_CF_AppPipe_SuspendCmdFilename(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SuspendCmdFilename");
 
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, SuspendCmdFilename: QEntryCnt");
+
     UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventInd,
                   "CF_AppPipe, SuspendCmdFilename: Ind Event Sent");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SuspendCmdFilename: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2001,6 +2084,8 @@ void Test_CF_AppPipe_SuspendCmdInvFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SuspendCmdInvFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2035,6 +2120,8 @@ void Test_CF_AppPipe_SuspendCmdUntermTrans(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SuspendCmdUntermTrans: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2065,6 +2152,8 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     CF_Test_PrintCmdMsg((void*)&SuspendCmdMsg, sizeof(SuspendCmdMsg));
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
     CF_ShowQs();
 
@@ -2106,6 +2195,123 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, SuspendCmdAll: Success Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, ResumeCmdNoTransId
+ */
+void Test_CF_AppPipe_ResumeCmdNoTransId(void)
+{
+    CF_CARSCmd_t  CmdMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CF_RESUME_CC);
+    strcpy(CmdMsg.Trans, "0.24_56");
+
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    strcpy(FullTransString, CmdMsg.Trans);
+    sprintf(expEvent, "cfdp_engine: ignoring User-Request that references "
+            "unknown transaction (%s).", FullTransString);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, ResumeCmdNoTransId");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, ResumeCmdNoTransId: Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, ResumeCmdFilename
+ */
+void Test_CF_AppPipe_ResumeCmdFilename(void)
+{
+    uint32                QEntryCnt;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+    CF_CARSCmd_t          SuspendCmdMsg;
+    CF_CARSCmd_t          ResumeCmdMsg;
+    char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Build Suspend Command Msg */
+    CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
+                   sizeof(SuspendCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
+                      (uint16)CF_SUSPEND_CC);
+    strcpy(SuspendCmdMsg.Trans, TestPbDir);
+    strcat(SuspendCmdMsg.Trans, TestPbFile1);
+
+    /* Build Resume Command Msg */
+    CFE_SB_InitMsg((void*)&ResumeCmdMsg, CF_CMD_MID,
+                   sizeof(ResumeCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ResumeCmdMsg,
+                      (uint16)CF_RESUME_CC);
+    strcpy(ResumeCmdMsg.Trans, TestPbDir);
+    strcat(ResumeCmdMsg.Trans, TestPbFile1);
+    CF_Test_PrintCmdMsg((void*)&ResumeCmdMsg, sizeof(ResumeCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+
+    /* Suspend */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Resume */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    sprintf(expEventSuspend, "%s command received.%s",
+            "Suspend", SuspendCmdMsg.Trans);
+
+    sprintf(expEvent, "%s command received.%s",
+            "Resume", ResumeCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, ResumeCmdFilename");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, ResumeCmdFilename: QEntryCnt");
+
+    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
+                  "CF_AppPipe, ResumeCmdFilename: Suspend Event Sent");
+
+    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, ResumeCmdFilename: Resume Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, ResumeCmdAll
+ */
+void Test_CF_AppPipe_ResumeCmdAll(void)
+{
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
 }
 
 
@@ -2145,6 +2351,8 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdSaveIncompleteFiles: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2181,6 +2389,8 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, SetMibCmdSaveIncompleteFilesInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2216,6 +2426,8 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
         "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermParam: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2250,6 +2462,8 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
        "CF_AppPipe, SetMibCmdSaveIncompleteFilesUntermValue: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2294,6 +2508,8 @@ void Test_CF_AppPipe_SetMibCmdAckLimit(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, SetMibCmdAckLimit: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2329,6 +2545,8 @@ void Test_CF_AppPipe_SetMibCmdAckLimitNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                   "CF_AppPipe, SetMibCmdAckLimitNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2373,6 +2591,8 @@ void Test_CF_AppPipe_SetMibCmdAckTimeout(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdAckTimeout: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2408,6 +2628,8 @@ void Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
              "CF_AppPipe, SetMibCmdAckTimeoutNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2453,6 +2675,8 @@ void Test_CF_AppPipe_SetMibCmdInactTimeout(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdInactTimeout: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2488,6 +2712,8 @@ void Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
               "CF_AppPipe, SetMibCmdInactTimeoutNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2532,6 +2758,8 @@ void Test_CF_AppPipe_SetMibCmdNakLimit(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, SetMibCmdNakLimit: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2567,6 +2795,8 @@ void Test_CF_AppPipe_SetMibCmdNakLimitNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                  "CF_AppPipe, SetMibCmdNakLimitNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2611,6 +2841,8 @@ void Test_CF_AppPipe_SetMibCmdNakTimeout(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdNakTimeout: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2646,6 +2878,8 @@ void Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                "CF_AppPipe, SetMibCmdNakTimeoutNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2691,6 +2925,8 @@ void Test_CF_AppPipe_SetMibCmdFileChunkSize(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdFileChunkSize: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2727,6 +2963,8 @@ void Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
             "CF_AppPipe, SetMibCmdFileChunkSizeNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2763,6 +3001,8 @@ void Test_CF_AppPipe_SetMibCmdFileChunkOverLimit(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_ERR1_EID, CFE_EVS_ERROR, expEvent,
             "CF_AppPipe, SetMibCmdFileChunkOverLimit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2808,6 +3048,8 @@ void Test_CF_AppPipe_SetMibCmdMyId(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, SetMibCmdMyId: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2843,6 +3085,8 @@ void Test_CF_AppPipe_SetMibCmdMyIdInvalid(void)
 
     UtAssert_EventSent(CF_SET_MIB_CMD_ERR2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetMibCmdMyIdInvalid: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2881,6 +3125,8 @@ void Test_CF_AppPipe_SetMibCmdMyIdNonDigit(void)
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                   "CF_AppPipe, SetMibCmdMyIdNonDigit: CFDP Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2927,6 +3173,8 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                  "CF_AppPipe, GetMibCmdSaveIncompleteFiles: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2963,6 +3211,8 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, GetMibCmdSaveIncompleteFilesInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -2998,6 +3248,8 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesUntermParam(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
         "CF_AppPipe, GetMibCmdSaveIncompleteFilesUntermParam: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3037,6 +3289,8 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvParam(void)
     UtAssert_EventSent(CF_CFDP_ENGINE_WARN_EID, CFE_EVS_INFORMATION,
           expEvent,
           "CF_AppPipe, GetMibCmdSaveIncompleteFilesInvParam: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3083,6 +3337,8 @@ void Test_CF_AppPipe_GetMibCmdAckLimit(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdAckLimit: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3129,6 +3385,8 @@ void Test_CF_AppPipe_GetMibCmdAckTimeout(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdAckTimeout: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3175,6 +3433,8 @@ void Test_CF_AppPipe_GetMibCmdInactTimeout(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdInactTimeout: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3221,6 +3481,8 @@ void Test_CF_AppPipe_GetMibCmdNakLimit(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdNakLimit: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3267,6 +3529,8 @@ void Test_CF_AppPipe_GetMibCmdNakTimeout(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdNakTimeout: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3313,6 +3577,8 @@ void Test_CF_AppPipe_GetMibCmdFileChunkSize(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdFileChunkSize: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3363,6 +3629,8 @@ void Test_CF_AppPipe_GetMibCmdMyId(void)
 
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdMyId: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3483,6 +3751,8 @@ void Test_CF_AppPipe_SendCfgParamsCmd(void)
 
     UtAssert_EventSent(CF_SND_CFG_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SendCfgParamsCmd: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3516,6 +3786,8 @@ void Test_CF_AppPipe_SendCfgParamsCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SendCfgParamsCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3559,6 +3831,8 @@ void Test_CF_AppPipe_WriteQueueCmdCreatErr(void)
 
     UtAssert_EventSent(CF_SND_QUE_ERR1_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdCreatErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3597,6 +3871,8 @@ void Test_CF_AppPipe_WriteQueueCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3635,6 +3911,8 @@ void Test_CF_AppPipe_WriteQueueCmdUpQValueErr(void)
 
     UtAssert_EventSent(CF_WR_CMD_ERR1_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdUpQValueErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3684,6 +3962,8 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, WriteQueueCmdUpDefFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3734,6 +4014,8 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                  "CF_AppPipe, WriteQueueCmdUpCustomFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3771,6 +4053,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutQValueErr(void)
 
     UtAssert_EventSent(CF_WR_CMD_ERR2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdOutQValueErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3808,6 +4092,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutQTypeErr(void)
 
     UtAssert_EventSent(CF_WR_CMD_ERR3_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdOutQTypeErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3845,6 +4131,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutChanErr(void)
 
     UtAssert_EventSent(CF_WR_CMD_ERR4_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdOutChanErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3890,6 +4178,8 @@ void Test_CF_AppPipe_WriteQueueCmdWriteHdrErr(void)
 
     UtAssert_EventSent(CF_FILEWRITE_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteQueueCmdWriteHdrErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3929,6 +4219,8 @@ void Test_CF_AppPipe_WriteQueueCmdEntryWriteErr(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrQCmdMsg;
@@ -3960,6 +4252,8 @@ void Test_CF_AppPipe_WriteQueueCmdEntryWriteErr(void)
 
     UtAssert_EventSent(CF_FILEWRITE_ERR_EID, CFE_EVS_ERROR, expEventWrQ,
         "CF_AppPipe, WriteQueueCmdEntryWriteErr: Write Queue Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -3999,6 +4293,8 @@ void Test_CF_AppPipe_WriteQueueCmdInvFilenameErr(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, WriteQueueCmdInvFilenameErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4048,6 +4344,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutDefFilename(void)
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                   "CF_AppPipe, WriteQueueCmdOutDefFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4098,6 +4396,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                   "CF_AppPipe, WriteQueueCmdOutCustomFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4137,6 +4437,8 @@ void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrQCmdMsg;
@@ -4168,6 +4470,8 @@ void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEventWrQ,
              "CF_AppPipe, WriteQueueCmdOneEntry: Write Queue Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4205,6 +4509,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, WriteActiveTransCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4243,6 +4549,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, WriteActiveTransCmdInvFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4287,6 +4595,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdCreatFail(void)
 
     UtAssert_EventSent(CF_WRACT_ERR2_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, WriteActiveTransCmdCreatFail: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4333,6 +4643,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdWrHdrFail(void)
 
     UtAssert_EventSent(CF_FILEWRITE_ERR_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, WriteActiveTransCmdWrHdrFail: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4370,6 +4682,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvWhichQs(void)
 
     UtAssert_EventSent(CF_WRACT_ERR1_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, WriteActiveTransCmdInvWhichQs: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4378,6 +4692,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvWhichQs(void)
  */
 void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
 {
+    uint32                    QEntryCnt;
     CF_PlaybackFileCmd_t      PbFileCmdMsg;
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -4405,10 +4720,15 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     sprintf(expEvent, "File write,byte cnt err,file %s,request=%d,actual=%d",
             WrActTrCmdMsg.Filename, sizeof(CF_QueueInfoFileEntry_t),
@@ -4419,8 +4739,13 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, WriteActiveTransCmdEntryWriteErr");
 
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, WriteActiveTransCmdEntryWriteErr: QEntryCnt");
+
     UtAssert_EventSent(CF_FILEWRITE_ERR_EID, CFE_EVS_ERROR, expEvent,
                  "CF_AppPipe, WriteActiveTransCmdEntryWriteErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4429,11 +4754,16 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
  */
 void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
 {
+    uint32                    TotalQEntryCnt;
     int                       WrittenBytes;
-    CF_PlaybackFileCmd_t      PbFileCmdMsg;
+    CF_NoArgsCmd_t            InPDUMsg;
+    CF_PlaybackFileCmd_t      PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t      PbFileCmdMsg2;
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
-    char  FullSrcFileName[OS_MAX_PATH_LEN];
-    char  expEventPb[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  FullSrcFileName1[OS_MAX_PATH_LEN];
+    char  FullSrcFileName2[OS_MAX_PATH_LEN];
+    char  expEventPb1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventPb2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* build cmd to write all active entries to a file */
@@ -4443,8 +4773,9 @@ void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
     WrActTrCmdMsg.Type = CF_ALL;
     strcpy(WrActTrCmdMsg.Filename, "");
-
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_CMD_MID, sizeof(InPDUMsg), TRUE);
 
     /* force the file create to return a valid file descriptor (5) */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
@@ -4460,38 +4791,58 @@ void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
-    /* create one playback chan 0, active queue entry */
-    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+    CF_AppInit();
+
+    /* create two playback chan 0, active queue entry */
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
     /* create one uplink active queue entry */
-    CF_AddFileToUpQueue(CF_UP_ACTIVEQ,
-                        (CF_QueueEntry_t *)&CF_AppData.Mem.Partition);
+    CF_TstUtil_CreateOneUpActiveQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg);
+
+    CF_ShowQs();
+
+    TotalQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    sprintf(FullSrcFileName, "%s%s", TestPbDir, TestPbFile1);
-    sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
-            "Peer %s,File %s", PbFileCmdMsg.Class, PbFileCmdMsg.Channel,
-            PbFileCmdMsg.Priority, PbFileCmdMsg.Preserve,
-            PbFileCmdMsg.PeerEntityId, FullSrcFileName);
+    strcpy(FullSrcFileName1, PbFileCmdMsg1.SrcFilename);
+    sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
+            "Peer %s,File %s", PbFileCmdMsg1.Class, PbFileCmdMsg1.Channel,
+            PbFileCmdMsg1.Priority, PbFileCmdMsg1.Preserve,
+            PbFileCmdMsg1.PeerEntityId, FullSrcFileName1);
 
-    /* 1 header size + 2 entry size(uplink/downlink) */
+    strcpy(FullSrcFileName2, PbFileCmdMsg2.SrcFilename);
+    sprintf(expEventPb2, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
+            "Peer %s,File %s", PbFileCmdMsg2.Class, PbFileCmdMsg2.Channel,
+            PbFileCmdMsg2.Priority, PbFileCmdMsg2.Preserve,
+            PbFileCmdMsg2.PeerEntityId, FullSrcFileName2);
+
+    /* 1 header size + 3 entry size(uplink/downlink) */
     WrittenBytes = sizeof(CFE_FS_Header_t) +
-                   (2 * sizeof(CF_QueueInfoFileEntry_t));
+                   (3 * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEventWr, "%s written:Size=%d,Entries=%d",
-            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, 2);
+            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, 3);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteActiveTransCmdDefaultFilename");
 
-    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
-      "CF_AppPipe, WriteActiveTransCmdDefaultFilename: Playback Event Sent");
+    UtAssert_True(TotalQEntryCnt == 3,
+          "CF_AppPipe, WriteActiveTransCmdDefaultFilename: TotalQEntryCnt");
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
+      "CF_AppPipe, WriteActiveTransCmdDefaultFilename: PbFile#1 Event Sent");
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
+      "CF_AppPipe, WriteActiveTransCmdDefaultFilename: PbFile#2 Event Sent");
 
     UtAssert_EventSent(CF_WRACT_TRANS_EID, CFE_EVS_DEBUG, expEventWr,
          "CF_AppPipe, WriteActiveTransCmdDefaultFilename: Write Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4500,11 +4851,16 @@ void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
  */
 void Test_CF_AppPipe_WriteActiveTransCmdCustFilename(void)
 {
+    uint32                    TotalQEntryCnt;
     int                       WrittenBytes;
-    CF_PlaybackFileCmd_t      PbFileCmdMsg;
+    CF_NoArgsCmd_t            InPDUMsg;
+    CF_PlaybackFileCmd_t      PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t      PbFileCmdMsg2;
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
-    char  FullSrcFileName[OS_MAX_PATH_LEN];
-    char  expEventPb[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  FullSrcFileName1[OS_MAX_PATH_LEN];
+    char  FullSrcFileName2[OS_MAX_PATH_LEN];
+    char  expEventPb1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventPb2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* build cmd to write all active entries to a file */
@@ -4515,8 +4871,9 @@ void Test_CF_AppPipe_WriteActiveTransCmdCustFilename(void)
     WrActTrCmdMsg.Type = CF_ALL;
     strcpy(WrActTrCmdMsg.Filename, TestQInfoDir);
     strcat(WrActTrCmdMsg.Filename, TestQInfoFile1);
-
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_CMD_MID, sizeof(InPDUMsg), TRUE);
 
     /* force the file create to return a valid file descriptor (5) */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
@@ -4532,38 +4889,58 @@ void Test_CF_AppPipe_WriteActiveTransCmdCustFilename(void)
                             sizeof(CFE_FS_Header_t), 1);
 
     /* Execute the function being tested */
-    /* create one playback chan 0, active queue entry */
-    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+    CF_AppInit();
+
+    /* create two playback chan 0, active queue entry */
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
     /* create one uplink active queue entry */
-    CF_AddFileToUpQueue(CF_UP_ACTIVEQ,
-                        (CF_QueueEntry_t *)&CF_AppData.Mem.Partition);
+    CF_TstUtil_CreateOneUpActiveQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg);
+
+    CF_ShowQs();
+
+    TotalQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    sprintf(FullSrcFileName, "%s%s", TestPbDir, TestPbFile1);
-    sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
-            "Peer %s,File %s", PbFileCmdMsg.Class, PbFileCmdMsg.Channel,
-            PbFileCmdMsg.Priority, PbFileCmdMsg.Preserve,
-            PbFileCmdMsg.PeerEntityId, FullSrcFileName);
+    strcpy(FullSrcFileName1, PbFileCmdMsg1.SrcFilename);
+    sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
+            "Peer %s,File %s", PbFileCmdMsg1.Class, PbFileCmdMsg1.Channel,
+            PbFileCmdMsg1.Priority, PbFileCmdMsg1.Preserve,
+            PbFileCmdMsg1.PeerEntityId, FullSrcFileName1);
 
-    /* 1 header size + 2 entry size(uplink/downlink) */
+    strcpy(FullSrcFileName2, PbFileCmdMsg2.SrcFilename);
+    sprintf(expEventPb2, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
+            "Peer %s,File %s", PbFileCmdMsg2.Class, PbFileCmdMsg2.Channel,
+            PbFileCmdMsg2.Priority, PbFileCmdMsg2.Preserve,
+            PbFileCmdMsg2.PeerEntityId, FullSrcFileName2);
+
+    /* 1 header size + 3 entry size(uplink/downlink) */
     WrittenBytes = sizeof(CFE_FS_Header_t) +
-                   (2 * sizeof(CF_QueueInfoFileEntry_t));
+                   (3 * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEventWr, "%s written:Size=%d,Entries=%d",
-            WrActTrCmdMsg.Filename, WrittenBytes, 2);
+            WrActTrCmdMsg.Filename, WrittenBytes, 3);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteActiveTransCmdCustFilename");
 
-    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
-      "CF_AppPipe, WriteActiveTransCmdCustFilename: Playback Event Sent");
+    UtAssert_True(TotalQEntryCnt == 3,
+             "CF_AppPipe, WriteActiveTransCmdCustFilename: TotalQEntryCnt");
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
+      "CF_AppPipe, WriteActiveTransCmdCustFilename: PbFile#1 Event Sent");
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb2,
+      "CF_AppPipe, WriteActiveTransCmdCustFilename: PbFile#2 Event Sent");
 
     UtAssert_EventSent(CF_WRACT_TRANS_EID, CFE_EVS_DEBUG, expEventWr,
          "CF_AppPipe, WriteActiveTransCmdCustFilename: Write Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4599,6 +4976,8 @@ void Test_CF_AppPipe_QuickStatusCmdFilenameNotFound(void)
 
     UtAssert_EventSent(CF_QUICK_ERR1_EID, CFE_EVS_ERROR, expEvent,
                 "CF_AppPipe, QuickStatusCmdFilenameNotFound: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4621,6 +5000,8 @@ void Test_CF_AppPipe_QuickStatusCmdFilename(void)
     CF_Test_PrintCmdMsg((void*)&QSCmdMsg, sizeof(QSCmdMsg));
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&QSCmdMsg;
@@ -4645,6 +5026,8 @@ void Test_CF_AppPipe_QuickStatusCmdFilename(void)
 
     UtAssert_EventSent(CF_QUICK_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, QuickStatusCmdFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4681,6 +5064,8 @@ void Test_CF_AppPipe_SendTransDiagCmdFileNotFound(void)
 
     UtAssert_EventSent(CF_SND_TRANS_ERR_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, SendTransDiagCmdFileNotFound: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4716,6 +5101,8 @@ void Test_CF_AppPipe_SendTransDiagCmdTransNotFound(void)
 
     UtAssert_EventSent(CF_SND_TRANS_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SendTransDiagCmdTransNotFound: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4753,6 +5140,8 @@ void Test_CF_AppPipe_SendTransDiagCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SendTransDiagCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4788,6 +5177,8 @@ void Test_CF_AppPipe_SendTransDiagCmdUntermString(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, SendTransDiagCmdUntermString: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4804,7 +5195,7 @@ void Test_CF_AppPipe_SendTransDiagCmdInvFilename(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
                       (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
     strcpy(SndTrCmdMsg.Trans, TestPbDir);
-    strcat(SndTrCmdMsg.Trans, "This string has spaces");
+    strcat(SndTrCmdMsg.Trans, "This name has spaces");
 
     CF_Test_PrintCmdMsg((void*)&SndTrCmdMsg, sizeof(SndTrCmdMsg));
 
@@ -4824,6 +5215,8 @@ void Test_CF_AppPipe_SendTransDiagCmdInvFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SendTransDiagCmdInvFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -4947,6 +5340,8 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
                               (void*)&Test_CF_SBTimeStampMsgHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
@@ -4986,6 +5381,8 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
 
     UtAssert_EventSent(CF_SND_TRANS_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SendTransDiagCmdFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5017,6 +5414,8 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
                               (void*)&Test_CF_SBTimeStampMsgHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
     sprintf(SndTrCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_0");
@@ -5064,6 +5463,8 @@ void Test_CF_AppPipe_SendTransDiagCmdTransId(void)
 
     UtAssert_EventSent(CF_SND_TRANS_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SendTransDiagCmdTransId: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5106,6 +5507,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5147,6 +5550,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvChan(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR1_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvChan: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5188,6 +5593,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvDir(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR2_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvDir: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5230,6 +5637,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvClass(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR3_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvClass: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5271,6 +5680,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvPreserve(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR4_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, SetPollParamCmdInvPreserve: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5312,6 +5723,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvSrc(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR5_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvSrc: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5353,6 +5766,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvDst(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR6_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvDst: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5394,6 +5809,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvId(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM_ERR7_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, SetPollParamCmdInvId: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5455,6 +5872,8 @@ void Test_CF_AppPipe_SetPollParamCmd(void)
 
     UtAssert_EventSent(CF_SET_POLL_PARAM1_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SetPollParamCmd: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5492,6 +5911,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, DeleteQueueNodeCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5526,6 +5947,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm(void)
 
     UtAssert_EventSent(CF_NO_TERM_ERR_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdTransUnterm: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5561,6 +5984,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename(void)
 
     UtAssert_EventSent(CF_INV_FILENAME_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, DeleteQueueNodeCmdInvFilename: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5596,6 +6021,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound(void)
 
     UtAssert_EventSent(CF_DEQ_NODE_ERR1_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdFileNotFound: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5631,6 +6058,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound(void)
 
     UtAssert_EventSent(CF_DEQ_NODE_ERR1_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdIdNotFound: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5639,6 +6068,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     CF_NoArgsCmd_t       InPDUMsg;
     char  FullTransString[OS_MAX_PATH_LEN];
@@ -5658,7 +6089,12 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOneUpActiveQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg);
+    QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
+    CF_ShowQs();
 
     /* This first dequeue command will produce the warning */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
@@ -5666,6 +6102,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
 
     /* This identical second cmd will dequeue without warning */
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     sprintf(FullTransString, "%s", DeQCmdMsg.Trans);
     sprintf(expEventWarn, "DequeueNodeCmd:Trans %s is ACTIVE! Must send "
@@ -5678,14 +6116,16 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdUpActive");
 
-    UtAssert_True(CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt == 0,
-             "CF_AppPipe, DeleteQueueNodeCmdUpActive: UpActiveQ EntryCnt");
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdUpActive: QEntryCnt");
 
     UtAssert_EventSent(CF_DEQ_NODE_ERR2_EID, CFE_EVS_CRITICAL, expEventWarn,
              "CF_AppPipe, DeleteQueueNodeCmdUpActive: Warning Event Sent");
 
     UtAssert_EventSent(CF_DEQ_NODE1_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdUpActive: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5694,6 +6134,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     CF_NoArgsCmd_t       InPDUMsg;
     TRANSACTION          trans;
@@ -5714,10 +6156,15 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOneUpHistoryQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg);
+    QEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     cfdp_trans_from_string(DeQCmdMsg.Trans, &trans);
     sprintf(FullDstFilename, "%s%s", TestInDir, TestInFile1);
@@ -5732,15 +6179,17 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdUpHist");
 
-    UtAssert_True(CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt == 0,
-             "CF_AppPipe, DeleteQueueNodeCmdUpHist: UpHistQ EntryCnt");
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdUpHist: QEntryCnt");
 
     UtAssert_EventSent(CF_IN_TRANS_OK_EID, CFE_EVS_INFORMATION,
-                       expEventInTrans,
+             expEventInTrans,
              "CF_AppPipe, DeleteQueueNodeCmdUpHist: InTrans Event Sent");
 
     UtAssert_EventSent(CF_DEQ_NODE1_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdUpHist: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5769,6 +6218,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     QEntryCntBefore =
@@ -5804,6 +6255,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
 
     UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdPbPend: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5812,6 +6265,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     TRANSACTION          trans;
@@ -5830,7 +6285,11 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+    QEntryCntBefore =
+         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     strcpy(DeQCmdMsg.Trans, CF_AppData.Tbl->FlightEntityId);
     strcat(DeQCmdMsg.Trans, "_1");
@@ -5842,6 +6301,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
 
     /* This identical second cmd will dequeue without warning */
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
@@ -5868,6 +6330,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdPbActive");
 
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdPbActive: QEntryCnt");
+
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, DeleteQueueNodeCmdPbActive: PbFile Event Sent");
 
@@ -5880,6 +6345,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
 
     UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdPbActive: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5888,6 +6355,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbActive(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     TRANSACTION          trans;
@@ -5913,7 +6382,11 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbHistoryQueueEntry(&PbFileCmdMsg);
+    QEntryCntBefore =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     strcpy(DeQCmdMsg.Trans, CF_AppData.Tbl->FlightEntityId);
     strcat(DeQCmdMsg.Trans, "_1");
@@ -5921,6 +6394,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
@@ -5946,6 +6422,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdPbHist");
 
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdPbHist: QEntryCnt");
+
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, DeleteQueueNodeCmdPbHist: PbFile Event Sent");
 
@@ -5958,6 +6437,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
 
     UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdPbHist: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -5966,6 +6447,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
  */
 void Test_CF_AppPipe_DeleteQueueNodeCmdPutFail(void)
 {
+    uint32               QEntryCnt;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     TRANSACTION          trans;
@@ -5993,10 +6475,15 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPutFail(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbHistoryQueueEntry(&PbFileCmdMsg);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+        CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
     sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
@@ -6022,6 +6509,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPutFail(void)
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, DeleteQueueNodeCmdPutFail");
 
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, DeleteQueueNodeCmdPutFail: QEntryCnt");
+
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
              "CF_AppPipe, DeleteQueueNodeCmdPutFail: PbFile Event Sent");
 
@@ -6034,6 +6524,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPutFail(void)
 
     UtAssert_EventSent(CF_DEQ_NODE_ERR1_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdPutFail: Fail Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6062,6 +6554,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvType(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
     pQ = CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].HeadPtr;
@@ -6094,6 +6588,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvType(void)
 
     UtAssert_EventSent(CF_DEQ_NODE_ERR4_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdInvType: Fail Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6128,6 +6624,8 @@ void Test_CF_AppPipe_PurgeQueueCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PurgeQueueCmdInvLen: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6165,6 +6663,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUplinkActiveErr(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR1_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, PurgeQueueCmdUplinkActiveErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6173,6 +6673,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUplinkActiveErr(void)
  */
 void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
 {
+    uint32              QEntryCntBefore;
+    uint32              QEntryCntAfter;
     CF_PurgeQueueCmd_t  PurgeQCmdMsg;
     CF_NoArgsCmd_t      InPDUMsg1;
     CF_NoArgsCmd_t      InPDUMsg2;
@@ -6202,11 +6704,16 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateTwoUpHistoryQueueEntry((CFE_SB_MsgPtr_t)&InPDUMsg1,
                                             (CFE_SB_MsgPtr_t)&InPDUMsg2);
+    QEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     sprintf(FullTransString1, "%s%s", TestInSrcEntityId1, "_500");
     cfdp_trans_from_string(FullTransString1, &trans);
@@ -6230,8 +6737,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PurgeQueueCmdUpHistory");
 
-    UtAssert_True(CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt == 0,
-                  "CF_AppPipe, PurgeQueueCmdUpHistory: UpHistQ removed");
+    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, PurgeQueueCmdUpHistory: QEntryCnt");
 
     UtAssert_EventSent(CF_IN_TRANS_OK_EID, CFE_EVS_INFORMATION, expEventIn1,
                   "CF_AppPipe, PurgeQueueCmdUpHistory: Trans#1 Event Sent");
@@ -6241,6 +6748,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
 
     UtAssert_EventSent(CF_PURGEQ1_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, PurgeQueueCmdUpHistory: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6278,6 +6787,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUpInvalidQ(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR2_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, PurgeQueueCmdUpInvalidQ: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6315,6 +6826,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbActiveQErr(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR3_EID, CFE_EVS_ERROR, expEvent,
              "CF_AppPipe, PurgeQueueCmdPbActiveQErr: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6323,6 +6836,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbActiveQErr(void)
  */
 void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg1;
     CF_PlaybackFileCmd_t PbFileCmdMsg2;
     CF_PurgeQueueCmd_t   PurgeQCmdMsg;
@@ -6346,10 +6861,18 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    QEntryCntBefore =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(FullSrcFileName1, "%s%s", TestPbDir, TestPbFile1);
     sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
@@ -6374,7 +6897,7 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PurgeQueueCmdPbPendingQ");
 
-    UtAssert_True(CF_AppData.Chan[0].PbQ[CF_PB_PENDINGQ].EntryCnt == 0,
+    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
              "CF_AppPipe, PurgeQueueCmdPbPendingQ: PbPendQ EntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
@@ -6385,6 +6908,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
 
     UtAssert_EventSent(CF_PURGEQ2_EID, CFE_EVS_INFORMATION, expEvent,
              "CF_AppPipe, PurgeQueueCmdPbPendingQ: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6393,6 +6918,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbPendingQ(void)
  */
 void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg1;
     CF_PlaybackFileCmd_t PbFileCmdMsg2;
     CF_PurgeQueueCmd_t   PurgeQCmdMsg;
@@ -6419,10 +6946,17 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
+    CF_AppInit();
+
     CF_TstUtil_CreateTwoPbHistoryQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+    QEntryCntBefore =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     sprintf(FullTransString1, "%s%s",
             CF_AppData.Tbl->FlightEntityId, "_1");
@@ -6452,10 +6986,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PurgeQueueCmdPbHistQ");
 
-    UtAssert_True(
-       CF_AppData.Chan[PurgeQCmdMsg.Chan].PbQ[CF_PB_HISTORYQ].EntryCnt
-       == 0,
-       "CF_AppPipe, PurgeQueueCmdPbHistQ: PbHistQ EntryCnt");
+    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
+                  "CF_AppPipe, PurgeQueueCmdPbHistQ: QEntryCnt");
 
     UtAssert_EventSent(CF_OUT_TRANS_FAILED_EID, CFE_EVS_ERROR, expEventTr1,
                   "CF_AppPipe, PurgeQueueCmdPbHistQ: Trans#1 Event Sent");
@@ -6465,6 +6997,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
 
     UtAssert_EventSent(CF_PURGEQ2_EID, CFE_EVS_INFORMATION, expEvent,
              "CF_AppPipe, PurgeQueueCmdPbHistQ: Success Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6502,6 +7036,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbInvalidQ(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR4_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, PurgeQueueCmdPbInvalidQ: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6539,6 +7075,8 @@ void Test_CF_AppPipe_PurgeQueueCmdPbInvalidChan(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR5_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, PurgeQueueCmdPbInvalidChan: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6576,6 +7114,8 @@ void Test_CF_AppPipe_PurgeQueueCmdInvalidType(void)
 
     UtAssert_EventSent(CF_PURGEQ_ERR6_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, PurgeQueueCmdInvalidType: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -6715,6 +7255,13 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SuspendCmdAll,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdAll");
+
+    UtTest_Add(Test_CF_AppPipe_ResumeCmdNoTransId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_ResumeCmdNoTransId");
+    UtTest_Add(Test_CF_AppPipe_ResumeCmdFilename,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_ResumeCmdFilename");
 
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles,
                CF_Test_Setup, CF_Test_TearDown,
@@ -6882,10 +7429,10 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdCustFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdCustFilename");
 
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdFilenameNotFound,

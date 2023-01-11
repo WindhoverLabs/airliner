@@ -172,7 +172,6 @@ CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void)
     CFE_TIME_SysTime_t  CfeTime;
     struct timespec     time;
 
-printf("###Test_CF_GetCFETimeHook entered\n");
     iStatus = clock_gettime(CLOCK_REALTIME, &time);
     if (iStatus == 0)
     {
@@ -186,7 +185,6 @@ printf("###Test_CF_GetCFETimeHook entered\n");
 
 void Test_CF_SBTimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
 {
-printf("###Test_CF_SBTimeStampMsgHook entered\n");
     CFE_SB_SetMsgTime(MsgPtr, CFE_TIME_GetTime());
 
     return;

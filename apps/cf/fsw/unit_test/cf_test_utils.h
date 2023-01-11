@@ -70,6 +70,7 @@ void CF_Test_TearDown(void);
 
 void CF_ShowQs();
 
+void  CF_TstUtil_InitApp();
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
 void  CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
