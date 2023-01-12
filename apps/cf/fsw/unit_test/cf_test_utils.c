@@ -85,6 +85,9 @@ void CF_Test_Setup(void)
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -106,6 +109,9 @@ void CF_Test_SetupUnitTest(void)
     CFE_ES_GetPoolBufHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
+
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
@@ -408,27 +414,37 @@ void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 }
 
 
-void CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
+void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 {
-    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
-    TRANS_STATUS    TransInfo;
-
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    TransInfo.role = CLASS_1_RECEIVER;
-    TransInfo.trans.number = 500;
-    TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    /* Execute a Incoming PDU command so that one queue entry is added
+       to the active queue */
+    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd->PHdr.Octet1 = 0x04;
+    pCmd->PHdr.PDataLen = MAX_DATA_LENGTH;
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd->PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd->PHdr.SrcEntityId = 0x1700;
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd->PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd->PHdr.DstEntityId = 0x0300;
+    pCmd->Data[0] = MD_PDU;
 
-    CF_AppData.MsgPtr = MsgPtr;
-
-    CF_Indication(IndType,TransInfo);
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
+    CF_AppPipe(CF_AppData.MsgPtr);
 }
 
 
+#if 0
 void CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
                                             CFE_SB_MsgPtr_t MsgPtr2)
 {
@@ -456,8 +472,10 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
     CF_AppData.MsgPtr = MsgPtr2;
     CF_Indication(IndType,TransInfo);
 }
+#endif
 
 
+#if 0
 void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
@@ -505,6 +523,7 @@ void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
 
     CF_Indication(IndType,TransInfo);
 }
+#endif
 
 
 void CF_Test_PrintCmdMsg(void *pMsg, uint32 size)

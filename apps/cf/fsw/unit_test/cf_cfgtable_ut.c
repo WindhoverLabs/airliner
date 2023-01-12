@@ -59,7 +59,7 @@ cf_config_table_t  CF_ConfigTableUnitTest =
     { /* Input Channel Array */
 
         { /* Input Channel 0 */
-            CF_CMD_MID,
+            CF_PPD_TO_CPD_PDU_MID,
             0, /* Output Chan for Class 2 Uplink Responses, ACK-EOF,Nak,Fin etc) */
             0  /* spare */
         }, /* end Input Channel 0 */
