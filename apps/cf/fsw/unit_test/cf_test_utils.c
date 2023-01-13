@@ -85,9 +85,6 @@ void CF_Test_Setup(void)
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -109,9 +106,6 @@ void CF_Test_SetupUnitTest(void)
     CFE_ES_GetPoolBufHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
@@ -261,6 +255,9 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 
 void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
@@ -295,6 +292,9 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2)
 {
+    /* reset the transactions seq number used by the engine */
+    misc__set_trans_seq_num(1);
+
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
@@ -396,7 +396,6 @@ void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 {
     CF_CARSCmd_t    CARSCmdMsg;
 
-
     CF_TstUtil_CreateTwoPbActiveQueueEntry(pCmd1, pCmd2);
 
     cfdp_cycle_each_transaction();
@@ -416,72 +415,103 @@ void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 
 void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 {
+    int  hdr_len;
+
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
     CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
     /* Execute a Incoming PDU command so that one queue entry is added
        to the active queue */
     CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
     /* file directive: MD_PDU,toward rcvr,class1,crc not present */
-    pCmd->PHdr.Octet1 = 0x04;
-    pCmd->PHdr.PDataLen = MAX_DATA_LENGTH;
+    pCmd->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size(MAX_DATA_LENGTH - hdr_len): Little Endian */
+    pCmd->PduContent.PHdr.PDataLen = 0xf407;
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd->PHdr.Octet4 = 0x13;
+    pCmd->PduContent.PHdr.Octet4 = 0x13;
     /* 0.23 : Little Endian */
-    pCmd->PHdr.SrcEntityId = 0x1700;
+    pCmd->PduContent.PHdr.SrcEntityId = 0x1700;
     /* 0x1f4 = 500 : Little Endian */
-    pCmd->PHdr.TransSeqNum = 0xf4010000;
+    pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
-    pCmd->PHdr.DstEntityId = 0x0300;
-    pCmd->Data[0] = MD_PDU;
+    pCmd->PduContent.PHdr.DstEntityId = 0x0300;
+
+    pCmd->PduContent.Content[hdr_len] = MD_PDU;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
 }
 
 
-#if 0
-void CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
-                                            CFE_SB_MsgPtr_t MsgPtr2)
+void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
+                                            CF_Test_InPDUMsg_t *pCmd2)
 {
-    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
-    TRANS_STATUS    TransInfo;
+    int  hdr_len;
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    TransInfo.role = CLASS_1_RECEIVER;
-    TransInfo.trans.number = 500;
-    TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    hdr_len = sizeof(CF_PDU_Hdr_t);
 
-    CF_AppData.MsgPtr = MsgPtr1;
-    CF_Indication(IndType,TransInfo);
+    /* Execute the first Incoming PDU command so that one queue entry
+       is added to the active queue */
+    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd1->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size(MAX_DATA_LENGTH - hdr_len): Little Endian */
+    pCmd1->PduContent.PHdr.PDataLen = 0xf407;
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd1->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700;
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
+    pCmd1->PduContent.Content[hdr_len] = MD_PDU;
 
-    TransInfo.role = CLASS_1_RECEIVER;
-    TransInfo.trans.number = 700;
-    TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 50;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
+    CF_AppPipe(CF_AppData.MsgPtr);
 
-    CF_AppData.MsgPtr = MsgPtr2;
-    CF_Indication(IndType,TransInfo);
+    /* Execute the second Incoming PDU command so that one queue entry
+       is added to the active queue */
+    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd2->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size : Little Endian */
+    pCmd2->PduContent.PHdr.PDataLen = 0xf407;
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd2->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.50 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200;
+    /* 0x2bc = 700 : Little Endian */
+    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
+    /* 0.3 : Little Endian */
+    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
+    pCmd2->PduContent.Content[hdr_len] = MD_PDU;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
+    CF_AppPipe(CF_AppData.MsgPtr);
 }
-#endif
 
 
-#if 0
-void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
+void CF_TstUtil_CreateOneUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
 
-    CF_TstUtil_CreateOneUpActiveQueueEntry(MsgPtr);
+    CF_TstUtil_CreateOneUpActiveQueueEntry(pCmd);
 
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
@@ -495,13 +525,13 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr)
 }
 
 
-void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
-                                             CFE_SB_MsgPtr_t MsgPtr2)
+void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
+                                             CF_Test_InPDUMsg_t *pCmd2)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
 
-    CF_TstUtil_CreateTwoUpActiveQueueEntry(MsgPtr1, MsgPtr2);
+    CF_TstUtil_CreateTwoUpActiveQueueEntry(pCmd1, pCmd2);
 
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
@@ -523,7 +553,6 @@ void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
 
     CF_Indication(IndType,TransInfo);
 }
-#endif
 
 
 void CF_Test_PrintCmdMsg(void *pMsg, uint32 size)

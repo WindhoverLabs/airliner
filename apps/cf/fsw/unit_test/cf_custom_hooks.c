@@ -77,7 +77,9 @@ printf("###CFE_ES_PutPoolBufHook entered\n");
     /* Note the actual memory pool has not been deallocated:
        the CFE_ES_GetPoolBufHookCallCnt remains the same value,
        but the CF_AppData.Hk.App.MemInUse will be reduced
-       as it supposed to be in the actual environment */
+       as it is supposed to be in the actual environment */
+    memset(BufPtr, 0x00, sizeof(CF_QueueEntry_t));
+
     return sizeof(CF_QueueEntry_t);
 }
 

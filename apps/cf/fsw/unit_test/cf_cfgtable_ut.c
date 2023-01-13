@@ -65,7 +65,7 @@ cf_config_table_t  CF_ConfigTableUnitTest =
         }, /* end Input Channel 0 */
 
         { /* Input Channel 1 */
-            CF_SEND_HK_MID,
+            CF_GND_TO_CPD_PDU_MID,
             1, /* Output Chan for Class 2 Uplink Responses, ACK-EOF,Nak,Fin etc) */
             0  /* spare */
         } /* end Input Channel 1 */

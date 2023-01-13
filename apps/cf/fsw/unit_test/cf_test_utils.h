@@ -58,11 +58,17 @@ extern const char TestPbPeerEntityId[];
 extern const char TestInSrcEntityId1[];
 extern const char TestInSrcEntityId2[];
 
+
 typedef struct
 {
     uint8         CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    CF_PDU_Hdr_t  PHdr;
-    uint8         Data[MAX_DATA_LENGTH];
+
+    union
+    {
+        CF_PDU_Hdr_t  PHdr;
+        uint8         Content[MAX_DATA_LENGTH];
+    } PduContent;
+
 } CF_Test_InPDUMsg_t;
 
 
@@ -79,6 +85,7 @@ void CF_ShowQs();
 
 void  CF_TstUtil_InitApp();
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
+
 void  CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                               CF_PlaybackFileCmd_t *pCmd2);
@@ -89,16 +96,13 @@ void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                               CF_PlaybackFileCmd_t *pCmd2);
 
-#if 0
-void  CF_TstUtil_CreateOneUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
-#else
-void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd);
-#endif
-void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
-                                             CFE_SB_MsgPtr_t MsgPtr2);
-void  CF_TstUtil_CreateOneUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr);
-void  CF_TstUtil_CreateTwoUpHistoryQueueEntry(CFE_SB_MsgPtr_t MsgPtr1,
-                                              CFE_SB_MsgPtr_t MsgPtr2);
+void  CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd);
+void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
+                                             CF_Test_InPDUMsg_t *pCmd2);
+void  CF_TstUtil_CreateOneUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd);
+void  CF_TstUtil_CreateTwoUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
+                                              CF_Test_InPDUMsg_t *pCmd2);
+
 void  CF_ResetEngine(void);
 
 void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
