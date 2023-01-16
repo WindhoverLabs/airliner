@@ -54,7 +54,6 @@ int32 CFE_ES_GetPoolBufHook(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr,
 {
     uint32  Offset;
     uint8   *BytePtr;
-printf("###CFE_ES_GetPoolBufHook entered: HookCallCnt(%lu)\n", CFE_ES_GetPoolBufHookCallCnt);
 
     Offset = (CFE_ES_GetPoolBufHookCallCnt * sizeof (CF_QueueEntry_t));
 
@@ -72,8 +71,6 @@ printf("###CFE_ES_GetPoolBufHook entered: HookCallCnt(%lu)\n", CFE_ES_GetPoolBuf
 
 int32 CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr)
 {
-printf("###CFE_ES_PutPoolBufHook entered\n");
-
     /* Note the actual memory pool has not been deallocated:
        the CFE_ES_GetPoolBufHookCallCnt remains the same value,
        but the CF_AppData.Hk.App.MemInUse will be reduced
@@ -103,7 +100,6 @@ int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 
 os_dirent_t *  OS_readdirHook (os_dirp_t directory)
 {
-printf("###OS_readdirHook entered:HookCallCnt(%lu)\n", ReaddirHookCallCnt);
     ReaddirHookCallCnt++;
 
     if(ReaddirHookCallCnt == 1)

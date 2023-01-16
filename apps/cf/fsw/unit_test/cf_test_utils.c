@@ -63,6 +63,7 @@ const char TestPbFile3[] = "pbfile3.dat";
 
 const char TestInFile1[] = "infile1.dat";
 const char TestInFile2[] = "infile2.dat";
+const char TestInNoFile[] = "";
 
 const char TestQInfoFile1[] = "qinfofile1.dat";
 
@@ -416,6 +417,10 @@ void CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 {
     int  hdr_len;
+    int  index;
+    int  str_len;
+    char src_filename[OS_MAX_PATH_LEN];
+    char dst_filename[OS_MAX_PATH_LEN];
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
@@ -442,7 +447,34 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
     /* 0.3 : Little Endian */
     pCmd->PduContent.PHdr.DstEntityId = 0x0300;
 
-    pCmd->PduContent.Content[hdr_len] = MD_PDU;
+    index = hdr_len;
+    pCmd->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x100 Little Endian */
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x01;
+    pCmd->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile1);
+    sprintf(dst_filename, "%s", TestInNoFile);
+
+    str_len = strlen(src_filename);
+    pCmd->PduContent.Content[index++] = str_len;
+    memcpy((void *)&pCmd->PduContent.Content[index], (void *)src_filename,
+           str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd->PduContent.Content[index++] = str_len;
+    if (str_len > 0)
+    {
+        memcpy((void *)&pCmd->PduContent.Content[index], (void *)dst_filename,
+               str_len);
+        index += str_len;
+    }
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -453,6 +485,10 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
                                             CF_Test_InPDUMsg_t *pCmd2)
 {
     int  hdr_len;
+    int  index;
+    int  str_len;
+    char src_filename[OS_MAX_PATH_LEN];
+    char dst_filename[OS_MAX_PATH_LEN];
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
@@ -478,7 +514,35 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
     pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
-    pCmd1->PduContent.Content[hdr_len] = MD_PDU;
+
+    index = hdr_len;
+    pCmd1->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd1->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x100 Little Endian */
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x01;
+    pCmd1->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile1);
+    sprintf(dst_filename, "%s", TestInNoFile);
+
+    str_len = strlen(src_filename);
+    pCmd1->PduContent.Content[index++] = str_len;
+    memcpy((void *)&pCmd1->PduContent.Content[index], (void *)src_filename,
+           str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd1->PduContent.Content[index++] = str_len;
+    if (str_len > 0)
+    {
+        memcpy((void *)&pCmd1->PduContent.Content[index], (void *)dst_filename,
+               str_len);
+        index += str_len;
+    }
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -499,7 +563,35 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
     /* 0.3 : Little Endian */
     pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
-    pCmd2->PduContent.Content[hdr_len] = MD_PDU;
+
+    index = hdr_len;
+    pCmd2->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd2->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x100 Little Endian */
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x01;
+    pCmd2->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile2);
+    sprintf(dst_filename, "%s", TestInNoFile);
+
+    str_len = strlen(src_filename);
+    pCmd2->PduContent.Content[index++] = str_len;
+    memcpy((void *)&pCmd2->PduContent.Content[index], (void *)src_filename,
+           str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd2->PduContent.Content[index++] = str_len;
+    if (str_len > 0)
+    {
+        memcpy((void *)&pCmd2->PduContent.Content[index], (void *)dst_filename,
+               str_len);
+        index += str_len;
+    }
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
     CF_AppPipe(CF_AppData.MsgPtr);

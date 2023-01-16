@@ -46,6 +46,7 @@ extern const char TestPbFile3[];
 
 extern const char TestInFile1[];
 extern const char TestInFile2[];
+extern const char TestInNoFile[];
 
 extern const char TestQInfoFile1[];
 

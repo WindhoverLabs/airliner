@@ -2462,6 +2462,190 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
 
 
 /**
+ * Test CF_AppPipe, CancelCmdNoTransId
+ */
+void Test_CF_AppPipe_CancelCmdNoTransId(void)
+{
+    CF_CARSCmd_t  CancelCmdMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CancelCmdMsg, CF_CMD_MID,
+                   sizeof(CancelCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CancelCmdMsg, (uint16)CF_CANCEL_CC);
+    strcpy(CancelCmdMsg.Trans, TestInSrcEntityId1);
+    strcat(CancelCmdMsg.Trans, "_500");
+    CF_Test_PrintCmdMsg((void*)&CancelCmdMsg, sizeof(CancelCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CancelCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    strcpy(FullTransString, CancelCmdMsg.Trans);
+    sprintf(expEventCfdp, "cfdp_engine: ignoring User-Request that "
+            "references unknown transaction (%s).", FullTransString);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, CancelCmd");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+                       "CF_AppPipe, CancelCmd: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, CancelCmdAll
+ */
+void Test_CF_AppPipe_CancelCmdAll(void)
+{
+    uint32                QEntryCntBefore;
+    uint32                QEntryCntAfter;
+    CF_Test_InPDUMsg_t    InPDUMsg;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_CARSCmd_t          CancelCmdMsg;
+    TRANSACTION           trans;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEventInd[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CancelCmdMsg, CF_CMD_MID,
+                   sizeof(CancelCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CancelCmdMsg, (uint16)CF_CANCEL_CC);
+    strcpy(CancelCmdMsg.Trans, "All");
+    CF_Test_PrintCmdMsg((void*)&CancelCmdMsg, sizeof(CancelCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    /* create two playback chan 0, active queue entries */
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    /* create one uplink active queue entries */
+    CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    QEntryCntBefore =
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+        + CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CancelCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    QEntryCntAfter =
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+        + CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
+    sprintf(FullTransString, "%s%s", TestInSrcEntityId1, "_500");
+    cfdp_trans_from_string(FullTransString, &trans);
+    sprintf(expEventInd, "Incoming trans %d.%d_%d %s,CondCode %s,dest %s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, "CANCELLED", "CANCEL_REQ_RCVD", TestInNoFile);
+
+    sprintf(expEvent, "%s command received.%s", "Cancel", "All");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, CancelCmdAll");
+
+    UtAssert_True((QEntryCntBefore == 3) && (QEntryCntAfter == 2),
+                  "CF_AppPipe, CancelCmdAll: QEntryCnt");
+
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
+                  (CF_AppData.Hk.App.PDUsRejected == 0),
+                  "CF_AppPipe, CancelCmdAll: PDUsReceived cnt");
+
+    UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
+                  "CF_AppPipe, CancelCmdAll: Up.MetaCount");
+
+    UtAssert_EventSent(CF_IN_TRANS_FAILED_EID, CFE_EVS_ERROR, expEventInd,
+                       "CF_AppPipe, CancelCmdAll: Indication Event Sent");
+
+    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_AppPipe, CancelCmdAll: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, AbandonCmdNoFile
+ */
+void Test_CF_AppPipe_AbandonCmdNoFile(void)
+{
+    CF_CARSCmd_t          AbandonCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
+                   sizeof(AbandonCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
+    strcpy(AbandonCmdMsg.Trans, TestPbDir);
+    strcat(AbandonCmdMsg.Trans, TestPbFile1);
+    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "%s Cmd Error,File %s Not Active",
+            "Abandon", AbandonCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, AbandonCmdNoFile");
+
+    UtAssert_EventSent(CF_CARS_ERR1_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, AbandonCmdNoFile: Event Sent");
+}
+
+/**
+ * Test CF_AppPipe, AbandonCmdNoTransId
+ */
+void Test_CF_AppPipe_AbandonCmdNoTransId(void)
+{
+    CF_CARSCmd_t          AbandonCmdMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
+                   sizeof(AbandonCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
+    strcpy(AbandonCmdMsg.Trans, TestInSrcEntityId1);
+    strcat(AbandonCmdMsg.Trans, "_500");
+    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    strcpy(FullTransString, AbandonCmdMsg.Trans);
+    sprintf(expEventCfdp, "cfdp_engine: ignoring User-Request that "
+            "references unknown transaction (%s).", FullTransString);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, AbandonCmdNoTransId");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+                       "CF_AppPipe, AbandonCmdNoTransId: Cfdp Event Sent");
+}
+
+
+/**
  * Test CF_AppPipe, SetMibCmdSaveIncompleteFiles
  */
 void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
@@ -4942,6 +5126,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
 
     /* create one uplink active queue entry */
     CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+    CF_ShowQs();
     machine_list__display_list();
 
     TotalQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
@@ -4985,7 +5170,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename(void)
     UtAssert_EventSent(CF_WRACT_TRANS_EID, CFE_EVS_DEBUG, expEventWr,
          "CF_AppPipe, WriteActiveTransCmdDefaultFilename: Write Event Sent");
 
-    CF_ShowQs();
     CF_ResetEngine();
 }
 
@@ -7373,7 +7557,7 @@ void CF_Cmds_Test_AddTestCases(void)
                "Test_CF_AppPipe_PbDirCmdSuccess");
 
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmd,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmd");
 
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
@@ -7419,8 +7603,22 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdUpTransId");
     UtTest_Add(Test_CF_AppPipe_ResumeCmdAll,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdAll");
+
+    UtTest_Add(Test_CF_AppPipe_CancelCmdNoTransId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_CancelCmdNoTransId");
+    UtTest_Add(Test_CF_AppPipe_CancelCmdAll,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_CancelCmdAll");
+
+    UtTest_Add(Test_CF_AppPipe_AbandonCmdNoFile,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_AbandonCmdNoFile");
+    UtTest_Add(Test_CF_AppPipe_AbandonCmdNoTransId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_AbandonCmdNoTransId");
 
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles,
                CF_Test_Setup, CF_Test_TearDown,
@@ -7586,10 +7784,10 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdDefaultFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdCustFilename,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdCustFilename");
 
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdFilenameNotFound,
@@ -7665,10 +7863,10 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpActive,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdUpActive");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpHist,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdUpHist");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPend,
                CF_Test_Setup, CF_Test_TearDown,
@@ -7693,7 +7891,7 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdUplinkActiveErr");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdUpHistory,
-               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdUpHistory");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdUpInvalidQ,
                CF_Test_Setup, CF_Test_TearDown,
