@@ -53,6 +53,7 @@ int32          CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr,
 int32          OS_statHook(const char *path, os_fstat_t *filestats);
 int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
 os_dirent_t *  OS_readdirHook (os_dirp_t directory);
+int32          OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name);
 
 void                Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
 CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void);

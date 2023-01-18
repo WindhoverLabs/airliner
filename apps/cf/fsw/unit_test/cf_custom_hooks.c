@@ -148,6 +148,15 @@ os_dirent_t *  OS_readdirHook (os_dirp_t directory)
 }
 
 
+int32 OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name)
+{
+printf("!!!OS_CountSemGetIdByNameHook entered\n");
+    *sem_id = 0x00;
+
+    return OS_SUCCESS;
+}
+
+
 void Test_CF_GetPSPTimeHook(OS_time_t *LocalTime)
 {
     int              iStatus;
