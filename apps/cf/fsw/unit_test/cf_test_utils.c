@@ -83,6 +83,7 @@ void CF_Test_Setup(void)
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
+    SemGetInfoHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -105,6 +106,7 @@ void CF_Test_SetupUnitTest(void)
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
+    SemGetInfoHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -256,8 +258,10 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 
 void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
+    /* reset the transactions seq number/summary statistics
+       used by the engine */
+    cfdp_reset_totals();
+    cfdp_set_trans_seq_num(1);
 
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
@@ -293,8 +297,10 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2)
 {
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
+    /* reset the transactions seq number/summary statistics
+       used by the engine */
+    cfdp_reset_totals();
+    cfdp_set_trans_seq_num(1);
 
     /* Set to return that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,

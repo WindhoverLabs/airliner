@@ -41,8 +41,11 @@
 
 uint32       ReaddirHookCallCnt = 0;
 os_dirent_t  ReaddirHookDirEntry;
+uint32       SemGetInfoHookCallCnt = 0;
 
 uint32       CFE_ES_GetPoolBufHookCallCnt = 0;
+
+uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CF_SEND_FIXED_SIZE_PKTS];
 
 
 /**************************************************************************
@@ -78,6 +81,19 @@ int32 CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr)
     memset(BufPtr, 0x00, sizeof(CF_QueueEntry_t));
 
     return sizeof(CF_QueueEntry_t);
+}
+
+
+int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
+                                    CFE_SB_ZeroCopyHandle_t *BufferHandle)
+{
+printf("!!CFE_SB_ZeroCopyGetPtrHook entered: MsgSize(%u)\n", MsgSize);
+    *BufferHandle = 0;
+
+    memset(CFE_SB_ZeroCopyGetPtrHook_Buf, 0x00,
+           sizeof(CFE_SB_ZeroCopyGetPtrHook_Buf));
+
+    return ((int32)CFE_SB_ZeroCopyGetPtrHook_Buf);
 }
 
 
@@ -152,6 +168,18 @@ int32 OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name)
 {
 printf("!!!OS_CountSemGetIdByNameHook entered\n");
     *sem_id = 0x00;
+
+    return OS_SUCCESS;
+}
+
+
+int32 OS_CountSemGetInfoHook(uint32 sem_id, OS_count_sem_prop_t *count_prop)
+{
+printf("!!!OS_CountSemGetInfoHook entered\n");
+    count_prop->creator = 1;
+    count_prop->value = 10 - SemGetInfoHookCallCnt;
+
+    SemGetInfoHookCallCnt ++;
 
     return OS_SUCCESS;
 }

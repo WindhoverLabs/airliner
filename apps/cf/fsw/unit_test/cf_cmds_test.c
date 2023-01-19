@@ -1697,19 +1697,31 @@ int32 Test_CF_AppPipe_HousekeepingCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
 
 /**
- * Test CF_AppPipe, HousekeepingCmd
+ * Test CF_AppPipe, HousekeepingCmdPbSuspend
  */
-void Test_CF_AppPipe_HousekeepingCmd(void)
+void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
 {
-    CF_NoArgsCmd_t  CmdMsg;
-    CF_NoArgsCmd_t  InPDUMsg;
-    char  FullInFileName[OS_MAX_PATH_LEN];
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_CARSCmd_t          SuspendCmdMsg;
+    CF_NoArgsCmd_t        HkCmdMsg;
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_SEND_HK_MID, sizeof(CmdMsg), TRUE);
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_CMD_MID,
-                   sizeof(InPDUMsg), TRUE);
+    CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
+                   sizeof(SuspendCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
+                      (uint16)CF_SUSPEND_CC);
+    strcpy(SuspendCmdMsg.Trans, TestPbDir);
+    strcat(SuspendCmdMsg.Trans, TestPbFile1);
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
+
+    SemGetInfoHookCallCnt = 0;
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
+                             (void *)&OS_CountSemGetInfoHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1717,41 +1729,133 @@ void Test_CF_AppPipe_HousekeepingCmd(void)
                     (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
     /* Execute the function being tested */
-#if 0
     CF_AppInit();
+    CF_GetHandshakeSemIds();
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
-    CF_TstUtil_CreateOneUpHistoryQueueEntry();
+    CF_ShowQs();
+    machine_list__display_list();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: No ErrCount");
+
+    UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Sent HK Telemetry");
+
+    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
+                  (CF_AppData.Hk.App.PDUsReceived == 0) &&
+                  (CF_AppData.Hk.App.TotalInProgTrans == 2) &&
+                  (CF_AppData.Hk.App.TotalSuccessTrans == 0),
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.App params");
+
+    UtAssert_True((CF_AppData.Hk.Eng.how_many_senders == 2) &&
+                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
+                  (CF_AppData.Hk.Eng.how_many_suspended == 1) &&
+                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0),
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Eng params");
+
+    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 0) &&
+                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0),
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Up params");
+
+    UtAssert_True((CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
+                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 2) &&
+                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
+                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Chan[] params");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmdPbSuccess
+ */
+void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
+{
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_NoArgsCmd_t        HkCmdMsg;
+
+    CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
+
+    SemGetInfoHookCallCnt = 0;
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
+                             (void *)&OS_CountSemGetInfoHook);
+
+#if 0
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+#else
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_ZEROCOPYGETPTR_INDEX, 1, 1);
+#endif
+
+    /* Used to verify HK was transmitted correctly. */
+    SendHkHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                       (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    CF_GetHandshakeSemIds();
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    cfdp_cycle_each_transaction();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, HousekeepingCmdPbSuccess: No ErrCount");
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmdInvLen
+ */
+void Test_CF_AppPipe_HousekeepingCmdInvLen(void)
+{
+    CF_NoArgsCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_SEND_HK_MID, sizeof(CmdMsg) + 5, TRUE);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
-#endif
 
-    sprintf(FullInFileName, "%s%s", TestInDir, TestInFile1);
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_SEND_HK_MID, 0,
+            sizeof(CmdMsg), sizeof(CmdMsg) + 5);
 
     /* Verify results */
-#if 0
-    UtAssert_True(CF_AppData.Hk.ErrCounter == 0,
-                  "CF_AppPipe, HousekeepingCmd: No ErrCount");
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, HousekeepingCmdInvLen");
 
-    UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
-                  "CF_AppPipe, HousekeepingCmd: Sent HK Telemetry");
-
-    UtAssert_True(CF_AppData.Hk.App.QNodesAllocated == 1,
-                  "CF_AppPipe, HousekeepingCmd: Hk.App.QNodesAllocated");
-
-    UtAssert_True(CF_AppData.Hk.App.TotalSuccessTrans == 1,
-                "CF_AppPipe, HousekeepingCmd: Hk.App.TotalSuccessTrans");
-
-    UtAssert_True(CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0,
-              "CF_AppPipe, HousekeepingCmd: Hk.Up.UplinkActiveQFileCnt");
-
-    UtAssert_True(strcmp(FullInFileName, CF_AppData.Hk.Up.LastFileUplinked)
-                  == 0,
-                  "CF_AppPipe, HousekeepingCmd: Hk.Up.LastFileUplinked");
-#endif
-
-    CF_ResetEngine();
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, HousekeepingCmdInvLen: Event Sent");
 }
 
 
@@ -9024,6 +9128,114 @@ void Test_CF_AppPipe_GiveTakeSemaphoreCmdGive(void)
 }
 
 
+/**
+ * Test CF_AppPipe, AutoSuspendEnCmdInvLen
+ */
+void Test_CF_AppPipe_AutoSuspendEnCmdInvLen(void)
+{
+    CF_AutoSuspendEnCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg) + 5, TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_ENADIS_AUTO_SUSPEND_CC);
+    CmdMsg.EnableDisable = CF_ENABLED;
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_CMD_MID, CF_ENADIS_AUTO_SUSPEND_CC,
+            sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, AutoSuspendEnCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, AutoSuspendEnCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, AutoSuspendEnCmdEnable
+ */
+void Test_CF_AppPipe_AutoSuspendEnCmdEnable(void)
+{
+    CF_AutoSuspendEnCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_ENADIS_AUTO_SUSPEND_CC);
+    CmdMsg.EnableDisable = CF_ENABLED;
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    CF_AppData.Hk.AutoSuspend.EnFlag = CF_DISABLED;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Auto Suspend enable flag set to %u",
+            (unsigned int)CmdMsg.EnableDisable);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, AutoSuspendEnCmdEnable");
+
+    UtAssert_True(CF_AppData.Hk.AutoSuspend.EnFlag == CF_ENABLED,
+                  "CF_AppPipe, AutoSuspendEnCmdEnable: Updated Hk");
+
+    UtAssert_EventSent(CF_ENDIS_AUTO_SUS_CMD_EID, CFE_EVS_DEBUG, expEvent,
+                       "CF_AppPipe, AutoSuspendEnCmdEnable: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, AutoSuspendEnCmdDisable
+ */
+void Test_CF_AppPipe_AutoSuspendEnCmdDisable(void)
+{
+    CF_AutoSuspendEnCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+                      (uint16)CF_ENADIS_AUTO_SUSPEND_CC);
+    CmdMsg.EnableDisable = CF_DISABLED;
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    CF_AppData.Hk.AutoSuspend.EnFlag = CF_ENABLED;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "Auto Suspend enable flag set to %u",
+            (unsigned int)CmdMsg.EnableDisable);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, AutoSuspendEnCmdDisable");
+
+    UtAssert_True(CF_AppData.Hk.AutoSuspend.EnFlag == CF_DISABLED,
+                  "CF_AppPipe, AutoSuspendEnCmdDisable: Updated Hk");
+
+    UtAssert_EventSent(CF_ENDIS_AUTO_SUS_CMD_EID, CFE_EVS_DEBUG, expEvent,
+                       "CF_AppPipe, AutoSuspendEnCmdDisable: Event Sent");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -9124,9 +9336,15 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdSuccess");
 
-    UtTest_Add(Test_CF_AppPipe_HousekeepingCmd,
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuspend,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_HousekeepingCmd");
+               "Test_CF_AppPipe_HousekeepingCmdPbSuspend");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuccess,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmdPbSuccess");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmdInvLen");
 
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
                CF_Test_Setup, CF_Test_TearDown,
@@ -9596,4 +9814,14 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdGive,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdGive");
+
+    UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdInvLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_AutoSuspendEnCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdEnable,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_AutoSuspendEnCmdEnable");
+    UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdDisable,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_AutoSuspendEnCmdDisable");
 }

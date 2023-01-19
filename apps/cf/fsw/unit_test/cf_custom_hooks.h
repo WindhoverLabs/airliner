@@ -38,6 +38,7 @@
 
 extern uint32       ReaddirHookCallCnt;
 extern os_dirent_t  ReaddirHookDirEntry;
+extern uint32       SemGetInfoHookCallCnt;
 extern uint32       CFE_ES_GetPoolBufHookCallCnt;
 
 
@@ -50,10 +51,16 @@ int32          CFE_ES_GetPoolBufHook(uint32 **BufPtr,
                                    CFE_ES_MemHandle_t HandlePtr, uint32 Size);
 int32          CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr,
                                      uint32 *BufPtr);
+int32          CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
+                                       CFE_SB_ZeroCopyHandle_t *BufferHandle);
+
 int32          OS_statHook(const char *path, os_fstat_t *filestats);
 int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
 os_dirent_t *  OS_readdirHook (os_dirp_t directory);
-int32          OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name);
+int32          OS_CountSemGetIdByNameHook(
+                          uint32 *sem_id, const char *sem_name);
+int32          OS_CountSemGetInfoHook(
+                          uint32 sem_id, OS_count_sem_prop_t *count_prop);
 
 void                Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
 CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void);
