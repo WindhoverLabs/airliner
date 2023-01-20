@@ -1796,12 +1796,11 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
-#if 0
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
                              (void *)&CFE_SB_ZeroCopyGetPtrHook);
-#else
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_ZEROCOPYGETPTR_INDEX, 1, 1);
-#endif
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1812,6 +1811,8 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     CF_AppInit();
     CF_GetHandshakeSemIds();
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+printf("!!HousekeepingCmdPbSuccess: Hk.CmdCounter(%u)\n", CF_AppData.Hk.CmdCounter);
+printf("!!HousekeepingCmdPbSuccess: Hk.ErrCounter(%u)\n", CF_AppData.Hk.ErrCounter);
 
     CF_ShowQs();
     machine_list__display_list();
@@ -1822,6 +1823,8 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Verify results */
+printf("!!HousekeepingCmdPbSuccess: After Hk.CmdCounter(%u)\n", CF_AppData.Hk.CmdCounter);
+printf("!!HousekeepingCmdPbSuccess: After Hk.ErrCounter(%u)\n", CF_AppData.Hk.ErrCounter);
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: No ErrCount");

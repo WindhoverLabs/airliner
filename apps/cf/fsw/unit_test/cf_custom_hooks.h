@@ -56,6 +56,7 @@ int32          CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 
 int32          OS_statHook(const char *path, os_fstat_t *filestats);
 int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
+int32          OS_readHook(int32  filedes, void *buffer, uint32 nbytes);
 os_dirent_t *  OS_readdirHook (os_dirp_t directory);
 int32          OS_CountSemGetIdByNameHook(
                           uint32 *sem_id, const char *sem_name);
