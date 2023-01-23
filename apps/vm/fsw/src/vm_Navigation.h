@@ -119,6 +119,7 @@ public:
      **        None
      *************************************************************************/
     void EnteredPositionControl();
+    void EnteredAutoMission();
 
     /************************************************************************/
     /** \brief Function called on entry to the AutoLoiter state.
@@ -264,6 +265,7 @@ public:
      **
      *************************************************************************/
     osalbool IsTransitionPosCtlValid(void);
+    osalbool IsTransitionAutoMissionValid(void);
 
     /************************************************************************/
     /** \brief Guard condition on transition to Acrobatic state

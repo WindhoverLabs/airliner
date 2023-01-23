@@ -52,7 +52,7 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-#define HES_MAX_WAYPOINTS 32
+#define HES_MAX_WAYPOINTS 3
 
 
 /************************************************************************
@@ -230,7 +230,7 @@ typedef struct
     float   Remaining;
     PX4_BatteryWarningSeverity_t Warning;
 
-    // HES_WayPoint_t way_points[HES_MAX_WAYPOINTS];
+    HES_WayPoint_t way_points[HES_MAX_WAYPOINTS];
     // uint32 num_way_points;
     // boolean way_points_valid;
 
@@ -246,6 +246,7 @@ typedef struct
     uint32 VGlobalPositionMsgRcvCnt;
     uint32 VLandDetectedMsgRcvCnt;
     uint32 VehicleStatusMsgRcvCnt;
+    uint32 PositionSpTripletCnt;
 } HES_HkTlm_t;
 
 

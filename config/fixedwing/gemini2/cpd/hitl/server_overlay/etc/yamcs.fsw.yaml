@@ -1,0 +1,283 @@
+#Configuration tested on Yamcs 5.7.9, build 8648228d5c3467f76a652c24a4c024718934d7af, airliner d2453e5c4a199da4375c305ce1543629d9a78e72
+services:
+  - class: org.yamcs.archive.XtceTmRecorder
+  - class: org.yamcs.archive.ParameterRecorder
+  - class: org.yamcs.archive.AlarmRecorder
+  - class: org.yamcs.archive.EventRecorder
+  - class: org.yamcs.archive.ReplayServer
+  - class: org.yamcs.parameter.SystemParametersCollector
+    args:
+      provideJvmVariables: true
+      provideFsVariables: true
+  - class: org.yamcs.ProcessorCreatorService
+    args:
+      name: realtime
+      type: realtime
+  - class: org.yamcs.archive.CommandHistoryRecorder
+  - class: org.yamcs.parameterarchive.ParameterArchive
+    args:
+      realtimeFiller:
+        enabled: false
+      backFiller:
+        enabled: true
+        warmupTime: 60
+  - class: org.yamcs.tctm.cfs.CfsEventDecoder
+    args:
+      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      byteOrder: LITTLE_ENDIAN
+      appNameMax: 40
+      eventMsgMax: 122
+
+  - class: org.yamcs.cfdp.CfdpService
+    name: cfdp1
+    args:
+      inStream: cfdp_ch1_in
+      outStream: cfdp_ch1_out
+      localEntities:
+        - name: "0.1"
+          id: 1
+          bucket: cfdpDownCH1
+      remoteEntities:
+        - name: "0.2"
+          id: 2
+          bucket: cfdpUpCH1
+      receiverFaultHandlers:
+        AckLimitReached: suspend
+  - class: org.yamcs.cfdp.CfdpService
+    name: cfdp2
+    args:
+      inStream: cfdp_ch2_in
+      outStream: cfdp_ch2_out
+      localEntities:
+        - name: "0.1"
+          id: 1
+          bucket: cfdpDownCH2
+      remoteEntities:
+        - name: "0.3"
+          id: 3
+          bucket: cfdpUpCH2
+      receiverFaultHandlers:
+        AckLimitReached: suspend
+
+  #- class: com.windhoverlabs.yamcs.tctm.UdpStreamInOutProvider
+  #  name: "udp_in_out"
+  #  args:
+  #    in_stream: "udp_tm"
+  #    out_stream: "udp_tc"
+  #    offset: 4
+  #    rightTrim: 0
+  #    in_port: 5111
+  #    out_port: 5110
+  #    host: localhost
+  #    enabledAtStartup: true
+
+#  - class: com.windhoverlabs.yamcs.tctm.SerialStreamInOutProvider
+#    name: "serial_in_out"
+#    args:
+#      in_stream: "data_in"
+#      out_stream: "data_out"
+#      offset: 0
+#      rightTrim: 0
+#      enabledAtStartup: true
+#      device: /dev/ttyUSB0
+#      baudRate: 115200
+#      dataBits: 8
+#      stopBits: "1"
+#      parity: NONE
+#      flowControl: RTS_CTS
+#      packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.ccsds.SdlpPacketInputStream
+#      packetInputStreamArgs:
+#        asm: "1ACFFC1D"
+#        minFrameLength: 700
+#        maxFrameLength: 1000
+#        dropMalformed: true
+
+dataLinks:
+  - name: ds-logs
+    class: com.windhoverlabs.yamcs.cfs.ds.CfsDsPlugin
+    stream: tm_realtime
+    buckets: ["cfdpDownCH1", "cfdpDownCH2"]
+    DS_FILE_HDR_SUBTYPE: 12346
+    DS_TOTAL_FNAME_BUFSIZE: 64
+    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      checkSequence: false
+      byteOrder: LITTLE_ENDIAN
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        useLocalGenerationTime: false
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
+
+#  - name: tm_cpd
+#    class: com.windhoverlabs.yamcs.tctm.ccsds.StreamTmFrameLink
+#    stream: data_in
+#    enabledAtStartup: true
+#    frameType: TM
+#    frameLength: 1000
+#    maxFrameLength: 1000
+#    maxPacketLength: 32768
+#    enabledAtStartup: true
+#    clcwStream: cpd_clcw
+#    goodFrameStream: good_frames
+#    badFrameStream: bad_frames
+#    frameHeaderErrorControlPresent: false
+#    insertZoneLength: 0
+#    spacecraftId: 1
+#    errorDetection: NONE
+#    virtualChannels:
+#      - vcId: 0
+#        enabledAtStartup: true
+#        ocfPresent: true
+#        service: PACKET
+#        maxPacketLength: 32768 #32KB is the default for CCSDS
+#        stream: tm_realtime
+#        #stripEncapsulationHeader: false
+#        #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+#        packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+#        packetPreprocessorArgs:
+#          checkSequence: false
+#          byteOrder: LITTLE_ENDIAN
+#          #errorDetection:
+#          #tcoService:
+#          timestampFormat: CFE_SB_TIME_32_16_SUBS
+#          timeEncoding:
+#            epoch: CUSTOM
+#            epochUTC: "1970-01-01T00:00:00Z"
+#            timeIncludesLeapSeconds: false
+#
+#  - name: tc_cpd
+#    class: com.windhoverlabs.yamcs.tctm.ccsds.StreamTcFrameLink
+#    stream: data_out
+#    spacecraftId: 1
+#    enabledAtStartup: true
+#    maxFrameLength: 1024
+#    cltuEncoding: BCH
+#    #priorityScheme: FIFO
+#    #randomizeCltu: false
+#    #the following option can be used to skip randomization for certain virtual channels
+#    #skipRandomizationForVcs: [1, 0]    enabledAtStartup: true
+#    cltuStartSequence: "EB90"
+#    cltuTailSequence: "C5C5C5C5C5C5C579"
+#    errorDetection: NONE
+#    virtualChannels:
+#      - vcId: 0
+#        service: PACKET
+#        commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+#        commandPostprocessorArgs:
+#          swapChecksumFc: true
+#        stream: "tc_realtime"
+#        useCop1: true #enable FOP1 (the transmitter part of COP1, see CCSDS 232.1-B-2) for this VC
+#        clcwStream: "cpd_clcw" #the name of the stream where the CLCW is received from, mandatory if FOP1 is used
+#        initialClcwWait: 3600 #how many seconds to wait at startup for an initial CLCW, before going to state 6(initial). If not configured or negative, start directly in state 6
+
+  - name: tm_cpd
+    class: com.windhoverlabs.yamcs.tctm.UdpTmFrameLink
+    stream: tm_realtime
+    port: 5111
+    frameType: TM
+    enabledAtStartup: true
+    clcwStream: cpd_clcw
+    goodFrameStream: good_frames
+    badFrameStream: bad_frames
+    frameHeaderErrorControlPresent: false
+    insertZoneLength: 0
+    spacecraftId: 1
+    errorDetection: NONE
+    frameLength: 1000
+    virtualChannels:
+      - vcId: 0
+        ocfPresent: true
+        service: PACKET
+        maxPacketLength: 32768 #32KB is the default for CCSDS
+        stream: tm_realtime
+        #stripEncapsulationHeader: false
+        #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+        packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+        packetPreprocessorArgs:
+          byteOrder: LITTLE_ENDIAN
+          #errorDetection:
+          #tcoService:
+          timestampFormat: CFE_SB_TIME_32_16_SUBS
+          timeEncoding:
+            epoch: CUSTOM
+            epochUTC: "1970-01-01T00:00:00Z"
+            timeIncludesLeapSeconds: false
+  - name: tc_cpd
+    class: org.yamcs.tctm.ccsds.UdpTcFrameLink
+    host: 192.168.1.139
+    port: 5110
+    enabledAtStartup: true
+    spacecraftId: 1
+    maxFrameLength: 1024
+    cltuEncoding: BCH
+    #the following option can be commented out to randomize the CLTUs.
+    #randomizeCltu: false
+    #the following option can be used to skip randomization for certain virtual channels
+    #skipRandomizationForVcs: [1, 0]    enabledAtStartup: true
+    errorDetection: NONE
+    virtualChannels:
+      - vcId: 0
+        service: "PACKET"
+        commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+        commandPostprocessorArgs:
+          swapChecksumFc: true
+        stream: "tc_realtime" #which yamcs stream to get the data from
+        useCop1: true #enable FOP1 (the transmitter part of COP1, see CCSDS 232.1-B-2) for this VC
+        clcwStream: "cpd_clcw" #the name of the stream where the CLCW is received from, mandatory if FOP1 is used
+        initialClcwWait: 3600 #how many seconds to wait at startup for an initial CLCW, before going to state 6(initial). If not configured or negative, start directly in state 6
+
+
+#  - name: tc_ppd
+#    class: org.yamcs.tctm.UdpTcDataLink
+#    stream: tc_realtime
+#    host: 192.168.1.139
+#    port: 5110
+#    enabledAtStartup: false
+#    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+#    commandPostprocessorArgs:
+#      swapChecksumFc: true
+#
+#
+#  - name: tm_ppd
+#    class: org.yamcs.tctm.UdpTmDataLink
+#    stream: tm_realtime
+#    port: 5111
+#    enabledAtStartup: false
+#    maxLength: 32768 #32KB is the default for CCSDS
+#    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+#    packetPreprocessorArgs:
+#      checkSequence: false
+#      byteOrder: LITTLE_ENDIAN
+#      useLocalGenerationTime: false
+#      #errorDetection:
+#      #tcoService:
+#      timestampFormat: CFE_SB_TIME_32_16_SUBS
+#      timeEncoding:
+#        epoch: CUSTOM
+#        epochUTC: "1970-01-01T00:00:00Z"
+#        timeIncludesLeapSeconds: false
+
+mdb:
+    # Configuration of the active loaders
+    # Valid loaders are: sheet, xtce or fully qualified name of the class
+    - type: "xtce"
+      spec: "mdb/cfs-ccsds.xml"
+      subLoaders:
+      - type: "xtce"
+        spec: "mdb/ppd.xml"
+      - type: "xtce"
+        spec: "mdb/cpd.xml"
+
+# Configuration for streams created at server startup
+streamConfig:
+  tm:
+    - name: "tm_realtime"
+    - name: "tm_dump"
+  cmdHist: ["cmdhist_realtime", "cmdhist_dump"]
+  event: ["events_realtime", "events_dump"]
+  param: ["pp_realtime", "sys_param", "proc_param"]
+  parameterAlarm: ["alarms_realtime"]
+  tc: ["tc_realtime"]
+  sqlFile: "etc/extra_streams.sql"

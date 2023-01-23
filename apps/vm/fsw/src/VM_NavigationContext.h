@@ -18,6 +18,7 @@ class VM_NavigationMap;
 class VM_NavigationMap_Manual;
 class VM_NavigationMap_AltitudeControl;
 class VM_NavigationMap_PositionControl;
+class VM_NavigationMap_AutoMission;
 class VM_NavigationMap_AutoLoiter;
 class VM_NavigationMap_AutoReturnToLaunch;
 class VM_NavigationMap_Acrobatic;
@@ -50,6 +51,7 @@ public:
     virtual void trAutoLoiter(VM_NavigationContext& context);
     virtual void trAutoReturnToLaunch(VM_NavigationContext& context);
     virtual void trAutoTakeoff(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
     virtual void trInitComplete(VM_NavigationContext& context);
     virtual void trManual(VM_NavigationContext& context);
     virtual void trPositionControl(VM_NavigationContext& context);
@@ -68,6 +70,7 @@ public:
     static VM_NavigationMap_Manual Manual;
     static VM_NavigationMap_AltitudeControl AltitudeControl;
     static VM_NavigationMap_PositionControl PositionControl;
+    static VM_NavigationMap_AutoMission AutoMission;
     static VM_NavigationMap_AutoLoiter AutoLoiter;
     static VM_NavigationMap_AutoReturnToLaunch AutoReturnToLaunch;
     static VM_NavigationMap_Acrobatic Acrobatic;
@@ -108,6 +111,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_AltitudeControl :
@@ -129,6 +133,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_PositionControl :
@@ -150,7 +155,31 @@ public:
     virtual void trManual(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
+
+class VM_NavigationMap_AutoMission :
+    public VM_NavigationMap_Default
+{
+public:
+    VM_NavigationMap_AutoMission(const char * const name, const int stateId)
+    : VM_NavigationMap_Default(name, stateId)
+    {};
+
+    virtual void Entry(VM_NavigationContext&);
+    virtual void Reset(VM_NavigationContext& context);
+    virtual void trAcrobatic(VM_NavigationContext& context);
+    virtual void trAltitudeControl(VM_NavigationContext& context);
+    virtual void trAutoLand(VM_NavigationContext& context);
+    virtual void trAutoReturnToLaunch(VM_NavigationContext& context);
+    virtual void trAutoTakeoff(VM_NavigationContext& context);
+    virtual void trManual(VM_NavigationContext& context);
+    virtual void trPositionControl(VM_NavigationContext& context);
+    virtual void trRattitude(VM_NavigationContext& context);
+    virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoLoiter(VM_NavigationContext& context);
+};
+
 
 class VM_NavigationMap_AutoLoiter :
     public VM_NavigationMap_Default
@@ -169,6 +198,7 @@ public:
     virtual void trAutoTakeoff(VM_NavigationContext& context);
     virtual void trManual(VM_NavigationContext& context);
     virtual void trPositionControl(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
 };
@@ -192,6 +222,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_Acrobatic :
@@ -213,6 +244,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_Stabilize :
@@ -234,6 +266,7 @@ public:
     virtual void trManual(VM_NavigationContext& context);
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_Rattitude :
@@ -255,6 +288,7 @@ public:
     virtual void trManual(VM_NavigationContext& context);
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_AutoTakeoff :
@@ -276,6 +310,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_AutoLand :
@@ -297,6 +332,7 @@ public:
     virtual void trPositionControl(VM_NavigationContext& context);
     virtual void trRattitude(VM_NavigationContext& context);
     virtual void trStabilize(VM_NavigationContext& context);
+    virtual void trAutoMission(VM_NavigationContext& context);
 };
 
 class VM_NavigationMap_Init :
@@ -360,6 +396,11 @@ public:
     inline void trAltitudeControl()
     {
         getState().trAltitudeControl(*this);
+    };
+
+    inline void trAutoMission()
+    {
+        getState().trAutoMission(*this);
     };
 
     inline void trAutoLand()

@@ -121,6 +121,11 @@ extern "C" {
  */
 #define NAV_RESET_CC                (1)
 
+#define NAV_MISSION_ARRAKIS_CC      (2)
+#define NAV_MISSION_BEETHOVEN_CC    (3)
+#define NAV_MISSION_CALADAN_CC      (4)
+#define NAV_MISSION_DUMBLEDORE_CC   (5)
+
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
