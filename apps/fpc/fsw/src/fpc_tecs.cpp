@@ -104,15 +104,17 @@ void TECS::update_vehicle_state_estimates(float airspeed,
     _in_air = in_air;
 
     // Genrate the height and climb rate state estimates
-    if(vz_valid)
-    {
-        // Set the velocity and position state to the the INS data
-        _vert_vel_state = -vz;
-        _vert_pos_state = altitude;
+    // if(vz_valid)
+    // {
+    //     // Set the velocity and position state to the the INS data
+    //     _vert_vel_state = -vz;
+    //     _vert_pos_state = altitude;
+    //     // printf("!!!!!!!!!!!!!!!!!!!!!vz_valid\n");
 
-    }
-    else
+    // }
+    // else
     {
+        // printf("$$$$$$vz_valid$$$\n");
         // Get height acceleration
         float hgt_ddot_mea = -az;
 
@@ -121,6 +123,10 @@ void TECS::update_vehicle_state_estimates(float airspeed,
         // Coefficients selected to place all three filter poles at omega
         // Reference Paper: Optimising the Gains of the Baro-Inertial Vertical Channel
         // Widnall W.S, Sinha P.K, AIAA Journal of Guidance and Control, 78-1307R
+        /**
+         * omega =  w^2
+         * 1/T = _hgt_estimate_freq
+        */
         float omega2 = _hgt_estimate_freq * _hgt_estimate_freq;
         float hgt_err = altitude - _vert_pos_state;
         float vert_accel_input = hgt_err * omega2 * _hgt_estimate_freq;
