@@ -84,6 +84,7 @@ void CF_Test_Setup(void)
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
     SemGetInfoHookCallCnt = 0;
+    SemGetIdByNameHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -107,6 +108,7 @@ void CF_Test_SetupUnitTest(void)
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
     SemGetInfoHookCallCnt = 0;
+    SemGetIdByNameHookCallCnt = 0;
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -377,6 +379,53 @@ void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 }
 
 
+void CF_TstUtil_FinishOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    TransInfo.role = CLASS_1_SENDER;
+    TransInfo.trans.number = 1;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 3;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.source_file_name, pCmd->SrcFilename);
+    strcpy(TransInfo.md.dest_file_name, pCmd->DstFilename);
+
+    CF_Indication(IndType,TransInfo);
+}
+
+
+void CF_TstUtil_FinishTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
+                                            CF_PlaybackFileCmd_t *pCmd2)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    TransInfo.role = CLASS_1_SENDER;
+    TransInfo.trans.number = 1;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 3;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.source_file_name, pCmd1->SrcFilename);
+    strcpy(TransInfo.md.dest_file_name, pCmd1->DstFilename);
+
+    CF_Indication(IndType,TransInfo);
+
+    TransInfo.role = CLASS_1_SENDER;
+    TransInfo.trans.number = 2;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 3;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.source_file_name, pCmd2->SrcFilename);
+    strcpy(TransInfo.md.dest_file_name, pCmd2->DstFilename);
+
+    CF_Indication(IndType,TransInfo);
+
+//    cfdp_cycle_each_transaction();
+}
+
+
 void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
     CF_CARSCmd_t    CARSCmdMsg;
@@ -601,6 +650,71 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
     CF_AppPipe(CF_AppData.MsgPtr);
+}
+
+
+/* This util adds one entry only to UpQueue but not to the machine list */
+void CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
+    TRANS_STATUS TransInfo;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+
+    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;;
+
+    CF_Indication(IndType,TransInfo);
+}
+
+
+/* This util adds two entries only to UpQueue but not to the machine list */
+void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
+                                                 CF_Test_InPDUMsg_t *pCmd2)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
+    TRANS_STATUS TransInfo;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* First incoming PDU */
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+
+    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;;
+    CF_Indication(IndType,TransInfo);
+
+    /* Second incoming PDU */
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 700;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 50;
+
+    CFE_SB_InitMsg((void*)pCmd1, CF_GND_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;;
+    CF_Indication(IndType,TransInfo);
 }
 
 

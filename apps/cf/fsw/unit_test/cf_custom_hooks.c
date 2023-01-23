@@ -42,6 +42,7 @@
 uint32       ReaddirHookCallCnt = 0;
 os_dirent_t  ReaddirHookDirEntry;
 uint32       SemGetInfoHookCallCnt = 0;
+uint32       SemGetIdByNameHookCallCnt = 0;
 
 uint32       CFE_ES_GetPoolBufHookCallCnt = 0;
 
@@ -90,7 +91,7 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 printf("!!CFE_SB_ZeroCopyGetPtrHook entered: MsgSize(%u)\n", MsgSize);
     *BufferHandle = 0;
 
-    memset(CFE_SB_ZeroCopyGetPtrHook_Buf, 0x00,
+    memset((void *)CFE_SB_ZeroCopyGetPtrHook_Buf, 0x00,
            sizeof(CFE_SB_ZeroCopyGetPtrHook_Buf));
 
     return ((int32)CFE_SB_ZeroCopyGetPtrHook_Buf);
@@ -173,8 +174,9 @@ os_dirent_t *  OS_readdirHook (os_dirp_t directory)
 
 int32 OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name)
 {
-printf("!!!OS_CountSemGetIdByNameHook entered\n");
-    *sem_id = 0x00;
+printf("!!!OS_CountSemGetIdByNameHook entered(CalledCnt: %lu\n", SemGetIdByNameHookCallCnt);
+    *sem_id = SemGetIdByNameHookCallCnt;
+    SemGetIdByNameHookCallCnt ++;
 
     return OS_SUCCESS;
 }
