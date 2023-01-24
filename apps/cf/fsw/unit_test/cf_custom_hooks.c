@@ -41,12 +41,17 @@
 
 uint32       ReaddirHookCallCnt = 0;
 os_dirent_t  ReaddirHookDirEntry;
+
 uint32       SemGetInfoHookCallCnt = 0;
 uint32       SemGetIdByNameHookCallCnt = 0;
 
+uint32       ZeroCopyGetPtrHookCallCnt = 0;
+uint32       ZeroCopyGetPtrHookOffset = 0;
+
 uint32       CFE_ES_GetPoolBufHookCallCnt = 0;
 
-uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CF_SEND_FIXED_SIZE_PKTS];
+uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CFE_SB_MAX_SB_MSG_SIZE];
+uint8        *BufPtrs[128];
 
 
 /**************************************************************************
@@ -88,13 +93,19 @@ int32 CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr)
 int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
                                     CFE_SB_ZeroCopyHandle_t *BufferHandle)
 {
-printf("!!CFE_SB_ZeroCopyGetPtrHook entered: MsgSize(%u)\n", MsgSize);
-    *BufferHandle = 0;
+    int32 ret_val;
 
-    memset((void *)CFE_SB_ZeroCopyGetPtrHook_Buf, 0x00,
-           sizeof(CFE_SB_ZeroCopyGetPtrHook_Buf));
+    *BufferHandle = ZeroCopyGetPtrHookCallCnt;
 
-    return ((int32)CFE_SB_ZeroCopyGetPtrHook_Buf);
+    BufPtrs[ZeroCopyGetPtrHookCallCnt] =
+                  &CFE_SB_ZeroCopyGetPtrHook_Buf[ZeroCopyGetPtrHookOffset];
+
+    ret_val = (int32)&BufPtrs[ZeroCopyGetPtrHookCallCnt];
+
+    ZeroCopyGetPtrHookOffset += MsgSize;
+    ZeroCopyGetPtrHookCallCnt ++;
+
+    return (ret_val);
 }
 
 
@@ -174,7 +185,6 @@ os_dirent_t *  OS_readdirHook (os_dirp_t directory)
 
 int32 OS_CountSemGetIdByNameHook(uint32 *sem_id, const char *sem_name)
 {
-printf("!!!OS_CountSemGetIdByNameHook entered(CalledCnt: %lu\n", SemGetIdByNameHookCallCnt);
     *sem_id = SemGetIdByNameHookCallCnt;
     SemGetIdByNameHookCallCnt ++;
 
@@ -184,7 +194,6 @@ printf("!!!OS_CountSemGetIdByNameHook entered(CalledCnt: %lu\n", SemGetIdByNameH
 
 int32 OS_CountSemGetInfoHook(uint32 sem_id, OS_count_sem_prop_t *count_prop)
 {
-printf("!!!OS_CountSemGetInfoHook entered\n");
     count_prop->creator = 1;
     count_prop->value = 10 - SemGetInfoHookCallCnt;
 

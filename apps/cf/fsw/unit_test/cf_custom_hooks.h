@@ -38,8 +38,13 @@
 
 extern uint32       ReaddirHookCallCnt;
 extern os_dirent_t  ReaddirHookDirEntry;
+
 extern uint32       SemGetInfoHookCallCnt;
 extern uint32       SemGetIdByNameHookCallCnt;
+
+extern uint32       ZeroCopyGetPtrHookCallCnt;
+extern uint32       ZeroCopyGetPtrHookOffset;
+
 extern uint32       CFE_ES_GetPoolBufHookCallCnt;
 
 

@@ -83,8 +83,13 @@ void CF_Test_Setup(void)
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
+
     SemGetInfoHookCallCnt = 0;
     SemGetIdByNameHookCallCnt = 0;
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -107,8 +112,13 @@ void CF_Test_SetupUnitTest(void)
     CFE_PSP_MemSet(&CF_AppData, 0x00, sizeof(CF_AppData));
 
     CFE_ES_GetPoolBufHookCallCnt = 0;
+
     SemGetInfoHookCallCnt = 0;
     SemGetIdByNameHookCallCnt = 0;
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
@@ -379,7 +389,7 @@ void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 }
 
 
-void CF_TstUtil_FinishOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
+void CF_TstUtil_FinishOnePbActiveQueueEntryByInd(CF_PlaybackFileCmd_t *pCmd)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
@@ -396,8 +406,8 @@ void CF_TstUtil_FinishOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
-void CF_TstUtil_FinishTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
-                                            CF_PlaybackFileCmd_t *pCmd2)
+void CF_TstUtil_FinishTwoPbActiveQueueEntryByInd(CF_PlaybackFileCmd_t *pCmd1,
+                                                 CF_PlaybackFileCmd_t *pCmd2)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
@@ -421,8 +431,6 @@ void CF_TstUtil_FinishTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     strcpy(TransInfo.md.dest_file_name, pCmd2->DstFilename);
 
     CF_Indication(IndType,TransInfo);
-
-//    cfdp_cycle_each_transaction();
 }
 
 
