@@ -437,7 +437,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    20.0f,
+    30.0f,
 
     /**
      * ARSP_MODE
