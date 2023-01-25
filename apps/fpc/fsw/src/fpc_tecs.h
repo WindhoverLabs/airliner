@@ -82,7 +82,7 @@ public:
      */
     void update_vehicle_state_estimates(float airspeed,
             const math::Matrix3F3 &rotMat, const math::Vector3F &accel_body,
-            bool altitude_lock, bool in_air, float altitude, bool vz_valid,
+            bool altitude_lock, bool in_air, float altitude, bool vz_valid, bool vz_bypass_enabled,
             float vz, float az);
 
     /**

@@ -4138,15 +4138,10 @@ void FPC::TecsUpdatePitchThrottle(float alt_sp, float airspeed_sp,
                     || m_VehicleControlModeMsg.ControlVelocityEnabled
                     || m_VehicleControlModeMsg.ControlAltitudeEnabled));
 
-    // This bypass allows us to force tecs to always use T_HGT_OMEGA. Can be enabled/disabled with commands
-    if(HkTlm.vz_bypass_enabled){
-        m_VehicleLocalPositionMsg.V_Z_Valid = FALSE;
-    }
-
     /* update TECS vehicle state estimates */
     _tecs.update_vehicle_state_estimates(_airspeed, _R_nb, accel_body,
             (m_VehicleGlobalPositionMsg.Timestamp > 0), in_air_alt_control,
-            m_VehicleGlobalPositionMsg.Alt, m_VehicleLocalPositionMsg.V_Z_Valid,
+            m_VehicleGlobalPositionMsg.Alt, m_VehicleLocalPositionMsg.V_Z_Valid, HkTlm.vz_bypass_enabled,
             m_VehicleLocalPositionMsg.VZ, m_VehicleLocalPositionMsg.AZ);
     
     

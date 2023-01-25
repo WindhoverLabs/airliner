@@ -58,7 +58,7 @@ using math::min;
  */
 void TECS::update_vehicle_state_estimates(float airspeed,
         const math::Matrix3F3 &rotMat, const math::Vector3F &accel_body,
-        bool altitude_lock, bool in_air, float altitude, bool vz_valid,
+        bool altitude_lock, bool in_air, float altitude, bool vz_valid, bool vz_bypass_enabled,
         float vz, float az)
 {
 
@@ -103,8 +103,9 @@ void TECS::update_vehicle_state_estimates(float airspeed,
 
     _in_air = in_air;
 
+    // This bypass allows us to force tecs to always use T_HGT_OMEGA. Can be enabled/disabled with commands
     // Genrate the height and climb rate state estimates
-    if(vz_valid)
+    if(vz_valid && !vz_bypass_enabled)
     {
         // Set the velocity and position state to the the INS data
         _vert_vel_state = -vz;
@@ -113,6 +114,7 @@ void TECS::update_vehicle_state_estimates(float airspeed,
     }
     else
     {
+        // printf("VZ_Bypassed.\n");
         // Get height acceleration
         float hgt_ddot_mea = -az;
 
