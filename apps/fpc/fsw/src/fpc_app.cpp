@@ -2370,6 +2370,40 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 
                 break;
             }
+
+            case FPC_ENABLE_VZ_BYPASS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                {
+                    HkTlm.vz_bypass_enabled = true;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
+                    CFE_EVS_INFORMATION, "VZBypass Enabled cmd (%u)",
+                            (unsigned int) uiCmdCode);
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+
+            }
+
+            case FPC_DISABLE_VZ_BYPASS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                {
+                    HkTlm.vz_bypass_enabled = false;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
+                    CFE_EVS_INFORMATION, "VZBypass Disabled cmd (%u)",
+                            (unsigned int) uiCmdCode);
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+
+            }
             default:
             {
                 HkTlm.usCmdErrCnt++;
@@ -4104,11 +4138,18 @@ void FPC::TecsUpdatePitchThrottle(float alt_sp, float airspeed_sp,
                     || m_VehicleControlModeMsg.ControlVelocityEnabled
                     || m_VehicleControlModeMsg.ControlAltitudeEnabled));
 
+    // This bypass allows us to force tecs to always use T_HGT_OMEGA. Can be enabled/disabled with commands
+    if(HkTlm.vz_bypass_enabled){
+        m_VehicleLocalPositionMsg.V_Z_Valid = FALSE;
+    }
+
     /* update TECS vehicle state estimates */
     _tecs.update_vehicle_state_estimates(_airspeed, _R_nb, accel_body,
             (m_VehicleGlobalPositionMsg.Timestamp > 0), in_air_alt_control,
             m_VehicleGlobalPositionMsg.Alt, m_VehicleLocalPositionMsg.V_Z_Valid,
             m_VehicleLocalPositionMsg.VZ, m_VehicleLocalPositionMsg.AZ);
+    
+    
 
     /* scale throttle cruise by baro pressure */
     if(ConfigTblPtr->THR_ALT_SCL > FLT_EPSILON)

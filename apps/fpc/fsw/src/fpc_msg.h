@@ -185,7 +185,8 @@ extern "C" {
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
 #define FPC_OVERRIDE_ALTITUDE_CC                  (64)
 #define FPC_OVERRIDE_HEADING_CC                   (65)
-#define FPC_UPDATE_AIRSPD_MIN_CC                  (22)
+#define FPC_ENABLE_VZ_BYPASS_CC                   (66)
+#define FPC_DISABLE_VZ_BYPASS_CC                  (67)
 
 /************************************************************************
  ** Local Structure Declarations
@@ -235,6 +236,7 @@ typedef struct
     boolean param;
 
 } FPC_UpdateParamBooleanCmd_t;
+
 
 /** 
  **  \brief TODO Elaborate this struct
@@ -361,6 +363,8 @@ typedef struct
     Runway _runway_takeoff;
 
     FPC_ConfigTbl_t Params;
+
+    boolean vz_bypass_enabled;
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus

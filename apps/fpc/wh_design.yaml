@@ -275,6 +275,12 @@
         Update_Target_HEADING:
           cc: 65
           struct: FPC_UpdateParamFloatCmd_t
+        Enable_VZ_BYPASS:
+          cc: 66
+          struct: FPC_NoArgCmd_t
+        Disable_VZ_BYPASS:
+          cc: 67
+          struct: FPC_NoArgCmd_t
 
 
   msg_def_overrides:
