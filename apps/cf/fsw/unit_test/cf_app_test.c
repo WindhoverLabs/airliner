@@ -608,10 +608,40 @@ void Test_CF_AppMain_Fail_PipeError(void)
  */
 void Test_CF_AppMain_Nominal(void)
 {
+    int32           CmdPipe;
+    CF_NoArgsCmd_t  CmdMsg;
+    char  expEventInit[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventNoop[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CF_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
     CF_AppMain();
+
+    sprintf(expEventInit, "CF Initialized.  Version %d.%d.%d.%d",
+            CF_MAJOR_VERSION, CF_MINOR_VERSION, CF_REVISION, CF_MISSION_REV);
+
+    sprintf(expEventNoop, "CF No-op command, Version %d.%d.%d.%d",
+            CF_MAJOR_VERSION, CF_MINOR_VERSION, CF_REVISION, CF_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppMain, Nominal");
+
+    UtAssert_EventSent(CF_INIT_EID, CFE_EVS_INFORMATION, expEventInit,
+                       "CF_AppMain, Nominal: Init Event Sent");
+
+    UtAssert_EventSent(CF_NOOP_CMD_EID, CFE_EVS_INFORMATION, expEventNoop,
+                       "CF_AppMain, Nominal: Noop Event Sent");
 }
 
 

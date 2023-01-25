@@ -1711,8 +1711,6 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     CF_NoArgsCmd_t        HkCmdMsg;
     char  expEventTr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    cfdp_reset_totals();
-
     CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
@@ -1729,6 +1727,12 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&Test_CF_SBTimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1780,7 +1784,11 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
                   (CF_AppData.Hk.App.TotalCompletedTrans == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.App params");
 
-    UtAssert_True((CF_AppData.Hk.Eng.Flags == 0) &&
+    UtAssert_True(CF_AppData.Hk.Cond.SuspendNum == 0, /* No failed suspend */
+                  "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Cond param");
+
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == 0) &&
+                  (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 2) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
                   (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
@@ -1815,30 +1823,19 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
  */
 void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
 {
-}
-
-
-/**
- * Test CF_AppPipe, HousekeepingCmdPbSuccess
- */
-void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
-{
     uint32                QEntryCntActiveBefore;
     uint32                QEntryCntActiveAfter;
     uint32                QEntryCntHistBefore;
     uint32                QEntryCntHistAfter;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_NoArgsCmd_t        FreezeCmdMsg;
     CF_NoArgsCmd_t        HkCmdMsg;
-    TRANSACTION           trans;
-    char  FullSrcFilename1[OS_MAX_PATH_LEN];
-    char  FullSrcFilename2[OS_MAX_PATH_LEN];
-    char  FullTransString1[OS_MAX_PATH_LEN];
-    char  FullTransString2[OS_MAX_PATH_LEN];
-    char  expEventTr1[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    cfdp_reset_totals();
+    CFE_SB_InitMsg((void*)&FreezeCmdMsg, CF_CMD_MID,
+                   sizeof(FreezeCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&FreezeCmdMsg, (uint16)CF_FREEZE_CC);
 
     CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
@@ -1880,8 +1877,135 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     QEntryCntHistBefore =
         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
-    CF_ShowQs();
-    machine_list__display_list();
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&FreezeCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    cfdp_cycle_each_transaction();
+    cfdp_cycle_each_transaction();
+
+    QEntryCntActiveAfter =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCntHistAfter =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "%s", "Freeze command received.");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: No ErrCount");
+
+    UtAssert_True((QEntryCntActiveBefore == 2) && (QEntryCntActiveAfter == 2)
+                  && (QEntryCntHistBefore == 0) && (QEntryCntHistAfter == 0),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: QEntryCnt");
+
+    UtAssert_EventSent(CF_FREEZE_CMD_EID, CFE_EVS_INFORMATION, expEvent,
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Freeze Event Sent");
+
+    UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Sent HK Telemetry");
+
+    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
+                  (CF_AppData.Hk.App.PDUsReceived == 0) &&
+                  (CF_AppData.Hk.App.TotalInProgTrans == 2) &&
+                  (CF_AppData.Hk.App.TotalSuccessTrans == 0) &&
+                  (CF_AppData.Hk.App.TotalCompletedTrans == 0),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.App params");
+
+                  /* frozen */
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) != 0) &&
+                  (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
+                  (CF_AppData.Hk.Eng.how_many_senders == 2) &&
+                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
+                  (CF_AppData.Hk.Eng.how_many_frozen == 2) &&
+                  (CF_AppData.Hk.Eng.how_many_suspended == 0) &&
+                  (CF_AppData.Hk.Eng.total_files_sent == 0) &&
+                  (CF_AppData.Hk.Eng.total_files_received == 0) &&
+                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
+                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Eng params");
+
+    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 0) &&
+                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Up params");
+
+    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 0) &&
+                  (CF_AppData.Hk.Chan[0].FilesSent == 0) &&
+                  (CF_AppData.Hk.Chan[0].SuccessCounter == 0) &&
+                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
+                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
+                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 2) &&
+                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
+                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Chan[] params");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmdPbSuccess
+ */
+void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
+{
+    uint32                QEntryCntActiveBefore;
+    uint32                QEntryCntActiveAfter;
+    uint32                QEntryCntHistBefore;
+    uint32                QEntryCntHistAfter;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_NoArgsCmd_t        HkCmdMsg;
+    TRANSACTION           trans;
+    char  FullSrcFilename1[OS_MAX_PATH_LEN];
+    char  FullSrcFilename2[OS_MAX_PATH_LEN];
+    char  FullTransString1[OS_MAX_PATH_LEN];
+    char  FullTransString2[OS_MAX_PATH_LEN];
+    char  expEventTr1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
+
+    SemGetIdByNameHookCallCnt = 0;
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
+
+    SemGetInfoHookCallCnt = 0;
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
+                             (void *)&OS_CountSemGetInfoHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&Test_CF_SBTimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&Test_CF_GetCFETimeHook);
+
+    /* Used to verify HK was transmitted correctly. */
+    SendHkHook_MsgId = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                       (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    CF_GetHandshakeSemIds();
+
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+    QEntryCntActiveBefore =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCntHistBefore =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     cfdp_cycle_each_transaction();
     cfdp_cycle_each_transaction();
@@ -1937,6 +2061,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.App params");
 
     UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == 0) &&
+                  (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 0) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
                   (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
@@ -1983,8 +2108,6 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    cfdp_reset_totals();
-
     CFE_SB_InitMsg((void*)&FreezeCmdMsg, CF_CMD_MID,
                    sizeof(FreezeCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&FreezeCmdMsg, (uint16)CF_FREEZE_CC);
@@ -2019,9 +2142,6 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     /* create two uplink active queue entries */
     CF_TstUtil_CreateTwoUpActiveQueueEntry(&InPDUMsg1, &InPDUMsg2);
     QEntryCntActBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-
-    CF_ShowQs();
-    machine_list__display_list();
 
     /* Freeze */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&FreezeCmdMsg;
@@ -2075,8 +2195,9 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
                   (CF_AppData.Hk.App.TotalCompletedTrans == 0),
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.App params");
 
-                  /* if partners are frozen */
+                  /* partners are frozen */
     UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) != 0) &&
+                  (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 0) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 2) &&
                   /* UpQueue transactions frozen cnt */
@@ -2137,6 +2258,57 @@ void Test_CF_AppPipe_HousekeepingCmdInvLen(void)
 
     UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
                        "CF_AppPipe, HousekeepingCmdInvLen: Event Sent");
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmdValPending
+ */
+void Test_CF_AppPipe_HousekeepingCmdValPending(void)
+{
+    CF_NoArgsCmd_t  CmdMsg;
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* to get coverage in CF_CheckForTblRequests */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETSTATUS_INDEX,
+                             CFE_TBL_INFO_VALIDATION_PENDING, 1);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+}
+
+
+/**
+ * Test CF_AppPipe, HousekeepingCmdUpdatePending
+ */
+void Test_CF_AppPipe_HousekeepingCmdUpdatePending(void)
+{
+    CF_NoArgsCmd_t  CmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, CF_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* to get coverage in CF_CheckForTblRequests */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETSTATUS_INDEX,
+                             CFE_TBL_INFO_UPDATE_PENDING, 1);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+    UtAssert_EventSent(CF_TBL_LD_ATTEMPT_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_AppPipe, HousekeepingCmdUpdatePending: Event Sent");
 }
 
 
@@ -9621,6 +9793,9 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuspend,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdPbSuspend");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbFreeze,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmdPbFreeze");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuccess,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdPbSuccess");
@@ -9630,6 +9805,12 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdInvLen");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdValPending,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmdValPending");
+    UtTest_Add(Test_CF_AppPipe_HousekeepingCmdUpdatePending,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_HousekeepingCmdUpdatePending");
 
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
                CF_Test_Setup, CF_Test_TearDown,

@@ -93,6 +93,9 @@ void CF_Test_Setup(void)
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
+    cfdp_reset_totals();
+    misc__thaw_all_partners();
+
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -121,6 +124,9 @@ void CF_Test_SetupUnitTest(void)
 
     ReaddirHookCallCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
+
+    cfdp_reset_totals();
+    misc__thaw_all_partners();
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
