@@ -395,6 +395,13 @@ void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 }
 
 
+void CF_TstUtil_FinishPbActiveQueueEntries()
+{
+    cfdp_cycle_each_transaction();
+    cfdp_cycle_each_transaction();
+}
+
+
 void CF_TstUtil_FinishOnePbActiveQueueEntryByInd(CF_PlaybackFileCmd_t *pCmd)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
@@ -732,7 +739,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
 }
 
 
-void CF_TstUtil_CreateOneUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd)
+void CF_TstUtil_CreateOneUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
@@ -751,8 +758,8 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 }
 
 
-void CF_TstUtil_CreateTwoUpHistoryQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
-                                             CF_Test_InPDUMsg_t *pCmd2)
+void CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
+                                                  CF_Test_InPDUMsg_t *pCmd2)
 {
     INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
     TRANS_STATUS    TransInfo;
