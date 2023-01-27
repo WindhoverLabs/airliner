@@ -68,8 +68,9 @@ CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
 CFE_SB_MsgId_t  SendCfgParamsHook_MsgId = 0;
 uint32          SendTransDiagHook_CalledCnt = 0;
 
-CFE_SB_MsgId_t   SendTransDiagHook_MsgId[100];
-CF_TransPacket_t TransPkt[100];
+/* (Pb PendingQ depth + HistoryQ depth) * 2 channel + Up HistQ depth */
+CFE_SB_MsgId_t   SendTransDiagHook_MsgId[500];
+CF_TransPacket_t TransPkt[500];
 
 
 static char* CF_Test_ToUpperCase(const char *inStr)
@@ -323,9 +324,6 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Execute a playback file command so that one queue entry is added
        to the pending queue */
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
@@ -378,9 +376,6 @@ void Test_CF_AppPipe_PbFileCmdInvLen(void)
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t) + 5, TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg,
@@ -416,9 +411,6 @@ void Test_CF_AppPipe_PbFileCmdParamErr(void)
 {
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -464,9 +456,6 @@ void Test_CF_AppPipe_PbFileCmdChanNotInUse(void)
 {
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -516,9 +505,6 @@ void Test_CF_AppPipe_PbFileCmdInvSrcFilename(void)
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg,
@@ -563,9 +549,6 @@ void Test_CF_AppPipe_PbFileCmdInvDstFilename(void)
 {
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -612,9 +595,6 @@ void Test_CF_AppPipe_PbFileCmdPendQFull(void)
 {
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -665,9 +645,6 @@ void Test_CF_AppPipe_PbFileCmdInvPeerId(void)
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PbFileCmdMsg,
@@ -712,9 +689,6 @@ void Test_CF_AppPipe_PbFileCmdFileOpen(void)
 {
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     CFE_SB_InitMsg((void*)&PbFileCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -804,9 +778,6 @@ void Test_CF_AppPipe_PbDirCmdNoFileSuccess(void)
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t), TRUE);
@@ -859,9 +830,6 @@ void Test_CF_AppPipe_PbDirCmdOpenErr(void)
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t), TRUE);
@@ -910,9 +878,6 @@ void Test_CF_AppPipe_PbDirCmdInvLen(void)
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t) + 5, TRUE);
@@ -950,9 +915,6 @@ void Test_CF_AppPipe_PbDirCmdParamErr(void)
 {
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -998,9 +960,6 @@ void Test_CF_AppPipe_PbDirCmdChanNotInUse(void)
 {
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -1049,9 +1008,6 @@ void Test_CF_AppPipe_PbDirCmdInvSrcPath(void)
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t), TRUE);
@@ -1096,9 +1052,6 @@ void Test_CF_AppPipe_PbDirCmdInvDstPath(void)
 {
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -1145,9 +1098,6 @@ void Test_CF_AppPipe_PbDirCmdInvPeerId(void)
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t), TRUE);
@@ -1191,9 +1141,6 @@ void Test_CF_AppPipe_PbDirCmdQFull(void)
 {
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -1257,9 +1204,6 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
 {
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -1391,9 +1335,6 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
     char  FullSrcFileName[OS_MAX_PATH_LEN];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
-
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
                    sizeof(CF_PlaybackDirCmd_t), TRUE);
@@ -1460,9 +1401,6 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
     char  expEventTerm[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventLen[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     /* Setup Inputs */
     CFE_SB_InitMsg((void*)&PbDirCmdMsg, CF_CMD_MID,
@@ -1789,7 +1727,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     UtAssert_True(CF_AppData.Hk.Cond.SuspendNum == 0, /* No failed suspend */
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Cond param");
 
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == 0) &&
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE) &&
                   (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 2) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
@@ -1918,7 +1856,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.App params");
 
                   /* frozen */
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) != 0) &&
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == TRUE) &&
                   (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 2) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
@@ -2061,7 +1999,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
                   (CF_AppData.Hk.App.TotalCompletedTrans == 2),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.App params");
 
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == 0) &&
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE) &&
                   (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 0) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
@@ -2197,7 +2135,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.App params");
 
                   /* partners are frozen */
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) != 0) &&
+    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == TRUE) &&
                   (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
                   (CF_AppData.Hk.Eng.how_many_senders == 0) &&
                   (CF_AppData.Hk.Eng.how_many_receivers == 2) &&
@@ -6657,16 +6595,16 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
              "CF_AppPipe, SendTransDiagCmdFilename: Sent CF_TRANS_TLM_MID");
 
         pPkt = &(TransPkt[i]);
-        UtAssert_True((CFE_TST(pPkt->Eng.Flags, 0) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 1) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 2) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 3) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 4) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 5) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 6) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 7) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 8) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 9) == 0) &&
+        UtAssert_True((CFE_TST(pPkt->Eng.Flags, 0) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 1) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 2) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 3) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 4) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 5) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 6) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 7) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 8) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 9) == FALSE) &&
                       (pPkt->Eng.TransNum == 0) &&
                       (strcmp(pPkt->Eng.SrcFile, "") == 0) &&
                       (strcmp(pPkt->Eng.DstFile, "") == 0),
@@ -6755,16 +6693,16 @@ void Test_CF_AppPipe_SendTransDiagCmdPendingQTransId(void)
           "CF_AppPipe, SendTransDiagCmdPendingQTransId: Sent CF_TRANS_TLM_MID");
 
         pPkt = &(TransPkt[i]);
-        UtAssert_True((CFE_TST(pPkt->Eng.Flags, 0) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 1) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 2) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 3) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 4) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 5) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 6) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 7) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 8) == 0) &&
-                      (CFE_TST(pPkt->Eng.Flags, 9) == 0) &&
+        UtAssert_True((CFE_TST(pPkt->Eng.Flags, 0) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 1) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 2) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 3) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 4) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 5) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 6) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 7) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 8) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 9) == FALSE) &&
                       (pPkt->Eng.TransNum == 0) &&
                       (strcmp(pPkt->Eng.SrcFile, "") == 0) &&
                       (strcmp(pPkt->Eng.DstFile, "") == 0),
@@ -6782,6 +6720,172 @@ void Test_CF_AppPipe_SendTransDiagCmdPendingQTransId(void)
 
     UtAssert_EventSent(CF_SND_TRANS_CMD_EID, CFE_EVS_DEBUG, expEvent,
                   "CF_AppPipe, SendTransDiagCmdPendingQTransId: Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, SendTransDiagCmdPbTransId
+ */
+void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
+{
+    int                   i, j;
+    uint32                totalQEntryCnt = 0;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_CARSCmd_t          SuspendCmdMsg;
+    CF_SendTransCmd_t     SndTrCmdMsg;
+    CF_TransPacket_t      *pPkt;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Build Suspend Cmd Msg */
+    CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
+                   sizeof(SuspendCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
+                      (uint16)CF_SUSPEND_CC);
+
+    /* Build Send Trans Diag Cmd Msg */
+    CFE_SB_InitMsg((void*)&SndTrCmdMsg, CF_CMD_MID,
+                   sizeof(SndTrCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
+                      (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
+
+    SemGetIdByNameHookCallCnt = 0;
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    memset((void *)SendTransDiagHook_MsgId, 0x00,
+           sizeof(SendTransDiagHook_MsgId));
+    SendTransDiagHook_CalledCnt = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                    (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void*)&Test_CF_GetCFETimeHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void*)&Test_CF_SBTimeStampMsgHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    CF_GetHandshakeSemIds();
+
+    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg1);
+    CF_TstUtil_FinishPbActiveQueueEntries();
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    for (i = 0; i < CF_NUM_UPLINK_QUEUES; i++)
+    {
+        totalQEntryCnt += CF_AppData.UpQ[i].EntryCnt;
+    }
+
+    for (i = 0; i < CF_MAX_PLAYBACK_CHANNELS; i++)
+    {
+        for (j = 0; j < CF_QUEUES_PER_CHAN; j++)
+        {
+            totalQEntryCnt += CF_AppData.Chan[i].PbQ[j].EntryCnt;
+        }
+    }
+
+    /* Send Suspend Cmd */
+    sprintf(SuspendCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_2");
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Send TransDiag Cmd */
+    sprintf(SndTrCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_2");
+    CF_Test_PrintCmdMsg((void*)&SndTrCmdMsg, sizeof(SndTrCmdMsg));
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SndTrCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "CF:Sending Transaction Pkt %s", SndTrCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 5) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, SendTransDiagCmdPbTransId");
+
+    UtAssert_True(totalQEntryCnt == 3,
+                  "CF_AppPipe, SendTransDiagCmdPbTransId: QEntryCnt");
+
+    UtAssert_True(SendTransDiagHook_CalledCnt == 1,
+                  "CF_AppPipe, SendTransDiagCmdPbTransId: Hook CalledCnt");
+
+    for (i = 0; i < SendTransDiagHook_CalledCnt; i ++)
+    {
+        UtAssert_True(SendTransDiagHook_MsgId[i] == CF_TRANS_TLM_MID,
+             "CF_AppPipe, SendTransDiagCmdPbTransId: Sent CF_TRANS_TLM_MID");
+
+        pPkt = &(TransPkt[i]);
+        UtAssert_True((CFE_TST(pPkt->Eng.Flags, 0) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 1) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 2) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 3) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 4) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 5) == FALSE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 6) == FALSE) &&
+                      /* Suspended */
+                      (CFE_TST(pPkt->Eng.Flags, 7) == TRUE) &&
+                      /* File transfer requested */
+                      (CFE_TST(pPkt->Eng.Flags, 8) == TRUE) &&
+                      (CFE_TST(pPkt->Eng.Flags, 9) == FALSE),
+                      "CF_AppPipe, SendTransDiagCmdPbTransId: Eng Flags");
+
+        UtAssert_True((pPkt->Eng.TransLen == 2) && /* Src Id length */
+                      (pPkt->Eng.TransVal == 0) && /* Src Id 1'st number */
+                      (pPkt->Eng.PartLen == 2) &&  /* Partner Id length */
+                      (pPkt->Eng.PartVal == 2) &&  /* Partner Id 1'st number */
+                      (pPkt->Eng.Phase == 1) &&    /* Initialized */
+                      (pPkt->Eng.TransNum == 2) && /* Transaction number */
+                      (pPkt->Eng.Attempts == 0) &&
+                      (pPkt->Eng.CondCode == NO_ERROR) &&
+                      (pPkt->Eng.DeliCode == DATA_INCOMPLETE) &&
+                      (pPkt->Eng.FinalStat == FINAL_STATUS_UNKNOWN) &&
+                      (pPkt->Eng.Role == CLASS_1_SENDER) &&
+                      (pPkt->Eng.State == S1) &&
+                      (strcmp(pPkt->Eng.SrcFile,
+                              PbFileCmdMsg2.SrcFilename) == 0) &&
+                      (strcmp(pPkt->Eng.DstFile,
+                              PbFileCmdMsg2.DstFilename) == 0),
+                      "CF_AppPipe, SendTransDiagCmdPbTransId: Eng params");
+
+        UtAssert_True((pPkt->App.Status == CF_STAT_ACTIVE) &&
+                      (pPkt->App.CondCode == NO_ERROR) &&
+                      (pPkt->App.Priority == PbFileCmdMsg2.Priority) &&
+                      (pPkt->App.Class == PbFileCmdMsg2.Class) &&
+                      (pPkt->App.ChanNum == PbFileCmdMsg2.Channel) &&
+                      (pPkt->App.Source == CF_PLAYBACKFILECMD) &&
+                      (pPkt->App.NodeType == CF_OUTGOING) &&
+                      (pPkt->App.TransNum == 2) &&
+                      (strcmp(pPkt->App.SrcEntityId,
+                              CF_AppData.Tbl->FlightEntityId) == 0) &&
+                      (strcmp(pPkt->App.SrcFile,
+                              PbFileCmdMsg2.SrcFilename) == 0) &&
+                      (strcmp(pPkt->App.DstFile,
+                              PbFileCmdMsg2.DstFilename) == 0),
+                      "CF_AppPipe, SendTransDiagCmdPbTransId: App params");
+    }
+
+    UtAssert_EventSent(CF_SND_TRANS_CMD_EID, CFE_EVS_DEBUG, expEvent,
+                       "CF_AppPipe, SendTransDiagCmdPbTransId: Event Sent");
 
     CF_ResetEngine();
 }
@@ -10321,6 +10425,9 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdPendingQTransId,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdPendingQTransId");
+    UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdPbTransId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_SendTransDiagCmdPbTransId");
 
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvLen,
                CF_Test_Setup, CF_Test_TearDown,

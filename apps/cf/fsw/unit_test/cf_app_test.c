@@ -37,6 +37,7 @@
 
 #include "cf_events.h"
 #include "cf_version.h"
+#include "structures.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -681,6 +682,61 @@ void Test_CF_AppMain_WakeupReqCmd(void)
 }
 
 
+/**
+ * Test CF_SendPDUToEngine, InPDUInvalidDataLen
+ */
+void Test_CF_SendPDUToEngine_InPDUInvalidDataLen(void)
+{
+    int                 hdr_len;
+    CF_Test_InPDUMsg_t  InPDUMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    InPDUMsg.PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: Little Endian */
+    InPDUMsg.PduContent.PHdr.PDataLen = 0x0000;
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    InPDUMsg.PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    InPDUMsg.PduContent.PHdr.SrcEntityId = 0x1700;
+    /* 0x1f4 = 500 : Little Endian */
+    InPDUMsg.PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    InPDUMsg.PduContent.PHdr.DstEntityId = 0x0300;
+
+    InPDUMsg.PduContent.Content[hdr_len] = MD_PDU;
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    sprintf(expEvent, "%s",
+            "cfdp_give_pdu returned error in CF_SendPDUToEngine");
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
+                  (CF_AppData.Hk.App.PDUsRejected == 1),
+                  "CF_SendPDUToEngine, InPDUInvalidDataLen");
+
+    UtAssert_EventSent(CF_PDU_RCV_ERR3_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_SendPDUToEngine, InPDUInvalidDataLen: Event Sent");
+}
+
+
+/**
+ * Test CF_SendPDUToEngine, InPDUInvalidDataLenTooBig
+ */
+void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
+{
+}
+
 
 
 /**************************************************************************
@@ -754,4 +810,8 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_WakeupReqCmd");
+
+    UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLen,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_SendPDUToEngine_InPDUInvalidDataLen");
 }
