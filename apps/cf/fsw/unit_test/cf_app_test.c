@@ -38,6 +38,9 @@
 #include "cf_events.h"
 #include "cf_version.h"
 #include "structures.h"
+#include "timer.h"
+#include "machine.h"
+#include "machine_list.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -689,6 +692,64 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLen(void)
 {
     int                 hdr_len;
     CF_Test_InPDUMsg_t  InPDUMsg;
+    uint8               EntityIdBytes, TransSeqBytes;
+    int                 PduHdrLen;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    InPDUMsg.PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: Little Endian */
+    InPDUMsg.PduContent.PHdr.PDataLen = 0x0000;
+    /*hex 2 - entityID len is 3, hex 4 - TransSeq len is 5 */
+    InPDUMsg.PduContent.PHdr.Octet4 = 0x24;
+    /* 0.23 : Little Endian */
+    InPDUMsg.PduContent.PHdr.SrcEntityId = 0x1700;
+    /* 0x1f4 = 500 : Little Endian */
+    InPDUMsg.PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    InPDUMsg.PduContent.PHdr.DstEntityId = 0x0300;
+
+    InPDUMsg.PduContent.Content[hdr_len] = MD_PDU;
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    EntityIdBytes = ((InPDUMsg.PduContent.PHdr.Octet4 >> 4) & 0x07) + 1;
+    TransSeqBytes = (InPDUMsg.PduContent.PHdr.Octet4 & 0x07) + 1;
+    PduHdrLen = CF_PDUHDR_FIXED_FIELD_BYTES + (EntityIdBytes * 2)
+                + TransSeqBytes;
+    sprintf(expEvent,
+            "PDU Rcv Error:PDU Hdr illegal size - %d, must be %d bytes",
+            PduHdrLen, CF_PDU_HDR_BYTES);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
+                  (CF_AppData.Hk.App.PDUsRejected == 1),
+                  "CF_SendPDUToEngine, InPDUInvalidDataLen");
+
+    UtAssert_EventSent(CF_PDU_RCV_ERR1_EID, CFE_EVS_ERROR, expEvent,
+                  "CF_SendPDUToEngine, InPDUInvalidDataLen: Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_SendPDUToEngine, InPDUInvalidDataLenTooSmall
+ */
+void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall(void)
+{
+    int                 hdr_len;
+    CF_Test_InPDUMsg_t  InPDUMsg;
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
@@ -717,16 +778,24 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLen(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    sprintf(expEventCfdp, "%s", "cfdp_engine: PDU rejected due to "
+            "data-field-length (0); must be > 0.");
+
     sprintf(expEvent, "%s",
             "cfdp_give_pdu returned error in CF_SendPDUToEngine");
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
                   (CF_AppData.Hk.App.PDUsRejected == 1),
-                  "CF_SendPDUToEngine, InPDUInvalidDataLen");
+                  "CF_SendPDUToEngine, InPDUInvalidDataLenTooSmall");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
+       "CF_SendPDUToEngine, InPDUInvalidDataLenTooSmall: Cfdp Event Sent");
 
     UtAssert_EventSent(CF_PDU_RCV_ERR3_EID, CFE_EVS_ERROR, expEvent,
-                  "CF_SendPDUToEngine, InPDUInvalidDataLen: Event Sent");
+       "CF_SendPDUToEngine, InPDUInvalidDataLenTooSmall: Event Sent");
+
+    CF_ResetEngine();
 }
 
 
@@ -735,6 +804,73 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLen(void)
  */
 void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
 {
+    int                 hdr_len;
+    CF_Test_InPDUMsg_t  InPDUMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    InPDUMsg.PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: MAX_DATA_LENGTH(0x0800) Little Endian */
+    InPDUMsg.PduContent.PHdr.PDataLen = 0x0008;
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    InPDUMsg.PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    InPDUMsg.PduContent.PHdr.SrcEntityId = 0x1700;
+    /* 0x1f4 = 500 : Little Endian */
+    InPDUMsg.PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    InPDUMsg.PduContent.PHdr.DstEntityId = 0x0300;
+
+    InPDUMsg.PduContent.Content[hdr_len] = MD_PDU;
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
+                  (CF_AppData.Hk.App.PDUsRejected == 1),
+                  "CF_SendPDUToEngine, InPDUInvalidDataLenTooBig");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_SendPDUToEngine, Nominal
+ */
+void Test_CF_SendPDUToEngine_Nominal(void)
+{
+    CF_Test_InPDUMsg_t  InPDUMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(&InPDUMsg);
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
+                  (CF_AppData.Hk.App.PDUsRejected == 0),
+                  "CF_SendPDUToEngine, Nominal");
+
+    CF_ResetEngine();
 }
 
 
@@ -814,4 +950,13 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLen,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidDataLen");
+    UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall");
+    UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig");
+    UtTest_Add(Test_CF_SendPDUToEngine_Nominal,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_SendPDUToEngine_Nominal");
 }

@@ -550,15 +550,12 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 
     str_len = strlen(dst_filename);
     pCmd->PduContent.Content[index++] = str_len;
-    if (str_len > 0)
-    {
-        memcpy((void *)&pCmd->PduContent.Content[index], (void *)dst_filename,
-               str_len);
-        index += str_len;
-    }
+    memcpy((void *)&pCmd->PduContent.Content[index], (void *)dst_filename,
+           str_len);
+    index += str_len;
 
     PDataLen = index - hdr_len;
-    pCmd->PduContent.Content[1] = PDataLen & 0x0000ff00;
+    pCmd->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
     pCmd->PduContent.Content[2] = PDataLen & 0x000000ff;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
@@ -623,15 +620,12 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 
     str_len = strlen(dst_filename);
     pCmd1->PduContent.Content[index++] = str_len;
-    if (str_len > 0)
-    {
-        memcpy((void *)&pCmd1->PduContent.Content[index], (void *)dst_filename,
-               str_len);
-        index += str_len;
-    }
+    memcpy((void *)&pCmd1->PduContent.Content[index], (void *)dst_filename,
+           str_len);
+    index += str_len;
 
     PDataLen = index - hdr_len;
-    pCmd1->PduContent.Content[1] = PDataLen & 0x0000ff00;
+    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
     pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
@@ -676,18 +670,120 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 
     str_len = strlen(dst_filename);
     pCmd2->PduContent.Content[index++] = str_len;
-    if (str_len > 0)
-    {
-        memcpy((void *)&pCmd2->PduContent.Content[index], (void *)dst_filename,
-               str_len);
-        index += str_len;
-    }
+    memcpy((void *)&(pCmd2->PduContent.Content[index]), (void *)dst_filename,
+           str_len);
+    index += str_len;
 
     PDataLen = index - hdr_len;
-    pCmd2->PduContent.Content[1] = PDataLen & 0x0000ff00;
+    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
     pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
+    CF_AppPipe(CF_AppData.MsgPtr);
+}
+
+
+void CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(CF_Test_InPDUMsg_t *pCmd)
+{
+    uint32  PDataLen;
+    int     hdr_len;
+    int     index;
+    int     str_len;
+    char    src_filename[OS_MAX_PATH_LEN];
+    char    dst_filename[OS_MAX_PATH_LEN];
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* Meta Data PDU */
+    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: modified at the end */
+    pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+    pCmd->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x100 Little Endian */
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x01;
+    pCmd->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile1);
+    sprintf(dst_filename, "%s", TestInFile1);
+
+    str_len = strlen(src_filename);
+    pCmd->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd->PduContent.Content[index]),
+           (void *)src_filename, str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd->PduContent.Content[index]),
+           (void *)dst_filename, str_len);
+    index += str_len;
+
+    PDataLen = index - hdr_len;
+    pCmd->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* File Data PDU */
+    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: FD_PDU,toward rcvr,class1,crc not present */
+    pCmd->PduContent.PHdr.Octet1 = 0x14;
+    /* pdu data field size: modified at the end */
+    pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+
+    /* Offset */
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x00;
+    pCmd->PduContent.Content[index++] = 0x00;
+
+    /* File contents */
+    memset((void *)&(pCmd->PduContent.Content[index]), 0xff, 252);
+    index += 252;
+
+    PDataLen = index - hdr_len;
+    pCmd->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
 }
 
