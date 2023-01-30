@@ -311,7 +311,8 @@ void TECS::_update_height_setpoint(float desired, float state)
     _hgt_setpoint_prev = _hgt_setpoint;
 
     // Apply a first order noise filter
-    _hgt_setpoint_adj = 0.1f * _hgt_setpoint + 0.9f * _hgt_setpoint_adj_prev;
+    _hgt_setpoint_adj = _hgt_noise_filter_coeff * _hgt_setpoint + (1 - _hgt_noise_filter_coeff) * _hgt_setpoint_adj_prev;
+    //_hgt_setpoint_adj = 0.1f * _hgt_setpoint + 0.9f * _hgt_setpoint_adj_prev;
 
     // Calculate the demanded climb rate proportional to height error plus a feedforward term to provide
     // tight tracking during steady climb and descent manouvres.

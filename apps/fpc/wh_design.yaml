@@ -281,6 +281,9 @@
         Disable_VZ_BYPASS:
           cc: 67
           struct: FPC_NoArgCmd_t
+        Update_T_HGT_NOISE_FILTER_COEFF:
+          cc: 68
+          struct: FPC_UpdateParamFloatCmd_t
 
 
   msg_def_overrides:

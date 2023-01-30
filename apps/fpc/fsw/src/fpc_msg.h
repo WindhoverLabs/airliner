@@ -187,6 +187,7 @@ extern "C" {
 #define FPC_OVERRIDE_HEADING_CC                   (65)
 #define FPC_ENABLE_VZ_BYPASS_CC                   (66)
 #define FPC_DISABLE_VZ_BYPASS_CC                  (67)
+#define FPC_UPDATE_T_HGT_NOISE_FILTER_COEFF_CC    (68)
 
 /************************************************************************
  ** Local Structure Declarations

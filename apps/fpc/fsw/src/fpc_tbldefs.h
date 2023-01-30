@@ -309,6 +309,7 @@ typedef struct
     float CLMBOUT_DIFF;
     float T_HRATE_P;
     float T_HRATE_FF;
+    float T_HGT_NOISE_FILTER_COEFF;
     float T_SRATE_P;
     float T_THR_DAMP;
     float T_INTEG_GAIN;

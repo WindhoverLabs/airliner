@@ -162,6 +162,12 @@ public:
         _height_error_gain = heightrate_p;
     }
 
+
+    void set_height_noise_filter_coeff(float height_noise_filter_coeff)
+    {
+        _hgt_noise_filter_coeff = height_noise_filter_coeff;
+    }
+
     void set_indicated_airspeed_max(float airspeed)
     {
         _indicated_airspeed_max = airspeed;
@@ -344,6 +350,8 @@ private:
     { 0.0f };///< gain from normal load factor increase to total energy rate demand (m**2/sec**3)
     float _pitch_speed_weight
     { 1.0f };	///< speed control weighting used by pitch demand calculation
+    float _hgt_noise_filter_coeff
+    { 0.1f};    ///< IIR 1st order height set point noise cancellation
     float _height_error_gain
     { 0.0f };		///< gain from height error to demanded climb rate (1/sec)
     float _height_setpoint_gain_ff

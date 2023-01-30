@@ -210,7 +210,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.05f,
 
     /**
-      * T_HRATE_FF
+     * T_HRATE_FF
      * Height rate feed forward
      *
      * @min 0.0
@@ -221,6 +221,20 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      */
 
     0.8f,
+
+    /**
+     * T_HGT_NOISE_FILTER_COEFF
+     * Height noise filter (1st order IIR) coefficient
+     *
+     * @min 0.0
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.05
+     * @group FW TECS
+     */
+
+    0.1f,
+
 
     /**
      * Speed rate P factor

@@ -1047,6 +1047,31 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 }
                 break;
             }
+            case FPC_UPDATE_T_HGT_NOISE_FILTER_COEFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    ConfigTblPtr->T_HGT_NOISE_FILTER_COEFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                        CFE_EVS_ERROR, "CFE_TBL_Modified error (%d)",
+                                (unsigned int) returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "T_HGT_NOISE_FILTER_COEFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
 
             case FPC_UPDATE_T_SRATE_P_CC:
             {
@@ -2473,6 +2498,7 @@ void FPC::UpdateParamsFromTable(void)
         _tecs.set_max_climb_rate(ConfigTblPtr->T_CLMB_MAX);
         _tecs.set_heightrate_p(ConfigTblPtr->T_HRATE_P);
         _tecs.set_heightrate_ff(ConfigTblPtr->T_HRATE_FF);
+        _tecs.set_height_noise_filter_coeff(ConfigTblPtr->T_HGT_NOISE_FILTER_COEFF);
         _tecs.set_speedrate_p(ConfigTblPtr->T_SRATE_P);
 
     }
