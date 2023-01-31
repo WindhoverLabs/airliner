@@ -104,13 +104,17 @@ void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 void  CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
                                              CF_Test_InPDUMsg_t *pCmd2);
-void  CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(CF_Test_InPDUMsg_t *pCmd);
+void  CF_TstUtil_CreateOneUpActiveQueueEntryWithFile(CF_Test_InPDUMsg_t *pCmd);
+void  CF_TstUtil_CreateTwoUpActiveQueueEntryWithFile(CF_Test_InPDUMsg_t *pCmd1,
+                                                    CF_Test_InPDUMsg_t *pCmd2);
 void  CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
                                                   CF_Test_InPDUMsg_t *pCmd2);
 void  CF_TstUtil_CreateOneUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
                                                   CF_Test_InPDUMsg_t *pCmd2);
+void CF_TstUtil_CreateTwoUpHistoryQueueEntryWithFileByInd(
+                       CF_Test_InPDUMsg_t *pCmd1, CF_Test_InPDUMsg_t *pCmd2);
 
 void  CF_ResetEngine(void);
 

@@ -234,16 +234,62 @@ void CF_TstUtil_InitApp()
 
 void CF_ResetEngine(void)
 {
-    CF_CARSCmd_t  CmdMsg;
+    int                 i;
+    CF_CARSCmd_t        AbandonCmdMsg;
+    CF_PurgeQueueCmd_t  PurgeUpCmdMsg;
+    CF_PurgeQueueCmd_t  PurgePbPendCmdMsg;
+    CF_PurgeQueueCmd_t  PurgePbHistCmdMsg;
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, CF_ABANDON_CC);
-    strcpy(CmdMsg.Trans, "All");
+    /* Abandon Up/Down Active Queue Entries */
+    CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
+                   sizeof(AbandonCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, CF_ABANDON_CC);
+    strcpy(AbandonCmdMsg.Trans, "All");
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* Cycle each transaction in the machine list */
     cfdp_cycle_each_transaction();
+    cfdp_cycle_each_transaction();
+
+    /* Purge Up History Queue Entries */
+    CFE_SB_InitMsg((void*)&PurgeUpCmdMsg, CF_CMD_MID,
+                   sizeof(PurgeUpCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PurgeUpCmdMsg, CF_PURGE_QUEUE_CC);
+    PurgeUpCmdMsg.Type = CF_INCOMING;
+    PurgeUpCmdMsg.Chan = 0;
+    PurgeUpCmdMsg.Queue = CF_HISTORYQ;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeUpCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    for (i = 0; i < CF_MAX_PLAYBACK_CHANNELS; i ++)
+    {
+        /* Purge Pb Pending Queue Entries */
+        CFE_SB_InitMsg((void*)&PurgePbPendCmdMsg, CF_CMD_MID,
+                       sizeof(PurgePbPendCmdMsg), TRUE);
+        CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PurgePbPendCmdMsg,
+                          CF_PURGE_QUEUE_CC);
+        PurgePbPendCmdMsg.Type = CF_OUTGOING;
+        PurgePbPendCmdMsg.Chan = i;
+        PurgePbPendCmdMsg.Queue = CF_PB_PENDINGQ;
+
+        CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgePbPendCmdMsg;
+        CF_AppPipe(CF_AppData.MsgPtr);
+
+        /* Purge Pb History Queue Entries */
+        CFE_SB_InitMsg((void*)&PurgePbHistCmdMsg, CF_CMD_MID,
+                       sizeof(PurgePbHistCmdMsg), TRUE);
+        CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&PurgePbHistCmdMsg,
+                          CF_PURGE_QUEUE_CC);
+        PurgePbHistCmdMsg.Type = CF_OUTGOING;
+        PurgePbHistCmdMsg.Chan = i;
+        PurgePbHistCmdMsg.Queue = CF_PB_HISTORYQ;
+
+        CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgePbHistCmdMsg;
+        CF_AppPipe(CF_AppData.MsgPtr);
+    }
 
     misc__set_trans_seq_num(1);
 }
@@ -683,7 +729,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 }
 
 
-void CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(CF_Test_InPDUMsg_t *pCmd)
+void CF_TstUtil_CreateOneUpActiveQueueEntryWithFile(CF_Test_InPDUMsg_t *pCmd)
 {
     uint32  PDataLen;
     int     hdr_len;
@@ -776,8 +822,8 @@ void CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(CF_Test_InPDUMsg_t *pCmd)
     pCmd->PduContent.Content[index++] = 0x00;
 
     /* File contents */
-    memset((void *)&(pCmd->PduContent.Content[index]), 0xff, 252);
-    index += 252;
+    memset((void *)&(pCmd->PduContent.Content[index]), 0xff, 256 - 4);
+    index += (256 - 4);
 
     PDataLen = index - hdr_len;
     pCmd->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
@@ -785,6 +831,206 @@ void CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(CF_Test_InPDUMsg_t *pCmd)
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Add EOF PDU */
+}
+
+
+void CF_TstUtil_CreateTwoUpActiveQueueEntryWithFile(CF_Test_InPDUMsg_t *pCmd1,
+                                                    CF_Test_InPDUMsg_t *pCmd2)
+{
+    uint32  PDataLen;
+    int     hdr_len;
+    int     index;
+    int     str_len;
+    char    src_filename[OS_MAX_PATH_LEN];
+    char    dst_filename[OS_MAX_PATH_LEN];
+
+    /* force the GetPoolBuf call for the queue entry to return
+       something valid */
+    CFE_ES_GetPoolBufHookCallCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /***** File 1 *****/
+    /* Meta Data PDU */
+    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd1->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: modified at the end */
+    pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd1->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+    pCmd1->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd1->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x100 Little Endian */
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x01;
+    pCmd1->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile1);
+    sprintf(dst_filename, "%s", TestInFile1);
+
+    str_len = strlen(src_filename);
+    pCmd1->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd1->PduContent.Content[index]),
+           (void *)src_filename, str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd1->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd1->PduContent.Content[index]),
+           (void *)dst_filename, str_len);
+    index += str_len;
+
+    PDataLen = index - hdr_len;
+    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* File Data PDU */
+    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: FD_PDU,toward rcvr,class1,crc not present */
+    pCmd1->PduContent.PHdr.Octet1 = 0x14;
+    /* pdu data field size: modified at the end */
+    pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd1->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.23 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0x1f4 = 500 : Little Endian */
+    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
+    /* 0.3 : Little Endian */
+    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+
+    /* Offset */
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x00;
+    pCmd1->PduContent.Content[index++] = 0x00;
+
+    /* File contents */
+    memset((void *)&(pCmd1->PduContent.Content[index]), 0xff, 256 - 4);
+    index += (256 - 4);
+
+    PDataLen = index - hdr_len;
+    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Add EOF PDU */
+
+    /***** File 2 *****/
+    /* Meta Data PDU */
+    CFE_SB_InitMsg((void*)pCmd2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
+    pCmd2->PduContent.PHdr.Octet1 = 0x04;
+    /* pdu data field size: modified at the end */
+    pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd2->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.50 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200; /* To Big Endian */
+    /* 0x2bc = 700 : Little Endian */
+    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
+    /* 0.3 : Little Endian */
+    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+    pCmd2->PduContent.Content[index++] = MD_PDU;
+    /* No Segmentation control */
+    pCmd2->PduContent.Content[index++] = 0x00;
+
+    /* file size: 0x200 Little Endian */
+    pCmd2->PduContent.Content[index++] = 0x00;   // check this
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x02;
+    pCmd2->PduContent.Content[index++] = 0x00;
+
+    sprintf(src_filename, "%s", TestInFile2);
+    sprintf(dst_filename, "%s", TestInFile2);
+
+    str_len = strlen(src_filename);
+    pCmd2->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd2->PduContent.Content[index]),
+           (void *)src_filename, str_len);
+    index += str_len;
+
+    str_len = strlen(dst_filename);
+    pCmd2->PduContent.Content[index++] = str_len;
+    memcpy((void *)&(pCmd2->PduContent.Content[index]),
+           (void *)dst_filename, str_len);
+    index += str_len;
+
+    PDataLen = index - hdr_len;
+    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* File Data PDU */
+    CFE_SB_InitMsg((void*)pCmd2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    /* file directive: FD_PDU,toward rcvr,class1,crc not present */
+    pCmd2->PduContent.PHdr.Octet1 = 0x14;
+    /* pdu data field size: modified at the end */
+    pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
+    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
+    pCmd2->PduContent.PHdr.Octet4 = 0x13;
+    /* 0.50 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200; /* To Big Endian */
+    /* 0x2bc = 700 : Little Endian */
+    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
+    /* 0.3 : Little Endian */
+    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
+
+    index = hdr_len;
+
+    /* Offset */
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x00;
+    pCmd2->PduContent.Content[index++] = 0x00;
+
+    /* File contents */
+    memset((void *)&(pCmd2->PduContent.Content[index]), 0xff, 512 - 4);
+    index += (512 - 4);
+
+    PDataLen = index - hdr_len;
+    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
+    pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Add EOF PDU */
 }
 
 
@@ -890,6 +1136,38 @@ void CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
 
     CF_Indication(IndType,TransInfo);
 
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 700;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 50;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name, TestInDir);
+    strcat(TransInfo.md.dest_file_name, TestInFile2);
+
+    CF_Indication(IndType,TransInfo);
+}
+
+
+void CF_TstUtil_CreateTwoUpHistoryQueueEntryWithFileByInd(
+                    CF_Test_InPDUMsg_t *pCmd1, CF_Test_InPDUMsg_t *pCmd2)
+{
+    INDICATION_TYPE IndType = IND_MACHINE_DEALLOCATED;
+    TRANS_STATUS    TransInfo;
+
+    CF_TstUtil_CreateTwoUpActiveQueueEntryWithFile(pCmd1, pCmd2);
+
+    /* Incoming File 1 */
+    TransInfo.role = CLASS_1_RECEIVER;
+    TransInfo.trans.number = 500;
+    TransInfo.trans.source_id.value[0] = 0;
+    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
+    strcpy(TransInfo.md.dest_file_name, TestInDir);     // check this
+    strcat(TransInfo.md.dest_file_name, TestInFile1);
+
+    CF_Indication(IndType,TransInfo);
+
+    /* Incoming File 2 */
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 700;
     TransInfo.trans.source_id.value[0] = 0;

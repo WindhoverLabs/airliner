@@ -854,23 +854,48 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
  */
 void Test_CF_SendPDUToEngine_Nominal(void)
 {
+    uint32              QEntryCntBefore;
+    uint32              QEntryCntAfter;
     CF_Test_InPDUMsg_t  InPDUMsg;
+    TRANSACTION         trans;
+    char  FullDstFilename[OS_MAX_PATH_LEN];
+    char  FullTransString[OS_MAX_PATH_LEN];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
     CF_AppInit();
+    QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
-    CF_TstUtil_CreateOneUpActiveQueueWithFileEntry(&InPDUMsg);
+    CF_TstUtil_CreateOneUpActiveQueueEntryWithFile(&InPDUMsg);
+    QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     CF_ShowQs();
     machine_list__display_list();
+
+    sprintf(FullDstFilename, "%s", TestInFile1);
+    sprintf(FullTransString, "%s%s", TestInSrcEntityId1, "_500");
+    cfdp_trans_from_string(FullTransString, &trans);
+    sprintf(expEvent, "Incoming trans started %d.%d_%d,dest %s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, FullDstFilename);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
                   (CF_AppData.Hk.App.PDUsRejected == 0),
                   "CF_SendPDUToEngine, Nominal");
 
+    UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
+                  "CF_SendPDUToEngine, Nominal: Received MetaCnt");
+
+    UtAssert_True((QEntryCntBefore == 0) && (QEntryCntAfter == 1),
+                  "CF_SendPDUToEngine, Nominal: QEntryCnt");
+
+    UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION, expEvent,
+                       "CF_SendPDUToEngine, Nominal: Event Sent");
+
     CF_ResetEngine();
+CF_ShowQs();
+machine_list__display_list();
 }
 
 

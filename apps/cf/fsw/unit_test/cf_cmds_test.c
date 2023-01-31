@@ -7503,6 +7503,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
 
     /* This identical second cmd will dequeue without warning */
     CF_AppPipe(CF_AppData.MsgPtr);
+    CF_ShowQs();
+    machine_list__display_list();
 
     QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
@@ -7564,6 +7566,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+    CF_ShowQs();
+    machine_list__display_list();
 
     cfdp_trans_from_string(DeQCmdMsg.Trans, &trans);
     sprintf(FullDstFilename, "%s%s", TestInDir, TestInFile1);
@@ -7593,9 +7597,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
 
 
 /**
- * Test CF_AppPipe, DeleteQueueNodeCmdPbPend
+ * Test CF_AppPipe, DeleteQueueNodeCmdPbPendFilename
  */
-void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
+void Test_CF_AppPipe_DeleteQueueNodeCmdPbPendFilename(void)
 {
     uint32               QEntryCntBefore;
     uint32               QEntryCntAfter;
@@ -7644,16 +7648,75 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbPend(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, DeleteQueueNodeCmdPbPend");
+                  "CF_AppPipe, DeleteQueueNodeCmdPbPendFilename");
 
     UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
-                "CF_AppPipe, DeleteQueueNodeCmdPbPend: PbPendQ EntryCnt");
+          "CF_AppPipe, DeleteQueueNodeCmdPbPendFilename: PbPendQ EntryCnt");
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
-             "CF_AppPipe, DeleteQueueNodeCmdPbPend: PbFile Event Sent");
+         "CF_AppPipe, DeleteQueueNodeCmdPbPendFilename: PbFile Event Sent");
 
     UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
-             "CF_AppPipe, DeleteQueueNodeCmdPbPend: Success Event Sent");
+        "CF_AppPipe, DeleteQueueNodeCmdPbPendFilename: Success Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, DeleteQueueNodeCmdPbPendTransId
+ */
+void Test_CF_AppPipe_DeleteQueueNodeCmdPbPendTransId(void)
+{
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
+    CF_PlaybackFileCmd_t PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t PbFileCmdMsg2;
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
+                      (uint16)CF_DELETE_QUEUE_NODE_CC);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+    sprintf(DeQCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_0");
+    CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
+
+    CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    QEntryCntBefore =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
+    CF_ShowQs();
+    machine_list__display_list();
+
+    strcpy(FullTransString, DeQCmdMsg.Trans);
+    sprintf(expEvent,
+            "DequeueNodeCmd %s Removed from Chan %u,%s Queue,Stat %d",
+            FullTransString, PbFileCmdMsg1.Channel,
+            "Outgoing Pending", CF_SUCCESS);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppPipe, DeleteQueueNodeCmdPbPendTransId");
+
+    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
+          "CF_AppPipe, DeleteQueueNodeCmdPbPendTransId: PbPendQ EntryCnt");
+
+    UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
+                  "CF_AppPipe, DeleteQueueNodeCmdPbPendTransId: Event Sent");
 
     CF_ResetEngine();
 }
@@ -8102,13 +8165,22 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     /* Execute the function being tested */
     CF_AppInit();
 
+#if 0
     CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(&InPDUMsg1, &InPDUMsg2);
+#else
+    CF_TstUtil_CreateTwoUpHistoryQueueEntryWithFileByInd(
+                                                 &InPDUMsg1, &InPDUMsg2);
+#endif
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+CF_ShowQs();
+machine_list__display_list();
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+CF_ShowQs();
+machine_list__display_list();
 
     sprintf(FullTransString1, "%s%s", TestInSrcEntityId1, "_500");
     cfdp_trans_from_string(FullTransString1, &trans);
@@ -8125,7 +8197,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
             (int)trans.number, FullDstFileName2);
 
     sprintf(expEvent, "PurgeQueueCmd Removed %u Nodes from "
-            "Uplink History Queue", 2);
+            "Uplink History Queue", (unsigned int)QEntryCntBefore);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
@@ -8135,7 +8207,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
                   "CF_AppPipe, PurgeQueueCmdUpHistory: QEntryCnt");
 
-    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 4) &&
                   (CF_AppData.Hk.App.PDUsRejected == 0),
                   "CF_AppPipe, PurgeQueueCmdUpHistory: PDUsReceived Cnt");
 
@@ -8152,6 +8224,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                   "CF_AppPipe, PurgeQueueCmdUpHistory: Success Event Sent");
 
     CF_ResetEngine();
+CF_ShowQs();
+machine_list__display_list();
 }
 
 
@@ -10478,9 +10552,12 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpHist,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdUpHist");
-    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPend,
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPendFilename,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_DeleteQueueNodeCmdPbPend");
+               "Test_CF_AppPipe_DeleteQueueNodeCmdPbPendFilename");
+    UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPendTransId,
+               CF_Test_Setup, CF_Test_TearDown,
+               "Test_CF_AppPipe_DeleteQueueNodeCmdPbPendTransId");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbActive,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPbActive");
