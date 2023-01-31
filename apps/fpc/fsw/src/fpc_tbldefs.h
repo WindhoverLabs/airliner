@@ -319,6 +319,7 @@ typedef struct
     float T_RLL2THR;
     float T_SPDWEIGHT;
     float T_PTCH_DAMP;
+    float T_STE_RATE_ERROR_FILTER_COEFF;
 
     float AIRSPD_MIN;
     float AIRSPD_TRIM;

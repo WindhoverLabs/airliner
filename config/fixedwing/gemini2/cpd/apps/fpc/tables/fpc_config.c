@@ -408,6 +408,19 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.0f,
 
     /**
+     * T_STE_RATE_ERROR_FILTER_COEFF
+     * Specific Total Energy Rate Error Filter (1st order IIR) coefficient
+     *
+     * @min 0.0
+     * @max 1.0
+     * @decimal 1
+     * @increment 0.1
+     * @group FW TECS
+     */
+
+    0.2f,
+
+    /**
      * AIRSPD_MIN
      * Minimum Airspeed
      *

@@ -217,6 +217,11 @@ public:
         _load_factor_correction = compensation;
     }
 
+    void set_ste_rate_error_filter_coeff(float ste_rate_error_filter_coeff)
+    {
+        _STE_rate_error_filter_coeff = ste_rate_error_filter_coeff;
+    }
+
     // TECS status
     uint64 timestamp()
     {
@@ -466,6 +471,8 @@ private:
     { 0.0f };					///< specific total energy error (m**2/sec**2)
     float _STE_rate_error
     { 0.0f };				///< specific total energy rate error (m**2/sec**3)
+    float _STE_rate_error_filter_coeff
+    { 0.2f };               ///< specific total energy rate IIR filter coeff
     float _SEB_error
     { 0.0f };					///< specific energy balance error (m**2/sec**2)
     float _SEB_rate_error

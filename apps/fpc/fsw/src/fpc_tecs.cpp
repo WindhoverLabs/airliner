@@ -387,8 +387,10 @@ void TECS::_update_throttle_setpoint(const float throttle_cruise,
 
     // Calculate the total energy rate error, applying a first order IIR filter
     // to reduce the effect of accelerometer noise
-    _STE_rate_error = 0.2f * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
-            + 0.8f * _STE_rate_error;
+    _STE_rate_error = _STE_rate_error_filter_coeff * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
+            + (1 - _STE_rate_error_filter_coeff) * _STE_rate_error;
+    // _STE_rate_error = 0.2f * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
+    //         + 0.8f * _STE_rate_error;
 
     // Calculate the throttle demand
     if(_underspeed_detected)

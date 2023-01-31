@@ -284,6 +284,9 @@
         Update_T_HGT_NOISE_FILTER_COEFF:
           cc: 68
           struct: FPC_UpdateParamFloatCmd_t
+        Update_T_STE_RATE_ERROR_FILTER_COEFF:
+          cc: 69
+          struct: FPC_UpdateParamFloatCmd_t
 
 
   msg_def_overrides:
