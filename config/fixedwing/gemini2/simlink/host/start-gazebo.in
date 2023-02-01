@@ -17,7 +17,8 @@ then
  	export PX4_HOME_ALT=5
 
 
-	gzserver --verbose @GAZEBO_WORLDS_DIR@/gemini2_world.sdf &
+	#gzserver --verbose @GAZEBO_WORLDS_DIR@/gemini2_world.sdf &
+	gzserver --verbose @GAZEBO_WORLDS_DIR@/gemini2_world_nowind.sdf &
 	SIM_PID=`echo $!`
 
 	if [[ -n "$HEADLESS" ]]; then

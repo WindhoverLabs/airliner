@@ -331,6 +331,8 @@ void TECS::_update_height_setpoint(float desired, float state)
     {
         _hgt_rate_setpoint = -_max_sink_rate;
     }
+
+    // printf("_hgt_rate_setpoint -> %f\n", _hgt_rate_setpoint);
 }
 
 void TECS::_detect_underspeed()
