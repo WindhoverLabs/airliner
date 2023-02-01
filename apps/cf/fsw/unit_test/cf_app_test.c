@@ -854,48 +854,61 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
  */
 void Test_CF_SendPDUToEngine_Nominal(void)
 {
-    uint32              QEntryCntBefore;
-    uint32              QEntryCntAfter;
+    uint32              UpActQEntryCntBefore;
+    uint32              UpActQEntryCntAfter;
+    uint32              UpHistQEntryCntBefore;
+    uint32              UpHistQEntryCntAfter;
     CF_Test_InPDUMsg_t  InPDUMsg;
     TRANSACTION         trans;
     char  FullDstFilename[OS_MAX_PATH_LEN];
     char  FullTransString[OS_MAX_PATH_LEN];
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventMD[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventFinish[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
     CF_AppInit();
-    QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpActQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
-    CF_TstUtil_CreateOneUpActiveQueueEntryWithFile(&InPDUMsg);
-    QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    CF_TstUtil_SendOneCompleteIncomingPDU(&InPDUMsg);
+    UpActQEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
     machine_list__display_list();
 
-    sprintf(FullDstFilename, "%s", TestInFile1);
+    sprintf(FullDstFilename, "%s%s", TestInDir, TestInFile1);
     sprintf(FullTransString, "%s%s", TestInSrcEntityId1, "_500");
     cfdp_trans_from_string(FullTransString, &trans);
-    sprintf(expEvent, "Incoming trans started %d.%d_%d,dest %s",
+    sprintf(expEventMD, "Incoming trans started %d.%d_%d,dest %s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, FullDstFilename);
+
+    sprintf(expEventFinish, "Incoming trans success %d.%d_%d,dest %s",
             trans.source_id.value[0], trans.source_id.value[1],
             (int)trans.number, FullDstFilename);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 3) &&
                   (CF_AppData.Hk.App.PDUsRejected == 0),
-                  "CF_SendPDUToEngine, Nominal");
+                  "CF_SendPDUToEngine, Nominal: PDU Received cnt");
 
     UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
                   "CF_SendPDUToEngine, Nominal: Received MetaCnt");
 
-    UtAssert_True((QEntryCntBefore == 0) && (QEntryCntAfter == 1),
-                  "CF_SendPDUToEngine, Nominal: QEntryCnt");
+    UtAssert_True((UpActQEntryCntBefore == 0) && (UpActQEntryCntAfter == 0)
+             && (UpHistQEntryCntBefore == 0) && (UpHistQEntryCntAfter == 1),
+             "CF_SendPDUToEngine, Nominal: QEntryCnt");
 
-    UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION, expEvent,
-                       "CF_SendPDUToEngine, Nominal: Event Sent");
+    UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION,
+                  expEventMD,
+                  "CF_SendPDUToEngine, Nominal: Meta Data Event Sent");
+
+    UtAssert_EventSent(CF_IN_TRANS_OK_EID, CFE_EVS_INFORMATION,
+                  expEventFinish,
+                  "CF_SendPDUToEngine, Nominal: Finish Event Sent");
 
     CF_ResetEngine();
-CF_ShowQs();
-machine_list__display_list();
 }
 
 
