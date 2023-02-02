@@ -119,7 +119,7 @@ def main():
                 print('OSAL module not found')
                 return -1
             for osal_name in config['core']['osal']:
-                result = add_remote(osal_name, 'core-osal-', config['core']['osal'])
+                result = push_subtrees(osal_name, 'core-osal-', config['core']['osal'])
                 if result != 0:
                     return result
 
@@ -127,13 +127,13 @@ def main():
                 print('PSP module not found')
                 return -1
             for psp_name in config['core']['psp']:
-                result = add_remote(psp_name, 'core-psp-', config['core']['psp'])
+                result = push_subtrees(psp_name, 'core-psp-', config['core']['psp'])
                 if result != 0:
                     return result
 
             if 'apps' in config:
                 for app_name in config['apps']:
-                    result = add_remote(app_name, 'app-', config['apps'])
+                    result = push_subtrees(app_name, 'app-', config['apps'])
                     if result != 0:
                         return result
 
