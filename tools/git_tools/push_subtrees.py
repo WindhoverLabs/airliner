@@ -109,7 +109,7 @@ def main():
         with open(config_file_name, 'r') as inFile:   
             config = yaml.load(inFile, Loader=yaml.FullLoader)
             
-            result = add_remote('core', '', config)
+            result = push_subtrees('core', '', config)
             if result != 0:
                 return result
             
