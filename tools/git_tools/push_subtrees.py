@@ -35,7 +35,7 @@ __author__ = 'Mathew Benson'
 
 """ 
 Usage:
-python add_remotes.py [path to yaml file]
+python push_subtrees.py [path to yaml file]
 """
 
 import sys
@@ -44,7 +44,7 @@ import yaml
 import subprocess
 
 
-def add_remote(module_name, prefix, config):
+def push_subtrees(module_name, prefix, config):
     if not module_name in config:
         print("" + module_name + " module not found.")
         print('')
@@ -67,6 +67,13 @@ def add_remote(module_name, prefix, config):
         return -1
     path = module['path']
 
+    if not 'branch' in module:
+        print("" + module_name + " branch not defined.")
+        print('')
+        print('*****************************************')
+        return -1
+    branch = module['branch']
+
     if not 'strategy' in module:
         print("" + module_name + " strategy not defined.")
         print('')
@@ -74,10 +81,10 @@ def add_remote(module_name, prefix, config):
         return -1
     strategy = module['strategy']
 
-    # Add the module repo
+    # Push the subtree back to the mothership repo
     if strategy == 'subtree':
         remote_name = prefix + module_name
-        subprocess.call(["git", "remote", "add", "-f", remote_name, url])
+        subprocess.call(["git", "subtree", "push", "-P", path, remote_name, branch])
         print('')
         print('*****************************************')
     elif strategy == 'submodule':
