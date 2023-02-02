@@ -36,7 +36,7 @@ core:
       branch: develop
       path:   core/psp/obc-cpd
       strategy: submodule
-    pc-linux-wh:
+    ocpoc-linux:
       url:    git@github.com:WindhoverLabs/psp-ocpoc-linux.git
       branch: develop
       path:   core/psp/ocpoc-linux
