@@ -47,22 +47,30 @@ import subprocess
 def add_remote(module_name, prefix, config):
     if not module_name in config:
         print("" + module_name + " module not found.")
+        print('')
+        print('*****************************************')
         return -1
 
     module = config[module_name]
 
     if not 'url' in module:
         print("" + module_name + " URL not defined.")
+        print('')
+        print('*****************************************')
         return -1
     url = module['url']
 
     if not 'path' in module:
         print("" + module_name + " path not defined.")
+        print('')
+        print('*****************************************')
         return -1
     path = module['path']
 
     if not 'strategy' in module:
         print("" + module_name + " strategy not defined.")
+        print('')
+        print('*****************************************')
         return -1
     strategy = module['strategy']
 
@@ -70,10 +78,14 @@ def add_remote(module_name, prefix, config):
     if strategy == 'subtree':
         remote_name = prefix + module_name
         subprocess.call(["git", "remote", "add", "-f", remote_name, url])
+        print('')
+        print('*****************************************')
     elif strategy == 'submodule':
         pass
     else:
         print('Undefined strategy of ' + strategy)
+        print('')
+        print('*****************************************')
         return -1
 
     return 0
