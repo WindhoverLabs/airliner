@@ -1926,14 +1926,6 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
-
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&Test_CF_SBTimeStampMsgHook);
 
@@ -2948,9 +2940,9 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
 
 
 /**
- * Test CF_AppPipe, ResumeCmdUpTransId
+ * Test CF_AppPipe, ResumeCmdUpTransIdIgnore
  */
-void Test_CF_AppPipe_ResumeCmdUpTransId(void)
+void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
 {
     uint32              QEntryCnt;
     CF_Test_InPDUMsg_t  InPDUMsg;
@@ -2996,23 +2988,23 @@ void Test_CF_AppPipe_ResumeCmdUpTransId(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, ResumeCmdUpTransId");
+                  "CF_AppPipe, ResumeCmdUpTransIdIgnore");
 
     UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 1) &&
                   (CF_AppData.Hk.App.PDUsRejected == 0),
-                  "CF_AppPipe, ResumeCmdUpTransId: PDUsReceived cnt");
+                  "CF_AppPipe, ResumeCmdUpTransIdIgnore: PDUsReceived cnt");
 
     UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
-                  "CF_AppPipe, ResumeCmdUpTransId: Up.MetaCount");
+                  "CF_AppPipe, ResumeCmdUpTransIdIgnore: Up.MetaCount");
 
     UtAssert_True(QEntryCnt == 1,
-                  "CF_AppPipe, ResumeCmdUpTransId: QEntryCnt");
+                  "CF_AppPipe, ResumeCmdUpTransIdIgnore: QEntryCnt");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
-                       "CF_AppPipe, ResumeCmdUpTransId: Suspend Event Sent");
+             "CF_AppPipe, ResumeCmdUpTransIdIgnore: Suspend Event Sent");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventResume,
-                       "CF_AppPipe, ResumeCmdUpTransId: Resume Event Sent");
+             "CF_AppPipe, ResumeCmdUpTransIdIgnore: Resume Event Sent");
 
     CF_ResetEngine();
 }
@@ -6899,14 +6891,6 @@ void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
-
     memset((void *)SendTransDiagHook_MsgId, 0x00,
            sizeof(SendTransDiagHook_MsgId));
     SendTransDiagHook_CalledCnt = 0;
@@ -6926,11 +6910,7 @@ void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
     CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg1);
     CF_TstUtil_FinishPbActiveQueueEntries();
 
-    CF_ShowQs();
-    machine_list__display_list();
-
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
-
     CF_ShowQs();
     machine_list__display_list();
 
@@ -7703,7 +7683,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOneUpHistoryQueueEntryByInd(&InPDUMsg);
+    CF_TstUtil_SendOneCompleteIncomingPDU(&InPDUMsg);
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&DeQCmdMsg;
@@ -7968,29 +7948,18 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
     TRANSACTION          trans;
     char  FullSrcFileName[OS_MAX_PATH_LEN];
     char  FullTransString[OS_MAX_PATH_LEN];
-    char  expEventPb[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventPbTrans[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEventAb[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_ZEROCOPYGETPTR_INDEX, (int32)NULL, 1);
-    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(
-                                          UT_CFE_SB_ZEROCOPYGETPTR_INDEX);
-
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_READ_INDEX, OS_FS_SUCCESS, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_READ_INDEX);
-
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
-                              (void*)&CFE_ES_PutPoolBufHook);
-
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOnePbHistoryQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_FinishPbActiveQueueEntries();
     QEntryCntBefore =
         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
@@ -8005,18 +7974,10 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
-    sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,"
-            "Pre %d,Peer %s,File %s", PbFileCmdMsg.Class,
-            PbFileCmdMsg.Channel, PbFileCmdMsg.Priority,
-            PbFileCmdMsg.Preserve, PbFileCmdMsg.PeerEntityId,
-            FullSrcFileName);
-
     cfdp_trans_from_string(DeQCmdMsg.Trans, &trans);
-    sprintf(expEventPbTrans, "Outgoing trans started %d.%d_%d,src %s",
+    sprintf(expEventPbTrans, "Outgoing trans success %d.%d_%d,src %s",
             trans.source_id.value[0], trans.source_id.value[1],
             (int)trans.number, FullSrcFileName);
-
-    sprintf(expEventAb, "%s command received.%s", "Abandon", "All");
 
     strcpy(FullTransString, DeQCmdMsg.Trans);
     sprintf(expEvent, "DequeueNodeCmd %s Removed from Chan %u,%s "
@@ -8024,22 +7985,16 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdPbHist(void)
             "Outgoing History", CF_SUCCESS);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdPbHist");
 
     UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 0),
                   "CF_AppPipe, DeleteQueueNodeCmdPbHist: QEntryCnt");
 
-    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
-             "CF_AppPipe, DeleteQueueNodeCmdPbHist: PbFile Event Sent");
-
-    UtAssert_EventSent(CF_OUT_TRANS_START_EID, CFE_EVS_INFORMATION,
+    UtAssert_EventSent(CF_OUT_TRANS_OK_EID, CFE_EVS_INFORMATION,
              expEventPbTrans,
              "CF_AppPipe, DeleteQueueNodeCmdPbHist: Trans Event Sent");
-
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventAb,
-             "CF_AppPipe, DeleteQueueNodeCmdPbHist: Abandon Event Sent");
 
     UtAssert_EventSent(CF_DEQ_NODE2_EID, CFE_EVS_DEBUG, expEvent,
              "CF_AppPipe, DeleteQueueNodeCmdPbHist: Success Event Sent");
@@ -8309,7 +8264,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(&InPDUMsg1, &InPDUMsg2);
+    CF_TstUtil_SendTwoCompleteIncomingPDU(&InPDUMsg1, &InPDUMsg2);
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PurgeQCmdMsg;
@@ -8342,7 +8297,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 0),
                   "CF_AppPipe, PurgeQueueCmdUpHistory: QEntryCnt");
 
-    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
+    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 6) &&
                   (CF_AppData.Hk.App.PDUsRejected == 0),
                   "CF_AppPipe, PurgeQueueCmdUpHistory: PDUsReceived Cnt");
 
@@ -8554,17 +8509,6 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
     SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
-
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
-
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
-                              (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -10405,9 +10349,9 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_ResumeCmdPbFilename,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdPbFilename");
-    UtTest_Add(Test_CF_AppPipe_ResumeCmdUpTransId,
+    UtTest_Add(Test_CF_AppPipe_ResumeCmdUpTransIdIgnore,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_ResumeCmdUpTransId");
+               "Test_CF_AppPipe_ResumeCmdUpTransIdIgnore");
     UtTest_Add(Test_CF_AppPipe_ResumeCmdPbAll,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdPbAll");

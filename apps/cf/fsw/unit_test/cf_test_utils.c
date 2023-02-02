@@ -240,6 +240,21 @@ void CF_ResetEngine(void)
     CF_PurgeQueueCmd_t  PurgePbPendCmdMsg;
     CF_PurgeQueueCmd_t  PurgePbHistCmdMsg;
 
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    /* Cycle each transaction in the machine list */
+    cfdp_cycle_each_transaction();
+    cfdp_cycle_each_transaction();
+
     /* Abandon Up/Down Active Queue Entries */
     CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
                    sizeof(AbandonCmdMsg), TRUE);
@@ -248,10 +263,6 @@ void CF_ResetEngine(void)
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* Cycle each transaction in the machine list */
-    cfdp_cycle_each_transaction();
-    cfdp_cycle_each_transaction();
 
     /* Purge Up History Queue Entries */
     CFE_SB_InitMsg((void*)&PurgeUpCmdMsg, CF_CMD_MID,
@@ -351,7 +362,7 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     pCmd->Class = CF_CLASS_1;
     pCmd->Channel = 0;
     pCmd->Priority = 0;
-    pCmd->Preserve = CF_KEEP_FILE;
+    pCmd->Preserve = CF_DELETE_FILE;
     strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd->SrcFilename, TestPbDir);
     strcat(pCmd->SrcFilename, TestPbFile1);
@@ -390,7 +401,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd1->Class = CF_CLASS_1;
     pCmd1->Channel = 0;
     pCmd1->Priority = 3;
-    pCmd1->Preserve = CF_KEEP_FILE;
+    pCmd1->Preserve = CF_DELETE_FILE;
     strcpy(pCmd1->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd1->SrcFilename, TestPbDir);
     strcat(pCmd1->SrcFilename, TestPbFile1);
@@ -407,7 +418,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd2->Class = CF_CLASS_1;
     pCmd2->Channel = 0;
     pCmd2->Priority = 5;
-    pCmd2->Preserve = CF_KEEP_FILE;
+    pCmd2->Preserve = CF_DELETE_FILE;
     strcpy(pCmd2->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd2->SrcFilename, TestPbDir);
     strcat(pCmd2->SrcFilename, TestPbFile2);
@@ -447,6 +458,18 @@ void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 
 void CF_TstUtil_FinishPbActiveQueueEntries()
 {
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    ZeroCopyGetPtrHookCallCnt = 0;
+    ZeroCopyGetPtrHookOffset = 0;
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    cfdp_cycle_each_transaction();
     cfdp_cycle_each_transaction();
     cfdp_cycle_each_transaction();
 }
@@ -749,6 +772,9 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
     CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
 
     hdr_len = sizeof(CF_PDU_Hdr_t);
 
