@@ -1167,7 +1167,6 @@ void Test_CF_AppPipe_PbDirCmdQFull(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                    UT_OSFILEAPI_CLOSEDIR_INDEX);
 
-    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
@@ -1235,7 +1234,6 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETPOOLBUF_INDEX,
                             CFE_ES_ERR_MEM_HANDLE, 1);
 
-    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
@@ -1293,7 +1291,6 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                     UT_OSFILEAPI_CLOSEDIR_INDEX);
 
-    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
@@ -1359,14 +1356,12 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                     UT_OSFILEAPI_CLOSEDIR_INDEX);
 
-    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_FDGETINFO_INDEX,
                                  (void*)&OS_FDGetInfoHook);
 
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -1432,13 +1427,11 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                UT_OSFILEAPI_FDGETINFO_INDEX);
 
-    ReaddirHookCallCnt = 0;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -1664,7 +1657,6 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
@@ -1784,21 +1776,11 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
     CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
-
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&Test_CF_SBTimeStampMsgHook);
@@ -1824,8 +1806,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&FreezeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    cfdp_cycle_each_transaction();
-    cfdp_cycle_each_transaction();
+    CF_TstUtil_FinishPbActiveQueueEntries();
 
     QEntryCntActiveAfter =
         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
@@ -1918,11 +1899,9 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
     CFE_SB_InitMsg((void*)&HkCmdMsg, CF_SEND_HK_MID, sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
@@ -2059,11 +2038,9 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
                    sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
@@ -2197,11 +2174,9 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                    sizeof(HkCmdMsg), TRUE);
     CF_Test_PrintCmdMsg((void*)&HkCmdMsg, sizeof(HkCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    SemGetInfoHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
@@ -2531,10 +2506,12 @@ void Test_CF_AppPipe_ThawCmdInvLen(void)
  */
 void Test_CF_AppPipe_SuspendCmdTransId(void)
 {
-    uint32                SuspendedQEntryCnt;
+    uint32                QEntryCnt;
+    uint32                SuspendedCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_CARSCmd_t          SuspendCmdMsg;
     TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
     char  FullSrcFileName[OS_MAX_PATH_LEN];
     char  expEventInd[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -2556,8 +2533,12 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    SuspendedQEntryCnt =
+    QEntryCnt =
           CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
 
     cfdp_trans_from_string(SuspendCmdMsg.Trans, &trans);
     strcpy(FullSrcFileName, PbFileCmdMsg.SrcFilename);
@@ -2573,8 +2554,11 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SuspendCmdTransId");
 
-    UtAssert_True(SuspendedQEntryCnt == 1,
-                  "CF_AppPipe, SuspendCmdTransId: Suspended QEntryCnt");
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, SuspendCmdTransId: QEntryCnt");
+
+    UtAssert_True(SuspendedCnt == 1,
+                  "CF_AppPipe, SuspendCmdTransId: Suspended cnt");
 
     UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventInd,
                   "CF_AppPipe, SuspendCmdTransId: Ind Event Sent");
@@ -2629,9 +2613,11 @@ void Test_CF_AppPipe_SuspendCmdTransIdInvLen(void)
 void Test_CF_AppPipe_SuspendCmdFilename(void)
 {
     uint32                QEntryCnt;
+    uint32                SuspendedCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_CARSCmd_t          SuspendCmdMsg;
     TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
     char  FullTransString[OS_MAX_PATH_LEN];
     char  FullSrcFileName[OS_MAX_PATH_LEN];
     char  expEventInd[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -2654,6 +2640,10 @@ void Test_CF_AppPipe_SuspendCmdFilename(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
     QEntryCnt =
          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
@@ -2674,6 +2664,9 @@ void Test_CF_AppPipe_SuspendCmdFilename(void)
 
     UtAssert_True(QEntryCnt == 1,
                   "CF_AppPipe, SuspendCmdFilename: QEntryCnt");
+
+    UtAssert_True(SuspendedCnt == 1,
+                  "CF_AppPipe, SuspendCmdFilename: Suspended cnt");
 
     UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventInd,
                   "CF_AppPipe, SuspendCmdFilename: Ind Event Sent");
@@ -2764,11 +2757,16 @@ void Test_CF_AppPipe_SuspendCmdUntermTrans(void)
  */
 void Test_CF_AppPipe_SuspendCmdAll(void)
 {
-    uint32                SuspendedQEntryCnt;
+    uint32                QEntryCntBefore;
+    uint32                QEntryCntAfter;
+    uint32                SuspendedCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_Test_InPDUMsg_t    InPDUMsg1;
+    CF_Test_InPDUMsg_t    InPDUMsg2;
     CF_CARSCmd_t          SuspendCmdMsg;
     TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
     char  FullTransString1[OS_MAX_PATH_LEN];
     char  FullTransString2[OS_MAX_PATH_LEN];
     char  FullSrcFileName1[OS_MAX_PATH_LEN];
@@ -2790,11 +2788,25 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
 
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
+    CF_TstUtil_SendTwoCompleteIncomingPDU(&InPDUMsg1, &InPDUMsg2);
+
+    QEntryCntBefore =
+       CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+       + CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    SuspendedQEntryCnt =
-         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCntAfter =
+       CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+       + CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
+    CF_ShowQs();
+    machine_list__display_list();
 
     sprintf(FullTransString1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
     cfdp_trans_from_string(FullTransString1, &trans);
@@ -2817,8 +2829,11 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SuspendCmdAll");
 
-    UtAssert_True(SuspendedQEntryCnt == 2,
-                  "CF_AppPipe, SuspendCmdAll: Suspended QEntryCnt");
+    UtAssert_True((QEntryCntBefore == 4) && (QEntryCntAfter == 4),
+                  "CF_AppPipe, SuspendCmdAll: QEntryCnt");
+
+    UtAssert_True(SuspendedCnt == 2,
+                  "CF_AppPipe, SuspendCmdAll: Suspended cnt");
 
     UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION, expEventTr1,
                        "CF_AppPipe, SuspendCmdAll: Trans #1 Event Sent");
@@ -2876,9 +2891,12 @@ void Test_CF_AppPipe_ResumeCmdNoTransId(void)
 void Test_CF_AppPipe_ResumeCmdPbFilename(void)
 {
     uint32                QEntryCnt;
+    uint32                SuspendedCnt;
+    uint32                ResumedCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     CF_CARSCmd_t          SuspendCmdMsg;
     CF_CARSCmd_t          ResumeCmdMsg;
+    SUMMARY_STATUS        EngStat;
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -2908,12 +2926,20 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
     /* Resume */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCnt =
         CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
 
     sprintf(expEventSuspend, "%s command received.%s",
             "Suspend", SuspendCmdMsg.Trans);
@@ -2928,6 +2954,9 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
 
     UtAssert_True(QEntryCnt == 1,
                   "CF_AppPipe, ResumeCmdPbFilename: QEntryCnt");
+
+    UtAssert_True((SuspendedCnt == 1) && (ResumedCnt == 1),
+                  "CF_AppPipe, ResumeCmdPbFilename: Suspended/Resumed cnt");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
                   "CF_AppPipe, ResumeCmdPbFilename: Suspend Event Sent");
@@ -2944,10 +2973,18 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
  */
 void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
 {
-    uint32              QEntryCnt;
+    uint32              QEntryCntBefore;
+    uint32              QEntryCntAfter;
+    uint32              SuspendedCnt;
+    uint32              ResumedCnt;
     CF_Test_InPDUMsg_t  InPDUMsg;
     CF_CARSCmd_t        SuspendCmdMsg;
     CF_CARSCmd_t        ResumeCmdMsg;
+    SUMMARY_STATUS      EngStat;
+    char  FullTransString1[OS_MAX_PATH_LEN];
+    char  FullTransString2[OS_MAX_PATH_LEN];
+    char  expEventCfdp1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventCfdp2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -2969,15 +3006,35 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     CF_AppInit();
 
     CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
-    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     /* Suspend */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
     /* Resume */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
+
+    strcpy(FullTransString1, SuspendCmdMsg.Trans);
+    sprintf(expEventCfdp1, "cfdp_engine: ignored event '%s' in state S2 "
+            "for trans '%s' <R1>.",
+            "received Suspend Request", FullTransString1);
+
+    strcpy(FullTransString2, ResumeCmdMsg.Trans);
+    sprintf(expEventCfdp2, "cfdp_engine: ignored event '%s' in state S2 "
+            "for trans '%s' <R1>.",
+            "received Resume Request", FullTransString2);
 
     sprintf(expEventSuspend, "%s command received.%s", "Suspend",
             SuspendCmdMsg.Trans);
@@ -2997,8 +3054,19 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
                   "CF_AppPipe, ResumeCmdUpTransIdIgnore: Up.MetaCount");
 
-    UtAssert_True(QEntryCnt == 1,
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 1),
                   "CF_AppPipe, ResumeCmdUpTransIdIgnore: QEntryCnt");
+
+    UtAssert_True((SuspendedCnt == 0) && (ResumedCnt == 0),
+             "CF_AppPipe, ResumeCmdUpTransIdIgnore: Suspended/Resumed cnt");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_WARN_EID, CFE_EVS_INFORMATION,
+             expEventCfdp1,
+             "CF_AppPipe, ResumeCmdUpTransIdIgnore: Ignore 1 Event Sent");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_WARN_EID, CFE_EVS_INFORMATION,
+             expEventCfdp2,
+             "CF_AppPipe, ResumeCmdUpTransIdIgnore: Ignore 2 Event Sent");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
              "CF_AppPipe, ResumeCmdUpTransIdIgnore: Suspend Event Sent");
@@ -3011,16 +3079,21 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
 
 
 /**
- * Test CF_AppPipe, ResumeCmdPbAll
+ * Test CF_AppPipe, ResumeCmdAll
  */
-void Test_CF_AppPipe_ResumeCmdPbAll(void)
+void Test_CF_AppPipe_ResumeCmdAll(void)
 {
     uint32                QEntryCntBefore;
     uint32                QEntryCntAfter;
+    uint32                SuspendedCnt;
+    uint32                ResumedCnt;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
+    CF_Test_InPDUMsg_t    InPDUMsg1;
+    CF_Test_InPDUMsg_t    InPDUMsg2;
     CF_CARSCmd_t          SuspendCmdMsg;
     CF_CARSCmd_t          ResumeCmdMsg;
+    SUMMARY_STATUS        EngStat;
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -3038,7 +3111,6 @@ void Test_CF_AppPipe_ResumeCmdPbAll(void)
     strcpy(ResumeCmdMsg.Trans, "All");
     CF_Test_PrintCmdMsg((void*)&ResumeCmdMsg, sizeof(ResumeCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -3046,24 +3118,36 @@ void Test_CF_AppPipe_ResumeCmdPbAll(void)
     CF_AppInit();
     CF_GetHandshakeSemIds();
 
-    /* create two playback chan 0, active queue entries */
+    /* Create two playback chan 0, active queue entries */
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
+    /* Receive Two Incoming PDUs and finish transactions and move to HistQ */
+    CF_TstUtil_SendTwoCompleteIncomingPDU(&InPDUMsg1, &InPDUMsg2);
+
     QEntryCntBefore =
-          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
-        + CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+        + CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     /* Suspend */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
     /* Resume */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* get engine status */
+    EngStat = cfdp_summary_status();
+    ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
+
+
     QEntryCntAfter =
-          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
-        + CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
+        + CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     sprintf(expEventSuspend, "%s command received.%s",
             "Suspend", SuspendCmdMsg.Trans);
@@ -3074,104 +3158,19 @@ void Test_CF_AppPipe_ResumeCmdPbAll(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 4) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, ResumeCmdPbAll");
+                  "CF_AppPipe, ResumeCmdAll");
 
-    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 2),
-                  "CF_AppPipe, ResumeCmdPbAll: QEntryCnt");
+    UtAssert_True((QEntryCntBefore == 4) && (QEntryCntAfter == 4),
+                  "CF_AppPipe, ResumeCmdAll: QEntryCnt");
 
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
-                       "CF_AppPipe, ResumeCmdPbAll: Suspend Event Sent");
-
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventResume,
-                       "CF_AppPipe, ResumeCmdPbAll: Resume Event Sent");
-
-    CF_ResetEngine();
-}
-
-
-/**
- * Test CF_AppPipe, ResumeCmdUpAll
- */
-void Test_CF_AppPipe_ResumeCmdUpAll(void)
-{
-    uint32                QEntryCntBefore;
-    uint32                QEntryCntAfter;
-    CF_Test_InPDUMsg_t    InPDUMsg1;
-    CF_Test_InPDUMsg_t    InPDUMsg2;
-    CF_CARSCmd_t          SuspendCmdMsg;
-    CF_CARSCmd_t          ResumeCmdMsg;
-    char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* Build SuspendCmdMsg */
-    CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
-                   sizeof(SuspendCmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
-                      (uint16)CF_SUSPEND_CC);
-    strcpy(SuspendCmdMsg.Trans, "All");
-
-    /* Build ResumeCmdMsg */
-    CFE_SB_InitMsg((void*)&ResumeCmdMsg, CF_CMD_MID,
-                   sizeof(ResumeCmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ResumeCmdMsg, (uint16)CF_RESUME_CC);
-    strcpy(ResumeCmdMsg.Trans, "All");
-    CF_Test_PrintCmdMsg((void*)&ResumeCmdMsg, sizeof(ResumeCmdMsg));
-
-    SemGetIdByNameHookCallCnt = 0;
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
-                             (void *)&OS_CountSemGetIdByNameHook);
-
-    /* Execute the function being tested */
-    CF_AppInit();
-    CF_GetHandshakeSemIds();
-
-    /* create two uplink active queue entries */
-    CF_TstUtil_CreateTwoUpActiveQueueEntry(&InPDUMsg1, &InPDUMsg2);
-
-    QEntryCntBefore =
-          CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-          CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-          CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-
-    /* Suspend */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* Resume */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    QEntryCntAfter =
-          CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-          CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-          CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-
-    sprintf(expEventSuspend, "%s command received.%s",
-            "Suspend", SuspendCmdMsg.Trans);
-
-    sprintf(expEventResume, "%s command received.%s",
-            "Resume", ResumeCmdMsg.Trans);
-
-    /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
-                  (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, ResumeCmdUpAll");
-
-    UtAssert_True((QEntryCntBefore == 2) && (QEntryCntAfter == 2),
-                  "CF_AppPipe, ResumeCmdUpAll: QEntryCnt");
-
-    UtAssert_True((CF_AppData.Hk.App.PDUsReceived == 2) &&
-                  (CF_AppData.Hk.App.PDUsRejected == 0),
-                  "CF_AppPipe, ResumeCmdUpAll: PDUsReceived Cnt");
-
-    UtAssert_True(CF_AppData.Hk.Up.MetaCount == 2,
-                  "CF_AppPipe, ResumeCmdUpAll: Up.MetaCount");
+    UtAssert_True((SuspendedCnt == 2) && (ResumedCnt == 2),
+                  "CF_AppPipe, ResumeCmdAll: Suspended/Resumed count");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
-                       "CF_AppPipe, ResumeCmdUpAll: Suspend Event Sent");
+                       "CF_AppPipe, ResumeCmdAll: Suspend Event Sent");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventResume,
-                       "CF_AppPipe, ResumeCmdUpAll: Resume Event Sent");
+                       "CF_AppPipe, ResumeCmdAll: Resume Event Sent");
 
     CF_ResetEngine();
 }
@@ -6085,7 +6084,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename(void)
     Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
                             sizeof(CFE_FS_Header_t), 1);
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -6178,7 +6176,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
                             sizeof(CFE_FS_Header_t), 1);
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -6779,7 +6776,6 @@ void Test_CF_AppPipe_SendTransDiagCmdPendingQTransId(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
                       (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -6887,7 +6883,6 @@ void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
                       (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -8506,7 +8501,6 @@ void Test_CF_AppPipe_PurgeQueueCmdPbHistQ(void)
 
     CF_Test_PrintCmdMsg((void*)&PurgeQCmdMsg, sizeof(PurgeQCmdMsg));
 
-    SemGetIdByNameHookCallCnt = 0;
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
@@ -10352,12 +10346,9 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_ResumeCmdUpTransIdIgnore,
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdUpTransIdIgnore");
-    UtTest_Add(Test_CF_AppPipe_ResumeCmdPbAll,
+    UtTest_Add(Test_CF_AppPipe_ResumeCmdAll,
                CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_ResumeCmdPbAll");
-    UtTest_Add(Test_CF_AppPipe_ResumeCmdUpAll,
-               CF_Test_Setup, CF_Test_TearDown,
-               "Test_CF_AppPipe_ResumeCmdUpAll");
+               "Test_CF_AppPipe_ResumeCmdAll");
 
     UtTest_Add(Test_CF_AppPipe_CancelCmdNoTransId,
                CF_Test_Setup, CF_Test_TearDown,

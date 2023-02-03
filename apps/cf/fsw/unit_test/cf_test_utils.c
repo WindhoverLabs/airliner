@@ -240,20 +240,7 @@ void CF_ResetEngine(void)
     CF_PurgeQueueCmd_t  PurgePbPendCmdMsg;
     CF_PurgeQueueCmd_t  PurgePbHistCmdMsg;
 
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
-
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
-                              (void*)&CFE_ES_PutPoolBufHook);
-
-    /* Cycle each transaction in the machine list */
-    cfdp_cycle_each_transaction();
-    cfdp_cycle_each_transaction();
+    CF_TstUtil_FinishPbActiveQueueEntries();
 
     /* Abandon Up/Down Active Queue Entries */
     CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
@@ -350,7 +337,6 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -389,7 +375,6 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -461,8 +446,6 @@ void CF_TstUtil_FinishPbActiveQueueEntries()
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
                                  (void *)&OS_readHook);
 
-    ZeroCopyGetPtrHookCallCnt = 0;
-    ZeroCopyGetPtrHookOffset = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
                              (void *)&CFE_SB_ZeroCopyGetPtrHook);
 
@@ -574,7 +557,6 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -646,7 +628,6 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -769,7 +750,6 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -919,7 +899,6 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -1191,7 +1170,6 @@ void CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -1218,7 +1196,6 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
 
     /* force the GetPoolBuf call for the queue entry to return
        something valid */
-    CFE_ES_GetPoolBufHookCallCnt = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 

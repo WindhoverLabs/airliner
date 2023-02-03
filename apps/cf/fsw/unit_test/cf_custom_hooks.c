@@ -66,7 +66,7 @@ int32 CFE_ES_GetPoolBufHook(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr,
 
     Offset = (CFE_ES_GetPoolBufHookCallCnt * sizeof (CF_QueueEntry_t));
 
-    BytePtr = (uint8 *)&CF_AppData.Mem.Partition;
+    BytePtr = CF_AppData.Mem.Partition;
 
     BytePtr += Offset;
 
