@@ -655,21 +655,44 @@ void Test_CF_AppMain_Nominal(void)
 void Test_CF_AppMain_WakeupReqCmd(void)
 {
     int32           CmdPipe;
-    CF_NoArgsCmd_t  CmdMsg;
+    CF_NoArgsCmd_t  WakeupCmdMsg;
 
     CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_WAKE_UP_REQ_CMD_MID,
-                   sizeof(CmdMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
+                   sizeof(WakeupCmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_Test_PrintCmdMsg((void*)&WakeupCmdMsg, sizeof(WakeupCmdMsg));
+
+    /* To make the HandshakeSemId != CF_INVALID to send/receive PDUs */
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
 
     /* Force OS_opendir to return success, instead of default NULL */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                                          UT_OSFILEAPI_OPENDIR_INDEX);
+
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
+                                                    OS_FS_SUCCESS, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                                         UT_OSFILEAPI_CLOSEDIR_INDEX);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     /* Force OS_readdir to first return a 'dot filename, then a Sub Dir,
        then the Queue Full Check will fail due to line above */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&Test_CF_SBTimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&Test_CF_GetCFETimeHook);
 
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
@@ -979,19 +1002,19 @@ void CF_App_Test_AddTestCases(void)
                "Test_CF_AppMain_Nominal");
 
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_WakeupReqCmd");
 
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidDataLen");
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall");
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig");
     UtTest_Add(Test_CF_SendPDUToEngine_Nominal,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_Nominal");
 }

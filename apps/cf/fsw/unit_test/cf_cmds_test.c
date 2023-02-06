@@ -341,6 +341,7 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
 
@@ -1228,6 +1229,7 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                UT_OSFILEAPI_CLOSEDIR_INDEX);
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
 
@@ -1422,6 +1424,7 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                          UT_OSFILEAPI_CLOSEDIR_INDEX);
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
@@ -10206,592 +10209,592 @@ void CF_Cmds_Test_AddTestCases(void)
                "Test_CF_AppPipe_RstCtrsCmdInvLen");
 
     UtTest_Add(Test_CF_AppPipe_PbFileCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmd");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdNoMem,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdNoMem");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdParamErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdParamErr");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdChanNotInUse,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdChanNotInUse");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdInvSrcFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdInvSrcFilename");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdInvDstFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdInvDstFilename");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdPendQFull,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdPendQFull");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdInvPeerId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdInvPeerId");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdFileOpen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdFileOpen");
     UtTest_Add(Test_CF_AppPipe_PbFileCmdFileOnQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdFileOnQ");
 
     UtTest_Add(Test_CF_AppPipe_PbDirCmdNoFileSuccess,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdNoFileSuccess");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdOpenErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdOpenErr");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdParamErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdParamErr");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdChanNotInUse,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdChanNotInUse");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdInvSrcPath,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdInvSrcPath");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdInvDstPath,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdInvDstPath");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdInvPeerId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdInvPeerId");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdQFull,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdQFull");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdNoMem,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdNoMem");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdFileOnQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdFileOnQ");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdFileOpen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdFileOpen");
     UtTest_Add(Test_CF_AppPipe_PbDirCmdSuccess,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbDirCmdSuccess");
 
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuspend,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdPbSuspend");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbFreeze,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdPbFreeze");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdPbSuccess,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdPbSuccess");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdUpSuccess,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdUpSuccess");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdValPending,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdValPending");
     UtTest_Add(Test_CF_AppPipe_HousekeepingCmdUpdatePending,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_HousekeepingCmdUpdatePending");
 
     UtTest_Add(Test_CF_AppPipe_FreezeCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_FreezeCmd");
     UtTest_Add(Test_CF_AppPipe_FreezeCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_FreezeCmdInvLen");
 
     UtTest_Add(Test_CF_AppPipe_ThawCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmd");
     UtTest_Add(Test_CF_AppPipe_ThawCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmdInvLen");
 
     UtTest_Add(Test_CF_AppPipe_SuspendCmdTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdTransId");
     UtTest_Add(Test_CF_AppPipe_SuspendCmdTransIdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdTransIdInvLen");
     UtTest_Add(Test_CF_AppPipe_SuspendCmdFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdFilename");
     UtTest_Add(Test_CF_AppPipe_SuspendCmdInvFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_SuspendCmdUntermTrans,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdUntermTrans");
     UtTest_Add(Test_CF_AppPipe_SuspendCmdAll,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdAll");
 
     UtTest_Add(Test_CF_AppPipe_ResumeCmdNoTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdNoTransId");
     UtTest_Add(Test_CF_AppPipe_ResumeCmdPbFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdPbFilename");
     UtTest_Add(Test_CF_AppPipe_ResumeCmdUpTransIdIgnore,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdUpTransIdIgnore");
     UtTest_Add(Test_CF_AppPipe_ResumeCmdAll,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ResumeCmdAll");
 
     UtTest_Add(Test_CF_AppPipe_CancelCmdNoTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_CancelCmdNoTransId");
     UtTest_Add(Test_CF_AppPipe_CancelCmdAllPb,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_CancelCmdAllPb");
     UtTest_Add(Test_CF_AppPipe_CancelCmdAllUp,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_CancelCmdAllUp");
 
     UtTest_Add(Test_CF_AppPipe_AbandonCmdNoFile,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AbandonCmdNoFile");
     UtTest_Add(Test_CF_AppPipe_AbandonCmdNoTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AbandonCmdNoTransId");
     UtTest_Add(Test_CF_AppPipe_AbandonCmdAllPb,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AbandonCmdAllPb");
     UtTest_Add(Test_CF_AppPipe_AbandonCmdAllUp,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AbandonCmdAllUp");
 
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesInvLen");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermParam");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdAckLimit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdAckLimit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdAckLimitNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdAckLimitNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdAckTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdAckTimeout");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdInactTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdInactTimeout");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdNakLimit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdNakLimit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdNakLimitNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdNakLimitNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdNakTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdNakTimeout");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkSize,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdFileChunkSize");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdFileChunkSizeNonDigit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdFileChunkOverLimit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdFileChunkOverLimit");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdMyId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdMyId");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdMyIdInvalid,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdMyIdInvalid");
     UtTest_Add(Test_CF_AppPipe_SetMibCmdMyIdNonDigit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetMibCmdMyIdNonDigit");
 
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesUntermParam,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesUntermParam");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvParam,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvParam");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdAckLimit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdAckLimit");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdAckTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdAckTimeout");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdInactTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdInactTimeout");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdNakLimit,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdNakLimit");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdNakTimeout,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdNakTimeout");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdFileChunkSize,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdFileChunkSize");
     UtTest_Add(Test_CF_AppPipe_GetMibCmdMyId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdMyId");
 
     UtTest_Add(Test_CF_AppPipe_SendCfgParamsCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendCfgParamsCmd");
     UtTest_Add(Test_CF_AppPipe_SendCfgParamsCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendCfgParamsCmdInvLen");
 
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdCreatErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdCreatErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdUpQValueErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdUpQValueErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdUpDefFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdUpDefFilename");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdUpCustomFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdUpCustomFilename");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutQValueErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutQValueErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutQTypeErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutQTypeErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutChanErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutChanErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdWriteHdrErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdWriteHdrErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdEntryWriteErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdEntryWriteErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdInvFilenameErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdInvFilenameErr");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutDefFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutDefFilename");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutCustomFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutCustomFilename");
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOneEntry,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOneEntry");
 
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdInvFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdCreatFail,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdCreatFail");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdWrHdrFail,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdWrHdrFail");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdInvWhichQs,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdInvWhichQs");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdPbCustFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdPbCustFilename");
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename");
 
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdFileNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdFileNotFound");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdTransNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdTransNotFound");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdUntermString,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdUntermString");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdInvFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdFilename");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdPendingQTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdPendingQTransId");
     UtTest_Add(Test_CF_AppPipe_SendTransDiagCmdPbTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SendTransDiagCmdPbTransId");
 
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvDir,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvDir");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvClass,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvClass");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvPreserve,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvPreserve");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvSrc,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvSrc");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvDst,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvDst");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmdInvId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmdInvId");
     UtTest_Add(Test_CF_AppPipe_SetPollParamCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SetPollParamCmd");
 
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdTransUnterm");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdFileNotFound");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpActive,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdUpActive");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdUpHist,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdUpHist");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPendFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPbPendFilename");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbPendTransId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPbPendTransId");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbActive,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPbActive");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPbHist,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPbHist");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdPutFail,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdPutFail");
     UtTest_Add(Test_CF_AppPipe_DeleteQueueNodeCmdInvType,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DeleteQueueNodeCmdInvType");
 
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdUplinkActiveErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdUplinkActiveErr");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdUpHistory,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdUpHistory");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdUpInvalidQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdUpInvalidQ");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdPbActiveQErr,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdPbActiveQErr");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdPbPendingQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdPbPendingQ");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdPbHistQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdPbHistQ");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdPbInvalidQ,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdPbInvalidQ");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdPbInvalidChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdPbInvalidChan");
     UtTest_Add(Test_CF_AppPipe_PurgeQueueCmdInvalidType,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PurgeQueueCmdInvalidType");
 
     UtTest_Add(Test_CF_AppPipe_EnableDequeueCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnableDequeueCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_EnableDequeueCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnableDequeueCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_EnableDequeueCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnableDequeueCmd");
 
     UtTest_Add(Test_CF_AppPipe_DisableDequeueCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisableDequeueCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_DisableDequeueCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisableDequeueCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_DisableDequeueCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisableDequeueCmd");
 
     UtTest_Add(Test_CF_AppPipe_EnablePollCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnablePollCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_EnablePollCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnablePollCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_EnablePollCmdInvDir,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnablePollCmdInvDir");
     UtTest_Add(Test_CF_AppPipe_EnablePollCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnablePollCmd");
     UtTest_Add(Test_CF_AppPipe_EnablePollCmdAll,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_EnablePollCmdAll");
 
     UtTest_Add(Test_CF_AppPipe_DisablePollCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisablePollCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_DisablePollCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisablePollCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_DisablePollCmdInvDir,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisablePollCmdInvDir");
     UtTest_Add(Test_CF_AppPipe_DisablePollCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisablePollCmd");
     UtTest_Add(Test_CF_AppPipe_DisablePollCmdAll,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_DisablePollCmdAll");
 
     UtTest_Add(Test_CF_AppPipe_KickStartCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_KickStartCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_KickStartCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_KickStartCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_KickStartCmd,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_KickStartCmd");
 
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdUntermString,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdUntermString");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdInvFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdInvFilename");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdFilenameNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdFilenameNotFound");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdTransIdNotFound,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdTransIdNotFound");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdPendingFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdPendingFilename");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdActiveFilename,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdActiveFilename");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdActiveTrans,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdActiveTrans");
     UtTest_Add(Test_CF_AppPipe_QuickStatusCmdActiveSuspended,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_QuickStatusCmdActiveSuspended");
 
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdInvSemId,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdInvSemId");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdInvChan,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdInvChan");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdInvGiveTake,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdInvGiveTake");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdTakeFail,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdTakeFail");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdTake,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdTake");
     UtTest_Add(Test_CF_AppPipe_GiveTakeSemaphoreCmdGive,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GiveTakeSemaphoreCmdGive");
 
     UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdInvLen,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AutoSuspendEnCmdInvLen");
     UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdEnable,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AutoSuspendEnCmdEnable");
     UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdDisable,
-               CF_Test_Setup, CF_Test_TearDown,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AutoSuspendEnCmdDisable");
 }

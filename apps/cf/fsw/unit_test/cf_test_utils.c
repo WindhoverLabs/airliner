@@ -65,12 +65,12 @@ const char TestInFile1[] = "infile1.dat";
 const char TestInFile2[] = "infile2.dat";
 const char TestInNoFile[] = "";
 
-const char TestQInfoFile1[] = "qinfofile1.dat";
+const char TestQInfoFile1[] = "qinfo1.dat";
 
-const char TestPbDir[] = "/ram/downlink/cpd_to_gnd/class1/priority2/";
-const char TestDstDir[] = "gndpath/";
-const char TestInDir[] = "inpath/";
-const char TestQInfoDir[] = "qinfopath/";
+const char TestPbDir[] = "/dn/cpd/cl1/pr2/";
+const char TestDstDir[] = "/cpd/cl1/pr2/";
+const char TestInDir[] = "/up/";
+const char TestQInfoDir[] = "/qinfo/";
 
 const char TestPbPeerEntityId[] = "2.25";
 const char TestInSrcEntityId1[] = "0.23";
@@ -347,8 +347,8 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
     pCmd->Class = CF_CLASS_1;
     pCmd->Channel = 0;
-    pCmd->Priority = 0;
-    pCmd->Preserve = CF_DELETE_FILE;
+    pCmd->Priority = 2;
+    pCmd->Preserve = CF_KEEP_FILE;
     strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd->SrcFilename, TestPbDir);
     strcat(pCmd->SrcFilename, TestPbFile1);
@@ -386,7 +386,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd1->Class = CF_CLASS_1;
     pCmd1->Channel = 0;
     pCmd1->Priority = 3;
-    pCmd1->Preserve = CF_DELETE_FILE;
+    pCmd1->Preserve = CF_KEEP_FILE;
     strcpy(pCmd1->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd1->SrcFilename, TestPbDir);
     strcat(pCmd1->SrcFilename, TestPbFile1);
@@ -403,7 +403,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd2->Class = CF_CLASS_1;
     pCmd2->Channel = 0;
     pCmd2->Priority = 5;
-    pCmd2->Preserve = CF_DELETE_FILE;
+    pCmd2->Preserve = CF_KEEP_FILE;
     strcpy(pCmd2->PeerEntityId, TestPbPeerEntityId);
     strcpy(pCmd2->SrcFilename, TestPbDir);
     strcat(pCmd2->SrcFilename, TestPbFile2);
