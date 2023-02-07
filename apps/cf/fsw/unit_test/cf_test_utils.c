@@ -73,8 +73,8 @@ const char TestInDir[] = "/up/";
 const char TestQInfoDir[] = "/qinfo/";
 
 const char TestPbPeerEntityId[] = "2.25";
-const char TestInSrcEntityId1[] = "0.23";
-const char TestInSrcEntityId2[] = "0.50";
+const char TestInSrcEntityId1[] = "0.2";
+const char TestInSrcEntityId2[] = "0.1";
 
 
 void CF_Test_Setup(void)
@@ -348,11 +348,14 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     pCmd->Class = CF_CLASS_1;
     pCmd->Channel = 0;
     pCmd->Priority = 2;
-    pCmd->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId);
-    strcpy(pCmd->SrcFilename, TestPbDir);
+    pCmd->Preserve = CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].Preserve;
+    strcpy(pCmd->PeerEntityId,
+           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].PeerEntityId);
+    strcpy(pCmd->SrcFilename,
+           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].SrcPath);
     strcat(pCmd->SrcFilename, TestPbFile1);
-    strcpy(pCmd->DstFilename, TestDstDir);
+    strcpy(pCmd->DstFilename,
+           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].DstPath);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -385,12 +388,15 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd1, CF_PLAYBACK_FILE_CC);
     pCmd1->Class = CF_CLASS_1;
     pCmd1->Channel = 0;
-    pCmd1->Priority = 3;
-    pCmd1->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd1->PeerEntityId, TestPbPeerEntityId);
-    strcpy(pCmd1->SrcFilename, TestPbDir);
+    pCmd1->Priority = 2;
+    pCmd1->Preserve = CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].Preserve;
+    strcpy(pCmd1->PeerEntityId,
+           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].PeerEntityId);
+    strcpy(pCmd1->SrcFilename,
+           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].SrcPath);
     strcat(pCmd1->SrcFilename, TestPbFile1);
-    strcpy(pCmd1->DstFilename, TestDstDir);
+    strcpy(pCmd1->DstFilename,
+           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].DstPath);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -402,12 +408,15 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd2, CF_PLAYBACK_FILE_CC);
     pCmd2->Class = CF_CLASS_1;
     pCmd2->Channel = 0;
-    pCmd2->Priority = 5;
-    pCmd2->Preserve = CF_KEEP_FILE;
-    strcpy(pCmd2->PeerEntityId, TestPbPeerEntityId);
-    strcpy(pCmd2->SrcFilename, TestPbDir);
+    pCmd2->Priority = 2;
+    pCmd2->Preserve = CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].Preserve;
+    strcpy(pCmd2->PeerEntityId,
+           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].PeerEntityId);
+    strcpy(pCmd2->SrcFilename,
+           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].SrcPath);
     strcat(pCmd2->SrcFilename, TestPbFile2);
-    strcpy(pCmd2->DstFilename, TestDstDir);
+    strcpy(pCmd2->DstFilename,
+           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].DstPath);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -573,8 +582,8 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
     pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -633,8 +642,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 
     hdr_len = sizeof(CF_PDU_Hdr_t);
 
-    /* Execute the first Incoming MetaData PDU command so that
-       one queue entry is added to the active queue */
+    /* Incoming MetaData PDU 1 */
     CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
@@ -644,8 +652,8 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     pCmd1->PduContent.PHdr.PDataLen = 0x0000; /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -685,8 +693,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    /* Execute the second Incoming MetaData PDU command so that
-       one queue entry is added to the active queue */
+    /* Incoming MetaData PDU 2 */
     CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
@@ -696,8 +703,8 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.PHdr.PDataLen = 0x0000;
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.50 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200;
+    /* 0.1 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100;
     /* 0x2bc = 700 : Little Endian */
     pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
     /* 0.3 : Little Endian */
@@ -768,8 +775,8 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
     pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -819,8 +826,8 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
     pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -855,8 +862,8 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
     pCmd->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -915,8 +922,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -966,8 +973,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -1002,8 +1009,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.23 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x1700; /* To Big Endian */
+    /* 0.2 : Little Endian */
+    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
     /* 0x1f4 = 500 : Little Endian */
     pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
     /* 0.3 : Little Endian */
@@ -1034,7 +1041,7 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
 
     /***** File 2 *****/
     /* Meta Data PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_PPD_TO_CPD_PDU_MID,
+    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
     /* file directive: MD_PDU,toward rcvr,class1,crc not present */
@@ -1043,8 +1050,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.50 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200; /* To Big Endian */
+    /* 0.1 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
     /* 0x2bc = 700 : Little Endian */
     pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
     /* 0.3 : Little Endian */
@@ -1057,7 +1064,7 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.Content[index++] = 0x00;
 
     /* file size: 0x200 Little Endian */
-    pCmd2->PduContent.Content[index++] = 0x00;   // check this
+    pCmd2->PduContent.Content[index++] = 0x00;
     pCmd2->PduContent.Content[index++] = 0x00;
     pCmd2->PduContent.Content[index++] = 0x02;
     pCmd2->PduContent.Content[index++] = 0x00;
@@ -1085,7 +1092,7 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* File Data PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_PPD_TO_CPD_PDU_MID,
+    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
     /* file directive: FD_PDU,toward rcvr,class1,crc not present */
@@ -1094,8 +1101,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.50 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200; /* To Big Endian */
+    /* 0.1 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
     /* 0x2bc = 700 : Little Endian */
     pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
     /* 0.3 : Little Endian */
@@ -1121,7 +1128,7 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* EOF PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_PPD_TO_CPD_PDU_MID,
+    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
     /* file directive: EOF_PDU,toward rcvr,class1,crc not present */
@@ -1130,8 +1137,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
     /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
     pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.50 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x3200; /* To Big Endian */
+    /* 0.1 : Little Endian */
+    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
     /* 0x2bc = 700 : Little Endian */
     pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
     /* 0.3 : Little Endian */
@@ -1176,7 +1183,7 @@ void CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.trans.source_id.value[1] = 2;
 
     CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
@@ -1203,7 +1210,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.trans.source_id.value[1] = 2;
 
     CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
@@ -1215,7 +1222,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 700;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 50;
+    TransInfo.trans.source_id.value[1] = 1;
 
     CFE_SB_InitMsg((void*)pCmd1, CF_GND_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
@@ -1235,7 +1242,7 @@ void CF_TstUtil_CreateOneUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.trans.source_id.value[1] = 2;
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
     strcpy(TransInfo.md.dest_file_name, TestInDir);
     strcat(TransInfo.md.dest_file_name, TestInFile1);
@@ -1255,7 +1262,7 @@ void CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 23;
+    TransInfo.trans.source_id.value[1] = 2;
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
     strcpy(TransInfo.md.dest_file_name, TestInDir);
     strcat(TransInfo.md.dest_file_name, TestInFile1);
@@ -1265,7 +1272,7 @@ void CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 700;
     TransInfo.trans.source_id.value[0] = 0;
-    TransInfo.trans.source_id.value[1] = 50;
+    TransInfo.trans.source_id.value[1] = 1;
     TransInfo.final_status = FINAL_STATUS_SUCCESSFUL;
     strcpy(TransInfo.md.dest_file_name, TestInDir);
     strcat(TransInfo.md.dest_file_name, TestInFile2);
