@@ -662,6 +662,8 @@ void Test_CF_AppMain_WakeupReqCmd(void)
                    sizeof(WakeupCmdMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
     CF_Test_PrintCmdMsg((void*)&WakeupCmdMsg, sizeof(WakeupCmdMsg));
+Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     /* To make the HandshakeSemId != CF_INVALID to send/receive PDUs */
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
@@ -688,21 +690,39 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
+    /* Force OS_stat to return a valid size and success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&Test_CF_SBTimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&Test_CF_GetCFETimeHook);
 
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Execute the function being tested */
     CF_AppMain();
 
+    CF_ShowQs();
+    machine_list__display_list();
+
     /* Verify results */
+
+    CF_ResetEngine();
 }
 
 
