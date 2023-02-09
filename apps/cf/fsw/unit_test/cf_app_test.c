@@ -654,22 +654,38 @@ void Test_CF_AppMain_Nominal(void)
  */
 void Test_CF_AppMain_WakeupReqCmd(void)
 {
-    int32           CmdPipe;
-    CF_NoArgsCmd_t  WakeupCmdMsg;
+    uint32              UpActQEntryCnt;
+    uint32              UpHistQEntryCnt;
+    uint32              PbPendQ_0_EntryCnt;
+    uint32              PbActQ_0_EntryCnt;
+    uint32              PbHistQ_0_EntryCnt;
+    uint32              PbPendQ_1_EntryCnt;
+    uint32              PbActQ_1_EntryCnt;
+    uint32              PbHistQ_1_EntryCnt;
+    int32               CmdPipe;
+    CF_NoArgsCmd_t      WakeupCmdMsg;
+    CF_Test_InPDUMsg_t  InPDUMsg;
 
     CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+
+    /* Send CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CF_TstUtil_BuildMDPdu(&InPDUMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InPDUMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send Wakeup Request */
     CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
                    sizeof(WakeupCmdMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
     CF_Test_PrintCmdMsg((void*)&WakeupCmdMsg, sizeof(WakeupCmdMsg));
-Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send one more Wakeup Request to finish the remaining transaction */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     /* To make the HandshakeSemId != CF_INVALID to send/receive PDUs */
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    /* Force OS_opendir to return success, instead of default NULL */
+    /* Return success, instead of default NULL */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                           UT_OSFILEAPI_OPENDIR_INDEX);
@@ -679,48 +695,77 @@ Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                          UT_OSFILEAPI_CLOSEDIR_INDEX);
 
-    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    /* Return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                UT_OSFILEAPI_FDGETINFO_INDEX);
 
-    /* Force OS_readdir to first return a 'dot filename, then a Sub Dir,
-       then the Queue Full Check will fail due to line above */
+    /* Return invalid dir/filenames and then return
+       TestPbFile3, TestPbFile2, TestPbFile1 */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
-    /* Force OS_stat to return a valid size and success */
+    /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
+    /* Return the read bytes requested */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    /* Return a buf pointer to send a PDU through SB */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
+                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    /* To give the unit test system time for SB Msg */
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&Test_CF_SBTimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&Test_CF_GetCFETimeHook);
 
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
-                             (void *)&CFE_SB_ZeroCopyGetPtrHook);
-
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
-                              (void*)&CFE_ES_PutPoolBufHook);
-
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Execute the function being tested */
     CF_AppMain();
 
+    UpActQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    PbPendQ_0_EntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_PENDINGQ].EntryCnt;
+    PbActQ_0_EntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    PbHistQ_0_EntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_HISTORYQ].EntryCnt;
+
+    PbPendQ_1_EntryCnt = CF_AppData.Chan[1].PbQ[CF_PB_PENDINGQ].EntryCnt;
+    PbActQ_1_EntryCnt = CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    PbHistQ_1_EntryCnt = CF_AppData.Chan[1].PbQ[CF_PB_HISTORYQ].EntryCnt;
+
     CF_ShowQs();
     machine_list__display_list();
 
     /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppMain, WakeupReqCmd");
+
+    UtAssert_True((UpActQEntryCnt == 1) && (UpHistQEntryCnt == 0),
+                  "CF_AppMain, WakeupReqCmd: UpQueueEntry cnt");
+
+    UtAssert_True((PbPendQ_0_EntryCnt == 0) && (PbActQ_0_EntryCnt == 0)
+                  && (PbHistQ_0_EntryCnt == 3),
+                  "CF_AppMain, WakeupReqCmd: PbQueue Chan 0 Entry cnt");
+
+    UtAssert_True((PbPendQ_1_EntryCnt == 0) && (PbActQ_1_EntryCnt == 0)
+                  && (PbHistQ_1_EntryCnt == 0),
+                  "CF_AppMain, WakeupReqCmd: PbQueue Chan 1 Entry cnt");
 
     CF_ResetEngine();
 }
@@ -869,8 +914,7 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
 
     InPDUMsg.PduContent.Content[hdr_len] = MD_PDU;
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 

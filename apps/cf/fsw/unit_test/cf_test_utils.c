@@ -329,19 +329,11 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     cfdp_reset_totals();
     cfdp_set_trans_seq_num(1);
 
-    /* Set to return that the file is not open */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
-                               OS_FS_ERR_INVALID_FD, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                               UT_OSFILEAPI_FDGETINFO_INDEX);
-
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    /* Execute a playback file command so that one queue entry is added
-       to the pending queue */
+    /* Send a Pb file command to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd, CF_PLAYBACK_FILE_CC);
@@ -370,19 +362,11 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     cfdp_reset_totals();
     cfdp_set_trans_seq_num(1);
 
-    /* Set to return that the file is not open */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
-                               OS_FS_ERR_INVALID_FD, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                               UT_OSFILEAPI_FDGETINFO_INDEX);
-
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    /* Execute first playback file command so that one queue entry is
-       added to the pending queue */
+    /* Send Pb file #1 to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd1, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd1, CF_PLAYBACK_FILE_CC);
@@ -401,8 +385,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    /* Execute second playback file command so that one queue entry is
-       added to the pending queue */
+    /* Send Pb file #2 to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd2, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)pCmd2, CF_PLAYBACK_FILE_CC);
@@ -425,7 +408,7 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 
 void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    /* Force OS_stat to return a valid size and success */
+    /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
@@ -438,7 +421,7 @@ void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                             CF_PlaybackFileCmd_t *pCmd2)
 {
-    /* Force OS_stat to return a valid size and success */
+    /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
@@ -564,15 +547,13 @@ void CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd)
     char    src_filename[OS_MAX_PATH_LEN];
     char    dst_filename[OS_MAX_PATH_LEN];
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    hdr_len = sizeof(CF_PDU_Hdr_t);
-
-    /* Execute a Incoming MetaData PDU command so that
-       one queue entry is added to the active queue */
+    /* Send a Incoming MetaData PDU to add to the Up Active Q */
     CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(CF_Test_InPDUMsg_t), TRUE);
 
@@ -635,12 +616,11 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
     char    src_filename[OS_MAX_PATH_LEN];
     char    dst_filename[OS_MAX_PATH_LEN];
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    hdr_len = sizeof(CF_PDU_Hdr_t);
 
     /* Incoming MetaData PDU 1 */
     CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
@@ -755,15 +735,14 @@ void CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd)
     char    src_filename[OS_MAX_PATH_LEN];
     char    dst_filename[OS_MAX_PATH_LEN];
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
                               (void*)&CFE_ES_PutPoolBufHook);
-
-    hdr_len = sizeof(CF_PDU_Hdr_t);
 
     /* Meta Data PDU */
     CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
@@ -904,12 +883,11 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
     char    src_filename[OS_MAX_PATH_LEN];
     char    dst_filename[OS_MAX_PATH_LEN];
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    hdr_len = sizeof(CF_PDU_Hdr_t);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    hdr_len = sizeof(CF_PDU_Hdr_t);
 
     /***** File 1 *****/
     /* Meta Data PDU */
@@ -1169,14 +1147,152 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
 }
 
 
+static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
+                             CF_Test_InPDUMsg_t *pCmd)
+{
+#define      HARD_CODED_ENTITY_ID_LENGTH   2
+    uint8    byte;
+    uint8    upper_byte, lower_byte;
+    uint8    byte0, byte1, byte2, byte3;
+    int      i;
+    uint32   index;
+    uint32   TransSeqNum;
+    ID       SrcEntityID;
+    ID       DstEntityID;
+
+    SrcEntityID.length = HARD_CODED_ENTITY_ID_LENGTH;
+    SrcEntityID.value[0] = 0;    /* 0.2 */
+    SrcEntityID.value[1] = 2;
+
+    DstEntityID.length = HARD_CODED_ENTITY_ID_LENGTH;
+    DstEntityID.value[0] = 0;    /* Flight Entity ID: 0.3 */
+    DstEntityID.value[1] = 3;
+
+    index = 0;
+
+    /* Byte 1 of the header */
+    byte = 0;
+    if (pdu_type == FILE_DATA_PDU)
+    {
+        byte = byte | 0x10;
+    }
+    byte = byte | 0x04;    /* Unack mode */
+    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+
+    /* 2-byte Data field length */
+    upper_byte = PDataLen / 256;
+    memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
+    lower_byte = PDataLen % 256;
+    memcpy(&pCmd->PduContent.Content[index++], &lower_byte, 1);
+
+    /* 1-byte EntityID length and TransID length */
+    byte = 0;
+    byte = byte | ((HARD_CODED_ENTITY_ID_LENGTH - 1) << 4);
+    byte = byte | (HARD_CODED_TRANS_SEQ_NUM_LENGTH - 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+
+    /* Source Entity ID: Just in case, add zeros on the left */
+    byte = 0;
+    for (i = SrcEntityID.length; i < DstEntityID.length; i++)
+    {
+        memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    }
+    memcpy(&pCmd->PduContent.Content[index], SrcEntityID.value,
+           SrcEntityID.length);
+    index += SrcEntityID.length;
+
+    /* trans sequence number: 0x1f4 = 500 */
+    TransSeqNum = 500;
+    byte0 = (TransSeqNum & 0xff000000) >> 24;
+    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
+    byte1 = (TransSeqNum & 0x00ff0000) >> 16;
+    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
+    byte2 = (TransSeqNum & 0x0000ff00) >> 8;
+    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
+    byte3 = TransSeqNum & 0x000000ff;
+    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+
+    /* Destination Entity ID: Just in case, add zeros on the left */
+    byte = 0;
+    for (i = DstEntityID.length; i < SrcEntityID.length; i++)
+    {
+        memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    }
+    memcpy(&pCmd->PduContent.Content[index], DstEntityID.value,
+           DstEntityID.length);
+    index += DstEntityID.length;
+
+    return index;
+}
+
+
+void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd)
+{
+    uint8    byte;
+    uint8    str_len;
+    uint8    byte0, byte1, byte2, byte3;
+    uint16   PDataLen;
+    uint32   FileSize;
+    uint32   index;
+    char     src_filename[OS_MAX_PATH_LEN];
+    char     dst_filename[OS_MAX_PATH_LEN];
+
+    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(CF_Test_InPDUMsg_t), TRUE);
+
+    sprintf(src_filename, "%s%s", TestInDir, TestInFile1);
+    sprintf(dst_filename, "%s%s", TestInDir, TestInFile1);
+
+    PDataLen = 6;
+
+    /* "No file transfer" is not considered */
+    PDataLen += strlen(src_filename) + 1;
+    PDataLen += strlen(dst_filename) + 1;
+
+    index = CF_TstUtil_GenPDUHeader(FILE_DIR_PDU, PDataLen, pCmd);
+
+    /**** Data Field ****/
+    /* Byte 0: File-dir code */
+    byte = MD_PDU;
+    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+
+    /* Byte 1: Segmentation control: not supported */
+    byte = 0;
+    byte = byte | 0x80;
+    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+
+    /* Bytes 2 - 5 : file size(0x100: 256 bytes) */
+    FileSize = 256;
+    byte0 = (FileSize & 0xff000000) >> 24;
+    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
+    byte1 = (FileSize & 0x00ff0000) >> 16;
+    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
+    byte2 = (FileSize & 0x0000ff00) >> 8;
+    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
+    byte3 = FileSize & 0x000000ff;
+    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+
+    /* Source file name */
+    str_len = strlen(src_filename);
+    memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
+    memcpy(&pCmd->PduContent.Content[index], src_filename, str_len);
+    index += str_len;
+
+    /* Destination file name */
+    str_len = strlen(dst_filename);
+    memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
+    memcpy(&pCmd->PduContent.Content[index], dst_filename, str_len);
+    index += str_len;
+}
+
+
 /* This util adds one entry only to UpQueue but not to the machine list */
 void CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd)
 {
     INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
     TRANS_STATUS TransInfo;
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
@@ -1201,12 +1317,11 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     INDICATION_TYPE IndType = IND_MACHINE_ALLOCATED;
     TRANS_STATUS TransInfo;
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 
-    /* First incoming PDU */
+    /* Incoming PDU #1 */
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 500;
     TransInfo.trans.source_id.value[0] = 0;
@@ -1218,7 +1333,7 @@ void CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;;
     CF_Indication(IndType,TransInfo);
 
-    /* Second incoming PDU */
+    /* Incoming PDU #2 */
     TransInfo.role = CLASS_1_RECEIVER;
     TransInfo.trans.number = 700;
     TransInfo.trans.source_id.value[0] = 0;

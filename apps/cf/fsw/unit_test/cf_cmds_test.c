@@ -1486,8 +1486,7 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
-    /* force the GetPoolBuf call for the queue entry to return
-       something valid */
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
 

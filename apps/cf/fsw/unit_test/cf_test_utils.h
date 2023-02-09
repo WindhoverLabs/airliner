@@ -107,6 +107,7 @@ void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 void  CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
                                             CF_Test_InPDUMsg_t *pCmd2);
+void  CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
                                                   CF_Test_InPDUMsg_t *pCmd2);
