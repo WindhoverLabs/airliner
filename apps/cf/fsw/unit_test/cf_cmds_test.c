@@ -339,9 +339,9 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -426,9 +426,9 @@ void Test_CF_AppPipe_PbFileCmdParamErr(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -471,9 +471,9 @@ void Test_CF_AppPipe_PbFileCmdChanNotInUse(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -519,9 +519,9 @@ void Test_CF_AppPipe_PbFileCmdInvSrcFilename(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, " pbfile1.dat");
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -564,7 +564,7 @@ void Test_CF_AppPipe_PbFileCmdInvDstFilename(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
     /* dest filename not terminated */
     CFE_PSP_MemSet(PbFileCmdMsg.DstFilename, 0xFF, OS_MAX_PATH_LEN);
@@ -610,9 +610,9 @@ void Test_CF_AppPipe_PbFileCmdPendQFull(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -659,9 +659,9 @@ void Test_CF_AppPipe_PbFileCmdInvPeerId(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, "2555.255");
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -704,9 +704,9 @@ void Test_CF_AppPipe_PbFileCmdFileOpen(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir);
+    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
     strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir);
+    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -1192,10 +1192,8 @@ void Test_CF_AppPipe_PbDirCmdQFull(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
-    /* Force OS_opendir to return success, instead of default NULL */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                                    UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                OS_FS_SUCCESS, 1);
@@ -1259,9 +1257,8 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                               UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                OS_FS_SUCCESS, 1);
@@ -1327,9 +1324,8 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                                     UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                                OS_FS_SUCCESS, 1);
@@ -1395,9 +1391,8 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                                     UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                                OS_FS_SUCCESS, 1);
@@ -1467,10 +1462,8 @@ void Test_CF_AppPipe_PbDirCmdSuccess(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
-    /* Force OS_opendir to return success, instead of default NULL */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                                          UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                                     OS_FS_SUCCESS, 1);
@@ -3058,6 +3051,7 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     CF_Test_InPDUMsg_t  InPDUMsg;
     CF_CARSCmd_t        SuspendCmdMsg;
     CF_CARSCmd_t        ResumeCmdMsg;
+    CF_Test_InPDUInfo_t InPDUInfo;
     SUMMARY_STATUS      EngStat;
     char  FullTransString1[OS_MAX_PATH_LEN];
     char  FullTransString2[OS_MAX_PATH_LEN];
@@ -3065,6 +3059,20 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     char  expEventCfdp2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Build incoming PDU Msg */
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InPDUMsg), TRUE);
+    InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.trans.number = 500;
+    InPDUInfo.dest_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo.dest_id.value[1] = 3;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir, TestInFile1);
+    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
 
     /* Build SuspendCmdMsg */
     CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
@@ -3080,10 +3088,17 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     strcpy(ResumeCmdMsg.Trans, SuspendCmdMsg.Trans);
     CF_Test_PrintCmdMsg((void*)&ResumeCmdMsg, sizeof(ResumeCmdMsg));
 
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+    /* Incoming PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     /* Suspend */
@@ -3099,6 +3114,8 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+CF_ShowQs();
+machine_list__display_list();
 
     /* get engine status */
     EngStat = cfdp_summary_status();
@@ -6245,6 +6262,11 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+#if 0
+    /* Build incoming PDU Msg */
+    CF_TstUtil_BuildMDPdu(&InPDUMsg);
+#endif
+
     /* build cmd to write all active entries to a file */
     CFE_SB_InitMsg((void*)&WrActTrCmdMsg, CF_CMD_MID,
                    sizeof(WrActTrCmdMsg), TRUE);
@@ -6270,12 +6292,16 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
     /* Execute the function being tested */
     CF_AppInit();
     CF_GetHandshakeSemIds();
 
-    /* create one uplink active queue entry */
-    CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
 
     TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
                    CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
@@ -6415,6 +6441,11 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+#if 0
+    /* Build incoming PDU Msg */
+    CF_TstUtil_BuildMDPdu(&InPDUMsg);
+#endif
+
     /* build cmd to write all active entries to a file */
     CFE_SB_InitMsg((void*)&WrActTrCmdMsg, CF_CMD_MID,
                    sizeof(WrActTrCmdMsg), TRUE);
@@ -6438,11 +6469,15 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
                             sizeof(CFE_FS_Header_t), 1);
 
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
     /* Execute the function being tested */
     CF_AppInit();
 
-    /* create one uplink active queue entry */
-    CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
 
     TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
                          CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
@@ -7121,8 +7156,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvLen(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7163,8 +7198,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvChan(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7204,8 +7239,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvDir(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7245,8 +7280,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvClass(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7287,8 +7322,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvPreserve(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE + 1;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7329,7 +7364,7 @@ void Test_CF_AppPipe_SetPollParamCmdInvSrc(void)
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
     strcpy(CmdMsg.SrcPath, "/cf /");
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7369,7 +7404,7 @@ void Test_CF_AppPipe_SetPollParamCmdInvDst(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
     strcpy(CmdMsg.DstPath, "gnd path");
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
@@ -7410,8 +7445,8 @@ void Test_CF_AppPipe_SetPollParamCmdInvId(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, "234200");
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7451,8 +7486,8 @@ void Test_CF_AppPipe_SetPollParamCmd(void)
     CmdMsg.Priority = 1;
     CmdMsg.Preserve = CF_KEEP_FILE;
     strcpy(CmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(CmdMsg.SrcPath, TestPbDir);
-    strcpy(CmdMsg.DstPath, TestDstDir);
+    strcpy(CmdMsg.SrcPath, TestPbDir0);
+    strcpy(CmdMsg.DstPath, TestDstDir0);
 
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
@@ -7696,6 +7731,11 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     char  expEventWarn[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+#if 0
+    /* Build incoming PDU Msg */
+    CF_TstUtil_BuildMDPdu(&InPDUMsg);
+#endif
+
     CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
@@ -7703,13 +7743,18 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     strcat(DeQCmdMsg.Trans, "_500");
     CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
 
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
                               (void*)&CFE_ES_PutPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOneUpActiveQueueEntry(&InPDUMsg);
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     /* This first dequeue command will produce the warning */

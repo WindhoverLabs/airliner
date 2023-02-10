@@ -39,7 +39,9 @@
 #include <string.h>
 
 
-uint32       ReaddirHookCallCnt = 0;
+os_dir_t     OpendirHookDir;
+
+uint32       ReaddirHookReturnCnt = 0;
 os_dirent_t  ReaddirHookDirEntry;
 
 uint32       SemGetInfoHookCallCnt = 0;
@@ -119,7 +121,7 @@ int32 OS_statHook(const char *path, os_fstat_t *filestats)
 
 int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 {
-    strcpy(fd_prop->Path, TestPbDir);
+    strcpy(fd_prop->Path, TestPbDir0);
     strcat(fd_prop->Path, TestPbFile1);
 
     return OS_FS_SUCCESS;
@@ -133,51 +135,94 @@ printf("##OS_readHook: entered\n");
 }
 
 
-os_dirent_t *  OS_readdirHook (os_dirp_t directory)
+os_dirp_t OS_opendirHook(const char *path)
 {
-    ReaddirHookCallCnt++;
+    strcpy(OpendirHookDir.DirEnt.d_name, path);
+printf("!!!OS_opendirHook entered(d_name: %s\n", OpendirHookDir.DirEnt.d_name);
+    OpendirHookDir.DirEnt.d_type = OS_DT_DIR;
 
-    if(ReaddirHookCallCnt == 1)
+    return (&OpendirHookDir);
+}
+
+
+os_dirent_t *OS_readdirHook (os_dirp_t directory)
+{
+    if (strcmp(directory->DirEnt.d_name, TestPbDir0) == 0)
     {
-        strcpy(ReaddirHookDirEntry.d_name, ".");
-        ReaddirHookDirEntry.d_type = OS_DT_DIR;
+        if(ReaddirHookReturnCnt == 0)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, ".");
+            ReaddirHookDirEntry.d_type = OS_DT_DIR;
+        }
+        else if(ReaddirHookReturnCnt == 1)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, "..");
+            ReaddirHookDirEntry.d_type = OS_DT_DIR;
+        }
+        else if(ReaddirHookReturnCnt == 2)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile3);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else if(ReaddirHookReturnCnt == 3)
+        {
+            strcpy(ReaddirHookDirEntry.d_name,
+              "ThisFilenameIsTooLongItExceeds64ThisFilenameIsTooLongItIs65charas");
+            ReaddirHookDirEntry.d_type = 5;
+        }
+        else if(ReaddirHookReturnCnt == 4)
+        {
+            strcpy(ReaddirHookDirEntry.d_name,
+              "ThisFilenameIsTooLongWhenThePathIsAttachedToIt.ItIs63Characters");
+            ReaddirHookDirEntry.d_type = 5;
+        }
+        else if(ReaddirHookReturnCnt == 5)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile2);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else if(ReaddirHookReturnCnt == 6)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile1);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else
+        {
+            return NULL;
+        }
     }
-    else if(ReaddirHookCallCnt == 2)
+    else if (strcmp(directory->DirEnt.d_name, TestPbDir1) == 0)
     {
-        strcpy(ReaddirHookDirEntry.d_name, "..");
-        ReaddirHookDirEntry.d_type = OS_DT_DIR;
+        return NULL;
     }
-    else if(ReaddirHookCallCnt == 3)
+    else if (strcmp(directory->DirEnt.d_name, TestPbDir2) == 0)
     {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbFile3);
-        ReaddirHookDirEntry.d_type = OS_DT_FILE;
-    }
-    else if(ReaddirHookCallCnt == 4)
-    {
-        strcpy(ReaddirHookDirEntry.d_name,
-           "ThisFilenameIsTooLongItExceeds64ThisFilenameIsTooLongItIs65charas");
-        ReaddirHookDirEntry.d_type = 5;
-    }
-    else if(ReaddirHookCallCnt == 5)
-    {
-        strcpy(ReaddirHookDirEntry.d_name,
-           "ThisFilenameIsTooLongWhenThePathIsAttachedToIt.ItIs63Characters");
-        ReaddirHookDirEntry.d_type = 5;
-    }
-    else if(ReaddirHookCallCnt == 6)
-    {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbFile2);
-        ReaddirHookDirEntry.d_type = OS_DT_FILE;
-    }
-    else if(ReaddirHookCallCnt == 7)
-    {
-        strcpy(ReaddirHookDirEntry.d_name, TestPbFile1);
-        ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        if (ReaddirHookReturnCnt == 7)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile4);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else if (ReaddirHookReturnCnt == 8)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile5);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else if (ReaddirHookReturnCnt == 9)
+        {
+            strcpy(ReaddirHookDirEntry.d_name, TestPbFile6);
+            ReaddirHookDirEntry.d_type = OS_DT_FILE;
+        }
+        else
+        {
+            return NULL;
+        }
     }
     else
     {
         return NULL;
     }
+
+    ReaddirHookReturnCnt++;
 
     return(&ReaddirHookDirEntry);
 }

@@ -668,27 +668,30 @@ void Test_CF_AppMain_WakeupReqCmd(void)
 
     CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
 
+#if 0
     /* Send CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CF_TstUtil_BuildMDPdu(&InPDUMsg);
     Ut_CFE_SB_AddMsgToPipe((void*)&InPDUMsg, (CFE_SB_PipeId_t)CmdPipe);
+#endif
 
-    /* Send Wakeup Request */
+    /* Send Wakeup Request #1 */
     CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
                    sizeof(WakeupCmdMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
     CF_Test_PrintCmdMsg((void*)&WakeupCmdMsg, sizeof(WakeupCmdMsg));
 
-    /* Send one more Wakeup Request to finish the remaining transaction */
+    /* Send Wakeup Request #2 */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send Wakeup Request #3 to finish the remaining transactions */
     Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     /* To make the HandshakeSemId != CF_INVALID to send/receive PDUs */
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
-    /* Return success, instead of default NULL */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_OPENDIR_INDEX, 5, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
-                                          UT_OSFILEAPI_OPENDIR_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
+                                 (void *)&OS_opendirHook);
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSEDIR_INDEX,
                                                     OS_FS_SUCCESS, 1);
@@ -732,7 +735,7 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&Test_CF_GetCFETimeHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 5);
 
     /* Execute the function being tested */
     CF_AppMain();
@@ -760,7 +763,7 @@ void Test_CF_AppMain_WakeupReqCmd(void)
                   "CF_AppMain, WakeupReqCmd: UpQueueEntry cnt");
 
     UtAssert_True((PbPendQ_0_EntryCnt == 0) && (PbActQ_0_EntryCnt == 0)
-                  && (PbHistQ_0_EntryCnt == 3),
+                  && (PbHistQ_0_EntryCnt == 6),
                   "CF_AppMain, WakeupReqCmd: PbQueue Chan 0 Entry cnt");
 
     UtAssert_True((PbPendQ_1_EntryCnt == 0) && (PbActQ_1_EntryCnt == 0)
@@ -768,6 +771,14 @@ void Test_CF_AppMain_WakeupReqCmd(void)
                   "CF_AppMain, WakeupReqCmd: PbQueue Chan 1 Entry cnt");
 
     CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppMain, WakeupReqCmdPollingEnabled
+ */
+void Test_CF_AppMain_WakeupReqCmdPollingEnabled(void)
+{
 }
 
 

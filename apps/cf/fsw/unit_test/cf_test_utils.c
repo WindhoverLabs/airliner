@@ -60,6 +60,9 @@
 const char TestPbFile1[] = "pbfile1.dat";
 const char TestPbFile2[] = "pbfile2.dat";
 const char TestPbFile3[] = "pbfile3.dat";
+const char TestPbFile4[] = "pbfile4.dat";
+const char TestPbFile5[] = "pbfile5.dat";
+const char TestPbFile6[] = "pbfile6.dat";
 
 const char TestInFile1[] = "infile1.dat";
 const char TestInFile2[] = "infile2.dat";
@@ -67,8 +70,16 @@ const char TestInNoFile[] = "";
 
 const char TestQInfoFile1[] = "qinfo1.dat";
 
-const char TestPbDir[] = "/dn/cpd/cl1/pr2/";
-const char TestDstDir[] = "/cpd/cl1/pr2/";
+const char TestPbDir0[] = "/dn/cpd/cl1/pr2/";
+const char TestPbDir1[] = "/dn/cpd/cl2/pr2/";
+const char TestPbDir2[] = "/dn/cpd/cl1/pr4/";
+const char TestPbDir3[] = "/dn/cpd/cl2/pr4/";
+
+const char TestDstDir0[] = "/cpd/cl1/pr2/";
+const char TestDstDir1[] = "/cpd/cl2/pr2/";
+const char TestDstDir2[] = "/cpd/cl1/pr4/";
+const char TestDstDir3[] = "/cpd/cl2/pr4/";
+
 const char TestInDir[] = "/up/";
 const char TestQInfoDir[] = "/qinfo/";
 
@@ -90,7 +101,7 @@ void CF_Test_Setup(void)
     ZeroCopyGetPtrHookCallCnt = 0;
     ZeroCopyGetPtrHookOffset = 0;
 
-    ReaddirHookCallCnt = 0;
+    ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
     cfdp_reset_totals();
@@ -124,7 +135,7 @@ void CF_Test_SetupUnitTest(void)
     ZeroCopyGetPtrHookCallCnt = 0;
     ZeroCopyGetPtrHookOffset = 0;
 
-    ReaddirHookCallCnt = 0;
+    ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
     cfdp_reset_totals();
@@ -1148,9 +1159,8 @@ void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
 
 
 static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
-                             CF_Test_InPDUMsg_t *pCmd)
+                        CF_Test_InPDUMsg_t *pCmd, CF_Test_InPDUInfo_t *pInfo)
 {
-#define      HARD_CODED_ENTITY_ID_LENGTH   2
     uint8    byte;
     uint8    upper_byte, lower_byte;
     uint8    byte0, byte1, byte2, byte3;
@@ -1159,14 +1169,6 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
     uint32   TransSeqNum;
     ID       SrcEntityID;
     ID       DstEntityID;
-
-    SrcEntityID.length = HARD_CODED_ENTITY_ID_LENGTH;
-    SrcEntityID.value[0] = 0;    /* 0.2 */
-    SrcEntityID.value[1] = 2;
-
-    DstEntityID.length = HARD_CODED_ENTITY_ID_LENGTH;
-    DstEntityID.value[0] = 0;    /* Flight Entity ID: 0.3 */
-    DstEntityID.value[1] = 3;
 
     index = 0;
 
@@ -1193,6 +1195,8 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
 
     /* Source Entity ID: Just in case, add zeros on the left */
     byte = 0;
+    memcpy(&SrcEntityID, &pInfo->trans.source_id, sizeof(SrcEntityID));
+    memcpy(&DstEntityID, &pInfo->dest_id, sizeof(DstEntityID));
     for (i = SrcEntityID.length; i < DstEntityID.length; i++)
     {
         memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
@@ -1201,8 +1205,8 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
            SrcEntityID.length);
     index += SrcEntityID.length;
 
-    /* trans sequence number: 0x1f4 = 500 */
-    TransSeqNum = 500;
+    /* 4-byte Trans Sequence Number */
+    TransSeqNum = pInfo->trans.number;
     byte0 = (TransSeqNum & 0xff000000) >> 24;
     memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
     byte1 = (TransSeqNum & 0x00ff0000) >> 16;
@@ -1226,7 +1230,8 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
 }
 
 
-void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd)
+void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
+                           CF_Test_InPDUInfo_t *pInfo)
 {
     uint8    byte;
     uint8    str_len;
@@ -1234,22 +1239,14 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd)
     uint16   PDataLen;
     uint32   FileSize;
     uint32   index;
-    char     src_filename[OS_MAX_PATH_LEN];
-    char     dst_filename[OS_MAX_PATH_LEN];
-
-    CFE_SB_InitMsg((void*)pCmd, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    sprintf(src_filename, "%s%s", TestInDir, TestInFile1);
-    sprintf(dst_filename, "%s%s", TestInDir, TestInFile1);
 
     PDataLen = 6;
 
     /* "No file transfer" is not considered */
-    PDataLen += strlen(src_filename) + 1;
-    PDataLen += strlen(dst_filename) + 1;
+    PDataLen += strlen(pInfo->src_filename) + 1;
+    PDataLen += strlen(pInfo->dst_filename) + 1;
 
-    index = CF_TstUtil_GenPDUHeader(FILE_DIR_PDU, PDataLen, pCmd);
+    index = CF_TstUtil_GenPDUHeader(FILE_DIR_PDU, PDataLen, pCmd, pInfo);
 
     /**** Data Field ****/
     /* Byte 0: File-dir code */
@@ -1273,15 +1270,15 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd)
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
     /* Source file name */
-    str_len = strlen(src_filename);
+    str_len = strlen(pInfo->src_filename);
     memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
-    memcpy(&pCmd->PduContent.Content[index], src_filename, str_len);
+    memcpy(&pCmd->PduContent.Content[index], pInfo->src_filename, str_len);
     index += str_len;
 
     /* Destination file name */
-    str_len = strlen(dst_filename);
+    str_len = strlen(pInfo->dst_filename);
     memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
-    memcpy(&pCmd->PduContent.Content[index], dst_filename, str_len);
+    memcpy(&pCmd->PduContent.Content[index], pInfo->dst_filename, str_len);
     index += str_len;
 }
 

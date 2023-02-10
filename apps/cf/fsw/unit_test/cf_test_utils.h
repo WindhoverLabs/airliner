@@ -36,6 +36,8 @@
 
 #include "cf_app.h"
 
+#define      HARD_CODED_ENTITY_ID_LENGTH   2
+
 extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
 extern cf_config_table_t   CF_ConfigTableUnitTest;
@@ -43,6 +45,9 @@ extern cf_config_table_t   CF_ConfigTableUnitTest;
 extern const char TestPbFile1[];
 extern const char TestPbFile2[];
 extern const char TestPbFile3[];
+extern const char TestPbFile4[];
+extern const char TestPbFile5[];
+extern const char TestPbFile6[];
 
 extern const char TestInFile1[];
 extern const char TestInFile2[];
@@ -50,8 +55,16 @@ extern const char TestInNoFile[];
 
 extern const char TestQInfoFile1[];
 
-extern const char TestPbDir[];
-extern const char TestDstDir[];
+extern const char TestPbDir0[];
+extern const char TestPbDir1[];
+extern const char TestPbDir2[];
+extern const char TestPbDir3[];
+
+extern const char TestDstDir0[];
+extern const char TestDstDir1[];
+extern const char TestDstDir2[];
+extern const char TestDstDir3[];
+
 extern const char TestInDir[];
 extern const char TestQInfoDir[];
 
@@ -71,6 +84,14 @@ typedef struct
     } PduContent;
 
 } CF_Test_InPDUMsg_t;
+
+typedef struct
+{
+    TRANSACTION  trans;
+    ID           dest_id;
+    char         src_filename[OS_MAX_PATH_LEN];
+    char         dst_filename[OS_MAX_PATH_LEN];
+} CF_Test_InPDUInfo_t;
 
 
 #ifdef __cplusplus
@@ -107,7 +128,8 @@ void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
 void  CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
                                             CF_Test_InPDUMsg_t *pCmd2);
-void  CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd);
+void  CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
+                            CF_Test_InPDUInfo_t *pInfo);
 void  CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
                                                   CF_Test_InPDUMsg_t *pCmd2);
