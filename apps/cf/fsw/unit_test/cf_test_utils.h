@@ -65,7 +65,11 @@ extern const char TestDstDir1[];
 extern const char TestDstDir2[];
 extern const char TestDstDir3[];
 
-extern const char TestInDir[];
+extern const char TestInDir0[];
+extern const char TestInDir1[];
+extern const char TestInDir2[];
+extern const char TestInDir3[];
+
 extern const char TestQInfoDir[];
 
 extern const char TestPbPeerEntityId[];
@@ -115,27 +119,16 @@ void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2);
 void  CF_TstUtil_FinishPbActiveQueueEntries();
-void  CF_TstUtil_FinishOnePbActiveQueueEntryByInd(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_FinishTwoPbActiveQueueEntryByInd(CF_PlaybackFileCmd_t *pCmd1,
-                                                 CF_PlaybackFileCmd_t *pCmd2);
 void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
-void  CF_TstUtil_CreateTwoPbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
-                                              CF_PlaybackFileCmd_t *pCmd2);
 
-void  CF_TstUtil_CreateOneUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd);
-void  CF_TstUtil_CreateTwoUpActiveQueueEntry(CF_Test_InPDUMsg_t *pCmd1,
-                                             CF_Test_InPDUMsg_t *pCmd2);
-void  CF_TstUtil_SendOneCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd);
 void  CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
                                             CF_Test_InPDUMsg_t *pCmd2);
 void  CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
                             CF_Test_InPDUInfo_t *pInfo);
-void  CF_TstUtil_CreateOneUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
-void  CF_TstUtil_CreateTwoUpActiveQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
-                                                  CF_Test_InPDUMsg_t *pCmd2);
-void  CF_TstUtil_CreateOneUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd);
-void  CF_TstUtil_CreateTwoUpHistoryQueueEntryByInd(CF_Test_InPDUMsg_t *pCmd1,
-                                                  CF_Test_InPDUMsg_t *pCmd2);
+void  CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
+                            CF_Test_InPDUInfo_t *pInfo);
+void  CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
+                             CF_Test_InPDUInfo_t *pInfo);
 
 void  CF_ResetEngine(void);
 

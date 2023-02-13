@@ -665,14 +665,25 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     int32               CmdPipe;
     CF_NoArgsCmd_t      WakeupCmdMsg;
     CF_Test_InPDUMsg_t  InPDUMsg;
+    CF_Test_InPDUInfo_t InPDUInfo;
 
     CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
 
-#if 0
     /* Send CF_PPD_TO_CPD_PDU_MID (MD PDU) */
-    CF_TstUtil_BuildMDPdu(&InPDUMsg);
+    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InPDUMsg), TRUE);
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
+    InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.trans.number = 500;
+    InPDUInfo.dest_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo.dest_id.value[1] = 3;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
     Ut_CFE_SB_AddMsgToPipe((void*)&InPDUMsg, (CFE_SB_PipeId_t)CmdPipe);
-#endif
 
     /* Send Wakeup Request #1 */
     CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
@@ -949,30 +960,87 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
  */
 void Test_CF_SendPDUToEngine_Nominal(void)
 {
-    uint32              UpActQEntryCntBefore;
-    uint32              UpActQEntryCntAfter;
-    uint32              UpHistQEntryCntBefore;
-    uint32              UpHistQEntryCntAfter;
-    CF_Test_InPDUMsg_t  InPDUMsg;
+    uint32              UpActQEntryCntMD;
+    uint32              UpActQEntryCntFD;
+    uint32              UpActQEntryCntEOF;
+    uint32              UpHistQEntryCntMD;
+    uint32              UpHistQEntryCntFD;
+    uint32              UpHistQEntryCntEOF;
+    CF_Test_InPDUMsg_t  InMdPDUMsg;
+    CF_Test_InPDUMsg_t  InFdPDUMsg;
+    CF_Test_InPDUMsg_t  InEofPDUMsg;
+    CF_Test_InPDUInfo_t InPDUInfo;
     TRANSACTION         trans;
     char  FullDstFilename[OS_MAX_PATH_LEN];
     char  FullTransString[OS_MAX_PATH_LEN];
     char  expEventMD[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventFinish[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    /* Build Incoming MD PDU Msg */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InMdPDUMsg);
+    InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.trans.number = 500;
+    InPDUInfo.dest_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo.dest_id.value[1] = 3;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
+
+    /* Build Incoming FD PDU Msg */
+    CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InFdPDUMsg), TRUE);
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InFdPDUMsg);
+    CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
+
+    /* Build Incoming EOF PDU Msg */
+    CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InEofPDUMsg), TRUE);
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InEofPDUMsg);
+    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&Test_CF_SBTimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&Test_CF_GetCFETimeHook);
+
     /* Execute the function being tested */
     CF_AppInit();
-    UpActQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-    UpHistQEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
-    CF_TstUtil_SendOneCompleteIncomingPDU(&InPDUMsg);
-    UpActQEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-    UpHistQEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+    /* Incoming MD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    UpActQEntryCntMD = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntMD = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    /* Incoming FD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InFdPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    UpActQEntryCntFD = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntFD = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    /* Incoming EOF PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InEofPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    UpActQEntryCntEOF = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntEOF = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
     machine_list__display_list();
 
-    sprintf(FullDstFilename, "%s%s", TestInDir, TestInFile1);
+    sprintf(FullDstFilename, "%s%s", TestInDir0, TestInFile1);
     sprintf(FullTransString, "%s%s", TestInSrcEntityId1, "_500");
     cfdp_trans_from_string(FullTransString, &trans);
     sprintf(expEventMD, "Incoming trans started %d.%d_%d,dest %s",
@@ -991,9 +1059,10 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     UtAssert_True(CF_AppData.Hk.Up.MetaCount == 1,
                   "CF_SendPDUToEngine, Nominal: Received MetaCnt");
 
-    UtAssert_True((UpActQEntryCntBefore == 0) && (UpActQEntryCntAfter == 0)
-             && (UpHistQEntryCntBefore == 0) && (UpHistQEntryCntAfter == 1),
-             "CF_SendPDUToEngine, Nominal: QEntryCnt");
+    UtAssert_True((UpActQEntryCntMD == 1) && (UpHistQEntryCntMD == 0)
+               && (UpActQEntryCntFD == 1) && (UpHistQEntryCntFD == 0)
+               && (UpActQEntryCntEOF == 0) && (UpHistQEntryCntEOF == 1),
+               "CF_SendPDUToEngine, Nominal: QEntryCnt");
 
     UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION,
                   expEventMD,
