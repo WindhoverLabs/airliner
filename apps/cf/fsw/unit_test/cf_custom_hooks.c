@@ -39,6 +39,9 @@
 #include <string.h>
 
 
+uint32       ReadHookCalledCnt = 0;
+boolean      ReadHook_IncomingFlag = FALSE;
+
 os_dir_t     OpendirHookDir;
 
 uint32       ReaddirHookReturnCnt = 0;
@@ -113,7 +116,7 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 
 int32 OS_statHook(const char *path, os_fstat_t *filestats)
 {
-    filestats->st_size = 123;
+    filestats->st_size = TEST_FILE_SIZE;
 
     return OS_FS_SUCCESS;
 }
@@ -130,8 +133,28 @@ int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 
 int32 OS_readHook(int32  filedes, void *buffer, uint32 nbytes)
 {
-printf("##OS_readHook: entered\n");
-    return nbytes;
+    int32 readbytes;
+
+printf("##OS_readHook: entered(%u)\n", ReadHook_IncomingFlag);
+    if (ReadHook_IncomingFlag == TRUE)
+    {
+        if ((ReadHookCalledCnt % 2) == 0)
+        {
+            readbytes = TEST_FILE_SIZE;
+        }
+        else
+        {
+            readbytes = 0;
+        }
+    }
+    else
+    {
+        readbytes = TEST_FILE_SIZE;
+    }
+
+    ReadHookCalledCnt ++;
+
+    return readbytes;
 }
 
 
@@ -248,7 +271,7 @@ int32 OS_CountSemGetInfoHook(uint32 sem_id, OS_count_sem_prop_t *count_prop)
 }
 
 
-void Test_CF_GetPSPTimeHook(OS_time_t *LocalTime)
+void CFE_PSP_GetTimeHook(OS_time_t *LocalTime)
 {
     int              iStatus;
     struct timespec  time;
@@ -264,7 +287,7 @@ void Test_CF_GetPSPTimeHook(OS_time_t *LocalTime)
 }
 
 
-CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void)
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void)
 {
     int                 iStatus;
     CFE_TIME_SysTime_t  CfeTime;
@@ -281,7 +304,7 @@ CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void)
 }
 
 
-void Test_CF_SBTimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
+void CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
 {
     CFE_SB_SetMsgTime(MsgPtr, CFE_TIME_GetTime());
 

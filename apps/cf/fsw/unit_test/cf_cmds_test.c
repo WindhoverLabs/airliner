@@ -1727,10 +1727,10 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
                              (void *)&OS_CountSemGetInfoHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1853,10 +1853,10 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
                              (void *)&OS_CountSemGetInfoHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1976,10 +1976,10 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
                              (void *)&OS_CountSemGetInfoHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -2104,7 +2104,6 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     /* Build incoming MD PDU Msg1 */
     CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg1), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg1);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -2119,7 +2118,6 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     /* Build incoming MD PDU Msg2 */
     CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg2), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg2);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -2148,10 +2146,10 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
                              (void *)&OS_CountSemGetInfoHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -2294,10 +2292,10 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                              (void *)&OS_CountSemGetInfoHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -3109,7 +3107,6 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     /* Build incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -3138,13 +3135,6 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -3447,7 +3437,6 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     /* Build incoming MD PDU Msg1 */
     CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg1), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg1);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -3462,7 +3451,6 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     /* Build incoming MD PDU Msg2 */
     CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg2), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg2);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -3484,13 +3472,6 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -3752,7 +3733,6 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     /* Build incoming MD PDU Msg1 */
     CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg1), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg1);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -3767,7 +3747,6 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     /* Build incoming MD PDU Msg2 */
     CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg2), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg2);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -3790,13 +3769,6 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -6419,7 +6391,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     /* Build incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -6459,13 +6430,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -6618,7 +6582,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     /* Build incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -6656,13 +6619,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -7011,10 +6967,10 @@ void Test_CF_AppPipe_SendTransDiagCmdFilename(void)
                     (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void*)&Test_CF_GetCFETimeHook);
+                                (void*)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void*)&Test_CF_SBTimeStampMsgHook);
+                              (void*)&CFE_SB_TimeStampMsgHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -7108,10 +7064,10 @@ void Test_CF_AppPipe_SendTransDiagCmdPendingQTransId(void)
                     (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void*)&Test_CF_GetCFETimeHook);
+                                (void*)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void*)&Test_CF_SBTimeStampMsgHook);
+                              (void*)&CFE_SB_TimeStampMsgHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -7215,10 +7171,10 @@ void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
                     (void *)&Test_CF_AppPipe_SendTransDiagCmd_SendMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void*)&Test_CF_GetCFETimeHook);
+                                (void*)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void*)&Test_CF_SBTimeStampMsgHook);
+                              (void*)&CFE_SB_TimeStampMsgHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -7928,7 +7884,6 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     /* Build incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -7953,13 +7908,6 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
 
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
                               (void*)&CFE_ES_PutPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -8024,7 +7972,6 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     /* Build Incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InMdPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -8039,13 +7986,11 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     /* Build Incoming FD PDU Msg */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InFdPDUMsg);
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
 
     /* Build Incoming EOF PDU Msg */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InEofPDUMsg);
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
 
     /* Build DeleteQ Command */
@@ -8062,13 +8007,6 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
 
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
                               (void*)&CFE_ES_PutPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();

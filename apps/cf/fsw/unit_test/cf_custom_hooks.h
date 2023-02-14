@@ -36,6 +36,8 @@
 
 #include "cfe.h"
 
+extern uint32       ReadHookCalledCnt;
+extern boolean      ReadHook_IncomingFlag;
 extern uint32       ReaddirHookReturnCnt;
 extern os_dirent_t  ReaddirHookDirEntry;
 
@@ -69,9 +71,9 @@ int32          OS_CountSemGetIdByNameHook(
 int32          OS_CountSemGetInfoHook(
                           uint32 sem_id, OS_count_sem_prop_t *count_prop);
 
-void                Test_CF_GetPSPTimeHook(OS_time_t *LocalTime);
-CFE_TIME_SysTime_t  Test_CF_GetCFETimeHook(void);
-void                Test_CF_SBTimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
+void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
+void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
 
 
 #ifdef __cplusplus

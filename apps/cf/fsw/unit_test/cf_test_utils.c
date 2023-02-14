@@ -108,6 +108,9 @@ void CF_Test_Setup(void)
     ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
+    ReadHookCalledCnt = 0;
+    ReadHook_IncomingFlag = FALSE;
+
     cfdp_reset_totals();
     misc__thaw_all_partners();
     /* reset the transactions seq number used by the engine */
@@ -141,6 +144,9 @@ void CF_Test_SetupUnitTest(void)
 
     ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
+
+    ReadHookCalledCnt = 0;
+    ReadHook_IncomingFlag = FALSE;
 
     cfdp_reset_totals();
     misc__thaw_all_partners();
@@ -862,8 +868,8 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     byte = byte | 0x80;
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
-    /* Bytes 2 - 5 : file size(0x100: 256 bytes) */
-    FileSize = 256;
+    /* Bytes 2 - 5 : file size */
+    FileSize = TEST_FILE_SIZE;
     byte0 = (FileSize & 0xff000000) >> 24;
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;
@@ -897,7 +903,7 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     uint32  index;
     uint32  offset;
 
-    PDataLen = 256; /* File Size: 0x100 */
+    PDataLen = TEST_FILE_SIZE + 4;
 
     index = CF_TstUtil_GenPDUHeader(FILE_DATA_PDU, PDataLen, pCmd, pInfo);
 
@@ -913,7 +919,7 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
-    /* Byte 4 - Byte 255 : File buffer */
+    /* Byte 4 - Byte (TEST_FILE_SIZE + 4 - 1) : File buffer */
     memset((void *)&pCmd->PduContent.Content[index], 0xff, PDataLen - 4);
     index += PDataLen - 4;
 
@@ -955,8 +961,8 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
-    /* Byte 6 - 9: File Size(0x100) */
-    FileSize = 256;
+    /* Byte 6 - 9: File Size */
+    FileSize = TEST_FILE_SIZE;
     byte0 = (FileSize & 0xff000000) >> 24;
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;

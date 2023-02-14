@@ -650,29 +650,28 @@ void Test_CF_AppMain_Nominal(void)
 
 
 /**
- * Test CF_AppMain, WakeupReqCmd
+ * Test CF_AppMain, IncomingMsg
  */
-void Test_CF_AppMain_WakeupReqCmd(void)
+void Test_CF_AppMain_IncomingMsg(void)
 {
     uint32              UpActQEntryCnt;
     uint32              UpHistQEntryCnt;
-    uint32              PbPendQ_0_EntryCnt;
-    uint32              PbActQ_0_EntryCnt;
-    uint32              PbHistQ_0_EntryCnt;
-    uint32              PbPendQ_1_EntryCnt;
-    uint32              PbActQ_1_EntryCnt;
-    uint32              PbHistQ_1_EntryCnt;
     int32               CmdPipe;
     CF_NoArgsCmd_t      WakeupCmdMsg;
-    CF_Test_InPDUMsg_t  InPDUMsg;
+    CF_Test_InPDUMsg_t  InMdPDUMsg1;
+    CF_Test_InPDUMsg_t  InFdPDUMsg1;
+    CF_Test_InPDUMsg_t  InEofPDUMsg1;
+    CF_Test_InPDUMsg_t  InMdPDUMsg2;
+    CF_Test_InPDUMsg_t  InFdPDUMsg2;
+    CF_Test_InPDUMsg_t  InEofPDUMsg2;
     CF_Test_InPDUInfo_t InPDUInfo;
 
     CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
 
+    /**** File 1 ****/
     /* Send CF_PPD_TO_CPD_PDU_MID (MD PDU) */
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InPDUMsg);
+    CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg1), TRUE);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -682,8 +681,96 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     InPDUInfo.dest_id.value[1] = 3;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InPDUMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMdPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send CF_PPD_TO_CPD_PDU_MID (FD PDU) */
+    CFE_SB_InitMsg((void*)&InFdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InFdPDUMsg1), TRUE);
+    CF_TstUtil_BuildFDPdu(&InFdPDUMsg1, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InFdPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
+    CFE_SB_InitMsg((void*)&InEofPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InEofPDUMsg1), TRUE);
+    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg1, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InEofPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
+
+    /**** File 2 ****/
+    /* Send CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.trans.number = 501;
+    InPDUInfo.dest_id.length = HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo.dest_id.value[1] = 3;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile2);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile2);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMdPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send CF_PPD_TO_CPD_PDU_MID (FD PDU) */
+    CFE_SB_InitMsg((void*)&InFdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InFdPDUMsg2), TRUE);
+    CF_TstUtil_BuildFDPdu(&InFdPDUMsg2, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InFdPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Send CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
+    CFE_SB_InitMsg((void*)&InEofPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InEofPDUMsg2), TRUE);
+    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg2, &InPDUInfo);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InEofPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
+
+    /* Return the read bytes */
+    ReadHook_IncomingFlag = TRUE;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 7);
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    UpActQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    CF_ShowQs();
+    machine_list__display_list();
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 0),
+                  "CF_AppMain, IncomingMsg: No ErrCounter");
+
+    UtAssert_True((UpActQEntryCnt == 0) && (UpHistQEntryCnt == 2),
+                  "CF_AppMain, IncomingMsg: UpQueueEntry cnt");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppMain, WakeupReqCmd
+ */
+void Test_CF_AppMain_WakeupReqCmd(void)
+{
+    uint32              PbPendQ_0_EntryCnt;
+    uint32              PbActQ_0_EntryCnt;
+    uint32              PbHistQ_0_EntryCnt;
+    uint32              PbPendQ_1_EntryCnt;
+    uint32              PbActQ_1_EntryCnt;
+    uint32              PbHistQ_1_EntryCnt;
+    int32               CmdPipe;
+    CF_NoArgsCmd_t      WakeupCmdMsg;
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
 
     /* Send Wakeup Request #1 */
     CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
@@ -716,7 +803,7 @@ void Test_CF_AppMain_WakeupReqCmd(void)
                                UT_OSFILEAPI_FDGETINFO_INDEX);
 
     /* Return invalid dir/filenames and then return
-       TestPbFile3, TestPbFile2, TestPbFile1 */
+       TestPbFile3, TestPbFile2, TestPbFile1, ... */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
 
@@ -724,7 +811,8 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
-    /* Return the read bytes requested */
+    /* Return the read bytes */
+    ReadHook_IncomingFlag = FALSE;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
                                  (void *)&OS_readHook);
 
@@ -741,18 +829,15 @@ void Test_CF_AppMain_WakeupReqCmd(void)
 
     /* To give the unit test system time for SB Msg */
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
+                              (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
+                                (void *)&CFE_TIME_GetTimeHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 5);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 
     /* Execute the function being tested */
     CF_AppMain();
-
-    UpActQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-    UpHistQEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     PbPendQ_0_EntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_PENDINGQ].EntryCnt;
     PbActQ_0_EntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt;
@@ -768,10 +853,7 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppMain, WakeupReqCmd");
-
-    UtAssert_True((UpActQEntryCnt == 1) && (UpHistQEntryCnt == 0),
-                  "CF_AppMain, WakeupReqCmd: UpQueueEntry cnt");
+                  "CF_AppMain, WakeupReqCmd: No ErrCounter");
 
     UtAssert_True((PbPendQ_0_EntryCnt == 0) && (PbActQ_0_EntryCnt == 0)
                   && (PbHistQ_0_EntryCnt == 6),
@@ -783,6 +865,8 @@ void Test_CF_AppMain_WakeupReqCmd(void)
 
     CF_ResetEngine();
 }
+
+
 
 
 /**
@@ -979,7 +1063,6 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     /* Build Incoming MD PDU Msg */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InMdPDUMsg);
     InPDUInfo.trans.source_id.length = HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
@@ -994,24 +1077,16 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     /* Build Incoming FD PDU Msg */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InFdPDUMsg);
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
 
     /* Build Incoming EOF PDU Msg */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InEofPDUMsg);
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
-
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&Test_CF_SBTimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&Test_CF_GetCFETimeHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -1145,6 +1220,9 @@ void CF_App_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Nominal");
 
+    UtTest_Add(Test_CF_AppMain_IncomingMsg,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               "Test_CF_AppMain_IncomingMsg");
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_WakeupReqCmd");

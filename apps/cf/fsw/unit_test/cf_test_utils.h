@@ -37,6 +37,7 @@
 #include "cf_app.h"
 
 #define      HARD_CODED_ENTITY_ID_LENGTH   2
+#define      TEST_FILE_SIZE                123
 
 extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
