@@ -36,8 +36,8 @@
 
 #include "cf_app.h"
 
-#define      HARD_CODED_ENTITY_ID_LENGTH   2
-#define      TEST_FILE_SIZE                123
+#define      TEST_HARD_CODED_ENTITY_ID_LENGTH   2
+#define      TEST_FILE_SIZE                     123
 
 extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
@@ -78,6 +78,18 @@ extern const char TestInSrcEntityId1[];
 extern const char TestInSrcEntityId2[];
 
 
+typedef enum
+{
+    TEST_TO_RECEIVER,
+    TEST_TO_SENDER
+} TEST_PDU_DIRECTION;
+
+typedef enum
+{
+    TEST_ACK_MODE,
+    TEST_UNACK_MODE
+} TEST_PDU_MODE;
+
 typedef struct
 {
     uint8         CmdHeader[CFE_SB_CMD_HDR_SIZE];
@@ -92,10 +104,16 @@ typedef struct
 
 typedef struct
 {
-    TRANSACTION  trans;
-    ID           dest_id;
-    char         src_filename[OS_MAX_PATH_LEN];
-    char         dst_filename[OS_MAX_PATH_LEN];
+    PDU_TYPE           pdu_type;
+    TEST_PDU_DIRECTION direction;
+    TEST_PDU_MODE      mode;
+    boolean            use_crc;
+    uint32             offset;
+    uint32             file_size;
+    TRANSACTION        trans;
+    ID                 dest_id;
+    char               src_filename[OS_MAX_PATH_LEN];
+    char               dst_filename[OS_MAX_PATH_LEN];
 } CF_Test_InPDUInfo_t;
 
 
@@ -124,12 +142,14 @@ void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 
 void  CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
                                             CF_Test_InPDUMsg_t *pCmd2);
-void  CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
-                            CF_Test_InPDUInfo_t *pInfo);
-void  CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
-                            CF_Test_InPDUInfo_t *pInfo);
-void  CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
+uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
+                               CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen);
+void   CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo);
+void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
+                             CF_Test_InPDUInfo_t *pInfo);
+void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
+                              CF_Test_InPDUInfo_t *pInfo);
 
 void  CF_ResetEngine(void);
 

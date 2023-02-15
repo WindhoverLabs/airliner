@@ -492,284 +492,8 @@ void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
-#if 0
-void CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
-                                           CF_Test_InPDUMsg_t *pCmd2)
-{
-    uint32  PDataLen;
-    int     hdr_len;
-    int     index;
-    int     str_len;
-    char    src_filename[OS_MAX_PATH_LEN];
-    char    dst_filename[OS_MAX_PATH_LEN];
-
-    hdr_len = sizeof(CF_PDU_Hdr_t);
-
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
-    /***** File 1 *****/
-    /* Meta Data PDU */
-    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
-    pCmd1->PduContent.PHdr.Octet1 = 0x04;
-    /* pdu data field size: modified at the end */
-    pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.2 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
-    /* 0x1f4 = 500 : Little Endian */
-    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
-    /* 0.3 : Little Endian */
-    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-    /* File Dir Code */
-    pCmd1->PduContent.Content[index++] = MD_PDU;
-    /* No Segmentation control */
-    pCmd1->PduContent.Content[index++] = 0x00;
-
-    /* file size: 0x100 Little Endian */
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x01;
-    pCmd1->PduContent.Content[index++] = 0x00;
-
-    sprintf(src_filename, "%s%s", TestInDir, TestInFile1);
-    sprintf(dst_filename, "%s%s", TestInDir, TestInFile1);
-
-    str_len = strlen(src_filename);
-    pCmd1->PduContent.Content[index++] = str_len;
-    memcpy((void *)&(pCmd1->PduContent.Content[index]),
-           (void *)src_filename, str_len);
-    index += str_len;
-
-    str_len = strlen(dst_filename);
-    pCmd1->PduContent.Content[index++] = str_len;
-    memcpy((void *)&(pCmd1->PduContent.Content[index]),
-           (void *)dst_filename, str_len);
-    index += str_len;
-
-    PDataLen = index - hdr_len;
-    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* File Data PDU */
-    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: FD_PDU,toward rcvr,class1,crc not present */
-    pCmd1->PduContent.PHdr.Octet1 = 0x14;
-    /* pdu data field size: modified at the end */
-    pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.2 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
-    /* 0x1f4 = 500 : Little Endian */
-    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
-    /* 0.3 : Little Endian */
-    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-
-    /* Offset */
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-
-    /* File contents: 0x100(file size) - 0x04(offset) */
-    memset((void *)&(pCmd1->PduContent.Content[index]), 0xff, 256 - 4);
-    index += (256 - 4);
-
-    PDataLen = index - hdr_len;
-    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* EOF PDU */
-    CFE_SB_InitMsg((void*)pCmd1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: EOF_PDU,toward rcvr,class1,crc not present */
-    pCmd1->PduContent.PHdr.Octet1 = 0x04;
-    /* pdu data field size: modified at the end */
-    pCmd1->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd1->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.2 : Little Endian */
-    pCmd1->PduContent.PHdr.SrcEntityId = 0x0200; /* To Big Endian */
-    /* 0x1f4 = 500 : Little Endian */
-    pCmd1->PduContent.PHdr.TransSeqNum = 0xf4010000;
-    /* 0.3 : Little Endian */
-    pCmd1->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-    /* File Dir Code */
-    pCmd1->PduContent.Content[index++] = EOF_PDU;
-    /* Condition Code: NO_ERROR */
-    pCmd1->PduContent.Content[index++] = NO_ERROR << 4;
-    /* Checksum */
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    /* File Size: 0x100 */
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x00;
-    pCmd1->PduContent.Content[index++] = 0x01;
-    pCmd1->PduContent.Content[index++] = 0x00;
-
-    PDataLen = index - hdr_len;
-    pCmd1->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd1->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /***** File 2 *****/
-    /* Meta Data PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: MD_PDU,toward rcvr,class1,crc not present */
-    pCmd2->PduContent.PHdr.Octet1 = 0x04;
-    /* pdu data field size: modified at the end */
-    pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.1 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
-    /* 0x2bc = 700 : Little Endian */
-    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
-    /* 0.3 : Little Endian */
-    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-    /* File Dir Code */
-    pCmd2->PduContent.Content[index++] = MD_PDU;
-    /* No Segmentation control */
-    pCmd2->PduContent.Content[index++] = 0x00;
-
-    /* file size: 0x200 Little Endian */
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x02;
-    pCmd2->PduContent.Content[index++] = 0x00;
-
-    sprintf(src_filename, "%s%s", TestInDir, TestInFile2);
-    sprintf(dst_filename, "%s%s", TestInDir, TestInFile2);
-
-    str_len = strlen(src_filename);
-    pCmd2->PduContent.Content[index++] = str_len;
-    memcpy((void *)&(pCmd2->PduContent.Content[index]),
-           (void *)src_filename, str_len);
-    index += str_len;
-
-    str_len = strlen(dst_filename);
-    pCmd2->PduContent.Content[index++] = str_len;
-    memcpy((void *)&(pCmd2->PduContent.Content[index]),
-           (void *)dst_filename, str_len);
-    index += str_len;
-
-    PDataLen = index - hdr_len;
-    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* File Data PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: FD_PDU,toward rcvr,class1,crc not present */
-    pCmd2->PduContent.PHdr.Octet1 = 0x14;
-    /* pdu data field size: modified at the end */
-    pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.1 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
-    /* 0x2bc = 700 : Little Endian */
-    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
-    /* 0.3 : Little Endian */
-    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-
-    /* Offset */
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-
-    /* File contents: 0x200(file size) - 0x04(offset) */
-    memset((void *)&(pCmd2->PduContent.Content[index]), 0xff, 512 - 4);
-    index += (512 - 4);
-
-    PDataLen = index - hdr_len;
-    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    /* EOF PDU */
-    CFE_SB_InitMsg((void*)pCmd2, CF_GND_TO_CPD_PDU_MID,
-                   sizeof(CF_Test_InPDUMsg_t), TRUE);
-
-    /* file directive: EOF_PDU,toward rcvr,class1,crc not present */
-    pCmd2->PduContent.PHdr.Octet1 = 0x04;
-    /* pdu data field size: modified at the end */
-    pCmd2->PduContent.PHdr.PDataLen = 0x0000;  /* To Big Endian */
-    /*hex 1 - entityID len is 2, hex 3 - TransSeq len is 4 */
-    pCmd2->PduContent.PHdr.Octet4 = 0x13;
-    /* 0.1 : Little Endian */
-    pCmd2->PduContent.PHdr.SrcEntityId = 0x0100; /* To Big Endian */
-    /* 0x2bc = 700 : Little Endian */
-    pCmd2->PduContent.PHdr.TransSeqNum = 0xbc020000;
-    /* 0.3 : Little Endian */
-    pCmd2->PduContent.PHdr.DstEntityId = 0x0300;
-
-    index = hdr_len;
-    /* File Dir Code */
-    pCmd2->PduContent.Content[index++] = EOF_PDU;
-    /* Condition Code: NO_ERROR */
-    pCmd2->PduContent.Content[index++] = NO_ERROR << 4;
-    /* Checksum */
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    /* File Size: 0x200 */
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x00;
-    pCmd2->PduContent.Content[index++] = 0x02;
-    pCmd2->PduContent.Content[index++] = 0x00;
-
-    PDataLen = index - hdr_len;
-    pCmd2->PduContent.Content[1] = (PDataLen & 0x0000ff00) >> 8;
-    pCmd2->PduContent.Content[2] = PDataLen & 0x000000ff;
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
-    CF_AppPipe(CF_AppData.MsgPtr);
-}
-#endif
-
-
-static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
-                        CF_Test_InPDUMsg_t *pCmd, CF_Test_InPDUInfo_t *pInfo)
+uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
+                               CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen)
 {
     uint8    byte;
     uint8    upper_byte, lower_byte;
@@ -782,31 +506,42 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
 
     index = 0;
 
-    /* Byte 1 of the header */
+    /* Byte 0: pdu_type, direction, mode, crc */
     byte = 0;
-    if (pdu_type == FILE_DATA_PDU)
+    if (pInfo->pdu_type == FILE_DATA_PDU)
     {
         byte = byte | 0x10;
     }
-    byte = byte | 0x04;    /* Unack mode */
+    if (pInfo->direction == TEST_TO_SENDER)
+    {
+        byte = byte | 0x80;
+    }
+    if (pInfo->mode == TEST_UNACK_MODE)
+    {
+        byte = byte | 0x04;
+    }
+    if (pInfo->use_crc)
+    {
+        /* <NOT_SUPPORTED> CRC in PDUs */
+    }
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
-    /* 2-byte Data field length */
+    /* Byte 1 - 2: Packet Data field length */
     upper_byte = PDataLen / 256;
-    memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
     lower_byte = PDataLen % 256;
+    memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
     memcpy(&pCmd->PduContent.Content[index++], &lower_byte, 1);
 
-    /* 1-byte EntityID length and TransID length */
+    /* Byte 3: EntityID length and TransID length */
     byte = 0;
-    byte = byte | ((HARD_CODED_ENTITY_ID_LENGTH - 1) << 4);
+    byte = byte | ((pInfo->trans.source_id.length - 1) << 4);
     byte = byte | (HARD_CODED_TRANS_SEQ_NUM_LENGTH - 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
-    /* Source Entity ID: Just in case, add zeros on the left */
-    byte = 0;
+    /* Byte 4 - 5: Source Entity ID: Just in case, add zeros on the left */
     memcpy(&SrcEntityID, &pInfo->trans.source_id, sizeof(SrcEntityID));
     memcpy(&DstEntityID, &pInfo->dest_id, sizeof(DstEntityID));
+    byte = 0;
     for (i = SrcEntityID.length; i < DstEntityID.length; i++)
     {
         memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
@@ -815,18 +550,18 @@ static uint32 CF_TstUtil_GenPDUHeader(uint8 pdu_type, uint16 PDataLen,
            SrcEntityID.length);
     index += SrcEntityID.length;
 
-    /* 4-byte Trans Sequence Number */
+    /* Byte 6 - 9: Trans Sequence Number */
     TransSeqNum = pInfo->trans.number;
     byte0 = (TransSeqNum & 0xff000000) >> 24;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
     byte1 = (TransSeqNum & 0x00ff0000) >> 16;
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
     byte2 = (TransSeqNum & 0x0000ff00) >> 8;
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
     byte3 = TransSeqNum & 0x000000ff;
+    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
-    /* Destination Entity ID: Just in case, add zeros on the left */
+    /* Byte 10 - 11: Dest Entity ID: Just in case, add zeros on the left */
     byte = 0;
     for (i = DstEntityID.length; i < SrcEntityID.length; i++)
     {
@@ -848,6 +583,7 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     uint8    byte0, byte1, byte2, byte3;
     uint16   PDataLen;
     uint32   FileSize;
+    uint32   header_len;
     uint32   index;
 
     PDataLen = 6;
@@ -856,7 +592,8 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     PDataLen += strlen(pInfo->src_filename) + 1;
     PDataLen += strlen(pInfo->dst_filename) + 1;
 
-    index = CF_TstUtil_GenPDUHeader(FILE_DIR_PDU, PDataLen, pCmd, pInfo);
+    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
+    index = header_len;
 
     /**** Data Field ****/
     /* Byte 0: File-dir code */
@@ -869,7 +606,7 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Bytes 2 - 5 : file size */
-    FileSize = TEST_FILE_SIZE;
+    FileSize = pInfo->file_size;
     byte0 = (FileSize & 0xff000000) >> 24;
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;
@@ -901,27 +638,31 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     uint8   byte0, byte1, byte2, byte3;
     uint16  PDataLen;
     uint32  index;
-    uint32  offset;
+    uint32  Offset;
+    uint32  FileSize;
+    uint32  header_len;
 
-    PDataLen = TEST_FILE_SIZE + 4;
+    FileSize = pInfo->file_size;
+    PDataLen = FileSize + 4;
 
-    index = CF_TstUtil_GenPDUHeader(FILE_DATA_PDU, PDataLen, pCmd, pInfo);
+    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
+    index = header_len;
 
     /**** Data Field ****/
     /* Byte 0 - 3 : Offset */
-    offset = 0;
-    byte0 = (offset & 0xff000000) >> 24;
-    byte1 = (offset & 0x00ff0000) >> 16;
-    byte2 = (offset & 0x0000ff00) >> 8;
-    byte3 = offset & 0x000000ff;
+    Offset = pInfo->offset;
+    byte0 = (Offset & 0xff000000) >> 24;
+    byte1 = (Offset & 0x00ff0000) >> 16;
+    byte2 = (Offset & 0x0000ff00) >> 8;
+    byte3 = Offset & 0x000000ff;
     memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
-    /* Byte 4 - Byte (TEST_FILE_SIZE + 4 - 1) : File buffer */
-    memset((void *)&pCmd->PduContent.Content[index], 0xff, PDataLen - 4);
-    index += PDataLen - 4;
+    /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
+    memset((void *)&pCmd->PduContent.Content[index], 0xff, FileSize);
+    index += FileSize;
 
     return;
 }
@@ -932,14 +673,17 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
 {
     uint8   byte;
     uint8   byte0, byte1, byte2, byte3;
+    uint8   cond_code;
     uint16  PDataLen;
+    uint32  header_len;
     uint32  index;
     uint32  Checksum;
     uint32  FileSize;
 
     PDataLen = 10;
 
-    index = CF_TstUtil_GenPDUHeader(FILE_DIR_PDU, PDataLen, pCmd, pInfo);
+    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
+    index = header_len;
 
     /**** Data Field ****/
     /* Byte 0: File Dir Code */
@@ -947,10 +691,11 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Byte 1: Condition Code */
-    byte = NO_ERROR << 4;
+    cond_code = NO_ERROR;
+    byte = cond_code << 4;
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
-    /* Byte 2 - 5: Checksum */
+    /* Byte 2 - 5: Checksum: Not Supported */
     Checksum = 0;
     byte0 = (Checksum & 0xff000000) >> 24;
     byte1 = (Checksum & 0x00ff0000) >> 16;
@@ -962,7 +707,7 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
     /* Byte 6 - 9: File Size */
-    FileSize = TEST_FILE_SIZE;
+    FileSize = pInfo->file_size;
     byte0 = (FileSize & 0xff000000) >> 24;
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;
