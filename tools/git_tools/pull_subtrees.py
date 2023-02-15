@@ -35,7 +35,7 @@ __author__ = 'Mathew Benson'
 
 """ 
 Usage:
-python add_remotes.py [path to yaml file]
+python pull_subtrees.py [path to yaml file]
 """
 
 import sys
@@ -44,7 +44,7 @@ import yaml
 import subprocess
 
 
-def add_remote(module_name, prefix, config):
+def pull_subtrees(module_name, prefix, config):
     if not module_name in config:
         print("" + module_name + " module not found.")
         print('')
@@ -67,6 +67,13 @@ def add_remote(module_name, prefix, config):
         return -1
     path = module['path']
 
+    if not 'branch' in module:
+        print("" + module_name + " branch not defined.")
+        print('')
+        print('*****************************************')
+        return -1
+    branch = module['branch']
+
     if not 'strategy' in module:
         print("" + module_name + " strategy not defined.")
         print('')
@@ -74,10 +81,10 @@ def add_remote(module_name, prefix, config):
         return -1
     strategy = module['strategy']
 
-    # Add the module repo
+    # Push the subtree back to the mothership repo
     if strategy == 'subtree':
         remote_name = prefix + module_name
-        subprocess.call(["git", "remote", "add", "-f", remote_name, url])
+        subprocess.call(["git", "subtree", "pull", "-P", path, remote_name, branch])
         print('')
         print('*****************************************')
     elif strategy == 'submodule':
@@ -102,7 +109,7 @@ def main():
         with open(config_file_name, 'r') as inFile:   
             config = yaml.load(inFile, Loader=yaml.FullLoader)
             
-            result = add_remote('core', '', config)
+            result = pull_subtrees('core', '', config)
             if result != 0:
                 return result
             
@@ -112,7 +119,7 @@ def main():
                 print('OSAL module not found')
                 return -1
             for osal_name in config['core']['osal']:
-                result = add_remote(osal_name, 'core-osal-', config['core']['osal'])
+                result = pull_subtrees(osal_name, 'core-osal-', config['core']['osal'])
                 if result != 0:
                     return result
 
@@ -120,13 +127,13 @@ def main():
                 print('PSP module not found')
                 return -1
             for psp_name in config['core']['psp']:
-                result = add_remote(psp_name, 'core-psp-', config['core']['psp'])
+                result = pull_subtrees(psp_name, 'core-psp-', config['core']['psp'])
                 if result != 0:
                     return result
 
             if 'apps' in config:
                 for app_name in config['apps']:
-                    result = add_remote(app_name, 'app-', config['apps'])
+                    result = pull_subtrees(app_name, 'app-', config['apps'])
                     if result != 0:
                         return result
 
