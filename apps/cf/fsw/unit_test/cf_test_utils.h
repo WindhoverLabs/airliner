@@ -38,6 +38,7 @@
 
 #define      TEST_HARD_CODED_ENTITY_ID_LENGTH   2
 #define      TEST_FILE_SIZE                     123
+#define      TEST_IN_TRANS_NUMBER               500
 
 extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
@@ -108,10 +109,11 @@ typedef struct
     TEST_PDU_DIRECTION direction;
     TEST_PDU_MODE      mode;
     boolean            use_crc;
-    uint32             offset;
-    uint32             file_size;
     TRANSACTION        trans;
     ID                 dest_id;
+    CONDITION_CODE     cond_code;
+    uint32             offset;
+    uint32             file_size;
     char               src_filename[OS_MAX_PATH_LEN];
     char               dst_filename[OS_MAX_PATH_LEN];
 } CF_Test_InPDUInfo_t;
@@ -140,16 +142,14 @@ void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 void  CF_TstUtil_FinishPbActiveQueueEntries();
 void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 
-void  CF_TstUtil_SendTwoCompleteIncomingPDU(CF_Test_InPDUMsg_t *pCmd1,
-                                            CF_Test_InPDUMsg_t *pCmd2);
-uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
+uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
                                CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen);
 void   CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
-                             CF_Test_InPDUInfo_t *pInfo);
+                             CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
-                             CF_Test_InPDUInfo_t *pInfo);
+                             CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
-                              CF_Test_InPDUInfo_t *pInfo);
+                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 
 void  CF_ResetEngine(void);
 

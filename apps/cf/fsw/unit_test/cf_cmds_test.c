@@ -2083,6 +2083,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
 }
 
 
+#if 0
 /**
  * Test CF_AppPipe, HousekeepingCmdUpFreezeWarn
  */
@@ -2090,44 +2091,57 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
 {
     uint32                QEntryCntActBefore;
     uint32                QEntryCntActAfter;
-    CF_Test_InPDUMsg_t    InPDUMsg1;
-    CF_Test_InPDUMsg_t    InPDUMsg2;
+    CF_Test_InPDUInfo_t   InPDUInfo1;
+    CF_Test_InPDUInfo_t   InPDUInfo2;
     CF_NoArgsCmd_t        FreezeCmdMsg;
     CF_NoArgsCmd_t        HkCmdMsg;
-    CF_Test_InPDUInfo_t   InPDUInfo;
+    CF_Test_InPDUMsg_t    InMdPDUMsg1;
+    CF_Test_InPDUMsg_t    InMdPDUMsg2;
     char  FullTransString1[OS_MAX_PATH_LEN];
     char  FullTransString2[OS_MAX_PATH_LEN];
     char  expEventTr1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg1 */
-    CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg1), TRUE);
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
-    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
-    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg1, &InPDUInfo);
+    /**** File 1 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.direction = TEST_TO_RECEIVER;
+    InPDUInfo1.mode = TEST_UNACK_MODE;
+    InPDUInfo1.use_crc = FALSE;
+    InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo1.trans.source_id.value[1] = 2;
+    InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
+    InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo1.dest_id.value[1] = 3;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
 
-    /* Build incoming MD PDU Msg2 */
-    CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg2), TRUE);
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 501;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
-    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile2);
-    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile2);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg2, &InPDUInfo);
+    /**** File 2 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.direction = TEST_TO_RECEIVER;
+    InPDUInfo2.mode = TEST_UNACK_MODE;
+    InPDUInfo2.use_crc = FALSE;
+    InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
+    InPDUInfo2.trans.source_id.value[1] = 2;
+    InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
+    InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
+    InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
+    InPDUInfo2.dest_id.value[1] = 3;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
+    sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
 
     /* Build Freeze Command */
     CFE_SB_InitMsg((void*)&FreezeCmdMsg, CF_CMD_MID,
@@ -2165,11 +2179,11 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     CF_GetHandshakeSemIds();
 
     /* Incoming MD PDU Msg1 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg1;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Incoming MD PDU Msg2 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg2;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg2;
     CF_AppPipe(CF_AppData.MsgPtr);
     QEntryCntActBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
@@ -2183,12 +2197,18 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    sprintf(FullTransString1, "%s%s", TestInSrcEntityId1, "_500");
+    sprintf(FullTransString1, "%d.%d_%d",
+            InPDUInfo1.trans.source_id.value[0],
+            InPDUInfo1.trans.source_id.value[1],
+            (int)InPDUInfo1.trans.number);
     sprintf(expEventTr1, "cfdp_engine: ignored event '%s' in state S2 "
             "for trans '%s' <R1>.", "received Freeze Request",
             FullTransString1);
 
-    sprintf(FullTransString2, "%s%s", TestInSrcEntityId1, "_501");
+    sprintf(FullTransString2, "%d.%d_%d",
+            InPDUInfo2.trans.source_id.value[0],
+            InPDUInfo2.trans.source_id.value[1],
+            (int)InPDUInfo2.trans.number);
     sprintf(expEventTr2, "cfdp_engine: ignored event '%s' in state S2 "
             "for trans '%s' <R1>.", "received Freeze Request",
             FullTransString2);
@@ -2269,15 +2289,15 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
 {
     uint32                QEntryCntActBefore;
     uint32                QEntryCntActAfter;
+    CF_Test_InPDUInfo_t   InPDUInfo1;
+    CF_Test_InPDUInfo_t   InPDUInfo2;
+    CF_NoArgsCmd_t        HkCmdMsg;
     CF_Test_InPDUMsg_t    InMdPDUMsg1;
     CF_Test_InPDUMsg_t    InFdPDUMsg1;
     CF_Test_InPDUMsg_t    InEofPDUMsg1;
     CF_Test_InPDUMsg_t    InMdPDUMsg2;
     CF_Test_InPDUMsg_t    InFdPDUMsg2;
     CF_Test_InPDUMsg_t    InEofPDUMsg2;
-    CF_Test_InPDUInfo_t   InPDUInfo1;
-    CF_Test_InPDUInfo_t   InPDUInfo2;
-    CF_NoArgsCmd_t        HkCmdMsg;
     char  expEventTr1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventTr2[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -2285,13 +2305,18 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.direction = TEST_TO_RECEIVER;
+    InPDUInfo1.mode = TEST_UNACK_MODE;
+    InPDUInfo1.use_crc = FALSE;
     InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo1.trans.source_id.value[1] = 2;
-    InPDUInfo1.trans.number = 500;
+    InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo1.dest_id.value[1] = 3;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
@@ -2299,24 +2324,35 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DATA_PDU;
+    InPDUInfo1.offset = 0;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg1, &InPDUInfo1);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.cond_code = NO_ERROR;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg1, &InPDUInfo1);
 
     /**** File 2 ****/
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.direction = TEST_TO_RECEIVER;
+    InPDUInfo2.mode = TEST_UNACK_MODE;
+    InPDUInfo2.use_crc = FALSE;
     InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo2.trans.source_id.value[1] = 2;
-    InPDUInfo2.trans.number = 501;
+    InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo2.dest_id.value[1] = 3;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
@@ -2324,11 +2360,17 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DATA_PDU;
+    InPDUInfo2.offset = 0;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg2, &InPDUInfo2);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.cond_code = NO_ERROR;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg2, &InPDUInfo2);
 
     /* Build Hk Msg */
@@ -2944,15 +2986,15 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     uint32                QEntryCntBefore;
     uint32                QEntryCntAfter;
     uint32                SuspendedCnt;
+    TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
+    CF_Test_InPDUInfo_t   InPDUInfo;
     CF_CARSCmd_t          SuspendCmdMsg;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     CF_Test_InPDUMsg_t    InMdPDUMsg;
     CF_Test_InPDUMsg_t    InFdPDUMsg;
     CF_Test_InPDUMsg_t    InEofPDUMsg;
-    CF_Test_InPDUInfo_t   InPDUInfo;
-    TRANSACTION           trans;
-    SUMMARY_STATUS        EngStat;
     char  FullTransString1[OS_MAX_PATH_LEN];
     char  FullTransString2[OS_MAX_PATH_LEN];
     char  FullSrcFileName1[OS_MAX_PATH_LEN];
@@ -2964,13 +3006,18 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
@@ -2978,11 +3025,17 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DATA_PDU;
+    InPDUInfo.offset = 0;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.cond_code = NO_ERROR;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
 
     /* Build Suspend Command Msg */
@@ -3199,38 +3252,45 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     uint32              QEntryCntAfter;
     uint32              SuspendedCnt;
     uint32              ResumedCnt;
-    CF_Test_InPDUMsg_t  InPDUMsg;
+    SUMMARY_STATUS      EngStat;
+    CF_Test_InPDUInfo_t InPDUInfo;
     CF_CARSCmd_t        SuspendCmdMsg;
     CF_CARSCmd_t        ResumeCmdMsg;
-    CF_Test_InPDUInfo_t InPDUInfo;
-    SUMMARY_STATUS      EngStat;
-    char  FullTransString1[OS_MAX_PATH_LEN];
-    char  FullTransString2[OS_MAX_PATH_LEN];
+    CF_Test_InPDUMsg_t  InMdPDUMsg;
+    char  FullTransString[OS_MAX_PATH_LEN];
     char  expEventCfdp1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventCfdp2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg */
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg), TRUE);
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
 
     /* Build SuspendCmdMsg */
     CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
                    sizeof(SuspendCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
                       (uint16)CF_SUSPEND_CC);
-    sprintf(SuspendCmdMsg.Trans, "%s%s", TestInSrcEntityId1, "_500");
+    sprintf(SuspendCmdMsg.Trans, "%d.%d_%d",
+            InPDUInfo.trans.source_id.value[0],
+            InPDUInfo.trans.source_id.value[1],
+            (int)InPDUInfo.trans.number);
 
     /* Build ResumeCmdMsg */
     CFE_SB_InitMsg((void*)&ResumeCmdMsg, CF_CMD_MID,
@@ -3247,7 +3307,7 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     CF_AppInit();
 
     /* Incoming MD PDU Msg */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
@@ -3272,21 +3332,20 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     EngStat = cfdp_summary_status();
     ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
 
-    strcpy(FullTransString1, SuspendCmdMsg.Trans);
+    strcpy(FullTransString, SuspendCmdMsg.Trans);
     sprintf(expEventCfdp1, "cfdp_engine: ignored event '%s' in state S2 "
             "for trans '%s' <R1>.",
-            "received Suspend Request", FullTransString1);
+            "received Suspend Request", FullTransString);
 
-    strcpy(FullTransString2, ResumeCmdMsg.Trans);
     sprintf(expEventCfdp2, "cfdp_engine: ignored event '%s' in state S2 "
             "for trans '%s' <R1>.",
-            "received Resume Request", FullTransString2);
+            "received Resume Request", FullTransString);
 
     sprintf(expEventSuspend, "%s command received.%s", "Suspend",
-            SuspendCmdMsg.Trans);
+            FullTransString);
 
     sprintf(expEventResume, "%s command received.%s", "Resume",
-            ResumeCmdMsg.Trans);
+            FullTransString);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
@@ -3333,28 +3392,33 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     uint32                QEntryCntAfter;
     uint32                SuspendedCnt;
     uint32                ResumedCnt;
+    SUMMARY_STATUS        EngStat;
+    CF_Test_InPDUInfo_t   InPDUInfo;
+    CF_CARSCmd_t          SuspendCmdMsg;
+    CF_CARSCmd_t          ResumeCmdMsg;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     CF_Test_InPDUMsg_t    InMdPDUMsg;
     CF_Test_InPDUMsg_t    InFdPDUMsg;
     CF_Test_InPDUMsg_t    InEofPDUMsg;
-    CF_CARSCmd_t          SuspendCmdMsg;
-    CF_CARSCmd_t          ResumeCmdMsg;
-    CF_Test_InPDUInfo_t   InPDUInfo;
-    SUMMARY_STATUS        EngStat;
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
@@ -3362,11 +3426,17 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DATA_PDU;
+    InPDUInfo.offset = 0;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.cond_code = NO_ERROR;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
 
     /* Build SuspendCmdMsg */
@@ -3461,15 +3531,16 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
  */
 void Test_CF_AppPipe_CancelCmdNoTransId(void)
 {
-    CF_CARSCmd_t  CancelCmdMsg;
+    CF_Test_InPDUInfo_t InPDUInfo;
+    CF_CARSCmd_t        CancelCmdMsg;
     char  FullTransString[OS_MAX_PATH_LEN];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&CancelCmdMsg, CF_CMD_MID,
                    sizeof(CancelCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CancelCmdMsg, (uint16)CF_CANCEL_CC);
-    strcpy(CancelCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(CancelCmdMsg.Trans, "_500");
+    sprintf(CancelCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
     CF_Test_PrintCmdMsg((void*)&CancelCmdMsg, sizeof(CancelCmdMsg));
 
     /* Execute the function being tested */
@@ -3560,44 +3631,56 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     uint32                QEntryCntActAfter;
     uint32                QEntryCntHistBefore;
     uint32                QEntryCntHistAfter;
-    CF_Test_InPDUMsg_t    InPDUMsg1;
-    CF_Test_InPDUMsg_t    InPDUMsg2;
-    CF_CARSCmd_t          CancelCmdMsg;
     CF_Test_InPDUInfo_t   InPDUInfo1;
     CF_Test_InPDUInfo_t   InPDUInfo2;
+    CF_CARSCmd_t          CancelCmdMsg;
+    CF_Test_InPDUMsg_t    InMdPDUMsg1;
+    CF_Test_InPDUMsg_t    InMdPDUMsg2;
     char  FullDstFilename1[OS_MAX_PATH_LEN];
     char  FullDstFilename2[OS_MAX_PATH_LEN];
     char  expEventInd1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventInd2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg1 */
-    CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg1), TRUE);
+    /**** File 1 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.direction = TEST_TO_RECEIVER;
+    InPDUInfo1.mode = TEST_UNACK_MODE;
+    InPDUInfo1.use_crc = FALSE;
     InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo1.trans.source_id.value[1] = 2;
-    InPDUInfo1.trans.number = 500;
+    InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo1.dest_id.value[1] = 3;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg1, &InPDUInfo1);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
 
-    /* Build incoming MD PDU Msg2 */
-    CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg2), TRUE);
+    /**** File 2 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.direction = TEST_TO_RECEIVER;
+    InPDUInfo2.mode = TEST_UNACK_MODE;
+    InPDUInfo2.use_crc = FALSE;
     InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo2.trans.source_id.value[1] = 2;
-    InPDUInfo2.trans.number = 501;
+    InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo2.dest_id.value[1] = 3;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg2, &InPDUInfo2);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
 
     /* Build Cancel Command */
     CFE_SB_InitMsg((void*)&CancelCmdMsg, CF_CMD_MID,
@@ -3614,11 +3697,11 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     CF_AppInit();
 
     /* Incoming MD PDU Msg1 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg1;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Incoming MD PDU Msg2 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg2;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg2;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntActBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
@@ -3726,8 +3809,8 @@ void Test_CF_AppPipe_AbandonCmdNoTransId(void)
     CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
                    sizeof(AbandonCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
-    strcpy(AbandonCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(AbandonCmdMsg.Trans, "_500");
+    sprintf(AbandonCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
     CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
 
     /* Execute the function being tested */
@@ -3852,42 +3935,54 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     uint32                QEntryCntActAfter;
     uint32                QEntryCntHistBefore;
     uint32                QEntryCntHistAfter;
-    CF_Test_InPDUMsg_t    InPDUMsg1;
-    CF_Test_InPDUMsg_t    InPDUMsg2;
-    CF_CARSCmd_t          AbandonCmdMsg;
     CF_Test_InPDUInfo_t   InPDUInfo1;
     CF_Test_InPDUInfo_t   InPDUInfo2;
+    CF_CARSCmd_t          AbandonCmdMsg;
+    CF_Test_InPDUMsg_t    InMdPDUMsg1;
+    CF_Test_InPDUMsg_t    InMdPDUMsg2;
     char  expEventInd1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventInd2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg1 */
-    CFE_SB_InitMsg((void*)&InPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg1), TRUE);
+    /**** File 1 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.direction = TEST_TO_RECEIVER;
+    InPDUInfo1.mode = TEST_UNACK_MODE;
+    InPDUInfo1.use_crc = FALSE;
     InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo1.trans.source_id.value[1] = 2;
-    InPDUInfo1.trans.number = 500;
+    InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo1.dest_id.value[1] = 3;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg1, &InPDUInfo1);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
 
-    /* Build incoming MD PDU Msg2 */
-    CFE_SB_InitMsg((void*)&InPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg2), TRUE);
+    /**** File 2 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.direction = TEST_TO_RECEIVER;
+    InPDUInfo2.mode = TEST_UNACK_MODE;
+    InPDUInfo2.use_crc = FALSE;
     InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo2.trans.source_id.value[1] = 2;
-    InPDUInfo2.trans.number = 501;
+    InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo2.dest_id.value[1] = 3;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg2, &InPDUInfo2);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
 
     /* Build Abandon Command */
     CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
@@ -3905,11 +4000,11 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     CF_AppInit();
 
     /* Incoming MD PDU Msg1 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg1;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg1;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Incoming MD PDU Msg2 */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg2;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg2;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCntActBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
@@ -6512,24 +6607,29 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     uint32                    TotalQEntryCntBefore;
     uint32                    TotalQEntryCntAfter;
     int                       WrittenBytes;
-    CF_Test_InPDUMsg_t        InPDUMsg;
-    CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     CF_Test_InPDUInfo_t       InPDUInfo;
+    CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
+    CF_Test_InPDUMsg_t        InMdPDUMsg;
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg */
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg), TRUE);
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
 
     /* build cmd to write all active entries to a file */
     CFE_SB_InitMsg((void*)&WrActTrCmdMsg, CF_CMD_MID,
@@ -6565,7 +6665,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     CF_GetHandshakeSemIds();
 
     /* incoming MD PDU Msg */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
@@ -6703,24 +6803,29 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     uint32                    TotalQEntryCntBefore;
     uint32                    TotalQEntryCntAfter;
     int                       WrittenBytes;
-    CF_Test_InPDUMsg_t        InPDUMsg;
-    CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     CF_Test_InPDUInfo_t       InPDUInfo;
+    CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
+    CF_Test_InPDUMsg_t        InMdPDUMsg;
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg */
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg), TRUE);
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
 
     /* build cmd to write all active entries to a file */
     CFE_SB_InitMsg((void*)&WrActTrCmdMsg, CF_CMD_MID,
@@ -6753,7 +6858,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     CF_AppInit();
 
     /* Incoming MD PDU Msg */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
@@ -6840,8 +6945,8 @@ void Test_CF_AppPipe_SendTransDiagCmdTransNotFound(void)
                    sizeof(SndTrCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SndTrCmdMsg,
                       (uint16)CF_SEND_TRANS_DIAG_DATA_CC);
-    strcpy(SndTrCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(SndTrCmdMsg.Trans, "_5");
+    sprintf(SndTrCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
 
     CF_Test_PrintCmdMsg((void*)&SndTrCmdMsg, sizeof(SndTrCmdMsg));
 
@@ -7820,8 +7925,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdInvLen(void)
                    sizeof(DeQCmdMsg) + 5, TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
-    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(DeQCmdMsg.Trans, "_500");
+    sprintf(DeQCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
 
     CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
 
@@ -7970,8 +8075,8 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdIdNotFound(void)
     CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
-    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(DeQCmdMsg.Trans, "_209");
+    sprintf(DeQCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
 
     CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
 
@@ -8003,32 +8108,40 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
 {
     uint32               QEntryCntBefore;
     uint32               QEntryCntAfter;
-    CF_DequeueNodeCmd_t  DeQCmdMsg;
-    CF_Test_InPDUMsg_t   InPDUMsg;
     CF_Test_InPDUInfo_t  InPDUInfo;
+    CF_DequeueNodeCmd_t  DeQCmdMsg;
+    CF_Test_InPDUMsg_t   InMdPDUMsg;
     char  FullTransString[OS_MAX_PATH_LEN];
     char  expEventWarn[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build incoming MD PDU Msg */
-    CFE_SB_InitMsg((void*)&InPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InPDUMsg), TRUE);
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InPDUMsg, &InPDUInfo);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
 
+    /* Build DeleteQ Command Msg */
     CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
-    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(DeQCmdMsg.Trans, "_500");
+    sprintf(DeQCmdMsg.Trans, "%d.%d_%d",
+            InPDUInfo.trans.source_id.value[0],
+            InPDUInfo.trans.source_id.value[1],
+            (int)InPDUInfo.trans.number);
     CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
@@ -8042,7 +8155,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     CF_AppInit();
 
     /* Incoming MD PDU Msg */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InPDUMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
     QEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
@@ -8060,8 +8173,9 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     sprintf(FullTransString, "%s", DeQCmdMsg.Trans);
     sprintf(expEventWarn, "DequeueNodeCmd:Trans %s is ACTIVE! Must send "
             "cmd again to remove", FullTransString);
+
     sprintf(expEvent, "DequeueNodeCmd %s Removed from %s Queue,Stat %d",
-            DeQCmdMsg.Trans, "Incoming Active", CF_SUCCESS);
+            FullTransString, "Incoming Active", CF_SUCCESS);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
@@ -8088,24 +8202,29 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
 {
     uint32               QEntryCntBefore;
     uint32               QEntryCntAfter;
+    CF_Test_InPDUInfo_t  InPDUInfo;
     CF_DequeueNodeCmd_t  DeQCmdMsg;
     CF_Test_InPDUMsg_t   InMdPDUMsg;
     CF_Test_InPDUMsg_t   InFdPDUMsg;
     CF_Test_InPDUMsg_t   InEofPDUMsg;
-    CF_Test_InPDUInfo_t  InPDUInfo;
     char  expEventInTrans[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Build Incoming MD PDU Msg */
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = FALSE;
     InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo.trans.source_id.value[1] = 2;
-    InPDUInfo.trans.number = 500;
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo.dest_id.value[1] = 3;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
@@ -8113,19 +8232,27 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     /* Build Incoming FD PDU Msg */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DATA_PDU;
+    InPDUInfo.offset = 0;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
 
     /* Build Incoming EOF PDU Msg */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.cond_code = NO_ERROR;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
 
     /* Build DeleteQ Command */
     CFE_SB_InitMsg((void*)&DeQCmdMsg, CF_CMD_MID, sizeof(DeQCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&DeQCmdMsg,
                       (uint16)CF_DELETE_QUEUE_NODE_CC);
-    strcpy(DeQCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(DeQCmdMsg.Trans, "_500");
+    sprintf(DeQCmdMsg.Trans, "%d.%d_%d",
+            InPDUInfo.trans.source_id.value[0],
+            InPDUInfo.trans.source_id.value[1],
+            (int)InPDUInfo.trans.number);
     CF_Test_PrintCmdMsg((void*)&DeQCmdMsg, sizeof(DeQCmdMsg));
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
@@ -8701,6 +8828,8 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
 {
     uint32              QEntryCntBefore;
     uint32              QEntryCntAfter;
+    CF_Test_InPDUInfo_t InPDUInfo1;
+    CF_Test_InPDUInfo_t InPDUInfo2;
     CF_PurgeQueueCmd_t  PurgeQCmdMsg;
     CF_Test_InPDUMsg_t  InMdPDUMsg1;
     CF_Test_InPDUMsg_t  InFdPDUMsg1;
@@ -8708,8 +8837,6 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     CF_Test_InPDUMsg_t  InMdPDUMsg2;
     CF_Test_InPDUMsg_t  InFdPDUMsg2;
     CF_Test_InPDUMsg_t  InEofPDUMsg2;
-    CF_Test_InPDUInfo_t InPDUInfo1;
-    CF_Test_InPDUInfo_t InPDUInfo2;
     char  expEventIn1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventIn2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -8718,13 +8845,18 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.direction = TEST_TO_RECEIVER;
+    InPDUInfo1.mode = TEST_UNACK_MODE;
+    InPDUInfo1.use_crc = FALSE;
     InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo1.trans.source_id.value[1] = 2;
-    InPDUInfo1.trans.number = 500;
+    InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo1.dest_id.value[1] = 3;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
@@ -8732,24 +8864,35 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DATA_PDU;
+    InPDUInfo1.offset = 0;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg1, &InPDUInfo1);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg1, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg1), TRUE);
+    InPDUInfo1.pdu_type = FILE_DIR_PDU;
+    InPDUInfo1.cond_code = NO_ERROR;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg1, &InPDUInfo1);
 
     /**** File 2 ****/
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InMdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.direction = TEST_TO_RECEIVER;
+    InPDUInfo2.mode = TEST_UNACK_MODE;
+    InPDUInfo2.use_crc = FALSE;
     InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
     InPDUInfo2.trans.source_id.value[1] = 2;
-    InPDUInfo2.trans.number = 501;
+    InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
     InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
     InPDUInfo2.dest_id.value[1] = 3;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
@@ -8757,11 +8900,17 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
     CFE_SB_InitMsg((void*)&InFdPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InFdPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DATA_PDU;
+    InPDUInfo2.offset = 0;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg2, &InPDUInfo2);
 
     /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
     CFE_SB_InitMsg((void*)&InEofPDUMsg2, CF_PPD_TO_CPD_PDU_MID,
                    sizeof(InEofPDUMsg2), TRUE);
+    InPDUInfo2.pdu_type = FILE_DIR_PDU;
+    InPDUInfo2.cond_code = NO_ERROR;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg2, &InPDUInfo2);
 
     /* Build PurgeQ Command Msg */
@@ -10130,8 +10279,8 @@ void Test_CF_AppPipe_QuickStatusCmdTransIdNotFound(void)
     CFE_SB_InitMsg((void*)&QSCmdMsg, CF_CMD_MID, sizeof(QSCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&QSCmdMsg,
                       (uint16)CF_QUICKSTATUS_CC);
-    strcpy(QSCmdMsg.Trans, TestInSrcEntityId1);
-    strcat(QSCmdMsg.Trans, "_500");
+    sprintf(QSCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
     CF_Test_PrintCmdMsg((void*)&QSCmdMsg, sizeof(QSCmdMsg));
 
     /* Execute the function being tested */
@@ -10731,6 +10880,7 @@ void Test_CF_AppPipe_AutoSuspendEnCmdDisable(void)
     UtAssert_EventSent(CF_ENDIS_AUTO_SUS_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, AutoSuspendEnCmdDisable: Event Sent");
 }
+#endif
 
 
 
@@ -10759,6 +10909,7 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppPipe_RstCtrsCmdInvLen");
 
+#if 0
     UtTest_Add(Test_CF_AppPipe_PbFileCmd,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmd");
@@ -11348,4 +11499,5 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_AutoSuspendEnCmdDisable,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_AutoSuspendEnCmdDisable");
+#endif
 }

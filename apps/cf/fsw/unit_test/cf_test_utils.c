@@ -492,14 +492,15 @@ void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 }
 
 
-uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
+uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
                                CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen)
 {
     uint8    byte;
     uint8    upper_byte, lower_byte;
     uint8    byte0, byte1, byte2, byte3;
+    uint16   index;
+    uint16   data_field_len;
     int      i;
-    uint32   index;
     uint32   TransSeqNum;
     ID       SrcEntityID;
     ID       DstEntityID;
@@ -527,8 +528,9 @@ uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Byte 1 - 2: Packet Data field length */
-    upper_byte = PDataLen / 256;
-    lower_byte = PDataLen % 256;
+    data_field_len = PDataLen;
+    upper_byte = data_field_len / 256;
+    lower_byte = data_field_len % 256;
     memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
     memcpy(&pCmd->PduContent.Content[index++], &lower_byte, 1);
 
@@ -576,16 +578,17 @@ uint32 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
 
 
 void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
-                           CF_Test_InPDUInfo_t *pInfo)
+                           CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
 {
     uint8    byte;
     uint8    str_len;
     uint8    byte0, byte1, byte2, byte3;
-    uint16   PDataLen;
+//    uint16   PDataLen;
+    uint16   index;
     uint32   FileSize;
-    uint32   header_len;
-    uint32   index;
+//    uint32   header_len;
 
+#if 0
     PDataLen = 6;
 
     /* "No file transfer" is not considered */
@@ -594,6 +597,8 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
 
     header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
     index = header_len;
+#endif
+    index = hdr_len;
 
     /**** Data Field ****/
     /* Byte 0: File-dir code */
@@ -633,20 +638,23 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
 
 
 void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
-                           CF_Test_InPDUInfo_t *pInfo)
+                           CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
 {
     uint8   byte0, byte1, byte2, byte3;
-    uint16  PDataLen;
-    uint32  index;
+//    uint16  PDataLen;
+    uint16  index;
     uint32  Offset;
     uint32  FileSize;
-    uint32  header_len;
+//    uint32  header_len;
 
     FileSize = pInfo->file_size;
+#if 0
     PDataLen = FileSize + 4;
 
     header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
     index = header_len;
+#endif
+    index = hdr_len;
 
     /**** Data Field ****/
     /* Byte 0 - 3 : Offset */
@@ -669,21 +677,24 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
 
 
 void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
-                            CF_Test_InPDUInfo_t *pInfo)
+                            CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
 {
     uint8   byte;
     uint8   byte0, byte1, byte2, byte3;
     uint8   cond_code;
-    uint16  PDataLen;
-    uint32  header_len;
-    uint32  index;
+//    uint16  PDataLen;
+    uint16  index;
+//    uint32  header_len;
     uint32  Checksum;
     uint32  FileSize;
 
+#if 0
     PDataLen = 10;
 
     header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
     index = header_len;
+#endif
+    index = hdr_len;
 
     /**** Data Field ****/
     /* Byte 0: File Dir Code */
@@ -691,7 +702,7 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Byte 1: Condition Code */
-    cond_code = NO_ERROR;
+    cond_code = pInfo->cond_code;
     byte = cond_code << 4;
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
