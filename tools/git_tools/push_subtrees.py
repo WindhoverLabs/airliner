@@ -84,6 +84,7 @@ def push_subtrees(module_name, prefix, config):
     # Push the subtree back to the mothership repo
     if strategy == 'subtree':
         remote_name = prefix + module_name
+        print("git subtree push -P ", path, remote_name, branch)
         subprocess.call(["git", "subtree", "push", "-P", path, remote_name, branch])
         print('')
         print('*****************************************')
