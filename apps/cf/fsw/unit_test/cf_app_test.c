@@ -682,15 +682,12 @@ void Test_CF_AppMain_IncomingMsg(void)
     InPDUInfo1.pdu_type = FILE_DIR_PDU;
     InPDUInfo1.direction = TEST_TO_RECEIVER;
     InPDUInfo1.mode = TEST_UNACK_MODE;
-    InPDUInfo1.use_crc = FALSE;
-    InPDUInfo1.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo1.trans.source_id.value[1] = 2;
+    InPDUInfo1.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo1.trans.source_id);
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo1.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo1.dest_id.value[1] = 3;
-    InPDUInfo1.file_size = TEST_FILE_SIZE; /* Should be total file size */
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
+    InPDUInfo1.segmentation_control = NO;
+    InPDUInfo1.file_size = TEST_FILE_SIZE;   /* Should be total file size */
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -698,7 +695,6 @@ void Test_CF_AppMain_IncomingMsg(void)
     PDataLen += strlen(InPDUInfo1.src_filename) + 1;
     PDataLen += strlen(InPDUInfo1.dst_filename) + 1;
     hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg1, &InPDUInfo1, PDataLen);
-
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMdPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -707,11 +703,10 @@ void Test_CF_AppMain_IncomingMsg(void)
                    sizeof(InFdPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DATA_PDU;
     InPDUInfo1.offset = 0;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;  /* File size for this FD PDU */
+    InPDUInfo1.file_size = TEST_FILE_SIZE;   /* File size for this FD PDU */
 
     PDataLen = InPDUInfo1.file_size + 4;
-    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg1, &InPDUInfo1, PDataLen);
-
+    hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg1, &InPDUInfo1, PDataLen);
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg1, &InPDUInfo1, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InFdPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -720,11 +715,11 @@ void Test_CF_AppMain_IncomingMsg(void)
                    sizeof(InEofPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DIR_PDU;
     InPDUInfo1.cond_code = NO_ERROR;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;  /* Total file size */
+    InPDUInfo1.file_size = TEST_FILE_SIZE;   /* Total file size */
+    InPDUInfo1.checksum = 0;                 /* Not supported */
 
     PDataLen = 10;
-    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg1, &InPDUInfo1, PDataLen);
-
+    hdr_len = CF_TstUtil_GenPDUHeader(&InEofPDUMsg1, &InPDUInfo1, PDataLen);
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg1, &InPDUInfo1, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InEofPDUMsg1, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -735,15 +730,12 @@ void Test_CF_AppMain_IncomingMsg(void)
     InPDUInfo2.pdu_type = FILE_DIR_PDU;
     InPDUInfo2.direction = TEST_TO_RECEIVER;
     InPDUInfo2.mode = TEST_UNACK_MODE;
-    InPDUInfo2.use_crc = FALSE;
-    InPDUInfo2.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo2.trans.source_id.value[1] = 2;
+    InPDUInfo2.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo2.trans.source_id);
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
-    InPDUInfo2.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo2.dest_id.value[1] = 3;
-    InPDUInfo2.file_size = TEST_FILE_SIZE; /* Should be total file size */
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
+    InPDUInfo2.segmentation_control = NO;
+    InPDUInfo2.file_size = TEST_FILE_SIZE;   /* Should be total file size */
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -751,7 +743,6 @@ void Test_CF_AppMain_IncomingMsg(void)
     PDataLen += strlen(InPDUInfo2.src_filename) + 1;
     PDataLen += strlen(InPDUInfo2.dst_filename) + 1;
     hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg2, &InPDUInfo2, PDataLen);
-
     CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMdPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -760,11 +751,10 @@ void Test_CF_AppMain_IncomingMsg(void)
                    sizeof(InFdPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DATA_PDU;
     InPDUInfo2.offset = 0;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;  /* File size for this FD PDU */
+    InPDUInfo2.file_size = TEST_FILE_SIZE;   /* File size for this FD PDU */
 
     PDataLen = InPDUInfo2.file_size + 4;
-    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg2, &InPDUInfo2, PDataLen);
-
+    hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg2, &InPDUInfo2, PDataLen);
     CF_TstUtil_BuildFDPdu(&InFdPDUMsg2, &InPDUInfo2, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InFdPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -773,11 +763,11 @@ void Test_CF_AppMain_IncomingMsg(void)
                    sizeof(InEofPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DIR_PDU;
     InPDUInfo2.cond_code = NO_ERROR;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;  /* Total file size */
+    InPDUInfo2.file_size = TEST_FILE_SIZE;   /* Total file size */
+    InPDUInfo2.checksum = 0;                 /* Not supported */
 
     PDataLen = 10;
-    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg2, &InPDUInfo2, PDataLen);
-
+    hdr_len = CF_TstUtil_GenPDUHeader(&InEofPDUMsg2, &InPDUInfo2, PDataLen);
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg2, &InPDUInfo2, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InEofPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
 
@@ -799,7 +789,7 @@ void Test_CF_AppMain_IncomingMsg(void)
     UpHistQEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
-    machine_list__display_list();
+machine_list__display_list();
 
     sprintf(expEventInSt1, "Incoming trans started %d.%d_%d,dest %s",
             InPDUInfo1.trans.source_id.value[0],
@@ -868,12 +858,15 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     int32               CmdPipe;
     CF_NoArgsCmd_t      WakeupCmdMsg;
     TRANSACTION         trans;
-    char   TransStr1[OS_MAX_PATH_LEN], TransStr2[OS_MAX_PATH_LEN];
-    char   TransStr3[OS_MAX_PATH_LEN], TransStr4[OS_MAX_PATH_LEN];
-    char   TransStr5[OS_MAX_PATH_LEN], TransStr6[OS_MAX_PATH_LEN];
-    char   SrcFilename1[OS_MAX_PATH_LEN], SrcFilename2[OS_MAX_PATH_LEN];
-    char   SrcFilename3[OS_MAX_PATH_LEN], SrcFilename4[OS_MAX_PATH_LEN];
-    char   SrcFilename5[OS_MAX_PATH_LEN], SrcFilename6[OS_MAX_PATH_LEN];
+    char   TransStr1[MAX_FILE_NAME_LENGTH], TransStr2[MAX_FILE_NAME_LENGTH];
+    char   TransStr3[MAX_FILE_NAME_LENGTH], TransStr4[MAX_FILE_NAME_LENGTH];
+    char   TransStr5[MAX_FILE_NAME_LENGTH], TransStr6[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename1[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename2[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename3[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename4[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename5[MAX_FILE_NAME_LENGTH];
+    char   SrcFilename6[MAX_FILE_NAME_LENGTH];
     char   expEventPbSt1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char   expEventPbFin1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char   expEventPbSt2[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -965,7 +958,7 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     PbHistQ_1_EntryCnt = CF_AppData.Chan[1].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
-    machine_list__display_list();
+machine_list__display_list();
 
     /* Event for File 1 */
     sprintf(TransStr1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
@@ -1141,15 +1134,15 @@ void Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen(void)
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.direction = TEST_TO_RECEIVER;
     InPDUInfo.mode = TEST_UNACK_MODE;
-    InPDUInfo.use_crc = FALSE;
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH + 1;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
+    InPDUInfo.trans.source_id.length = MAX_ID_LENGTH + 1;
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH + 1;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.dest_id.length = MAX_ID_LENGTH + 1;
+    InPDUInfo.segmentation_control = NO;
     InPDUInfo.file_size = TEST_FILE_SIZE;
+
     PDataLen = 0;
     CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
 
@@ -1161,7 +1154,7 @@ void Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen(void)
 
     RequestedHdrSize = CF_PDUHDR_FIXED_FIELD_BYTES +
                        (InPDUInfo.trans.source_id.length * 2) +
-                       HARD_CODED_TRANS_SEQ_NUM_LENGTH;
+                       TEST_TRANS_SEQ_NUM_LENGTH;
     sprintf(expEvent,
             "PDU Rcv Error:PDU Hdr illegal size - %d, must be %d bytes",
             RequestedHdrSize, CF_PDU_HDR_BYTES);
@@ -1195,15 +1188,13 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooSmall(void)
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.direction = TEST_TO_RECEIVER;
     InPDUInfo.mode = TEST_UNACK_MODE;
-    InPDUInfo.use_crc = FALSE;
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
     InPDUInfo.file_size = TEST_FILE_SIZE;
+
     PDataLen = 0;
     CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
 
@@ -1251,15 +1242,13 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.direction = TEST_TO_RECEIVER;
     InPDUInfo.mode = TEST_UNACK_MODE;
-    InPDUInfo.use_crc = FALSE;
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
     InPDUInfo.file_size = TEST_FILE_SIZE;
+
     PDataLen = MAX_DATA_LENGTH;
     CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
 
@@ -1282,12 +1271,13 @@ void Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig(void)
 }
 
 
-#if 0
 /**
  * Test CF_SendPDUToEngine, Nominal
  */
 void Test_CF_SendPDUToEngine_Nominal(void)
 {
+    uint16              PDataLen;
+    uint16              hdr_len;
     uint32              UpActQEntryCntMD;
     uint32              UpActQEntryCntFD;
     uint32              UpActQEntryCntEOF;
@@ -1307,18 +1297,20 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.direction = TEST_TO_RECEIVER;
     InPDUInfo.mode = TEST_UNACK_MODE;
-    InPDUInfo.use_crc = FALSE;
-    InPDUInfo.trans.source_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo.dest_id.length = TEST_HARD_CODED_ENTITY_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
-    InPDUInfo.file_size = TEST_FILE_SIZE; /* Should be total file size */
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
+    InPDUInfo.file_size = TEST_FILE_SIZE;  /* Should be total file size */
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
 
     /* Build Incoming FD PDU Msg */
     CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
@@ -1326,7 +1318,10 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     InPDUInfo.pdu_type = FILE_DATA_PDU;
     InPDUInfo.offset = 0;
     InPDUInfo.file_size = TEST_FILE_SIZE;  /* File size for this FD PDU */
-    CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo);
+
+    PDataLen = InPDUInfo.file_size + 4;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo, hdr_len);
 
     /* Build Incoming EOF PDU Msg */
     CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
@@ -1334,7 +1329,11 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.cond_code = NO_ERROR;
     InPDUInfo.file_size = TEST_FILE_SIZE;  /* Total file size */
-    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo);
+    InPDUInfo.checksum = 0;                /* Not supported */
+
+    PDataLen = 10;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InEofPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo, hdr_len);
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -1365,7 +1364,7 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     UpHistQEntryCntEOF = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
-    machine_list__display_list();
+machine_list__display_list();
 
     sprintf(expEventMD, "Incoming trans started %d.%d_%d,dest %s",
             InPDUInfo.trans.source_id.value[0],
@@ -1400,7 +1399,6 @@ void Test_CF_SendPDUToEngine_Nominal(void)
 
     CF_ResetEngine();
 }
-#endif
 
 
 
@@ -1479,7 +1477,6 @@ void CF_App_Test_AddTestCases(void)
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_WakeupReqCmd");
 
-#if 0
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen");
@@ -1492,5 +1489,4 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_SendPDUToEngine_Nominal,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_Nominal");
-#endif
 }

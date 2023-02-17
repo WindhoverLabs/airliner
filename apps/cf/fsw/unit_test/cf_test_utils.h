@@ -36,7 +36,7 @@
 
 #include "cf_app.h"
 
-#define      TEST_HARD_CODED_ENTITY_ID_LENGTH   2
+#define      TEST_TRANS_SEQ_NUM_LENGTH          4
 #define      TEST_FILE_SIZE                     123
 #define      TEST_IN_TRANS_NUMBER               500
 
@@ -74,7 +74,11 @@ extern const char TestInDir3[];
 
 extern const char TestQInfoDir[];
 
-extern const char TestPbPeerEntityId[];
+extern const char TestFlightEntityId[];
+
+extern const char TestPbPeerEntityId1[];
+extern const char TestPbPeerEntityId2[];
+
 extern const char TestInSrcEntityId1[];
 extern const char TestInSrcEntityId2[];
 
@@ -111,11 +115,13 @@ typedef struct
     boolean            use_crc;
     TRANSACTION        trans;
     ID                 dest_id;
+    boolean            segmentation_control;
     CONDITION_CODE     cond_code;
     uint32             offset;
     uint32             file_size;
-    char               src_filename[OS_MAX_PATH_LEN];
-    char               dst_filename[OS_MAX_PATH_LEN];
+    uint32             checksum;
+    char               src_filename[MAX_FILE_NAME_LENGTH];
+    char               dst_filename[MAX_FILE_NAME_LENGTH];
 } CF_Test_InPDUInfo_t;
 
 
@@ -129,8 +135,8 @@ void CF_Test_SetupUnitTest(void);
 void CF_Test_TearDown(void);
 
 void CF_ShowQs();
+void CF_ResetEngine(void);
 
-void  CF_TstUtil_InitApp();
 int32 CF_TstUtil_VerifyListOrder(char *OrderGiven);
 
 void  CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd);
@@ -150,8 +156,6 @@ void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
                               CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
-
-void  CF_ResetEngine(void);
 
 void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t CF_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);

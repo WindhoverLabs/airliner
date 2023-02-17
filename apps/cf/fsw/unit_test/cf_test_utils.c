@@ -87,7 +87,11 @@ const char TestInDir3[] = "/up/gnd/cl2/";
 
 const char TestQInfoDir[] = "/qinfo/";
 
-const char TestPbPeerEntityId[] = "2.25";
+const char TestFlightEntityId[] = "0.3";
+
+const char TestPbPeerEntityId1[] = "0.2";
+const char TestPbPeerEntityId2[] = "0.1";
+
 const char TestInSrcEntityId1[] = "0.2";
 const char TestInSrcEntityId2[] = "0.1";
 
@@ -111,10 +115,9 @@ void CF_Test_Setup(void)
     ReadHookCalledCnt = 0;
     ReadHook_IncomingFlag = FALSE;
 
+    cfdp_set_trans_seq_num(1);
     cfdp_reset_totals();
     misc__thaw_all_partners();
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
@@ -148,10 +151,9 @@ void CF_Test_SetupUnitTest(void)
     ReadHookCalledCnt = 0;
     ReadHook_IncomingFlag = FALSE;
 
+    cfdp_set_trans_seq_num(1);
     cfdp_reset_totals();
     misc__thaw_all_partners();
-    /* reset the transactions seq number used by the engine */
-    misc__set_trans_seq_num(1);
 
     Ut_CFE_ES_Reset();
     Ut_CFE_EVS_Reset();
@@ -245,14 +247,6 @@ void CF_ShowQs()
 }
 
 
-void CF_TstUtil_InitApp()
-{
-    CF_AppInit();
-
-    CF_ResetEngine();
-}
-
-
 void CF_ResetEngine(void)
 {
     int                 i;
@@ -310,7 +304,7 @@ void CF_ResetEngine(void)
         CF_AppPipe(CF_AppData.MsgPtr);
     }
 
-    misc__set_trans_seq_num(1);
+    cfdp_set_trans_seq_num(1);
 }
 
 
@@ -345,15 +339,6 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 
 void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
-    /* reset the transactions seq number/summary statistics
-       used by the engine */
-    cfdp_reset_totals();
-    cfdp_set_trans_seq_num(1);
-
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     /* Send a Pb file command to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -361,14 +346,10 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
     pCmd->Class = CF_CLASS_1;
     pCmd->Channel = 0;
     pCmd->Priority = 2;
-    pCmd->Preserve = CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].Preserve;
-    strcpy(pCmd->PeerEntityId,
-           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].PeerEntityId);
-    strcpy(pCmd->SrcFilename,
-           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].SrcPath);
-    strcat(pCmd->SrcFilename, TestPbFile1);
-    strcpy(pCmd->DstFilename,
-           CF_AppData.Tbl->OuCh[pCmd->Channel].PollDir[0].DstPath);
+    pCmd->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd->PeerEntityId, TestPbPeerEntityId1);
+    sprintf(pCmd->SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(pCmd->DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -378,15 +359,6 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2)
 {
-    /* reset the transactions seq number/summary statistics
-       used by the engine */
-    cfdp_reset_totals();
-    cfdp_set_trans_seq_num(1);
-
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     /* Send Pb file #1 to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd1, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -394,14 +366,10 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd1->Class = CF_CLASS_1;
     pCmd1->Channel = 0;
     pCmd1->Priority = 2;
-    pCmd1->Preserve = CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].Preserve;
-    strcpy(pCmd1->PeerEntityId,
-           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].PeerEntityId);
-    strcpy(pCmd1->SrcFilename,
-           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].SrcPath);
-    strcat(pCmd1->SrcFilename, TestPbFile1);
-    strcpy(pCmd1->DstFilename,
-           CF_AppData.Tbl->OuCh[pCmd1->Channel].PollDir[0].DstPath);
+    pCmd1->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd1->PeerEntityId, TestPbPeerEntityId1);
+    sprintf(pCmd1->SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(pCmd1->DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd1;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -413,14 +381,10 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
     pCmd2->Class = CF_CLASS_1;
     pCmd2->Channel = 0;
     pCmd2->Priority = 2;
-    pCmd2->Preserve = CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].Preserve;
-    strcpy(pCmd2->PeerEntityId,
-           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].PeerEntityId);
-    strcpy(pCmd2->SrcFilename,
-           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].SrcPath);
-    strcat(pCmd2->SrcFilename, TestPbFile2);
-    strcpy(pCmd2->DstFilename,
-           CF_AppData.Tbl->OuCh[pCmd2->Channel].PollDir[0].DstPath);
+    pCmd2->Preserve = CF_KEEP_FILE;
+    strcpy(pCmd2->PeerEntityId, TestPbPeerEntityId1);
+    sprintf(pCmd2->SrcFilename, "%s%s", TestPbDir0, TestPbFile2);
+    sprintf(pCmd2->DstFilename, "%s%s", TestDstDir0, TestPbFile2);
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)pCmd2;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -429,9 +393,11 @@ void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
 
 void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
+#if 0
     /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
+#endif
 
     CF_TstUtil_CreateOnePbPendingQueueEntry(pCmd);
 
@@ -442,9 +408,11 @@ void CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                             CF_PlaybackFileCmd_t *pCmd2)
 {
+#if 0
     /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
+#endif
 
     CF_TstUtil_CreateTwoPbPendingQueueEntry(pCmd1, pCmd2);
 
@@ -537,7 +505,7 @@ uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     /* Byte 3: EntityID length and TransID length */
     byte = 0;
     byte = byte | ((pInfo->trans.source_id.length - 1) << 4);
-    byte = byte | (HARD_CODED_TRANS_SEQ_NUM_LENGTH - 1);
+    byte = byte | (TEST_TRANS_SEQ_NUM_LENGTH - 1);
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Byte 4 - 5: Source Entity ID: Just in case, add zeros on the left */
@@ -583,21 +551,9 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     uint8    byte;
     uint8    str_len;
     uint8    byte0, byte1, byte2, byte3;
-//    uint16   PDataLen;
     uint16   index;
     uint32   FileSize;
-//    uint32   header_len;
 
-#if 0
-    PDataLen = 6;
-
-    /* "No file transfer" is not considered */
-    PDataLen += strlen(pInfo->src_filename) + 1;
-    PDataLen += strlen(pInfo->dst_filename) + 1;
-
-    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
-    index = header_len;
-#endif
     index = hdr_len;
 
     /**** Data Field ****/
@@ -607,7 +563,10 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
 
     /* Byte 1: Segmentation control: not supported */
     byte = 0;
-    byte = byte | 0x80;
+    if (pInfo->segmentation_control)
+    {
+        byte = byte | 0x80;
+    }
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Bytes 2 - 5 : file size */
@@ -641,19 +600,10 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
                            CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
 {
     uint8   byte0, byte1, byte2, byte3;
-//    uint16  PDataLen;
     uint16  index;
     uint32  Offset;
     uint32  FileSize;
-//    uint32  header_len;
 
-    FileSize = pInfo->file_size;
-#if 0
-    PDataLen = FileSize + 4;
-
-    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
-    index = header_len;
-#endif
     index = hdr_len;
 
     /**** Data Field ****/
@@ -669,6 +619,7 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
     /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
+    FileSize = pInfo->file_size;
     memset((void *)&pCmd->PduContent.Content[index], 0xff, FileSize);
     index += FileSize;
 
@@ -682,18 +633,10 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     uint8   byte;
     uint8   byte0, byte1, byte2, byte3;
     uint8   cond_code;
-//    uint16  PDataLen;
     uint16  index;
-//    uint32  header_len;
     uint32  Checksum;
     uint32  FileSize;
 
-#if 0
-    PDataLen = 10;
-
-    header_len = CF_TstUtil_GenPDUHeader(pCmd, pInfo, PDataLen);
-    index = header_len;
-#endif
     index = hdr_len;
 
     /**** Data Field ****/
@@ -707,7 +650,7 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 
     /* Byte 2 - 5: Checksum: Not Supported */
-    Checksum = 0;
+    Checksum = pInfo->checksum;
     byte0 = (Checksum & 0xff000000) >> 24;
     byte1 = (Checksum & 0x00ff0000) >> 16;
     byte2 = (Checksum & 0x0000ff00) >> 8;
