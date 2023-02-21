@@ -339,6 +339,18 @@ int32 CF_TstUtil_VerifyListOrder(char *OrderGiven)
 
 void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 {
+#if 0
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+#endif
+
     /* Send a Pb file command to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);
@@ -359,6 +371,18 @@ void CF_TstUtil_CreateOnePbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd)
 void CF_TstUtil_CreateTwoPbPendingQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2)
 {
+#if 0
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+#endif
+
     /* Send Pb file #1 to add to the Pb Pending Q */
     CFE_SB_InitMsg((void*)pCmd1, CF_CMD_MID,
                    sizeof(CF_PlaybackFileCmd_t), TRUE);

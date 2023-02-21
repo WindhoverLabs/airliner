@@ -290,6 +290,12 @@ void Test_CF_AppPipe_PbFileCmd(void)
     char  FullSrcFilename[MAX_FILE_NAME_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
@@ -350,6 +356,8 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
     /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETPOOLBUF_INDEX,
                             CFE_ES_ERR_MEM_HANDLE, 1);
@@ -375,7 +383,6 @@ void Test_CF_AppPipe_PbFileCmdNoMem(void)
 }
 
 
-#if 0
 /**
  * Test CF_AppPipe, PbFileCmdInvLen
  */
@@ -428,10 +435,9 @@ void Test_CF_AppPipe_PbFileCmdParamErr(void)
     PbFileCmdMsg.Channel = 0;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -473,10 +479,9 @@ void Test_CF_AppPipe_PbFileCmdChanNotInUse(void)
     PbFileCmdMsg.Channel = 1;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -521,10 +526,9 @@ void Test_CF_AppPipe_PbFileCmdInvSrcFilename(void)
     PbFileCmdMsg.Channel = 0;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, " pbfile1.dat");
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, " pbfile1.dat");
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, "pbfile1.dat");
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -566,9 +570,8 @@ void Test_CF_AppPipe_PbFileCmdInvDstFilename(void)
     PbFileCmdMsg.Channel = 0;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
     /* dest filename not terminated */
     CFE_PSP_MemSet(PbFileCmdMsg.DstFilename, 0xFF, MAX_FILE_NAME_LENGTH);
 
@@ -612,10 +615,9 @@ void Test_CF_AppPipe_PbFileCmdPendQFull(void)
     PbFileCmdMsg.Channel = 0;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -662,9 +664,8 @@ void Test_CF_AppPipe_PbFileCmdInvPeerId(void)
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
     strcpy(PbFileCmdMsg.PeerEntityId, "2555.255");
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -706,10 +707,9 @@ void Test_CF_AppPipe_PbFileCmdFileOpen(void)
     PbFileCmdMsg.Channel = 0;
     PbFileCmdMsg.Priority = 0;
     PbFileCmdMsg.Preserve = CF_DELETE_FILE;
-    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId);
-    strcpy(PbFileCmdMsg.SrcFilename, TestPbDir0);
-    strcat(PbFileCmdMsg.SrcFilename, TestPbFile1);
-    strcpy(PbFileCmdMsg.DstFilename, TestDstDir0);
+    strcpy(PbFileCmdMsg.PeerEntityId, TestPbPeerEntityId1);
+    sprintf(PbFileCmdMsg.SrcFilename, "%s%s", TestPbDir0, TestPbFile1);
+    sprintf(PbFileCmdMsg.DstFilename, "%s%s", TestDstDir0, TestPbFile1);
 
     CF_Test_PrintCmdMsg((void*)&PbFileCmdMsg, sizeof(PbFileCmdMsg));
 
@@ -746,6 +746,12 @@ void Test_CF_AppPipe_PbFileCmdFileOnQ(void)
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  FullSrcFileName[MAX_FILE_NAME_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -1275,6 +1281,8 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
     /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_GETPOOLBUF_INDEX,
                             CFE_ES_ERR_MEM_HANDLE, 1);
@@ -1318,7 +1326,8 @@ void Test_CF_AppPipe_PbDirCmdNoMem(void)
  */
 void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
 {
-    uint32               QEntryCnt;
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackFileCmd_t PbFileCmdMsg;
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1331,6 +1340,16 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
     PbDirCmdMsg.Chan = 0;
     PbDirCmdMsg.Priority = 2;
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
                                  (void *)&OS_opendirHook);
 
@@ -1341,10 +1360,6 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
 
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
                                  (void*)&OS_readdirHook);
-
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -1360,10 +1375,13 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
 
     CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
 
+    QEntryCntBefore =
+          CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
+
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    QEntryCnt =
+    QEntryCntAfter =
           CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(expEvent, "File %s not queued because it's active or pending",
@@ -1374,7 +1392,7 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PbDirCmdFileOnQ");
 
-    UtAssert_True(QEntryCnt == 3,
+    UtAssert_True((QEntryCntBefore == 1) && (QEntryCntAfter == 3),
                   "CF_AppPipe, PbDirCmdFileOnQ: QEntryCnt");
 
     UtAssert_EventSent(CF_QDIR_ACTIVEFILE_EID, CFE_EVS_DEBUG, expEvent,
@@ -1389,6 +1407,8 @@ void Test_CF_AppPipe_PbDirCmdFileOnQ(void)
  */
 void Test_CF_AppPipe_PbDirCmdFileOpen(void)
 {
+    uint32               QEntryCntBefore;
+    uint32               QEntryCntAfter;
     CF_PlaybackDirCmd_t  PbDirCmdMsg;
     char  FullSrcFilename[MAX_FILE_NAME_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1431,8 +1451,14 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
                 CF_AppData.Tbl->OuCh[PbDirCmdMsg.Chan].PollDir[0].DstPath);
     CF_Test_PrintCmdMsg((void*)&PbDirCmdMsg, sizeof(PbDirCmdMsg));
 
+    QEntryCntBefore =
+            CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
+
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&PbDirCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCntAfter =
+            CF_AppData.Chan[PbDirCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
 
     sprintf(FullSrcFilename, "%s%s", PbDirCmdMsg.SrcPath, TestPbFile1);
     sprintf(expEvent, "File %s not queued because it's open",
@@ -1442,6 +1468,9 @@ void Test_CF_AppPipe_PbDirCmdFileOpen(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, PbDirCmdFileOpen");
+
+    UtAssert_True((QEntryCntBefore == 0) && (QEntryCntAfter == 2),
+                   "CF_AppPipe, PbDirCmdFileOpen: QEntry Cnt");
 
     UtAssert_EventSent(CF_QDIR_OPENFILE_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, PbDirCmdFileOpen: Event Sent");
@@ -1743,6 +1772,20 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -1863,15 +1906,25 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -1995,6 +2048,20 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -2309,8 +2376,8 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
 {
     uint16                PDataLen;
     uint16                hdr_len;
-    uint32                QEntryCntActBefore;
-    uint32                QEntryCntActAfter;
+    uint32                QEntryCntHistBefore;
+    uint32                QEntryCntHistAfter;
     CF_Test_InPDUInfo_t   InPDUInfo1;
     CF_Test_InPDUInfo_t   InPDUInfo2;
     CF_NoArgsCmd_t        HkCmdMsg;
@@ -2424,15 +2491,20 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETINFO_INDEX,
                              (void *)&OS_CountSemGetInfoHook);
 
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
                               (void *)&CFE_SB_TimeStampMsgHook);
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
+
+    /* Return the read bytes */
+    ReadHook_IncomingFlag = TRUE;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
@@ -2443,7 +2515,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     CF_AppInit();
     CF_GetHandshakeSemIds();
 
-    QEntryCntActBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+    QEntryCntHistBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     /* Send File1 MD PDU */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg1;
@@ -2469,7 +2541,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InEofPDUMsg2;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    QEntryCntActAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+    QEntryCntHistAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     /* Send Hk */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
@@ -2490,7 +2562,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, HousekeepingCmdUpSuccess");
 
-    UtAssert_True((QEntryCntActBefore == 0) && (QEntryCntActAfter == 2),
+    UtAssert_True((QEntryCntHistBefore == 0) && (QEntryCntHistAfter == 2),
                   "CF_AppPipe, HousekeepingCmdUpSuccess: QEntryCnt");
 
     UtAssert_EventSent(CF_IN_TRANS_OK_EID, CFE_EVS_INFORMATION, expEventTr1,
@@ -2621,6 +2693,9 @@ void Test_CF_AppPipe_HousekeepingCmdUpdatePending(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    sprintf(expEvent, "%s", "CF Config Tbl cannot be updated! "
+            "Load attempt must be aborted!");
+
     /* Verify results */
     UtAssert_EventSent(CF_TBL_LD_ATTEMPT_EID, CFE_EVS_ERROR, expEvent,
                   "CF_AppPipe, HousekeepingCmdUpdatePending: Event Sent");
@@ -2632,28 +2707,66 @@ void Test_CF_AppPipe_HousekeepingCmdUpdatePending(void)
  */
 void Test_CF_AppPipe_FreezeCmd(void)
 {
-    CF_NoArgsCmd_t  CmdMsg;
+    boolean               bPartnersFrozen;
+    uint32                QEntryCnt;
+    uint32                FrozenCnt;
+    SUMMARY_STATUS        EngStat;
+    CF_NoArgsCmd_t        FreezeCmdMsg;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CF_FREEZE_CC);
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CFE_SB_InitMsg((void*)&FreezeCmdMsg, CF_CMD_MID,
+                   sizeof(FreezeCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&FreezeCmdMsg, (uint16)CF_FREEZE_CC);
+    CF_Test_PrintCmdMsg((void*)&FreezeCmdMsg, sizeof(FreezeCmdMsg));
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&FreezeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    EngStat = cfdp_summary_status();
+    FrozenCnt = EngStat.how_many_frozen;
+    bPartnersFrozen = EngStat.are_any_partners_frozen;
 
     sprintf(expEvent, "%s", "Freeze command received.");
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, FreezeCmd");
 
-    UtAssert_True((CF_AppData.Hk.Eng.Flags & 0x00000001) == 0x00000001,
-                  "CF_AppPipe, FreezeCmd: Flags set");
+    UtAssert_True(QEntryCnt == 2,
+                  "CF_AppPipe, FreezeCmd: QEntryCnt");
+
+    UtAssert_True(bPartnersFrozen == YES,
+                  "CF_AppPipe, FreezeCmd: Partners Frozen");
+
+    UtAssert_True(CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == TRUE,
+                  "CF_AppPipe, FreezeCmd: Frozen Flag set");
+
+    UtAssert_True(FrozenCnt == 2,
+                  "CF_AppPipe, FreezeCmd: Frozen Count");
 
     UtAssert_EventSent(CF_FREEZE_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, FreezeCmd: Event Sent");
@@ -2701,29 +2814,81 @@ void Test_CF_AppPipe_FreezeCmdInvLen(void)
  */
 void Test_CF_AppPipe_ThawCmd(void)
 {
-    CF_NoArgsCmd_t  CmdMsg;
+    boolean               bPartnersFrozenBefore;
+    boolean               bPartnersFrozenAfter;
+    uint32                QEntryCnt;
+    uint32                FrozenCnt;
+    uint32                ThawedCnt;
+    SUMMARY_STATUS        EngStat;
+    CF_NoArgsCmd_t        FreezeCmdMsg;
+    CF_NoArgsCmd_t        ThawCmdMsg;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg1;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CF_THAW_CC);
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CFE_SB_InitMsg((void*)&FreezeCmdMsg, CF_CMD_MID,
+                   sizeof(FreezeCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&FreezeCmdMsg, (uint16)CF_FREEZE_CC);
+
+    CFE_SB_InitMsg((void*)&ThawCmdMsg, CF_CMD_MID, sizeof(ThawCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ThawCmdMsg, (uint16)CF_THAW_CC);
+    CF_Test_PrintCmdMsg((void*)&ThawCmdMsg, sizeof(ThawCmdMsg));
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.Hk.Eng.Flags = 0x00000001;
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&FreezeCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    EngStat = cfdp_summary_status();
+    FrozenCnt = EngStat.how_many_frozen;
+    bPartnersFrozenBefore = EngStat.are_any_partners_frozen;
+
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ThawCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    EngStat = cfdp_summary_status();
+    ThawedCnt = FrozenCnt - EngStat.how_many_frozen;
+    bPartnersFrozenAfter = EngStat.are_any_partners_frozen;
 
     sprintf(expEvent, "%s", "Thaw command received.");
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 4) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, ThawCmd");
 
-    UtAssert_True((CF_AppData.Hk.Eng.Flags & 0x00000001) == 0x00000000,
-                  "CF_AppPipe, ThawCmd: Flags cleared");
+    UtAssert_True(QEntryCnt == 2,
+                  "CF_AppPipe, ThawCmd: QEntryCnt");
+
+    UtAssert_True((bPartnersFrozenBefore == YES) &&
+                  (bPartnersFrozenAfter == NO),
+                  "CF_AppPipe, ThawCmd: PartnersFrozen");
+
+    UtAssert_True(CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE,
+                  "CF_AppPipe, ThawCmd: Frozen Flag cleared");
+
+    UtAssert_True((FrozenCnt == 2) && (ThawedCnt == 2),
+                  "CF_AppPipe, ThawCmd: Frozen/Thawed Cnt");
 
     UtAssert_EventSent(CF_THAW_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, ThawCmd: Event Sent");
@@ -2766,6 +2931,7 @@ void Test_CF_AppPipe_ThawCmdInvLen(void)
 }
 
 
+#if 0
 /**
  * Test CF_AppPipe, SuspendCmdTransId
  */
@@ -11045,7 +11211,6 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_PbFileCmdNoMem,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdNoMem");
-#if 0
     UtTest_Add(Test_CF_AppPipe_PbFileCmdInvLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_PbFileCmdInvLen");
@@ -11153,6 +11318,7 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmdInvLen");
 
+#if 0
     UtTest_Add(Test_CF_AppPipe_SuspendCmdTransId,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdTransId");
