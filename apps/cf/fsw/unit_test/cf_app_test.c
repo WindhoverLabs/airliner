@@ -687,7 +687,7 @@ void Test_CF_AppMain_IncomingMsg(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;   /* Should be total file size */
+    InPDUInfo1.file_size = TEST_FILE_SIZE;   /* Total file size */
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -735,7 +735,7 @@ void Test_CF_AppMain_IncomingMsg(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;   /* Should be total file size */
+    InPDUInfo2.file_size = TEST_FILE_SIZE;   /* Total file size */
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -1302,7 +1302,7 @@ void Test_CF_SendPDUToEngine_Nominal(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;  /* Should be total file size */
+    InPDUInfo.file_size = TEST_FILE_SIZE;  /* Total file size */
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 

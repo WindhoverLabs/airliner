@@ -55,6 +55,7 @@
 #include "ut_osfileapi_stubs.h"
 
 #include <string.h>
+#include <ctype.h>
 
 
 const char TestPbFile1[] = "pbfile1.dat";
@@ -94,6 +95,8 @@ const char TestPbPeerEntityId2[] = "0.1";
 
 const char TestInSrcEntityId1[] = "0.2";
 const char TestInSrcEntityId2[] = "0.1";
+
+char retUpperStr[1024];
 
 
 void CF_Test_Setup(void)
@@ -696,6 +699,22 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
 
     return;
+}
+
+
+char* CF_Test_ToUpperCase(const char *inStr)
+{
+    int i;
+    int len;
+
+    memset((void *)retUpperStr, 0x00, sizeof(retUpperStr));
+    len = strlen(inStr);
+    for (i = 0; i < len; i++)
+    {
+        retUpperStr[i] = (char)toupper((int)inStr[i]);
+    }
+
+    return(retUpperStr);
 }
 
 

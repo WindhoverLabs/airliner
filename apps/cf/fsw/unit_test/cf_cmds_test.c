@@ -60,34 +60,20 @@
 #include "ut_cfe_fs_stubs.h"
 
 #include <string.h>
-#include <ctype.h>
 #include <unistd.h>
 
 
 CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
-CFE_SB_MsgId_t  SendCfgParamsHook_MsgId = 0;
-uint32          SendTransDiagHook_CalledCnt = 0;
+CF_HkPacket_t   HkHookPkt;
 
+CFE_SB_MsgId_t  SendCfgParamsHook_MsgId = 0;
+
+uint32          SendTransDiagHook_CalledCnt = 0;
 /* (Pb PendingQ depth + HistoryQ depth) * 2 channel + Up HistQ depth */
 CFE_SB_MsgId_t   SendTransDiagHook_MsgId[500];
 CF_TransPacket_t TransPkt[500];
 
 
-static char* CF_Test_ToUpperCase(const char *inStr)
-{
-    int i;
-    int len;
-    static char retStr[1024];
-
-    memset((void *)retStr, 0x00, sizeof(retStr));
-    len = strlen(inStr);
-    for (i = 0; i < len; i++)
-    {
-        retStr[i] = (char)toupper((int)inStr[i]);
-    }
-
-    return(retStr);
-}
 
 /**************************************************************************
  * Tests for CF_AppPipe()
@@ -1591,7 +1577,6 @@ int32 Test_CF_AppPipe_HousekeepingCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     time_t              localTime;
     struct tm           *loc_time;
     CFE_TIME_SysTime_t  TimeFromMsg;
-    CF_HkPacket_t       HkTlm;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
@@ -1616,112 +1601,118 @@ int32 Test_CF_AppPipe_HousekeepingCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
         {
             SendHkHook_MsgId = CF_HK_TLM_MID;
             printf("Sent CF_HK_TLM_MID\n");
-            memcpy((void *)&HkTlm, (void *)MsgPtr, sizeof(HkTlm));
+            memcpy((void *)&HkHookPkt, (void *)MsgPtr, sizeof(HkHookPkt));
 
-            printf("CmdCounter: %u\n", HkTlm.CmdCounter);
-            printf("ErrCounter: %u\n", HkTlm.ErrCounter);
+            printf("CmdCounter: %u\n", HkHookPkt.CmdCounter);
+            printf("ErrCounter: %u\n", HkHookPkt.ErrCounter);
 
             printf("App.WakeupForFileProc: %lu\n",
-                    HkTlm.App.WakeupForFileProc);
+                    HkHookPkt.App.WakeupForFileProc);
             printf("App.EngineCycleCount: %lu\n",
-                    HkTlm.App.EngineCycleCount);
-            printf("App.MemInUse: %lu\n", HkTlm.App.MemInUse);
-            printf("App.PeakMemInUse: %lu\n", HkTlm.App.PeakMemInUse);
-            printf("App.LowMemoryMark: %lu\n", HkTlm.App.LowMemoryMark);
-            printf("App.MaxMemNeeded: %lu\n", HkTlm.App.MaxMemNeeded);
-            printf("App.MemAllocated: %lu\n", HkTlm.App.MemAllocated);
+                    HkHookPkt.App.EngineCycleCount);
+            printf("App.MemInUse: %lu\n", HkHookPkt.App.MemInUse);
+            printf("App.PeakMemInUse: %lu\n", HkHookPkt.App.PeakMemInUse);
+            printf("App.LowMemoryMark: %lu\n", HkHookPkt.App.LowMemoryMark);
+            printf("App.MaxMemNeeded: %lu\n", HkHookPkt.App.MaxMemNeeded);
+            printf("App.MemAllocated: %lu\n", HkHookPkt.App.MemAllocated);
             printf("App.BufferPoolHandle: %lu\n",
-                    HkTlm.App.BufferPoolHandle);
-            printf("App.QNodesAllocated: %lu\n", HkTlm.App.QNodesAllocated);
+                    HkHookPkt.App.BufferPoolHandle);
+            printf("App.QNodesAllocated: %lu\n",
+                    HkHookPkt.App.QNodesAllocated);
             printf("App.QNodesDeallocated: %lu\n",
-                    HkTlm.App.QNodesDeallocated);
-            printf("App.PDUsReceived: %lu\n", HkTlm.App.PDUsReceived);
-            printf("App.PDUsRejected: %lu\n", HkTlm.App.PDUsRejected);
+                    HkHookPkt.App.QNodesDeallocated);
+            printf("App.PDUsReceived: %lu\n", HkHookPkt.App.PDUsReceived);
+            printf("App.PDUsRejected: %lu\n", HkHookPkt.App.PDUsRejected);
             printf("App.TotalInProgTrans: %lu\n",
-                    HkTlm.App.TotalInProgTrans);
+                    HkHookPkt.App.TotalInProgTrans);
             printf("App.TotalFailedTrans: %lu\n",
-                    HkTlm.App.TotalFailedTrans);
+                    HkHookPkt.App.TotalFailedTrans);
             printf("App.TotalAbandonTrans: %lu\n",
-                    HkTlm.App.TotalAbandonTrans);
+                    HkHookPkt.App.TotalAbandonTrans);
             printf("App.TotalSuccessTrans: %lu\n",
-                    HkTlm.App.TotalSuccessTrans);
+                    HkHookPkt.App.TotalSuccessTrans);
             printf("App.TotalCompletedTrans: %lu\n",
-                    HkTlm.App.TotalCompletedTrans);
-            printf("App.LastFailedTrans: %s\n", HkTlm.App.LastFailedTrans);
+                    HkHookPkt.App.TotalCompletedTrans);
+            printf("App.LastFailedTrans: %s\n",
+                    HkHookPkt.App.LastFailedTrans);
 
-            printf("AutoSuspend.EnFlag: %lu\n", HkTlm.AutoSuspend.EnFlag);
+            printf("AutoSuspend.EnFlag: %lu\n",
+                    HkHookPkt.AutoSuspend.EnFlag);
             printf("AutoSuspend.LowFreeMark: %lu\n",
-                    HkTlm.AutoSuspend.LowFreeMark);
+                    HkHookPkt.AutoSuspend.LowFreeMark);
 
-            printf("Cond.PosAckNum: %u\n", HkTlm.Cond.PosAckNum);
-            printf("Cond.FileStoreRejNum: %u\n", HkTlm.Cond.FileStoreRejNum);
-            printf("Cond.FileChecksumNum: %u\n", HkTlm.Cond.FileChecksumNum);
-            printf("Cond.FileSizeNum: %u\n", HkTlm.Cond.FileSizeNum);
-            printf("Cond.NakLimitNum: %u\n", HkTlm.Cond.NakLimitNum);
-            printf("Cond.InactiveNum: %u\n", HkTlm.Cond.InactiveNum);
-            printf("Cond.SuspendNum: %u\n", HkTlm.Cond.SuspendNum);
-            printf("Cond.CancelNum: %u\n", HkTlm.Cond.CancelNum);
+            printf("Cond.PosAckNum: %u\n", HkHookPkt.Cond.PosAckNum);
+            printf("Cond.FileStoreRejNum: %u\n",
+                    HkHookPkt.Cond.FileStoreRejNum);
+            printf("Cond.FileChecksumNum: %u\n",
+                    HkHookPkt.Cond.FileChecksumNum);
+            printf("Cond.FileSizeNum: %u\n", HkHookPkt.Cond.FileSizeNum);
+            printf("Cond.NakLimitNum: %u\n", HkHookPkt.Cond.NakLimitNum);
+            printf("Cond.InactiveNum: %u\n", HkHookPkt.Cond.InactiveNum);
+            printf("Cond.SuspendNum: %u\n", HkHookPkt.Cond.SuspendNum);
+            printf("Cond.CancelNum: %u\n", HkHookPkt.Cond.CancelNum);
 
             printf("Eng.FlightEngineEntityId: %s\n",
-                    HkTlm.Eng.FlightEngineEntityId);
-            printf("Eng.Flags: %lu\n", HkTlm.Eng.Flags);
+                    HkHookPkt.Eng.FlightEngineEntityId);
+            printf("Eng.Flags: %lu\n", HkHookPkt.Eng.Flags);
             printf("Eng.MachinesAllocated: %lu\n",
-                    HkTlm.Eng.MachinesAllocated);
+                    HkHookPkt.Eng.MachinesAllocated);
             printf("Eng.MachinesDeallocated: %lu\n",
-                    HkTlm.Eng.MachinesDeallocated);
+                    HkHookPkt.Eng.MachinesDeallocated);
             printf("Eng.are_any_partners_frozen: %u\n",
-                    HkTlm.Eng.are_any_partners_frozen);
+                    HkHookPkt.Eng.are_any_partners_frozen);
             printf("Eng.how_many_senders: %lu\n",
-                    HkTlm.Eng.how_many_senders);
+                    HkHookPkt.Eng.how_many_senders);
             printf("Eng.how_many_receivers: %lu\n",
-                    HkTlm.Eng.how_many_receivers);
+                    HkHookPkt.Eng.how_many_receivers);
             printf("Eng.how_many_frozen: %lu\n",
-                    HkTlm.Eng.how_many_frozen);
+                    HkHookPkt.Eng.how_many_frozen);
             printf("Eng.how_many_suspended: %lu\n",
-                    HkTlm.Eng.how_many_suspended);
+                    HkHookPkt.Eng.how_many_suspended);
             printf("Eng.total_files_sent: %lu\n",
-                    HkTlm.Eng.total_files_sent);
+                    HkHookPkt.Eng.total_files_sent);
             printf("Eng.total_files_received: %lu\n",
-                    HkTlm.Eng.total_files_received);
+                    HkHookPkt.Eng.total_files_received);
             printf("Eng.total_unsuccessful_senders: %lu\n",
-                    HkTlm.Eng.total_unsuccessful_senders);
+                    HkHookPkt.Eng.total_unsuccessful_senders);
             printf("Eng.total_unsuccessful_receivers: %lu\n",
-                    HkTlm.Eng.total_unsuccessful_receivers);
+                    HkHookPkt.Eng.total_unsuccessful_receivers);
 
-            printf("Up.MetaCount: %lu\n", HkTlm.Up.MetaCount);
+            printf("Up.MetaCount: %lu\n", HkHookPkt.Up.MetaCount);
             printf("Up.UplinkActiveQFileCnt: %lu\n",
-                    HkTlm.Up.UplinkActiveQFileCnt);
-            printf("Up.SuccessCounter: %lu\n", HkTlm.Up.SuccessCounter);
-            printf("Up.FailedCounter: %lu\n", HkTlm.Up.FailedCounter);
-            printf("Up.LastFileUplinked: %s\n", HkTlm.Up.LastFileUplinked);
+                    HkHookPkt.Up.UplinkActiveQFileCnt);
+            printf("Up.SuccessCounter: %lu\n", HkHookPkt.Up.SuccessCounter);
+            printf("Up.FailedCounter: %lu\n", HkHookPkt.Up.FailedCounter);
+            printf("Up.LastFileUplinked: %s\n",
+                    HkHookPkt.Up.LastFileUplinked);
 
             for (i = 0; i < CF_MAX_PLAYBACK_CHANNELS; i++)
             {
                 printf("Chan[%d].PDUsSent: %lu\n",
-                        i, HkTlm.Chan[i].PDUsSent);
+                        i, HkHookPkt.Chan[i].PDUsSent);
                 printf("Chan[%d].FilesSent: %lu\n",
-                        i, HkTlm.Chan[i].FilesSent);
+                        i, HkHookPkt.Chan[i].FilesSent);
                 printf("Chan[%d].SuccessCounter: %lu\n",
-                        i, HkTlm.Chan[i].SuccessCounter);
+                        i, HkHookPkt.Chan[i].SuccessCounter);
                 printf("Chan[%d].FailedCounter: %lu\n",
-                        i, HkTlm.Chan[i].FailedCounter);
+                        i, HkHookPkt.Chan[i].FailedCounter);
                 printf("Chan[%d].PendingQFileCnt: %lu\n",
-                        i, HkTlm.Chan[i].PendingQFileCnt);
+                        i, HkHookPkt.Chan[i].PendingQFileCnt);
                 printf("Chan[%d].ActiveQFileCnt: %lu\n",
-                        i, HkTlm.Chan[i].ActiveQFileCnt);
+                        i, HkHookPkt.Chan[i].ActiveQFileCnt);
                 printf("Chan[%d].HistoryQFileCnt: %lu\n",
-                        i, HkTlm.Chan[i].HistoryQFileCnt);
-                printf("Chan[%d].Flags: %lu\n", i, HkTlm.Chan[i].Flags);
+                        i, HkHookPkt.Chan[i].HistoryQFileCnt);
+                printf("Chan[%d].Flags: %lu\n", i, HkHookPkt.Chan[i].Flags);
                 printf("Chan[%d].RedLightCntr: %lu\n",
-                        i, HkTlm.Chan[i].RedLightCntr);
+                        i, HkHookPkt.Chan[i].RedLightCntr);
                 printf("Chan[%d].GreenLightCntr: %lu\n",
-                        i, HkTlm.Chan[i].GreenLightCntr);
+                        i, HkHookPkt.Chan[i].GreenLightCntr);
                 printf("Chan[%d].PollDirsChecked: %lu\n",
-                        i, HkTlm.Chan[i].PollDirsChecked);
+                        i, HkHookPkt.Chan[i].PollDirsChecked);
                 printf("Chan[%d].PendingQChecked: %lu\n",
-                        i, HkTlm.Chan[i].PendingQChecked);
+                        i, HkHookPkt.Chan[i].PendingQChecked);
                 printf("Chan[%d].SemValue: %lu\n",
-                        i, HkTlm.Chan[i].SemValue);
+                        i, HkHookPkt.Chan[i].SemValue);
             }
 
             break;
@@ -1788,6 +1779,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
+    memset((void *)&HkHookPkt, 0x00, sizeof(HkHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                     (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
@@ -1833,45 +1825,45 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuspend(void)
     UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Sent HK Telemetry");
 
-    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
-                  (CF_AppData.Hk.App.PDUsReceived == 0) &&
-                  (CF_AppData.Hk.App.TotalInProgTrans == 2) &&
-                  (CF_AppData.Hk.App.TotalSuccessTrans == 0) &&
-                  (CF_AppData.Hk.App.TotalCompletedTrans == 0),
+    UtAssert_True((HkHookPkt.App.QNodesAllocated == 2) &&
+                  (HkHookPkt.App.PDUsReceived == 0) &&
+                  (HkHookPkt.App.TotalInProgTrans == 2) &&
+                  (HkHookPkt.App.TotalSuccessTrans == 0) &&
+                  (HkHookPkt.App.TotalCompletedTrans == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.App params");
 
-    UtAssert_True(CF_AppData.Hk.Cond.SuspendNum == 0, /* No failed suspend */
+    UtAssert_True(HkHookPkt.Cond.SuspendNum == 0, /* No failed suspend */
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Cond param");
 
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE) &&
-                  (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
-                  (CF_AppData.Hk.Eng.how_many_senders == 2) &&
-                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_suspended == 1) &&
-                  (CF_AppData.Hk.Eng.total_files_sent == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_received == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+    UtAssert_True((CFE_TST(HkHookPkt.Eng.Flags, 0) == FALSE) &&
+                  (HkHookPkt.Eng.are_any_partners_frozen == FALSE) &&
+                  (HkHookPkt.Eng.how_many_senders == 2) &&
+                  (HkHookPkt.Eng.how_many_receivers == 0) &&
+                  (HkHookPkt.Eng.how_many_frozen == 0) &&
+                  (HkHookPkt.Eng.how_many_suspended == 1) &&
+                  (HkHookPkt.Eng.total_files_sent == 0) &&
+                  (HkHookPkt.Eng.total_files_received == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_senders == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_receivers == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Eng params");
 
-    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 0) &&
-                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Up.SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Up.FailedCounter == 0),
+    UtAssert_True((HkHookPkt.Up.MetaCount == 0) &&
+                  (HkHookPkt.Up.UplinkActiveQFileCnt == 0) &&
+                  (HkHookPkt.Up.SuccessCounter == 0) &&
+                  (HkHookPkt.Up.FailedCounter == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Up params");
 
-    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].FilesSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 2) &&
-                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+    UtAssert_True((HkHookPkt.Chan[0].PDUsSent == 0) &&
+                  (HkHookPkt.Chan[0].FilesSent == 0) &&
+                  (HkHookPkt.Chan[0].SuccessCounter == 0) &&
+                  (HkHookPkt.Chan[0].FailedCounter == 0) &&
+                  (HkHookPkt.Chan[0].PendingQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].ActiveQFileCnt == 2) &&
+                  (HkHookPkt.Chan[0].HistoryQFileCnt == 0) &&
                   /* Channel 0: Dequeue Enable */
-                  (CFE_TST(CF_AppData.Hk.Chan[0].Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
-                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  (CFE_TST(HkHookPkt.Chan[0].Flags, 0) == TRUE) &&
+                  (HkHookPkt.Chan[0].SemValue == 10) &&
+                  (HkHookPkt.Chan[1].SemValue == 9),
                   "CF_AppPipe, HousekeepingCmdPbSuspend: Hk.Chan[] params");
 
     CF_ResetEngine();
@@ -1928,6 +1920,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
+    memset((void *)&HkHookPkt, 0x00, sizeof(HkHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                        (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
@@ -1971,43 +1964,43 @@ void Test_CF_AppPipe_HousekeepingCmdPbFreeze(void)
     UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Sent HK Telemetry");
 
-    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
-                  (CF_AppData.Hk.App.PDUsReceived == 0) &&
-                  (CF_AppData.Hk.App.TotalInProgTrans == 2) &&
-                  (CF_AppData.Hk.App.TotalSuccessTrans == 0) &&
-                  (CF_AppData.Hk.App.TotalCompletedTrans == 0),
+    UtAssert_True((HkHookPkt.App.QNodesAllocated == 2) &&
+                  (HkHookPkt.App.PDUsReceived == 0) &&
+                  (HkHookPkt.App.TotalInProgTrans == 2) &&
+                  (HkHookPkt.App.TotalSuccessTrans == 0) &&
+                  (HkHookPkt.App.TotalCompletedTrans == 0),
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.App params");
 
                   /* frozen */
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
-                  (CF_AppData.Hk.Eng.how_many_senders == 2) &&
-                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_frozen == 2) &&
-                  (CF_AppData.Hk.Eng.how_many_suspended == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_sent == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_received == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+    UtAssert_True((CFE_TST(HkHookPkt.Eng.Flags, 0) == TRUE) &&
+                  (HkHookPkt.Eng.are_any_partners_frozen == TRUE) &&
+                  (HkHookPkt.Eng.how_many_senders == 2) &&
+                  (HkHookPkt.Eng.how_many_receivers == 0) &&
+                  (HkHookPkt.Eng.how_many_frozen == 2) &&
+                  (HkHookPkt.Eng.how_many_suspended == 0) &&
+                  (HkHookPkt.Eng.total_files_sent == 0) &&
+                  (HkHookPkt.Eng.total_files_received == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_senders == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_receivers == 0),
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Eng params");
 
-    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 0) &&
-                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Up.SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Up.FailedCounter == 0),
+    UtAssert_True((HkHookPkt.Up.MetaCount == 0) &&
+                  (HkHookPkt.Up.UplinkActiveQFileCnt == 0) &&
+                  (HkHookPkt.Up.SuccessCounter == 0) &&
+                  (HkHookPkt.Up.FailedCounter == 0),
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Up params");
 
-    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].FilesSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 2) &&
-                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+    UtAssert_True((HkHookPkt.Chan[0].PDUsSent == 0) &&
+                  (HkHookPkt.Chan[0].FilesSent == 0) &&
+                  (HkHookPkt.Chan[0].SuccessCounter == 0) &&
+                  (HkHookPkt.Chan[0].FailedCounter == 0) &&
+                  (HkHookPkt.Chan[0].PendingQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].ActiveQFileCnt == 2) &&
+                  (HkHookPkt.Chan[0].HistoryQFileCnt == 0) &&
                   /* Channel 0: Dequeue Enable */
-                  (CFE_TST(CF_AppData.Hk.Chan[0].Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
-                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  (CFE_TST(HkHookPkt.Chan[0].Flags, 0) == TRUE) &&
+                  (HkHookPkt.Chan[0].SemValue == 10) &&
+                  (HkHookPkt.Chan[1].SemValue == 9),
                   "CF_AppPipe, HousekeepingCmdPbFreeze: Hk.Chan[] params");
 
     CF_ResetEngine();
@@ -2065,6 +2058,7 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
+    memset((void *)&HkHookPkt, 0x00, sizeof(HkHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                        (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
@@ -2123,42 +2117,42 @@ machine_list__display_list();
     UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Sent HK Telemetry");
 
-    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
-                  (CF_AppData.Hk.App.PDUsReceived == 0) &&
-                  (CF_AppData.Hk.App.TotalInProgTrans == 0) &&
-                  (CF_AppData.Hk.App.TotalSuccessTrans == 2) &&
-                  (CF_AppData.Hk.App.TotalCompletedTrans == 2),
+    UtAssert_True((HkHookPkt.App.QNodesAllocated == 2) &&
+                  (HkHookPkt.App.PDUsReceived == 0) &&
+                  (HkHookPkt.App.TotalInProgTrans == 0) &&
+                  (HkHookPkt.App.TotalSuccessTrans == 2) &&
+                  (HkHookPkt.App.TotalCompletedTrans == 2),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.App params");
 
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE) &&
-                  (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
-                  (CF_AppData.Hk.Eng.how_many_senders == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_suspended == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_sent == 2) &&
-                  (CF_AppData.Hk.Eng.total_files_received == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+    UtAssert_True((CFE_TST(HkHookPkt.Eng.Flags, 0) == FALSE) &&
+                  (HkHookPkt.Eng.are_any_partners_frozen == FALSE) &&
+                  (HkHookPkt.Eng.how_many_senders == 0) &&
+                  (HkHookPkt.Eng.how_many_receivers == 0) &&
+                  (HkHookPkt.Eng.how_many_frozen == 0) &&
+                  (HkHookPkt.Eng.how_many_suspended == 0) &&
+                  (HkHookPkt.Eng.total_files_sent == 2) &&
+                  (HkHookPkt.Eng.total_files_received == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_senders == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_receivers == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.Eng params");
 
-    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 0) &&
-                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Up.SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Up.FailedCounter == 0),
+    UtAssert_True((HkHookPkt.Up.MetaCount == 0) &&
+                  (HkHookPkt.Up.UplinkActiveQFileCnt == 0) &&
+                  (HkHookPkt.Up.SuccessCounter == 0) &&
+                  (HkHookPkt.Up.FailedCounter == 0),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.Up params");
 
-    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 6) &&
-                  (CF_AppData.Hk.Chan[0].FilesSent == 2) &&
-                  (CF_AppData.Hk.Chan[0].SuccessCounter == 2) &&
-                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 2) &&
+    UtAssert_True((HkHookPkt.Chan[0].PDUsSent == 6) &&
+                  (HkHookPkt.Chan[0].FilesSent == 2) &&
+                  (HkHookPkt.Chan[0].SuccessCounter == 2) &&
+                  (HkHookPkt.Chan[0].FailedCounter == 0) &&
+                  (HkHookPkt.Chan[0].PendingQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].ActiveQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].HistoryQFileCnt == 2) &&
                   /* Channel 0: Dequeue Enable */
-                  (CFE_TST(CF_AppData.Hk.Chan[0].Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
-                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  (CFE_TST(HkHookPkt.Chan[0].Flags, 0) == TRUE) &&
+                  (HkHookPkt.Chan[0].SemValue == 10) &&
+                  (HkHookPkt.Chan[1].SemValue == 9),
                   "CF_AppPipe, HousekeepingCmdPbSuccess: Hk.Chan[] params");
 
     CF_ResetEngine();
@@ -2258,6 +2252,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
+    memset((void *)&HkHookPkt, 0x00, sizeof(HkHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                        (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
@@ -2324,45 +2319,45 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
              "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Sent HK Telemetry");
 
-    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
-                  (CF_AppData.Hk.App.PDUsReceived == 2) &&
-                  (CF_AppData.Hk.App.PDUsRejected == 0) &&
-                  (CF_AppData.Hk.App.TotalInProgTrans == 2) &&
-                  (CF_AppData.Hk.App.TotalSuccessTrans == 0) &&
-                  (CF_AppData.Hk.App.TotalCompletedTrans == 0),
+    UtAssert_True((HkHookPkt.App.QNodesAllocated == 2) &&
+                  (HkHookPkt.App.PDUsReceived == 2) &&
+                  (HkHookPkt.App.PDUsRejected == 0) &&
+                  (HkHookPkt.App.TotalInProgTrans == 2) &&
+                  (HkHookPkt.App.TotalSuccessTrans == 0) &&
+                  (HkHookPkt.App.TotalCompletedTrans == 0),
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.App params");
 
                   /* partners are frozen */
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Eng.are_any_partners_frozen == TRUE) &&
-                  (CF_AppData.Hk.Eng.how_many_senders == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_receivers == 2) &&
+    UtAssert_True((CFE_TST(HkHookPkt.Eng.Flags, 0) == TRUE) &&
+                  (HkHookPkt.Eng.are_any_partners_frozen == TRUE) &&
+                  (HkHookPkt.Eng.how_many_senders == 0) &&
+                  (HkHookPkt.Eng.how_many_receivers == 2) &&
                   /* UpQueue transactions frozen cnt */
-                  (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_suspended == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_sent == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_received == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+                  (HkHookPkt.Eng.how_many_frozen == 0) &&
+                  (HkHookPkt.Eng.how_many_suspended == 0) &&
+                  (HkHookPkt.Eng.total_files_sent == 0) &&
+                  (HkHookPkt.Eng.total_files_received == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_senders == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_receivers == 0),
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.Eng params");
 
-    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 2) &&
-                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 2) &&
-                  (CF_AppData.Hk.Up.SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Up.FailedCounter == 0),
+    UtAssert_True((HkHookPkt.Up.MetaCount == 2) &&
+                  (HkHookPkt.Up.UplinkActiveQFileCnt == 2) &&
+                  (HkHookPkt.Up.SuccessCounter == 0) &&
+                  (HkHookPkt.Up.FailedCounter == 0),
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.Up params");
 
-    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].FilesSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+    UtAssert_True((HkHookPkt.Chan[0].PDUsSent == 0) &&
+                  (HkHookPkt.Chan[0].FilesSent == 0) &&
+                  (HkHookPkt.Chan[0].SuccessCounter == 0) &&
+                  (HkHookPkt.Chan[0].FailedCounter == 0) &&
+                  (HkHookPkt.Chan[0].PendingQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].ActiveQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].HistoryQFileCnt == 0) &&
                   /* Channel 0: Dequeue Enable */
-                  (CFE_TST(CF_AppData.Hk.Chan[0].Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
-                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  (CFE_TST(HkHookPkt.Chan[0].Flags, 0) == TRUE) &&
+                  (HkHookPkt.Chan[0].SemValue == 10) &&
+                  (HkHookPkt.Chan[1].SemValue == 9),
                   "CF_AppPipe, HousekeepingCmdUpFreezeWarn: Hk.Chan[] params");
 
     CF_ResetEngine();
@@ -2508,6 +2503,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
 
     /* Used to verify HK was transmitted correctly. */
     SendHkHook_MsgId = 0;
+    memset((void *)&HkHookPkt, 0x00, sizeof(HkHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                        (void *)&Test_CF_AppPipe_HousekeepingCmd_SendMsgHook);
 
@@ -2574,43 +2570,43 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     UtAssert_True(SendHkHook_MsgId == CF_HK_TLM_MID,
              "CF_AppPipe, HousekeepingCmdUpSuccess: Sent HK Telemetry");
 
-    UtAssert_True((CF_AppData.Hk.App.QNodesAllocated == 2) &&
-                  (CF_AppData.Hk.App.PDUsReceived == 6) &&
-                  (CF_AppData.Hk.App.TotalInProgTrans == 0) &&
-                  (CF_AppData.Hk.App.TotalSuccessTrans == 2) &&
-                  (CF_AppData.Hk.App.TotalCompletedTrans == 2),
+    UtAssert_True((HkHookPkt.App.QNodesAllocated == 2) &&
+                  (HkHookPkt.App.PDUsReceived == 6) &&
+                  (HkHookPkt.App.TotalInProgTrans == 0) &&
+                  (HkHookPkt.App.TotalSuccessTrans == 2) &&
+                  (HkHookPkt.App.TotalCompletedTrans == 2),
                   "CF_AppPipe, HousekeepingCmdUpSuccess: Hk.App params");
 
                   /* Not Frozen */
-    UtAssert_True((CFE_TST(CF_AppData.Hk.Eng.Flags, 0) == FALSE) &&
-                  (CF_AppData.Hk.Eng.are_any_partners_frozen == FALSE) &&
-                  (CF_AppData.Hk.Eng.how_many_senders == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_receivers == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_frozen == 0) &&
-                  (CF_AppData.Hk.Eng.how_many_suspended == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_sent == 0) &&
-                  (CF_AppData.Hk.Eng.total_files_received == 2) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_senders == 0) &&
-                  (CF_AppData.Hk.Eng.total_unsuccessful_receivers == 0),
+    UtAssert_True((CFE_TST(HkHookPkt.Eng.Flags, 0) == FALSE) &&
+                  (HkHookPkt.Eng.are_any_partners_frozen == FALSE) &&
+                  (HkHookPkt.Eng.how_many_senders == 0) &&
+                  (HkHookPkt.Eng.how_many_receivers == 0) &&
+                  (HkHookPkt.Eng.how_many_frozen == 0) &&
+                  (HkHookPkt.Eng.how_many_suspended == 0) &&
+                  (HkHookPkt.Eng.total_files_sent == 0) &&
+                  (HkHookPkt.Eng.total_files_received == 2) &&
+                  (HkHookPkt.Eng.total_unsuccessful_senders == 0) &&
+                  (HkHookPkt.Eng.total_unsuccessful_receivers == 0),
                   "CF_AppPipe, HousekeepingCmdUpSuccess: Hk.Eng params");
 
-    UtAssert_True((CF_AppData.Hk.Up.MetaCount == 2) &&
-                  (CF_AppData.Hk.Up.UplinkActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Up.SuccessCounter == 2) &&
-                  (CF_AppData.Hk.Up.FailedCounter == 0),
+    UtAssert_True((HkHookPkt.Up.MetaCount == 2) &&
+                  (HkHookPkt.Up.UplinkActiveQFileCnt == 0) &&
+                  (HkHookPkt.Up.SuccessCounter == 2) &&
+                  (HkHookPkt.Up.FailedCounter == 0),
                   "CF_AppPipe, HousekeepingCmdUpSuccess: Hk.Up params");
 
-    UtAssert_True((CF_AppData.Hk.Chan[0].PDUsSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].FilesSent == 0) &&
-                  (CF_AppData.Hk.Chan[0].SuccessCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].FailedCounter == 0) &&
-                  (CF_AppData.Hk.Chan[0].PendingQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].ActiveQFileCnt == 0) &&
-                  (CF_AppData.Hk.Chan[0].HistoryQFileCnt == 0) &&
+    UtAssert_True((HkHookPkt.Chan[0].PDUsSent == 0) &&
+                  (HkHookPkt.Chan[0].FilesSent == 0) &&
+                  (HkHookPkt.Chan[0].SuccessCounter == 0) &&
+                  (HkHookPkt.Chan[0].FailedCounter == 0) &&
+                  (HkHookPkt.Chan[0].PendingQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].ActiveQFileCnt == 0) &&
+                  (HkHookPkt.Chan[0].HistoryQFileCnt == 0) &&
                   /* Channel 0: Dequeue Enable */
-                  (CFE_TST(CF_AppData.Hk.Chan[0].Flags, 0) == TRUE) &&
-                  (CF_AppData.Hk.Chan[0].SemValue == 10) &&
-                  (CF_AppData.Hk.Chan[1].SemValue == 9),
+                  (CFE_TST(HkHookPkt.Chan[0].Flags, 0) == TRUE) &&
+                  (HkHookPkt.Chan[0].SemValue == 10) &&
+                  (HkHookPkt.Chan[1].SemValue == 9),
                   "CF_AppPipe, HousekeepingCmdUpSuccess: Hk.Chan[] params");
 
     CF_ResetEngine();
@@ -2931,7 +2927,6 @@ void Test_CF_AppPipe_ThawCmdInvLen(void)
 }
 
 
-#if 0
 /**
  * Test CF_AppPipe, SuspendCmdTransId
  */
@@ -2951,6 +2946,20 @@ void Test_CF_AppPipe_SuspendCmdTransId(void)
                    sizeof(SuspendCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
                       (uint16)CF_SUSPEND_CC);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -3058,6 +3067,20 @@ void Test_CF_AppPipe_SuspendCmdFilename(void)
                    sizeof(SuspendCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
                       (uint16)CF_SUSPEND_CC);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -3264,6 +3287,20 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
 
     CF_Test_PrintCmdMsg((void*)&SuspendCmdMsg, sizeof(SuspendCmdMsg));
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
     /* Execute the function being tested */
     CF_AppInit();
 
@@ -3345,33 +3382,93 @@ machine_list__display_list();
  */
 void Test_CF_AppPipe_ResumeCmdNoTransId(void)
 {
-    CF_CARSCmd_t  CmdMsg;
+    uint32                QEntryCnt;
+    uint32                SuspendedCnt;
+    uint32                ResumedCnt;
+    TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
+    CF_CARSCmd_t          SuspendCmdMsg;
+    CF_CARSCmd_t          ResumeCmdMsg;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  FullTransString[MAX_FILE_NAME_LENGTH];
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)CF_RESUME_CC);
-    strcpy(CmdMsg.Trans, "0.24_56");
+    CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
+                   sizeof(SuspendCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SuspendCmdMsg,
+                      (uint16)CF_SUSPEND_CC);
 
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CFE_SB_InitMsg((void*)&ResumeCmdMsg, CF_CMD_MID,
+                   sizeof(ResumeCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ResumeCmdMsg, (uint16)CF_RESUME_CC);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    sprintf(SuspendCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
+    sprintf(ResumeCmdMsg.Trans, "%s%s", CF_AppData.Tbl->FlightEntityId, "_50");
+    CF_Test_PrintCmdMsg((void*)&ResumeCmdMsg, sizeof(ResumeCmdMsg));
+
+    CF_TstUtil_CreateOnePbActiveQueueEntry(&PbFileCmdMsg);
+
+    /* Suspend */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&SuspendCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    strcpy(FullTransString, CmdMsg.Trans);
-    sprintf(expEvent, "cfdp_engine: ignoring User-Request that references "
-            "unknown transaction (%s).", FullTransString);
+    EngStat = cfdp_summary_status();
+    SuspendedCnt = EngStat.how_many_suspended;
+
+    /* Resume */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&ResumeCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+
+    EngStat = cfdp_summary_status();
+    ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
+
+    cfdp_trans_from_string(SuspendCmdMsg.Trans, &trans);
+    sprintf(expEventSuspend, "Transaction Susupended %d.%d_%d,%s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, PbFileCmdMsg.SrcFilename);
+
+    strcpy(FullTransString, ResumeCmdMsg.Trans);
+    sprintf(expEventResume, "cfdp_engine: ignoring User-Request that "
+            "references unknown transaction (%s).", FullTransString);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, ResumeCmdNoTransId");
 
-    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppPipe, ResumeCmdNoTransId: Event Sent");
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, ResumeCmdNoTransId: QEntryCnt");
+
+    UtAssert_True((SuspendedCnt == 1) && (ResumedCnt == 0),
+                  "CF_AppPipe, ResumeCmdNoTransId: Suspended/Resumed Cnt");
+
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION,
+                       expEventSuspend,
+                       "CF_AppPipe, ResumeCmdNoTransId: Suspend Event Sent");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventResume,
+                  "CF_AppPipe, ResumeCmdNoTransId: Resume Err Event Sent");
 
     CF_ResetEngine();
 }
@@ -3385,12 +3482,14 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
     uint32                QEntryCnt;
     uint32                SuspendedCnt;
     uint32                ResumedCnt;
-    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+    TRANSACTION           trans;
+    SUMMARY_STATUS        EngStat;
     CF_CARSCmd_t          SuspendCmdMsg;
     CF_CARSCmd_t          ResumeCmdMsg;
-    SUMMARY_STATUS        EngStat;
+    CF_PlaybackFileCmd_t  PbFileCmdMsg;
+    char  FullTransString[MAX_FILE_NAME_LENGTH];
     char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build Suspend Command Msg */
     CFE_SB_InitMsg((void*)&SuspendCmdMsg, CF_CMD_MID,
@@ -3403,6 +3502,20 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
                    sizeof(ResumeCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ResumeCmdMsg,
                       (uint16)CF_RESUME_CC);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -3433,11 +3546,15 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
     EngStat = cfdp_summary_status();
     ResumedCnt = SuspendedCnt - EngStat.how_many_suspended;
 
-    sprintf(expEventSuspend, "%s command received.%s",
-            "Suspend", SuspendCmdMsg.Trans);
+    sprintf(FullTransString, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
+    cfdp_trans_from_string(FullTransString, &trans);
+    sprintf(expEventSuspend, "Transaction Susupended %d.%d_%d,%s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, SuspendCmdMsg.Trans);
 
-    sprintf(expEvent, "%s command received.%s",
-            "Resume", ResumeCmdMsg.Trans);
+    sprintf(expEventResume, "Transaction Resumed %d.%d_%d,%s",
+            trans.source_id.value[0], trans.source_id.value[1],
+            (int)trans.number, ResumeCmdMsg.Trans);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
@@ -3450,11 +3567,13 @@ void Test_CF_AppPipe_ResumeCmdPbFilename(void)
     UtAssert_True((SuspendedCnt == 1) && (ResumedCnt == 1),
                   "CF_AppPipe, ResumeCmdPbFilename: Suspended/Resumed cnt");
 
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
-                  "CF_AppPipe, ResumeCmdPbFilename: Suspend Event Sent");
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION,
+                       expEventSuspend,
+                       "CF_AppPipe, ResumeCmdPbFilename: Suspend Event Sent");
 
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
-                  "CF_AppPipe, ResumeCmdPbFilename: Resume Event Sent");
+    UtAssert_EventSent(CF_IND_XACT_RES_EID, CFE_EVS_INFORMATION,
+                       expEventResume,
+                       "CF_AppPipe, ResumeCmdPbFilename: Resume Event Sent");
 
     CF_ResetEngine();
 }
@@ -3615,6 +3734,8 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     uint32                QEntryCntAfter;
     uint32                SuspendedCnt;
     uint32                ResumedCnt;
+    TRANSACTION           trans1;
+    TRANSACTION           trans2;
     SUMMARY_STATUS        EngStat;
     CF_Test_InPDUInfo_t   InPDUInfo;
     CF_CARSCmd_t          SuspendCmdMsg;
@@ -3624,8 +3745,12 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     CF_Test_InPDUMsg_t    InMdPDUMsg;
     CF_Test_InPDUMsg_t    InFdPDUMsg;
     CF_Test_InPDUMsg_t    InEofPDUMsg;
-    char  expEventSuspend[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEventResume[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  FullTransString1[MAX_FILE_NAME_LENGTH];
+    char  FullTransString2[MAX_FILE_NAME_LENGTH];
+    char  expEventSuspend1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventSuspend2[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventResume1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventResume2[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
     CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
@@ -3688,6 +3813,20 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
     /* Execute the function being tested */
     CF_AppInit();
     CF_GetHandshakeSemIds();
@@ -3731,11 +3870,25 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt
         + CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
-    sprintf(expEventSuspend, "%s command received.%s",
-            "Suspend", SuspendCmdMsg.Trans);
+    sprintf(FullTransString1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
+    cfdp_trans_from_string(FullTransString1, &trans1);
+    sprintf(expEventSuspend1, "Transaction Susupended %d.%d_%d,%s",
+            trans1.source_id.value[0], trans1.source_id.value[1],
+            (int)trans1.number, PbFileCmdMsg1.SrcFilename);
 
-    sprintf(expEventResume, "%s command received.%s",
-            "Resume", ResumeCmdMsg.Trans);
+    sprintf(FullTransString2, "%s%s", CF_AppData.Tbl->FlightEntityId, "_2");
+    cfdp_trans_from_string(FullTransString2, &trans2);
+    sprintf(expEventSuspend2, "Transaction Susupended %d.%d_%d,%s",
+            trans2.source_id.value[0], trans2.source_id.value[1],
+            (int)trans2.number, PbFileCmdMsg2.SrcFilename);
+
+    sprintf(expEventResume1, "Transaction Resumed %d.%d_%d,%s",
+            trans1.source_id.value[0], trans1.source_id.value[1],
+            (int)trans1.number, PbFileCmdMsg1.SrcFilename);
+
+    sprintf(expEventResume2, "Transaction Resumed %d.%d_%d,%s",
+            trans2.source_id.value[0], trans2.source_id.value[1],
+            (int)trans2.number, PbFileCmdMsg2.SrcFilename);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 4) &&
@@ -3748,11 +3901,21 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     UtAssert_True((SuspendedCnt == 2) && (ResumedCnt == 2),
                   "CF_AppPipe, ResumeCmdAll: Suspended/Resumed count");
 
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventSuspend,
-                       "CF_AppPipe, ResumeCmdAll: Suspend Event Sent");
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION,
+                       expEventSuspend1,
+                       "CF_AppPipe, ResumeCmdAll: File1 Suspend Event Sent");
 
-    UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEventResume,
-                       "CF_AppPipe, ResumeCmdAll: Resume Event Sent");
+    UtAssert_EventSent(CF_IND_XACT_SUS_EID, CFE_EVS_INFORMATION,
+                       expEventSuspend2,
+                       "CF_AppPipe, ResumeCmdAll: File2 Suspend Event Sent");
+
+    UtAssert_EventSent(CF_IND_XACT_RES_EID, CFE_EVS_INFORMATION,
+                       expEventResume1,
+                       "CF_AppPipe, ResumeCmdAll: File1 Resume Event Sent");
+
+    UtAssert_EventSent(CF_IND_XACT_RES_EID, CFE_EVS_INFORMATION,
+                       expEventResume2,
+                       "CF_AppPipe, ResumeCmdAll: File2 Resume Event Sent");
 
     CF_ResetEngine();
 }
@@ -3765,6 +3928,7 @@ void Test_CF_AppPipe_CancelCmdNoTransId(void)
 {
     uint16              PDataLen;
     uint16              hdr_len;
+    uint32              QEntryCnt;
     CF_Test_InPDUInfo_t InPDUInfo;
     CF_CARSCmd_t        CancelCmdMsg;
     CF_Test_InPDUMsg_t  InMdPDUMsg;
@@ -3815,6 +3979,8 @@ void Test_CF_AppPipe_CancelCmdNoTransId(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CancelCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
     strcpy(FullTransString, CancelCmdMsg.Trans);
     sprintf(expEventCfdp, "cfdp_engine: ignoring User-Request that "
             "references unknown transaction (%s).", FullTransString);
@@ -3823,6 +3989,9 @@ void Test_CF_AppPipe_CancelCmdNoTransId(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, CancelCmd");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, CancelCmd: QEntry Cnt");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                        "CF_AppPipe, CancelCmd: Event Sent");
@@ -3840,9 +4009,15 @@ void Test_CF_AppPipe_CancelCmdAllPb(void)
     uint32                QEntryCntActAfter;
     uint32                QEntryCntHistBefore;
     uint32                QEntryCntHistAfter;
+    TRANSACTION           trans1;
+    TRANSACTION           trans2;
+    TRANS_STATUS          trans_status1;
+    TRANS_STATUS          trans_status2;
     CF_PlaybackFileCmd_t  PbFileCmdMsg1;
     CF_PlaybackFileCmd_t  PbFileCmdMsg2;
     CF_CARSCmd_t          CancelCmdMsg;
+    char  FullTransString1[MAX_FILE_NAME_LENGTH];
+    char  FullTransString2[MAX_FILE_NAME_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build Cancel Command */
@@ -3851,6 +4026,12 @@ void Test_CF_AppPipe_CancelCmdAllPb(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CancelCmdMsg, (uint16)CF_CANCEL_CC);
     strcpy(CancelCmdMsg.Trans, "All");
     CF_Test_PrintCmdMsg((void*)&CancelCmdMsg, sizeof(CancelCmdMsg));
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -3879,7 +4060,15 @@ void Test_CF_AppPipe_CancelCmdAllPb(void)
     QEntryCntHistAfter =
        CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
-    sprintf(expEvent, "%s command received.%s", "Cancel", "All");
+    sprintf(FullTransString1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
+    cfdp_trans_from_string(FullTransString1, &trans1);
+    cfdp_transaction_status(trans1, &trans_status1);
+
+    sprintf(FullTransString2, "%s%s", CF_AppData.Tbl->FlightEntityId, "_2");
+    cfdp_trans_from_string(FullTransString2, &trans2);
+    cfdp_transaction_status(trans2, &trans_status2);
+
+    sprintf(expEvent, "%s command received.%s", "Cancel", CancelCmdMsg.Trans);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
@@ -3889,6 +4078,12 @@ void Test_CF_AppPipe_CancelCmdAllPb(void)
     UtAssert_True((QEntryCntActBefore == 2) && (QEntryCntActAfter == 2) &&
                   (QEntryCntHistBefore == 0) && (QEntryCntHistAfter == 0),
                   "CF_AppPipe, CancelCmdAllPb: QEntryCnt");
+
+    UtAssert_True(trans_status1.cancelled == TRUE,
+                  "CF_AppPipe, CancelCmdAllPb: File1 Cancelled");
+
+    UtAssert_True(trans_status2.cancelled == TRUE,
+                  "CF_AppPipe, CancelCmdAllPb: File2 Cancelled");
 
     UtAssert_EventSent(CF_CARS_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, CancelCmdAllPb: Event Sent");
@@ -4046,6 +4241,7 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
  */
 void Test_CF_AppPipe_AbandonCmdNoFile(void)
 {
+    uint32                QEntryCnt;
     CF_CARSCmd_t          AbandonCmdMsg;
     CF_PlaybackFileCmd_t  PbFileCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -4054,6 +4250,93 @@ void Test_CF_AppPipe_AbandonCmdNoFile(void)
                    sizeof(AbandonCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
     sprintf(AbandonCmdMsg.Trans, "%s%s", TestPbDir0, TestPbFile1);
+    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                              (void*)&CFE_ES_PutPoolBufHook);
+
+    /* Execute the function being tested */
+    CF_AppInit();
+
+    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
+
+    /* Abandon */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_PENDINGQ].EntryCnt;
+
+    sprintf(expEvent, "%s Cmd Error,File %s Not Active",
+            "Abandon", AbandonCmdMsg.Trans);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppPipe, AbandonCmdNoFile");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, AbandonCmdNoFile: QEntry Cnt");
+
+    UtAssert_EventSent(CF_CARS_ERR1_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppPipe, AbandonCmdNoFile: Event Sent");
+
+    CF_ResetEngine();
+}
+
+
+/**
+ * Test CF_AppPipe, AbandonCmdNoTransId
+ */
+void Test_CF_AppPipe_AbandonCmdNoTransId(void)
+{
+    uint16              PDataLen;
+    uint16              hdr_len;
+    uint32              QEntryCnt;
+    CF_Test_InPDUInfo_t InPDUInfo;
+    CF_CARSCmd_t        AbandonCmdMsg;
+    CF_Test_InPDUMsg_t  InMdPDUMsg;
+    char  FullTransString[MAX_FILE_NAME_LENGTH];
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
+
+    /* Build Abandon Command Msg */
+    CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
+                   sizeof(AbandonCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
+    sprintf(AbandonCmdMsg.Trans, "%s_%d",
+            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER + 1);
+    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -4062,49 +4345,15 @@ void Test_CF_AppPipe_AbandonCmdNoFile(void)
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
+    /* Incoming MD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Abandon */
-    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
-
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    sprintf(expEvent, "%s Cmd Error,File %s Not Active",
-            "Abandon", AbandonCmdMsg.Trans);
-
-    /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
-                  (CF_AppData.Hk.ErrCounter == 1),
-                  "CF_AppPipe, AbandonCmdNoFile");
-
-    UtAssert_EventSent(CF_CARS_ERR1_EID, CFE_EVS_ERROR, expEvent,
-                       "CF_AppPipe, AbandonCmdNoFile: Event Sent");
-
-    CF_ResetEngine();
-}
-
-/**
- * Test CF_AppPipe, AbandonCmdNoTransId
- */
-void Test_CF_AppPipe_AbandonCmdNoTransId(void)
-{
-    CF_CARSCmd_t          AbandonCmdMsg;
-    char  FullTransString[MAX_FILE_NAME_LENGTH];
-    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
-                   sizeof(AbandonCmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&AbandonCmdMsg, (uint16)CF_ABANDON_CC);
-    sprintf(AbandonCmdMsg.Trans, "%s_%d",
-            TestInSrcEntityId1, TEST_IN_TRANS_NUMBER);
-    CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
-
-    /* Execute the function being tested */
-    CF_AppInit();
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AbandonCmdMsg;
-    CF_AppPipe(CF_AppData.MsgPtr);
+    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
 
     strcpy(FullTransString, AbandonCmdMsg.Trans);
     sprintf(expEventCfdp, "cfdp_engine: ignoring User-Request that "
@@ -4114,6 +4363,9 @@ void Test_CF_AppPipe_AbandonCmdNoTransId(void)
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 1),
                   "CF_AppPipe, AbandonCmdNoTransId");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, AbandonCmdNoTransId: QEntry Cnt");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_ERR_EID, CFE_EVS_ERROR, expEventCfdp,
                        "CF_AppPipe, AbandonCmdNoTransId: Cfdp Event Sent");
@@ -4149,6 +4401,20 @@ void Test_CF_AppPipe_AbandonCmdAllPb(void)
                       (uint16)CF_ABANDON_CC);
     strcpy(AbandonCmdMsg.Trans, "All");
     CF_Test_PrintCmdMsg((void*)&AbandonCmdMsg, sizeof(AbandonCmdMsg));
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -4218,6 +4484,8 @@ void Test_CF_AppPipe_AbandonCmdAllPb(void)
  */
 void Test_CF_AppPipe_AbandonCmdAllUp(void)
 {
+    uint16                PDataLen;
+    uint16                hdr_len;
     uint32                QEntryCntActBefore;
     uint32                QEntryCntActAfter;
     uint32                QEntryCntHistBefore;
@@ -4239,17 +4507,19 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     InPDUInfo1.direction = TEST_TO_RECEIVER;
     InPDUInfo1.mode = TEST_UNACK_MODE;
     InPDUInfo1.use_crc = NO;
-    InPDUInfo1.trans.source_id.length = MAX_ID_LENGTH;
-    InPDUInfo1.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo1.trans.source_id.value[1] = 2;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo1.trans.source_id);
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo1.dest_id.length = MAX_ID_LENGTH;
-    InPDUInfo1.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo1.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
+    InPDUInfo1.segmentation_control = NO;
     InPDUInfo1.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo1.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo1.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg1, &InPDUInfo1, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg1, &InPDUInfo1, hdr_len);
 
     /**** File 2 ****/
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
@@ -4259,17 +4529,19 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     InPDUInfo2.direction = TEST_TO_RECEIVER;
     InPDUInfo2.mode = TEST_UNACK_MODE;
     InPDUInfo2.use_crc = NO;
-    InPDUInfo2.trans.source_id.length = MAX_ID_LENGTH;
-    InPDUInfo2.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo2.trans.source_id.value[1] = 2;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo2.trans.source_id);
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
-    InPDUInfo2.dest_id.length = MAX_ID_LENGTH;
-    InPDUInfo2.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo2.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
+    InPDUInfo2.segmentation_control = NO;
     InPDUInfo2.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
-    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo2.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo2.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg2, &InPDUInfo2, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg2, &InPDUInfo2, hdr_len);
 
     /* Build Abandon Command */
     CFE_SB_InitMsg((void*)&AbandonCmdMsg, CF_CMD_MID,
@@ -4354,6 +4626,8 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
 void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
+    char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
@@ -4370,6 +4644,11 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->SaveIncompleteFiles);
+
+    sprintf(expEventCfdp, "%s",
+            "cfdp_engine: 'save_incomplete_files' set to 'yes'.");
+
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
             CmdMsg.Param, CmdMsg.Value);
 
@@ -4378,9 +4657,11 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFiles(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdSaveIncompleteFiles");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->SaveIncompleteFiles, CmdMsg.Value)
-           == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
            "CF_AppPipe, SetMibCmdSaveIncompleteFiles: Config Tbl updated");
+
+    UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
+             "CF_AppPipe, SetMibCmdSaveIncompleteFiles: Cfdp Event Sent");
 
     UtAssert_EventSent(CF_SET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                   "CF_AppPipe, SetMibCmdSaveIncompleteFiles: Event Sent");
@@ -4506,6 +4787,7 @@ void Test_CF_AppPipe_SetMibCmdSaveIncompleteFilesUntermValue(void)
 void Test_CF_AppPipe_SetMibCmdAckLimit(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4523,6 +4805,8 @@ void Test_CF_AppPipe_SetMibCmdAckLimit(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->AckLimit);
+
     sprintf(expEventCfdp, "cfdp_engine: 'ack_limit' set to '%lu'.",
             (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4533,7 +4817,7 @@ void Test_CF_AppPipe_SetMibCmdAckLimit(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdAckLimit");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->AckLimit, CmdMsg.Value) == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdAckLimit: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -4589,6 +4873,7 @@ void Test_CF_AppPipe_SetMibCmdAckLimitNonDigit(void)
 void Test_CF_AppPipe_SetMibCmdAckTimeout(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4606,6 +4891,8 @@ void Test_CF_AppPipe_SetMibCmdAckTimeout(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->AckTimeout);
+
     sprintf(expEventCfdp, "cfdp_engine: 'ack_timeout' set to '%lu'.",
             (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4616,7 +4903,7 @@ void Test_CF_AppPipe_SetMibCmdAckTimeout(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdAckTimeout");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->AckTimeout, CmdMsg.Value) == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdAckTimeout: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -4672,6 +4959,7 @@ void Test_CF_AppPipe_SetMibCmdAckTimeoutNonDigit(void)
 void Test_CF_AppPipe_SetMibCmdInactTimeout(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4689,6 +4977,8 @@ void Test_CF_AppPipe_SetMibCmdInactTimeout(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->InactivityTimeout);
+
     sprintf(expEventCfdp, "cfdp_engine: 'inactivity_timeout' set to '%lu'.",
             (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4699,8 +4989,7 @@ void Test_CF_AppPipe_SetMibCmdInactTimeout(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdInactTimeout");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->InactivityTimeout, CmdMsg.Value)
-                  == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdInactTimeout: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -4756,6 +5045,7 @@ void Test_CF_AppPipe_SetMibCmdInactTimeoutNonDigit(void)
 void Test_CF_AppPipe_SetMibCmdNakLimit(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4773,6 +5063,8 @@ void Test_CF_AppPipe_SetMibCmdNakLimit(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->NakLimit);
+
     sprintf(expEventCfdp, "cfdp_engine: 'nak_limit' set to '%lu'.",
             (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4783,7 +5075,7 @@ void Test_CF_AppPipe_SetMibCmdNakLimit(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdNakLimit");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->NakLimit, CmdMsg.Value) == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdNakLimit: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -4839,6 +5131,7 @@ void Test_CF_AppPipe_SetMibCmdNakLimitNonDigit(void)
 void Test_CF_AppPipe_SetMibCmdNakTimeout(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4856,6 +5149,8 @@ void Test_CF_AppPipe_SetMibCmdNakTimeout(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->NakTimeout);
+
     sprintf(expEventCfdp, "cfdp_engine: 'nak_timeout' set to '%lu'.",
             (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4866,7 +5161,7 @@ void Test_CF_AppPipe_SetMibCmdNakTimeout(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdNakTimeout");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->NakTimeout, CmdMsg.Value) == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdNakTimeout: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -4922,6 +5217,7 @@ void Test_CF_AppPipe_SetMibCmdNakTimeoutNonDigit(void)
 void Test_CF_AppPipe_SetMibCmdFileChunkSize(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -4939,6 +5235,8 @@ void Test_CF_AppPipe_SetMibCmdFileChunkSize(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->OutgoingFileChunkSize);
+
     sprintf(expEventCfdp, "cfdp_engine: 'outgoing_file_chunk_size' "
             "set to '%lu'.", (uint32)atoi(CmdMsg.Value));
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -4949,8 +5247,7 @@ void Test_CF_AppPipe_SetMibCmdFileChunkSize(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdFileChunkSize");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->OutgoingFileChunkSize, CmdMsg.Value)
-                  == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdFileChunkSize: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -5045,6 +5342,7 @@ void Test_CF_AppPipe_SetMibCmdFileChunkOverLimit(void)
 void Test_CF_AppPipe_SetMibCmdMyId(void)
 {
     CF_SetMibParam_t  CmdMsg;
+    char  TableValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEventCfdp[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -5062,6 +5360,8 @@ void Test_CF_AppPipe_SetMibCmdMyId(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(TableValue, CF_AppData.Tbl->FlightEntityId);
+
     sprintf(expEventCfdp, "cfdp_engine: entity-id set to '%s'.",
             CmdMsg.Value);
     sprintf(expEvent, "Set MIB command received.Param %s Value %s",
@@ -5072,8 +5372,7 @@ void Test_CF_AppPipe_SetMibCmdMyId(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, SetMibCmdMyId");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->FlightEntityId, CmdMsg.Value)
-                  == 0,
+    UtAssert_True(strcmp(TableValue, CmdMsg.Value) == 0,
                   "CF_AppPipe, SetMibCmdMyId: Config Tbl updated");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_INFO_EID, CFE_EVS_DEBUG, expEventCfdp,
@@ -5170,6 +5469,7 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
 {
     CF_SetMibParam_t  SetMibCmdMsg;
     CF_GetMibParam_t  GetMibCmdMsg;
+    char  expValue[CF_MAX_CFG_VALUE_CHARS];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&SetMibCmdMsg, CF_CMD_MID,
@@ -5177,7 +5477,7 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&SetMibCmdMsg,
                       (uint16)CF_SET_MIB_PARAM_CC);
     strcpy(SetMibCmdMsg.Param, "save_incomplete_files");
-    strcpy(SetMibCmdMsg.Value, "YES");
+    strcpy(SetMibCmdMsg.Value, "yes");
     CF_Test_PrintCmdMsg((void*)&SetMibCmdMsg, sizeof(SetMibCmdMsg));
 
     CFE_SB_InitMsg((void*)&GetMibCmdMsg, CF_CMD_MID,
@@ -5196,8 +5496,9 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&GetMibCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    strcpy(expValue, CF_Test_ToUpperCase(SetMibCmdMsg.Value));
     sprintf(expEvent, "Get MIB command received.Param %s Value %s",
-            GetMibCmdMsg.Param, SetMibCmdMsg.Value);
+            GetMibCmdMsg.Param, expValue);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
@@ -5211,6 +5512,7 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
 }
 
 
+#if 0
 /**
  * Test CF_AppPipe, GetMibCmdSaveIncompleteFilesInvLen
  */
@@ -11318,7 +11620,6 @@ void CF_Cmds_Test_AddTestCases(void)
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_ThawCmdInvLen");
 
-#if 0
     UtTest_Add(Test_CF_AppPipe_SuspendCmdTransId,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_SuspendCmdTransId");
@@ -11438,6 +11739,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles");
+#if 0
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen");

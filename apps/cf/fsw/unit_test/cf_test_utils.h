@@ -157,6 +157,7 @@ void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
 void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
                               CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 
+char*  CF_Test_ToUpperCase(const char *inStr);
 void   CF_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t CF_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
