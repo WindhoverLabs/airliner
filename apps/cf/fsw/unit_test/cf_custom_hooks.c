@@ -114,6 +114,82 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 }
 
 
+int32 CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr)
+{
+    size_t bytesWritten = 0;
+
+    if (FileDes != 0)
+    {
+        bytesWritten = fwrite((void *)Hdr, 1, sizeof(CFE_FS_Header_t),
+                              (FILE *)FileDes);
+    }
+
+printf("!!!CFE_FS_WriteHeaderHook: ret is %d\n", (int)bytesWritten);
+    return ((int32)bytesWritten);
+}
+
+
+int32 OS_creatHook(const char *path, int32 access)
+{
+    FILE *fp = 0;
+
+    fp = fopen(path, "wb+");
+
+printf("!!!!OS_creatHook fp(%ld)\n", (int32)fp);
+    return ((int32)fp);
+}
+
+
+int32 OS_openHook(const char *path, int32 access, uint32 mode)
+{
+    FILE *fp = 0;
+
+    if (access == OS_READ_ONLY)
+    {
+        fp = fopen(path, "rb");
+    }
+    else if (access == OS_READ_WRITE)
+    {
+        fp = fopen(path, "rb+");
+    }
+    else
+    {
+printf("!!!OP_openHook else access type(%ld)\n", access);
+    }
+
+printf("!!!!OS_openHook fp(%ld)\n", (int32)fp);
+    return ((int32)fp);
+}
+
+
+int32 OS_writeHook(int32 filedes, const void *buffer, uint32 nbytes)
+{
+    size_t bytesWritten = 0;
+
+    if (filedes != 0)
+    {
+        bytesWritten = fwrite((void *)buffer, 1, nbytes, (FILE *)filedes);
+    }
+
+printf("!!!OS_writeHook: ret is %d\n", (int)bytesWritten);
+    return ((int32)bytesWritten);
+}
+
+
+int32 OS_closeHook(int32 filedes)
+{
+    int ret = 0;
+
+    if (filedes != 0)
+    {
+        ret = fclose((FILE *)filedes);
+    }
+
+printf("!!!OS_closeHook: ret is %d\n", ret);
+    return ((int32)ret);
+}
+
+
 int32 OS_statHook(const char *path, os_fstat_t *filestats)
 {
     filestats->st_size = TEST_FILE_SIZE;
@@ -133,14 +209,18 @@ int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
 
 int32 OS_readHook(int32  filedes, void *buffer, uint32 nbytes)
 {
-    int32 readbytes;
+    int32 readbytes = 0;
 
 printf("##OS_readHook: entered(%u)\n", ReadHook_IncomingFlag);
     if (ReadHook_IncomingFlag == TRUE)
     {
         if ((ReadHookCalledCnt % 2) == 0)
         {
-            readbytes = TEST_FILE_SIZE;
+            if (filedes != 0)
+            {
+                readbytes = fread(buffer, 1, nbytes, (FILE *)filedes);
+            }
+            readbytes = TEST_FILE_SIZE;    // check this
         }
         else
         {

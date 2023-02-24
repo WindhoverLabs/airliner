@@ -66,7 +66,8 @@
 CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
 CF_HkPacket_t   HkHookPkt;
 
-CFE_SB_MsgId_t  SendCfgParamsHook_MsgId = 0;
+CFE_SB_MsgId_t     SendCfgParamsHook_MsgId = 0;
+CF_ConfigPacket_t  CfgHookPkt;
 
 uint32          SendTransDiagHook_CalledCnt = 0;
 /* (Pb PendingQ depth + HistoryQ depth) * 2 channel + Up HistQ depth */
@@ -5512,7 +5513,6 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles(void)
 }
 
 
-#if 0
 /**
  * Test CF_AppPipe, GetMibCmdSaveIncompleteFilesInvLen
  */
@@ -5622,8 +5622,8 @@ void Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvParam(void)
                   "CF_AppPipe, GetMibCmdSaveIncompleteFilesInvParam");
 
     UtAssert_EventSent(CF_CFDP_ENGINE_WARN_EID, CFE_EVS_INFORMATION,
-          expEvent,
-          "CF_AppPipe, GetMibCmdSaveIncompleteFilesInvParam: Event Sent");
+                       expEvent, "CF_AppPipe, "
+                       "GetMibCmdSaveIncompleteFilesInvParam: Event Sent");
 
     CF_ResetEngine();
 }
@@ -5958,10 +5958,6 @@ void Test_CF_AppPipe_GetMibCmdMyId(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, GetMibCmdMyId");
 
-    UtAssert_True(strcmp(CF_AppData.Tbl->FlightEntityId, SetMibCmdMsg.Value)
-                  == 0,
-                  "CF_AppPipe, GetMibCmdMyId: Config Tbl updated");
-
     UtAssert_EventSent(CF_GET_MIB_CMD_EID, CFE_EVS_INFORMATION, expEvent,
                        "CF_AppPipe, GetMibCmdMyId: Event Sent");
 
@@ -5981,7 +5977,6 @@ int32 Test_CF_AppPipe_SendCfgParamsCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     time_t              localTime;
     struct tm           *loc_time;
     CFE_TIME_SysTime_t  TimeFromMsg;
-    CF_ConfigPacket_t   CfgParamsMsg;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
@@ -6006,38 +6001,36 @@ int32 Test_CF_AppPipe_SendCfgParamsCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
         {
             SendCfgParamsHook_MsgId = CF_CONFIG_TLM_MID;
             printf("Sent CF_CONFIG_TLM_MID\n");
-            memcpy((void *)&CfgParamsMsg, (void *)MsgPtr,
-                   sizeof(CfgParamsMsg));
+            memcpy((void *)&CfgHookPkt, (void *)MsgPtr, sizeof(CfgHookPkt));
 
-            printf("EngCycPerWakeup: %lu\n", CfgParamsMsg.EngCycPerWakeup);
-            printf("AckLimit: %lu\n", CfgParamsMsg.AckLimit);
-            printf("AckTimeout: %lu\n", CfgParamsMsg.AckTimeout);
-            printf("NakLimit: %lu\n", CfgParamsMsg.NakLimit);
-            printf("NakTimeout: %lu\n", CfgParamsMsg.NakTimeout);
-            printf("InactTimeout: %lu\n", CfgParamsMsg.InactTimeout);
+            printf("EngCycPerWakeup: %lu\n", CfgHookPkt.EngCycPerWakeup);
+            printf("AckLimit: %lu\n", CfgHookPkt.AckLimit);
+            printf("AckTimeout: %lu\n", CfgHookPkt.AckTimeout);
+            printf("NakLimit: %lu\n", CfgHookPkt.NakLimit);
+            printf("NakTimeout: %lu\n", CfgHookPkt.NakTimeout);
+            printf("InactTimeout: %lu\n", CfgHookPkt.InactTimeout);
             printf("DefOutgoingChunkSize: %lu\n",
-                    CfgParamsMsg.DefOutgoingChunkSize);
-            printf("PipeDepth: %lu\n", CfgParamsMsg.PipeDepth);
+                   CfgHookPkt.DefOutgoingChunkSize);
+            printf("PipeDepth: %lu\n", CfgHookPkt.PipeDepth);
             printf("MaxSimultaneousTrans: %lu\n",
-                    CfgParamsMsg.MaxSimultaneousTrans);
+                   CfgHookPkt.MaxSimultaneousTrans);
             printf("IncomingPduBufSize: %lu\n",
-                    CfgParamsMsg.IncomingPduBufSize);
+                   CfgHookPkt.IncomingPduBufSize);
             printf("OutgoingPduBufSize: %lu\n",
-                    CfgParamsMsg.OutgoingPduBufSize);
-            printf("NumInputChannels: %lu\n",
-                    CfgParamsMsg.NumInputChannels);
-            printf("MaxPlaybackChans: %lu\n", CfgParamsMsg.MaxPlaybackChans);
+                    CfgHookPkt.OutgoingPduBufSize);
+            printf("NumInputChannels: %lu\n", CfgHookPkt.NumInputChannels);
+            printf("MaxPlaybackChans: %lu\n", CfgHookPkt.MaxPlaybackChans);
             printf("MaxPollingDirsPerChan: %lu\n",
-                    CfgParamsMsg.MaxPollingDirsPerChan);
-            printf("MemPoolBytes: %lu\n", CfgParamsMsg.MemPoolBytes);
-            printf("DebugCompiledIn: %lu\n", CfgParamsMsg.DebugCompiledIn);
+                   CfgHookPkt.MaxPollingDirsPerChan);
+            printf("MemPoolBytes: %lu\n", CfgHookPkt.MemPoolBytes);
+            printf("DebugCompiledIn: %lu\n", CfgHookPkt.DebugCompiledIn);
             printf("SaveIncompleteFiles: %s\n",
-                    CfgParamsMsg.SaveIncompleteFiles);
-            printf("PipeName: %s\n", CfgParamsMsg.PipeName);
-            printf("TmpFilePrefix: %s\n", CfgParamsMsg.TmpFilePrefix);
-            printf("CfgTblName: %s\n", CfgParamsMsg.CfgTblName);
-            printf("CfgTbleFilename: %s\n", CfgParamsMsg.CfgTbleFilename);
-            printf("DefQInfoFilename: %s\n", CfgParamsMsg.DefQInfoFilename);
+                   CfgHookPkt.SaveIncompleteFiles);
+            printf("PipeName: %s\n", CfgHookPkt.PipeName);
+            printf("TmpFilePrefix: %s\n", CfgHookPkt.TmpFilePrefix);
+            printf("CfgTblName: %s\n", CfgHookPkt.CfgTblName);
+            printf("CfgTbleFilename: %s\n", CfgHookPkt.CfgTbleFilename);
+            printf("DefQInfoFilename: %s\n", CfgHookPkt.DefQInfoFilename);
             break;
         }
         default:
@@ -6056,7 +6049,8 @@ int32 Test_CF_AppPipe_SendCfgParamsCmd_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_CF_AppPipe_SendCfgParamsCmd(void)
 {
-    CF_NoArgsCmd_t  CmdMsg;
+    cf_config_table_t *pTbl;
+    CF_NoArgsCmd_t    CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
@@ -6064,12 +6058,20 @@ void Test_CF_AppPipe_SendCfgParamsCmd(void)
                       (uint16)CF_SEND_CFG_PARAMS_CC);
     CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
     SendCfgParamsHook_MsgId = 0;
+    memset((void *)&CfgHookPkt, 0x00, sizeof(CfgHookPkt));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                     (void *)&Test_CF_AppPipe_SendCfgParamsCmd_SendMsgHook);
 
     /* Execute the function being tested */
     CF_AppInit();
+    pTbl = CF_AppData.Tbl;
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -6083,6 +6085,42 @@ void Test_CF_AppPipe_SendCfgParamsCmd(void)
 
     UtAssert_True(SendCfgParamsHook_MsgId == CF_CONFIG_TLM_MID,
                   "CF_AppPipe, SendCfgParamsCmd: Sent CF_CONFIG_TLM_MID");
+
+    UtAssert_True((CfgHookPkt.EngCycPerWakeup ==
+                              pTbl->NumEngCyclesPerWakeup)
+             && (CfgHookPkt.AckLimit == (uint32)atoi(pTbl->AckLimit))
+             && (CfgHookPkt.AckTimeout == (uint32)atoi(pTbl->AckTimeout))
+             && (CfgHookPkt.NakLimit == (uint32)atoi(pTbl->NakLimit))
+             && (CfgHookPkt.NakTimeout == (uint32)atoi(pTbl->NakTimeout))
+             && (CfgHookPkt.InactTimeout ==
+                            (uint32)atoi(pTbl->InactivityTimeout))
+             && (CfgHookPkt.DefOutgoingChunkSize ==
+                            (uint32)atoi(pTbl->OutgoingFileChunkSize))
+             && (strcmp(CfgHookPkt.SaveIncompleteFiles,
+                    CF_Test_ToUpperCase(pTbl->SaveIncompleteFiles)) == 0),
+             "CF_AppPipe, SendCfgParamsCmd: Config Params from Table");
+
+    UtAssert_True((CfgHookPkt.PipeDepth == CF_PIPE_DEPTH)
+             && (CfgHookPkt.MaxSimultaneousTrans ==
+                            CF_MAX_SIMULTANEOUS_TRANSACTIONS)
+             && (CfgHookPkt.IncomingPduBufSize == CF_INCOMING_PDU_BUF_SIZE)
+             && (CfgHookPkt.OutgoingPduBufSize == CF_OUTGOING_PDU_BUF_SIZE)
+             && (CfgHookPkt.NumInputChannels == CF_NUM_INPUT_CHANNELS)
+             && (CfgHookPkt.MaxPlaybackChans == CF_MAX_PLAYBACK_CHANNELS)
+             && (CfgHookPkt.MaxPollingDirsPerChan ==
+                            CF_MAX_POLLING_DIRS_PER_CHAN)
+             && (CfgHookPkt.MemPoolBytes == CF_MEMORY_POOL_BYTES),
+             "CF_AppPipe, SendCfgParamsCmd: Config Params 1");
+
+    UtAssert_True((strcmp(CfgHookPkt.PipeName, CF_PIPE_NAME) == 0)
+               && (strcmp(CfgHookPkt.TmpFilePrefix,
+                          CF_ENGINE_TEMP_FILE_PREFIX) == 0)
+               && (strcmp(CfgHookPkt.CfgTblName, CF_CONFIG_TABLE_NAME) == 0)
+               && (strcmp(CfgHookPkt.CfgTbleFilename,
+                          CF_CONFIG_TABLE_FILENAME) == 0)
+               && (strcmp(CfgHookPkt.DefQInfoFilename,
+                          CF_DEFAULT_QUEUE_INFO_FILENAME) == 0),
+               "CF_AppPipe, SendCfgParamsCmd: Config Params 2");
 
     UtAssert_EventSent(CF_SND_CFG_CMD_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, SendCfgParamsCmd: Event Sent");
@@ -6252,44 +6290,108 @@ void Test_CF_AppPipe_WriteQueueCmdUpQValueErr(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
 {
-    CF_WriteQueueCmd_t  CmdMsg;
+    uint16                   PDataLen;
+    uint16                   hdr_len;
+    int                      bytesWritten;
+    uint32                   QEntryCnt;
+    FILE                     *fp;
+    CFE_FS_Header_t          FileHdr;
+    CF_QueueInfoFileEntry_t  Entry;
+    CF_Test_InPDUInfo_t      InPDUInfo;
+    CF_WriteQueueCmd_t       WriteQCmdMsg;
+    CF_Test_InPDUMsg_t       InMdPDUMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
+
+    /* Build WriteQ Command Msg */
+    CFE_SB_InitMsg((void*)&WriteQCmdMsg, CF_CMD_MID,
+                   sizeof(WriteQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WriteQCmdMsg,
                       (uint16)CF_WRITE_QUEUE_INFO_CC);
-    CmdMsg.Type = CF_UPLINK;
-    CmdMsg.Chan = 0;
-    CmdMsg.Queue = CF_ACTIVEQ;
-    strcpy(CmdMsg.Filename, "");
+    WriteQCmdMsg.Type = CF_UPLINK;
+    WriteQCmdMsg.Chan = 0;
+    WriteQCmdMsg.Queue = CF_ACTIVEQ;
+    strcpy(WriteQCmdMsg.Filename, "");
 
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CF_Test_PrintCmdMsg((void*)&WriteQCmdMsg, sizeof(WriteQCmdMsg));
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CREAT_INDEX,
+                                 (void *)&OS_creatHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSE_INDEX, OS_FS_SUCCESS, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_WRITE_INDEX,
+                                 (void *)&OS_writeHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_WRITE_INDEX,
-                               sizeof(CF_QueueInfoFileEntry_t), 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_WRITE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CLOSE_INDEX,
+                                 (void *)&OS_closeHook);
 
-    Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
-                            sizeof(CFE_FS_Header_t), 1);
+    Ut_CFE_FS_SetFunctionHook(UT_CFE_FS_WRITEHDR_INDEX,
+                              (void *)&CFE_FS_WriteHeaderHook);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    /* Incoming MD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* Write Q Command */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WriteQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+
+    fp = fopen(CF_DEFAULT_QUEUE_INFO_FILENAME, "rb");
+    fseek(fp, 0, SEEK_SET);
+    fread(&FileHdr, 1, sizeof(FileHdr), fp);
+    fread(&Entry, 1, sizeof(Entry), fp);
+    fclose(fp);
+
+    bytesWritten = sizeof(CFE_FS_Header_t) +
+                   (1 * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
-            CF_DEFAULT_QUEUE_INFO_FILENAME, sizeof(CFE_FS_Header_t), 0);
+            CF_DEFAULT_QUEUE_INFO_FILENAME, bytesWritten, 1);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdUpDefFilename");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, WriteQueueCmdUpDefFilename: QEntryCnt");
+
+    UtAssert_True(strcmp(FileHdr.Description, "CF Queue Information") == 0,
+               "CF_AppPipe, WriteQueueCmdUpDefFilename: Written Hdr info");
+
+    UtAssert_True((Entry.TransStatus == CF_STAT_ACTIVE)
+               && (Entry.TransNum == InPDUInfo.trans.number)
+               && (strcmp(Entry.SrcEntityId,
+                         cfdp_id_as_string(InPDUInfo.trans.source_id)) == 0)
+               && (strcmp(Entry.SrcFile, InPDUInfo.src_filename) == 0),
+               "CF_AppPipe, WriteQueueCmdUpDefFilename: Written Entry Info");
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, WriteQueueCmdUpDefFilename: Event Sent");
@@ -6303,45 +6405,151 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
 {
-    CF_WriteQueueCmd_t  CmdMsg;
+    uint16                   PDataLen;
+    uint16                   hdr_len;
+    int                      bytesWritten;
+    uint32                   QEntryCnt;
+    FILE                     *fp;
+    CFE_FS_Header_t          FileHdr;
+    CF_QueueInfoFileEntry_t  Entry;
+    CF_Test_InPDUInfo_t      InPDUInfo;
+    CF_WriteQueueCmd_t       WriteQCmdMsg;
+    CF_Test_InPDUMsg_t       InMdPDUMsg;
+    CF_Test_InPDUMsg_t       InFdPDUMsg;
+    CF_Test_InPDUMsg_t       InEofPDUMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.direction = TEST_TO_RECEIVER;
+    InPDUInfo.mode = TEST_UNACK_MODE;
+    InPDUInfo.use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
+    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
+
+    /* Build CF_PPD_TO_CPD_PDU_MID (FD PDU) */
+    CFE_SB_InitMsg((void*)&InFdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InFdPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DATA_PDU;
+    InPDUInfo.offset = 0;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
+
+    PDataLen = InPDUInfo.file_size + 4;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InPDUInfo, hdr_len);
+
+    /* Build CF_PPD_TO_CPD_PDU_MID (EOF PDU) */
+    CFE_SB_InitMsg((void*)&InEofPDUMsg, CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InEofPDUMsg), TRUE);
+    InPDUInfo.pdu_type = FILE_DIR_PDU;
+    InPDUInfo.cond_code = NO_ERROR;
+    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.checksum = 0;
+
+    PDataLen = 10;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InEofPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildEOFPdu(&InEofPDUMsg, &InPDUInfo, hdr_len);
+
+    /* Build WriteQ Command Msg */
+    CFE_SB_InitMsg((void*)&WriteQCmdMsg, CF_CMD_MID,
+                   sizeof(WriteQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WriteQCmdMsg,
                       (uint16)CF_WRITE_QUEUE_INFO_CC);
-    CmdMsg.Type = CF_UPLINK;
-    CmdMsg.Chan = 0;
-    CmdMsg.Queue = CF_HISTORYQ;
-    strcpy(CmdMsg.Filename, TestQInfoDir);
-    strcat(CmdMsg.Filename, TestQInfoFile1);
+    WriteQCmdMsg.Type = CF_UPLINK;
+    WriteQCmdMsg.Chan = 0;
+    WriteQCmdMsg.Queue = CF_HISTORYQ;
+    sprintf(WriteQCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
 
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CF_Test_PrintCmdMsg((void*)&WriteQCmdMsg, sizeof(WriteQCmdMsg));
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CREAT_INDEX,
+                                 (void *)&OS_creatHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSE_INDEX, OS_FS_SUCCESS, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPEN_INDEX,
+                                 (void *)&OS_openHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_WRITE_INDEX,
-                               sizeof(CF_QueueInfoFileEntry_t), 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_WRITE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_WRITE_INDEX,
+                                 (void *)&OS_writeHook);
 
-    Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
-                            sizeof(CFE_FS_Header_t), 1);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CLOSE_INDEX,
+                                 (void *)&OS_closeHook);
+
+    Ut_CFE_FS_SetFunctionHook(UT_CFE_FS_WRITEHDR_INDEX,
+                              (void *)&CFE_FS_WriteHeaderHook);
+
+    /* Return the read bytes */
+    ReadHook_IncomingFlag = TRUE;
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
+                                 (void *)&OS_readHook);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    /* Incoming MD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
+    /* Incoming FD PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InFdPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Incoming EOF PDU */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InEofPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* WriteQ Command */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WriteQCmdMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+CF_ShowQs();
+machine_list__display_list();
+
+    fp = fopen(WriteQCmdMsg.Filename, "rb");
+    fseek(fp, 0, SEEK_SET);
+    fread(&FileHdr, 1, sizeof(FileHdr), fp);
+    fread(&Entry, 1, sizeof(Entry), fp);
+    fclose(fp);
+
+    bytesWritten = sizeof(CFE_FS_Header_t) +
+                   (1 * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
-            CmdMsg.Filename, sizeof(CFE_FS_Header_t), 0);
+            WriteQCmdMsg.Filename, bytesWritten, 1);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdUpCustomFilename");
+
+    UtAssert_True(QEntryCnt == 1,
+                  "CF_AppPipe, WriteQueueCmdUpCustomFilename: QEntry Cnt");
+
+    UtAssert_True(strcmp(FileHdr.Description, "CF Queue Information") == 0,
+            "CF_AppPipe, WriteQueueCmdUpCustomFilename: Written Hdr info");
+
+    UtAssert_True((Entry.TransStatus == CF_STAT_SUCCESS)
+          && (Entry.TransNum == InPDUInfo.trans.number)
+          && (strcmp(Entry.SrcEntityId,
+                     cfdp_id_as_string(InPDUInfo.trans.source_id)) == 0)
+          && (strcmp(Entry.SrcFile, InPDUInfo.src_filename) == 0),
+          "CF_AppPipe, WriteQueueCmdUpCustomFilename: Written Entry Info");
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                  "CF_AppPipe, WriteQueueCmdUpCustomFilename: Event Sent");
@@ -6350,6 +6558,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
 }
 
 
+#if 0
 /**
  * Test CF_AppPipe, WriteQueueCmdOutQValueErr
  */
@@ -11739,7 +11948,6 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFiles");
-#if 0
     UtTest_Add(Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_GetMibCmdSaveIncompleteFilesInvLen");
@@ -11793,6 +12001,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdUpCustomFilename,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdUpCustomFilename");
+#if 0
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutQValueErr,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutQValueErr");

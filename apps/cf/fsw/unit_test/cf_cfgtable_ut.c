@@ -95,8 +95,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl1/pr2/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl1/pr2/",  /* DstPath, no spaces */
                 }, /* End Polling Directory 0 */
 
                 { /* Polling Directory 1 */
@@ -109,8 +109,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl2/pr2/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl2/pr2/",  /* DstPath, no spaces */
                 }, /* End Polling Directory 1 */
 
                 { /* Polling Directory 2 */
@@ -123,8 +123,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl1/pr4/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl1/pr4/",  /* DstPath, no spaces */
                 }, /* End Polling Directory 2 */
 
                 { /* Polling Directory 3 */
@@ -137,8 +137,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl2/pr4/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl2/pr4/",  /* DstPath, no spaces */
                 }, /* End Polling Directory 3 */
 
                 { /* Polling Directory 4 */
@@ -151,8 +151,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl1/pr6/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl1/pr6/",  /* DstPath, no spaces */
                 }, /* End Polling Directory 4 */
 
                 { /* Polling Directory 5 */
@@ -165,8 +165,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.2",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/cl2/pr6/",    /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cf/dn/cpd/cl2/pr6/",  /* DstPath, no spaces */
                 } /* End Polling Directory 5 */
 
             } /* End Polling Directory Array */
@@ -194,8 +194,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 0 */
 
                 { /* Polling Directory 1 */
@@ -208,8 +208,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 1 */
 
                 { /* Polling Directory 2 */
@@ -222,8 +222,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 2 */
 
                 { /* Polling Directory 3 */
@@ -236,8 +236,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 3 */
 
                 { /* Polling Directory 4 */
@@ -250,8 +250,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 4 */
 
                 { /* Polling Directory 5 */
@@ -264,8 +264,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/ppd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/ppd/",            /* DstPath, no spaces */
+                    "/ram/dn/ppd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/ppd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 5 */
 
                 { /* Polling Directory 6 */
@@ -278,8 +278,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 6 */
 
                 { /* Polling Directory 7 */
@@ -292,8 +292,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr2/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 7 */
 
                 { /* Polling Directory 8 */
@@ -306,8 +306,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 8 */
 
                 { /* Polling Directory 9 */
@@ -320,8 +320,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr4/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 9 */
 
                 { /* Polling Directory 10 */
@@ -334,8 +334,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl1/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 }, /* End Polling Directory 10 */
 
                 { /* Polling Directory 11 */
@@ -348,8 +348,8 @@ cf_config_table_t  CF_ConfigTableUnitTest =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/dn/cpd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
-                    "/cpd/",            /* DstPath, no spaces */
+                    "/ram/dn/cpd/cl2/pr6/", /* SrcPath, no spaces, fwd slash at end */
+                    "/cpd/",                /* DstPath, no spaces */
                 } /* End Polling Directory 11 */
 
             } /* End Polling Directory Array */

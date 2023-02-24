@@ -71,22 +71,22 @@ const char TestInNoFile[] = "";
 
 const char TestQInfoFile1[] = "qinfo1.dat";
 
-const char TestPbDir0[] = "/dn/cpd/cl1/pr2/";
-const char TestPbDir1[] = "/dn/cpd/cl2/pr2/";
-const char TestPbDir2[] = "/dn/cpd/cl1/pr4/";
-const char TestPbDir3[] = "/dn/cpd/cl2/pr4/";
+const char TestPbDir0[] = "/ram/dn/cpd/cl1/pr2/";
+const char TestPbDir1[] = "/ram/dn/cpd/cl2/pr2/";
+const char TestPbDir2[] = "/ram/dn/cpd/cl1/pr4/";
+const char TestPbDir3[] = "/ram/dn/cpd/cl2/pr4/";
 
-const char TestDstDir0[] = "/cpd/cl1/pr2/";
-const char TestDstDir1[] = "/cpd/cl2/pr2/";
-const char TestDstDir2[] = "/cpd/cl1/pr4/";
-const char TestDstDir3[] = "/cpd/cl2/pr4/";
+const char TestDstDir0[] = "/cf/dn/cpd/cl1/pr2/";
+const char TestDstDir1[] = "/cf/dn/cpd/cl2/pr2/";
+const char TestDstDir2[] = "/cf/dn/cpd/cl1/pr4/";
+const char TestDstDir3[] = "/cf/dn/cpd/cl2/pr4/";
 
-const char TestInDir0[] = "/up/ppd/cl1/";
-const char TestInDir1[] = "/up/ppd/cl2/";
-const char TestInDir2[] = "/up/gnd/cl1/";
-const char TestInDir3[] = "/up/gnd/cl2/";
+const char TestInDir0[] = "/ram/up/ppd/cl1/";
+const char TestInDir1[] = "/ram/up/ppd/cl2/";
+const char TestInDir2[] = "/ram/up/gnd/cl1/";
+const char TestInDir3[] = "/ram/up/gnd/cl2/";
 
-const char TestQInfoDir[] = "/qinfo/";
+const char TestQInfoDir[] = "/ram/";
 
 const char TestFlightEntityId[] = "0.3";
 

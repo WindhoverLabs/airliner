@@ -60,15 +60,22 @@ int32   CFE_ES_GetPoolBufHook(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr,
 int32   CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr);
 int32   CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
                                   CFE_SB_ZeroCopyHandle_t *BufferHandle);
+int32   CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr);
 
-int32          OS_statHook(const char *path, os_fstat_t *filestats);
-int32          OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
-int32          OS_readHook(int32  filedes, void *buffer, uint32 nbytes);
-os_dirp_t      OS_opendirHook(const char *path);
-os_dirent_t    *OS_readdirHook (os_dirp_t directory);
-int32          OS_CountSemGetIdByNameHook(
+int32        OS_creatHook(const char *path, int32  access);
+int32        OS_openHook(const char *path, int32 access, uint32 mode);
+int32        OS_writeHook(int32 filedes, const void *buffer, uint32 nbytes);
+int32        OS_closeHook(int32 filedes);
+
+int32        OS_statHook(const char *path, os_fstat_t *filestats);
+int32        OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
+int32        OS_readHook(int32  filedes, void *buffer, uint32 nbytes);
+os_dirp_t    OS_opendirHook(const char *path);
+os_dirent_t  *OS_readdirHook (os_dirp_t directory);
+
+int32        OS_CountSemGetIdByNameHook(
                           uint32 *sem_id, const char *sem_name);
-int32          OS_CountSemGetInfoHook(
+int32        OS_CountSemGetInfoHook(
                           uint32 sem_id, OS_count_sem_prop_t *count_prop);
 
 void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
