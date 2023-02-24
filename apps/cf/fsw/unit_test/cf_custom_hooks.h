@@ -36,8 +36,7 @@
 
 #include "cfe.h"
 
-extern uint32       ReadHookCalledCnt;
-extern boolean      ReadHook_IncomingFlag;
+
 extern uint32       ReaddirHookReturnCnt;
 extern os_dirent_t  ReaddirHookDirEntry;
 
@@ -64,12 +63,12 @@ int32   CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr);
 
 int32        OS_creatHook(const char *path, int32  access);
 int32        OS_openHook(const char *path, int32 access, uint32 mode);
+int32        OS_readHook(int32  filedes, void *buffer, uint32 nbytes);
 int32        OS_writeHook(int32 filedes, const void *buffer, uint32 nbytes);
 int32        OS_closeHook(int32 filedes);
 
 int32        OS_statHook(const char *path, os_fstat_t *filestats);
 int32        OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop);
-int32        OS_readHook(int32  filedes, void *buffer, uint32 nbytes);
 os_dirp_t    OS_opendirHook(const char *path);
 os_dirent_t  *OS_readdirHook (os_dirp_t directory);
 

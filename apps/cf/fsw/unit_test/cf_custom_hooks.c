@@ -39,9 +39,6 @@
 #include <string.h>
 
 
-uint32       ReadHookCalledCnt = 0;
-boolean      ReadHook_IncomingFlag = FALSE;
-
 os_dir_t     OpendirHookDir;
 
 uint32       ReaddirHookReturnCnt = 0;
@@ -118,13 +115,13 @@ int32 CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr)
 {
     size_t bytesWritten = 0;
 
-    if (FileDes != 0)
+    if ((FileDes != 0) && (FileDes != TEST_FD_ZERO_REPLACEMENT))
     {
         bytesWritten = fwrite((void *)Hdr, 1, sizeof(CFE_FS_Header_t),
                               (FILE *)FileDes);
     }
 
-printf("!!!CFE_FS_WriteHeaderHook: ret is %d\n", (int)bytesWritten);
+printf("!!!CFE_FS_WriteHeaderHook: bytesWritten is %d\n", (int)bytesWritten);
     return ((int32)bytesWritten);
 }
 
@@ -135,7 +132,7 @@ int32 OS_creatHook(const char *path, int32 access)
 
     fp = fopen(path, "wb+");
 
-printf("!!!!OS_creatHook fp(%ld)\n", (int32)fp);
+printf("!!!!OS_creatHook fp(%x)\n", (unsigned int)fp);
     return ((int32)fp);
 }
 
@@ -157,8 +154,22 @@ int32 OS_openHook(const char *path, int32 access, uint32 mode)
 printf("!!!OP_openHook else access type(%ld)\n", access);
     }
 
-printf("!!!!OS_openHook fp(%ld)\n", (int32)fp);
+printf("!!!!OS_openHook fp(%x)\n", (unsigned int)fp);
     return ((int32)fp);
+}
+
+
+int32 OS_readHook(int32  filedes, void *buffer, uint32 nbytes)
+{
+    int32 readbytes = 0;
+
+    if ((filedes != 0) && (filedes != TEST_FD_ZERO_REPLACEMENT))
+    {
+        readbytes = fread(buffer, 1, nbytes, (FILE *)filedes);
+    }
+
+printf("##OS_readHook: readbytes(%ld)\n", readbytes);
+    return readbytes;
 }
 
 
@@ -166,21 +177,21 @@ int32 OS_writeHook(int32 filedes, const void *buffer, uint32 nbytes)
 {
     size_t bytesWritten = 0;
 
-    if (filedes != 0)
+    if ((filedes != 0) && (filedes != TEST_FD_ZERO_REPLACEMENT))
     {
         bytesWritten = fwrite((void *)buffer, 1, nbytes, (FILE *)filedes);
     }
 
-printf("!!!OS_writeHook: ret is %d\n", (int)bytesWritten);
+printf("!!!OS_writeHook: bytesWritten is %d\n", (int)bytesWritten);
     return ((int32)bytesWritten);
 }
 
 
 int32 OS_closeHook(int32 filedes)
 {
-    int ret = 0;
+    int ret = EOF;    // -1
 
-    if (filedes != 0)
+    if ((filedes != 0) && (filedes != TEST_FD_ZERO_REPLACEMENT))
     {
         ret = fclose((FILE *)filedes);
     }
@@ -204,37 +215,6 @@ int32 OS_FDGetInfoHook (int32 filedes, OS_FDTableEntry *fd_prop)
     strcat(fd_prop->Path, TestPbFile1);
 
     return OS_FS_SUCCESS;
-}
-
-
-int32 OS_readHook(int32  filedes, void *buffer, uint32 nbytes)
-{
-    int32 readbytes = 0;
-
-printf("##OS_readHook: entered(%u)\n", ReadHook_IncomingFlag);
-    if (ReadHook_IncomingFlag == TRUE)
-    {
-        if ((ReadHookCalledCnt % 2) == 0)
-        {
-            if (filedes != 0)
-            {
-                readbytes = fread(buffer, 1, nbytes, (FILE *)filedes);
-            }
-            readbytes = TEST_FILE_SIZE;    // check this
-        }
-        else
-        {
-            readbytes = 0;
-        }
-    }
-    else
-    {
-        readbytes = TEST_FILE_SIZE;
-    }
-
-    ReadHookCalledCnt ++;
-
-    return readbytes;
 }
 
 

@@ -771,10 +771,14 @@ void Test_CF_AppMain_IncomingMsg(void)
     CF_TstUtil_BuildEOFPdu(&InEofPDUMsg2, &InPDUInfo2, hdr_len);
     Ut_CFE_SB_AddMsgToPipe((void*)&InEofPDUMsg2, (CFE_SB_PipeId_t)CmdPipe);
 
+#if 0 // No actual file operation, but the m has the file information with size
     /* Return the read bytes */
-    ReadHook_IncomingFlag = TRUE;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
                                  (void *)&OS_readHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_WRITE_INDEX,
+                                 (void *)&OS_writeHook);
+#endif
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -898,6 +902,13 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
 
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_OPENDIR_INDEX,
                                  (void *)&OS_opendirHook);
 
@@ -906,43 +917,37 @@ void Test_CF_AppMain_WakeupReqCmd(void)
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                          UT_OSFILEAPI_CLOSEDIR_INDEX);
 
+    /* Return invalid dir/filenames and then return
+       TestPbFile3, TestPbFile2, TestPbFile1, ... */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
+                                 (void*)&OS_readdirHook);
+
     /* Return OS_FS_ERR_INVALID_FD: means that the file is not open */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
                                OS_FS_ERR_INVALID_FD, 1);
     Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
                                UT_OSFILEAPI_FDGETINFO_INDEX);
 
-    /* Return invalid dir/filenames and then return
-       TestPbFile3, TestPbFile2, TestPbFile1, ... */
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READDIR_INDEX,
-                                 (void*)&OS_readdirHook);
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Give a valid file size and return success */
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
                                  (void*)&OS_statHook);
 
+#if 0 // No actual file read but copy the garbage data with the right size
     /* Return the read bytes */
-    ReadHook_IncomingFlag = FALSE;
     Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
                                  (void *)&OS_readHook);
+#endif
 
     /* Return a buf pointer to send a PDU through SB */
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYGETPTR_INDEX,
                              (void *)&CFE_SB_ZeroCopyGetPtrHook);
 
-    /* Return the offset pointer of the CF_AppData.Mem.Partition */
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
-                              (void*)&CFE_ES_GetPoolBufHook);
-
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
                               (void*)&CFE_ES_PutPoolBufHook);
-
-    /* To give the unit test system time for SB Msg */
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
-                              (void *)&CFE_SB_TimeStampMsgHook);
-
-    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
-                                (void *)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
 

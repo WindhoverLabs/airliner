@@ -40,6 +40,9 @@
 #define      TEST_FILE_SIZE                     123
 #define      TEST_IN_TRANS_NUMBER               500
 
+/* The last positive int32 number defined in CF app */
+#define      TEST_FD_ZERO_REPLACEMENT           0x7FFFFFFF
+
 extern CF_AppData_t        CF_AppData;
 extern cf_config_table_t   CF_ConfigTable;
 extern cf_config_table_t   CF_ConfigTableUnitTest;

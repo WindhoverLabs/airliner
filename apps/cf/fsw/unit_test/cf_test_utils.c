@@ -115,9 +115,6 @@ void CF_Test_Setup(void)
     ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
 
-    ReadHookCalledCnt = 0;
-    ReadHook_IncomingFlag = FALSE;
-
     cfdp_set_trans_seq_num(1);
     cfdp_reset_totals();
     misc__thaw_all_partners();
@@ -150,9 +147,6 @@ void CF_Test_SetupUnitTest(void)
 
     ReaddirHookReturnCnt = 0;
     memset((void*)&ReaddirHookDirEntry, 0x00, sizeof(ReaddirHookDirEntry));
-
-    ReadHookCalledCnt = 0;
-    ReadHook_IncomingFlag = FALSE;
 
     cfdp_set_trans_seq_num(1);
     cfdp_reset_totals();
