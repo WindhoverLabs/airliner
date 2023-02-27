@@ -61,7 +61,10 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
+
+extern int errno;
 
 CFE_SB_MsgId_t  SendHkHook_MsgId = 0;
 CF_HkPacket_t   HkHookPkt;
@@ -6291,38 +6294,63 @@ void Test_CF_AppPipe_WriteQueueCmdUpQValueErr(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
 {
+    int                      i;
     uint16                   PDataLen;
     uint16                   hdr_len;
     int                      bytesWritten;
     uint32                   QEntryCnt;
     FILE                     *fp;
-    CFE_FS_Header_t          FileHdr;
-    CF_QueueInfoFileEntry_t  Entry;
-    CF_Test_InPDUInfo_t      InPDUInfo;
+    CFE_FS_Header_t          QInfoHdr;
+    CF_QueueInfoFileEntry_t  QInfoEntry[100];
+    CF_Test_InPDUInfo_t      InPDUInfo[2];
     CF_WriteQueueCmd_t       WriteQCmdMsg;
-    CF_Test_InPDUMsg_t       InMdPDUMsg;
+    CF_Test_InPDUMsg_t       InMdPDUMsg[2];
+    char  AssertString[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    /**** File 1 ****/
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
-    CFE_SB_InitMsg((void*)&InMdPDUMsg, CF_PPD_TO_CPD_PDU_MID,
-                   sizeof(InMdPDUMsg), TRUE);
-    InPDUInfo.pdu_type = FILE_DIR_PDU;
-    InPDUInfo.direction = TEST_TO_RECEIVER;
-    InPDUInfo.mode = TEST_UNACK_MODE;
-    InPDUInfo.use_crc = NO;
-    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
-    InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
-    InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
-    sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
-    sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
+    CFE_SB_InitMsg((void*)&InMdPDUMsg[0], CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg[0]), TRUE);
+    InPDUInfo[0].pdu_type = FILE_DIR_PDU;
+    InPDUInfo[0].direction = TEST_TO_RECEIVER;
+    InPDUInfo[0].mode = TEST_UNACK_MODE;
+    InPDUInfo[0].use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo[0].trans.source_id);
+    InPDUInfo[0].trans.number = TEST_IN_TRANS_NUMBER;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo[0].dest_id);
+    InPDUInfo[0].segmentation_control = NO;
+    InPDUInfo[0].file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo[0].src_filename, "%s%s", TestInDir0, TestInFile1);
+    sprintf(InPDUInfo[0].dst_filename, "%s%s", TestInDir0, TestInFile1);
 
     PDataLen = 6;
-    PDataLen += strlen(InPDUInfo.src_filename) + 1;
-    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
-    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
-    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
+    PDataLen += strlen(InPDUInfo[0].src_filename) + 1;
+    PDataLen += strlen(InPDUInfo[0].dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg[0], &InPDUInfo[0], PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg[0], &InPDUInfo[0], hdr_len);
+
+    /**** File 2 ****/
+    /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
+    CFE_SB_InitMsg((void*)&InMdPDUMsg[1], CF_PPD_TO_CPD_PDU_MID,
+                   sizeof(InMdPDUMsg[1]), TRUE);
+    InPDUInfo[1].pdu_type = FILE_DIR_PDU;
+    InPDUInfo[1].direction = TEST_TO_RECEIVER;
+    InPDUInfo[1].mode = TEST_UNACK_MODE;
+    InPDUInfo[1].use_crc = NO;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo[1].trans.source_id);
+    InPDUInfo[1].trans.number = TEST_IN_TRANS_NUMBER + 1;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo[1].dest_id);
+    InPDUInfo[1].segmentation_control = NO;
+    InPDUInfo[1].file_size = TEST_FILE_SIZE;
+    sprintf(InPDUInfo[1].src_filename, "%s%s", TestInDir0, TestInFile2);
+    sprintf(InPDUInfo[1].dst_filename, "%s%s", TestInDir0, TestInFile2);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo[1].src_filename) + 1;
+    PDataLen += strlen(InPDUInfo[1].dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg[1], &InPDUInfo[1], PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg[1], &InPDUInfo[1], hdr_len);
 
     /* Build WriteQ Command Msg */
     CFE_SB_InitMsg((void*)&WriteQCmdMsg, CF_CMD_MID,
@@ -6358,8 +6386,12 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
     /* Execute the function being tested */
     CF_AppInit();
 
-    /* Incoming MD PDU */
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
+    /* Incoming MD PDU 1 */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg[0];
+    CF_AppPipe(CF_AppData.MsgPtr);
+
+    /* Incoming MD PDU 2 */
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg[1];
     CF_AppPipe(CF_AppData.MsgPtr);
 
     /* Write Q Command */
@@ -6372,33 +6404,50 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
     if (fp != NULL)
     {
         fseek(fp, 0, SEEK_SET);
-        fread(&FileHdr, 1, sizeof(FileHdr), fp);
-        fread(&Entry, 1, sizeof(Entry), fp);
+        fread(&QInfoHdr, 1, sizeof(CFE_FS_Header_t), fp);
+        for (i = 0; i < QEntryCnt; i++)
+        {
+            fread(&QInfoEntry[i], 1, sizeof(CF_QueueInfoFileEntry_t), fp);
+        }
         fclose(fp);
+    }
+    else
+    {
+        int errnum;
+
+        errnum = errno;
+        printf("fopen errno: %d\n", errno);
+        printf("fopen error string: %s\n", strerror(errnum));
     }
 
     bytesWritten = sizeof(CFE_FS_Header_t) +
-                   (1 * sizeof(CF_QueueInfoFileEntry_t));
+                   (QEntryCnt * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
-            CF_DEFAULT_QUEUE_INFO_FILENAME, bytesWritten, 1);
+            CF_DEFAULT_QUEUE_INFO_FILENAME, bytesWritten, (int)QEntryCnt);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdUpDefFilename");
 
-    UtAssert_True(QEntryCnt == 1,
+    UtAssert_True(QEntryCnt == 2,
                   "CF_AppPipe, WriteQueueCmdUpDefFilename: QEntryCnt");
 
-    UtAssert_True(strcmp(FileHdr.Description, "CF Queue Information") == 0,
-               "CF_AppPipe, WriteQueueCmdUpDefFilename: Written Hdr info");
+    UtAssert_True(strcmp(QInfoHdr.Description, "CF Queue Information") == 0,
+               "CF_AppPipe, WriteQueueCmdUpDefFilename: Written QInfoHdr");
 
-    UtAssert_True((Entry.TransStatus == CF_STAT_ACTIVE)
-               && (Entry.TransNum == InPDUInfo.trans.number)
-               && (strcmp(Entry.SrcEntityId,
-                         cfdp_id_as_string(InPDUInfo.trans.source_id)) == 0)
-               && (strcmp(Entry.SrcFile, InPDUInfo.src_filename) == 0),
-               "CF_AppPipe, WriteQueueCmdUpDefFilename: Written Entry Info");
+    for (i = 0; i < QEntryCnt; i++)
+    {
+        sprintf(AssertString, "CF_AppPipe, WriteQueueCmdUpDefFilename: "
+                "Written QInfoEntry[%d]", i);
+
+        UtAssert_True((QInfoEntry[i].TransStatus == CF_STAT_ACTIVE)
+          && (QInfoEntry[i].TransNum == TEST_IN_TRANS_NUMBER + i)
+          && (strcmp(QInfoEntry[i].SrcEntityId,
+                    cfdp_id_as_string(InPDUInfo[i].trans.source_id)) == 0)
+          && (strcmp(QInfoEntry[i].SrcFile, InPDUInfo[i].src_filename) == 0),
+          AssertString);
+    }
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                        "CF_AppPipe, WriteQueueCmdUpDefFilename: Event Sent");
@@ -6412,18 +6461,20 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
 {
+    int                      i;
     uint16                   PDataLen;
     uint16                   hdr_len;
     int                      bytesWritten;
     uint32                   QEntryCnt;
     FILE                     *fp;
-    CFE_FS_Header_t          FileHdr;
-    CF_QueueInfoFileEntry_t  Entry;
+    CFE_FS_Header_t          QInfoHdr;
+    CF_QueueInfoFileEntry_t  QInfoEntry[100];
     CF_Test_InPDUInfo_t      InPDUInfo;
     CF_WriteQueueCmd_t       WriteQCmdMsg;
     CF_Test_InPDUMsg_t       InMdPDUMsg;
     CF_Test_InPDUMsg_t       InFdPDUMsg;
     CF_Test_InPDUMsg_t       InEofPDUMsg;
+    char  AssertString[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
@@ -6530,15 +6581,26 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
     if (fp != NULL)
     {
         fseek(fp, 0, SEEK_SET);
-        fread(&FileHdr, 1, sizeof(FileHdr), fp);
-        fread(&Entry, 1, sizeof(Entry), fp);
+        fread(&QInfoHdr, 1, sizeof(CFE_FS_Header_t), fp);
+        for (i = 0; i < QEntryCnt; i++)
+        {
+            fread(&QInfoEntry[i], 1, sizeof(CF_QueueInfoFileEntry_t), fp);
+        }
         fclose(fp);
+    }
+    else
+    {
+        int errnum;
+
+        errnum = errno;
+        printf("fopen errno: %d\n", errno);
+        printf("fopen error string: %s\n", strerror(errnum));
     }
 
     bytesWritten = sizeof(CFE_FS_Header_t) +
-                   (1 * sizeof(CF_QueueInfoFileEntry_t));
+                   (QEntryCnt * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
-            WriteQCmdMsg.Filename, bytesWritten, 1);
+            WriteQCmdMsg.Filename, bytesWritten, (int)QEntryCnt);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
@@ -6548,15 +6610,21 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
     UtAssert_True(QEntryCnt == 1,
                   "CF_AppPipe, WriteQueueCmdUpCustomFilename: QEntry Cnt");
 
-    UtAssert_True(strcmp(FileHdr.Description, "CF Queue Information") == 0,
-            "CF_AppPipe, WriteQueueCmdUpCustomFilename: Written Hdr info");
+    UtAssert_True(strcmp(QInfoHdr.Description, "CF Queue Information") == 0,
+            "CF_AppPipe, WriteQueueCmdUpCustomFilename: Written QInfoHdr");
 
-    UtAssert_True((Entry.TransStatus == CF_STAT_SUCCESS)
-          && (Entry.TransNum == InPDUInfo.trans.number)
-          && (strcmp(Entry.SrcEntityId,
+    for (i = 0; i < QEntryCnt; i++)
+    {
+        sprintf(AssertString, "CF_AppPipe, WriteQueueCmdUpCustomFilename: "
+                "Written QInfoEntry[%d]", i);
+
+        UtAssert_True((QInfoEntry[i].TransStatus == CF_STAT_SUCCESS)
+          && (QInfoEntry[i].TransNum == InPDUInfo.trans.number)
+          && (strcmp(QInfoEntry[i].SrcEntityId,
                      cfdp_id_as_string(InPDUInfo.trans.source_id)) == 0)
-          && (strcmp(Entry.SrcFile, InPDUInfo.src_filename) == 0),
-          "CF_AppPipe, WriteQueueCmdUpCustomFilename: Written Entry Info");
+          && (strcmp(QInfoEntry[i].SrcFile, InPDUInfo.src_filename) == 0),
+          AssertString);
+    }
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                  "CF_AppPipe, WriteQueueCmdUpCustomFilename: Event Sent");
@@ -6855,18 +6923,20 @@ void Test_CF_AppPipe_WriteQueueCmdInvFilenameErr(void)
  */
 void Test_CF_AppPipe_WriteQueueCmdOutDefFilename(void)
 {
-    CF_WriteQueueCmd_t  CmdMsg;
+    uint32                QEntryCnt;
+    CF_WriteQueueCmd_t    WriteQCmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_SB_InitMsg((void*)&CmdMsg, CF_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg,
+    CFE_SB_InitMsg((void*)&WriteQCmdMsg, CF_CMD_MID,
+                   sizeof(WriteQCmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WriteQCmdMsg,
                       (uint16)CF_WRITE_QUEUE_INFO_CC);
-    CmdMsg.Type = CF_PLAYBACK;
-    CmdMsg.Chan = 0;
-    CmdMsg.Queue = CF_PB_PENDINGQ;
-    strcpy(CmdMsg.Filename, "");
+    WriteQCmdMsg.Type = CF_PLAYBACK;
+    WriteQCmdMsg.Chan = 0;
+    WriteQCmdMsg.Queue = CF_PB_PENDINGQ;
+    strcpy(WriteQCmdMsg.Filename, "");
 
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+    CF_Test_PrintCmdMsg((void*)&WriteQCmdMsg, sizeof(WriteQCmdMsg));
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
 
@@ -6883,8 +6953,11 @@ void Test_CF_AppPipe_WriteQueueCmdOutDefFilename(void)
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WriteQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt =
+        CF_AppData.Chan[WriteQCmdMsg.Chan].PbQ[WriteQCmdMsg.Queue].EntryCnt;
 
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
             CF_DEFAULT_QUEUE_INFO_FILENAME, sizeof(CFE_FS_Header_t), 0);
@@ -6894,6 +6967,9 @@ void Test_CF_AppPipe_WriteQueueCmdOutDefFilename(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdOutDefFilename");
 
+    UtAssert_True(QEntryCnt == 0,
+                  "CF_AppPipe, WriteQueueCmdOutDefFilename: QEntryCnt");
+
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                   "CF_AppPipe, WriteQueueCmdOutDefFilename: Event Sent");
 
@@ -6901,12 +6977,12 @@ void Test_CF_AppPipe_WriteQueueCmdOutDefFilename(void)
 }
 
 
-#if 0
 /**
  * Test CF_AppPipe, WriteQueueCmdOutCustomFilename
  */
 void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
 {
+    uint32              QEntryCnt;
     CF_WriteQueueCmd_t  CmdMsg;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -6916,6 +6992,8 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
     CmdMsg.Type = CF_PLAYBACK;
     CmdMsg.Chan = 0;
     CmdMsg.Queue = CF_PB_PENDINGQ;
+    sprintf(CmdMsg.Filename, "%s%s", TestQInfoDir, TestInDir0);
+    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
 
@@ -6933,13 +7011,10 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
     CF_AppInit();
 
     /* Write Queue Info */
-    strcpy(CmdMsg.Filename,
-           CF_AppData.Tbl->OuCh[CmdMsg.Chan].PollDir[0].SrcPath);
-    strcat(CmdMsg.Filename, TestQInfoFile1);
-    CF_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
-
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
+
+    QEntryCnt = CF_AppData.Chan[CmdMsg.Chan].PbQ[CmdMsg.Queue].EntryCnt;
 
     sprintf(expEvent, "%s written:Size=%d,Entries=%d",
             CmdMsg.Filename, sizeof(CFE_FS_Header_t), 0);
@@ -6949,6 +7024,9 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteQueueCmdOutCustomFilename");
 
+    UtAssert_True(QEntryCnt == 0,
+                  "CF_AppPipe, WriteQueueCmdOutCustomFilename: QEntryCnt");
+
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEvent,
                   "CF_AppPipe, WriteQueueCmdOutCustomFilename: Event Sent");
 
@@ -6957,17 +7035,23 @@ void Test_CF_AppPipe_WriteQueueCmdOutCustomFilename(void)
 
 
 /**
- * Test CF_AppPipe, WriteQueueCmdOneEntry
+ * Test CF_AppPipe, WriteQueueCmdOutWithEntries
  */
-void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
+void Test_CF_AppPipe_WriteQueueCmdOutWithEntries(void)
 {
-    uint32                QEntryCnt;
-    int                   TotalEntrySize;
-    CF_PlaybackFileCmd_t  PbFileCmdMsg;
-    CF_WriteQueueCmd_t    WrQCmdMsg;
-    char  FullTransString[MAX_FILE_NAME_LENGTH];
-    char  FullSrcFilename[MAX_FILE_NAME_LENGTH];
-    char  expEventPb[CFE_EVS_MAX_MESSAGE_LENGTH];
+    int                      i;
+    int                      bytesWritten;
+    uint32                   QEntryCnt;
+    FILE                     *fp;
+    CFE_FS_Header_t          QInfoHdr;
+    CF_QueueInfoFileEntry_t  QInfoEntry[100];
+    CF_PlaybackFileCmd_t     PbFileCmdMsg[2];
+    CF_WriteQueueCmd_t       WrQCmdMsg;
+    char  FullTransString[MAX_FILE_NAME_LENGTH][100];
+    char  FullSrcFilename[MAX_FILE_NAME_LENGTH][100];
+    char  AssertString[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventPb1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventPb2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventWrQ[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     CFE_SB_InitMsg((void*)&WrQCmdMsg, CF_CMD_MID, sizeof(WrQCmdMsg), TRUE);
@@ -6976,61 +7060,114 @@ void Test_CF_AppPipe_WriteQueueCmdOneEntry(void)
     WrQCmdMsg.Type = CF_PLAYBACK;
     WrQCmdMsg.Chan = 0;
     WrQCmdMsg.Queue = CF_PB_PENDINGQ;
+    sprintf(WrQCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
+    CF_Test_PrintCmdMsg((void*)&WrQCmdMsg, sizeof(WrQCmdMsg));
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CREAT_INDEX,
+                                 (void *)&OS_creatHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSE_INDEX, OS_FS_SUCCESS, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_WRITE_INDEX,
+                                 (void *)&OS_writeHook);
 
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_WRITE_INDEX,
-                               sizeof(CF_QueueInfoFileEntry_t), 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_WRITE_INDEX);
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CLOSE_INDEX,
+                                 (void *)&OS_closeHook);
 
-    Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
-                            sizeof(CFE_FS_Header_t), 1);
+    Ut_CFE_FS_SetFunctionHook(UT_CFE_FS_WRITEHDR_INDEX,
+                              (void *)&CFE_FS_WriteHeaderHook);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
 
     /* Execute the function being tested */
     CF_AppInit();
 
-    CF_TstUtil_CreateOnePbPendingQueueEntry(&PbFileCmdMsg);
+    CF_TstUtil_CreateTwoPbPendingQueueEntry(&PbFileCmdMsg[0], &PbFileCmdMsg[1]);
 
     /* Write Queue Info */
-    strcpy(WrQCmdMsg.Filename,
-           CF_AppData.Tbl->OuCh[WrQCmdMsg.Chan].PollDir[0].SrcPath);
-    strcat(WrQCmdMsg.Filename, TestQInfoFile1);
-    CF_Test_PrintCmdMsg((void*)&WrQCmdMsg, sizeof(WrQCmdMsg));
-
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrQCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
     QEntryCnt =
-          CF_AppData.Chan[WrQCmdMsg.Chan].PbQ[CF_PB_PENDINGQ].EntryCnt;
+          CF_AppData.Chan[WrQCmdMsg.Chan].PbQ[WrQCmdMsg.Queue].EntryCnt;
 
-    strcpy(FullTransString, PbFileCmdMsg.PeerEntityId);
-    strcpy(FullSrcFilename, PbFileCmdMsg.SrcFilename);
-    sprintf(expEventPb, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d"
-            ",Peer %s,File %s", PbFileCmdMsg.Class, PbFileCmdMsg.Channel,
-            PbFileCmdMsg.Priority, PbFileCmdMsg.Preserve,
-            FullTransString, FullSrcFilename);
+    fp = fopen(WrQCmdMsg.Filename, "rb");
+    if (fp != NULL)
+    {
+        fseek(fp, 0, SEEK_SET);
+        fread(&QInfoHdr, 1, sizeof(CFE_FS_Header_t), fp);
+        for (i = 0; i < QEntryCnt; i++)
+        {
+            fread(&QInfoEntry[i], 1, sizeof(CF_QueueInfoFileEntry_t), fp);
+        }
+        fclose(fp);
+    }
+    else
+    {
+        int errnum;
 
-    TotalEntrySize = sizeof(CFE_FS_Header_t) +
-                     (1 * sizeof(CF_QueueInfoFileEntry_t));
+        errnum = errno;
+        printf("fopen errno: %d\n", errno);
+        printf("fopen error string: %s\n", strerror(errnum));
+    }
+
+    strcpy(&FullTransString[0][0], PbFileCmdMsg[0].PeerEntityId);
+    strcpy(&FullSrcFilename[0][0], PbFileCmdMsg[0].SrcFilename);
+    sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d"
+            ",Peer %s,File %s", PbFileCmdMsg[0].Class, PbFileCmdMsg[0].Channel,
+            PbFileCmdMsg[0].Priority, PbFileCmdMsg[0].Preserve,
+            &FullTransString[0][0], &FullSrcFilename[0][0]);
+
+    strcpy(&FullTransString[0][1], PbFileCmdMsg[1].PeerEntityId);
+    strcpy(&FullSrcFilename[0][1], PbFileCmdMsg[1].SrcFilename);
+    sprintf(expEventPb2, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d"
+            ",Peer %s,File %s", PbFileCmdMsg[1].Class, PbFileCmdMsg[1].Channel,
+            PbFileCmdMsg[1].Priority, PbFileCmdMsg[1].Preserve,
+            &FullTransString[0][1], &FullSrcFilename[0][1]);
+
+    bytesWritten = sizeof(CFE_FS_Header_t) +
+                     (QEntryCnt * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEventWrQ, "%s written:Size=%d,Entries=%d",
-            WrQCmdMsg.Filename, TotalEntrySize, 1);
+            WrQCmdMsg.Filename, bytesWritten, (int)QEntryCnt);
 
     /* Verify results */
-    UtAssert_True((CF_AppData.Hk.CmdCounter == 2) &&
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppPipe, WriteQueueCmdOneEntry");
+                  "CF_AppPipe, WriteQueueCmdOutWithEntries");
 
-    UtAssert_True(QEntryCnt == 1,
-                  "CF_AppPipe, WriteQueueCmdOneEntry: QEntryCnt");
+    UtAssert_True(QEntryCnt == 2,
+                  "CF_AppPipe, WriteQueueCmdOutWithEntries: QEntryCnt");
 
-    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb,
-             "CF_AppPipe, WriteQueueCmdOneEntry: PlaybackFile Event Sent");
+    UtAssert_True(strcmp(QInfoHdr.Description, "CF Queue Information") == 0,
+             "CF_AppPipe, WriteQueueCmdOutWithEntries: Written QInfoHdr");
+
+    for (i = 0; i < QEntryCnt; i++)
+    {
+        sprintf(AssertString, "CF_AppPipe, WriteQueueCmdOutWithEntries: "
+                "Written QInfoEntry[%d]", i);
+
+        UtAssert_True((QInfoEntry[i].TransStatus == CF_STAT_PENDING)
+          && (QInfoEntry[i].TransNum == 0)
+          && (strcmp(QInfoEntry[i].SrcEntityId,
+                     CF_AppData.Tbl->FlightEntityId) == 0)
+          && (strcmp(QInfoEntry[i].SrcFile, PbFileCmdMsg[i].SrcFilename) == 0),
+          AssertString);
+    }
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
+        "CF_AppPipe, WriteQueueCmdOutWithEntries: PbFile 1 Event Sent");
+
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb2,
+        "CF_AppPipe, WriteQueueCmdOutWithEntries: PbFile 2 Event Sent");
 
     UtAssert_EventSent(CF_SND_Q_INFO_EID, CFE_EVS_DEBUG, expEventWrQ,
-             "CF_AppPipe, WriteQueueCmdOneEntry: Write Queue Event Sent");
+         "CF_AppPipe, WriteQueueCmdOutWithEntries: Write Queue Event Sent");
 
     CF_ResetEngine();
 }
@@ -7048,7 +7185,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvLen(void)
                    sizeof(WrActTrCmdMsg) + 5, TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
-    WrActTrCmdMsg.Type = 0;  /* all=0/up=1/down=2 */
+    WrActTrCmdMsg.Type = CF_ALL;
     strcpy(WrActTrCmdMsg.Filename, "");
 
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
@@ -7128,8 +7265,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdCreatFail(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
     WrActTrCmdMsg.Type = CF_PLAYBACK;
-    strcpy(WrActTrCmdMsg.Filename, TestQInfoDir);
-    strcat(WrActTrCmdMsg.Filename, TestQInfoFile1);
+    sprintf(WrActTrCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
 
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
 
@@ -7174,8 +7310,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdWrHdrFail(void)
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
     WrActTrCmdMsg.Type = CF_PLAYBACK;
-    strcpy(WrActTrCmdMsg.Filename, TestQInfoDir);
-    strcat(WrActTrCmdMsg.Filename, TestQInfoFile1);
+    sprintf(WrActTrCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
 
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
 
@@ -7221,9 +7356,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdInvWhichQs(void)
                    sizeof(WrActTrCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
-    WrActTrCmdMsg.Type = 3;  /* all=0/up=1/down=2 */
-    strcpy(WrActTrCmdMsg.Filename, TestQInfoDir);
-    strcat(WrActTrCmdMsg.Filename, TestQInfoFile1);
+    WrActTrCmdMsg.Type = CF_PLAYBACK + 1;
+    sprintf(WrActTrCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
 
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
 
@@ -7262,9 +7396,8 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
                    sizeof(WrActTrCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
-    WrActTrCmdMsg.Type = CF_PLAYBACK;
-    strcpy(WrActTrCmdMsg.Filename, TestQInfoDir);
-    strcat(WrActTrCmdMsg.Filename, TestQInfoFile1);
+    WrActTrCmdMsg.Type = CF_ALL;
+    sprintf(WrActTrCmdMsg.Filename, "%s%s", TestQInfoDir, TestQInfoFile1);
 
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
 
@@ -7280,6 +7413,20 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
     Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
                             sizeof(CFE_FS_Header_t), 1);
 
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
+
     /* Execute the function being tested */
     CF_AppInit();
 
@@ -7288,8 +7435,9 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    QEntryCnt =
-          CF_AppData.Chan[PbFileCmdMsg.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
+                CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
+                CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
     sprintf(expEvent, "File write,byte cnt err,file %s,request=%d,actual=%d",
             WrActTrCmdMsg.Filename, sizeof(CF_QueueInfoFileEntry_t),
@@ -7315,14 +7463,17 @@ void Test_CF_AppPipe_WriteActiveTransCmdEntryWriteErr(void)
  */
 void Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename(void)
 {
-    uint32                    TotalQEntryCntBefore;
-    uint32                    TotalQEntryCntAfter;
+    int                       i;
     int                       WrittenBytes;
+    uint32                    QEntryCnt;
+    FILE                      *fp;
+    CFE_FS_Header_t           QInfoHdr;
+    CF_QueueInfoFileEntry_t   QInfoEntry[100];
     CF_PlaybackFileCmd_t      PbFileCmdMsg1;
     CF_PlaybackFileCmd_t      PbFileCmdMsg2;
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
-    char  FullSrcFileName1[MAX_FILE_NAME_LENGTH];
-    char  FullSrcFileName2[MAX_FILE_NAME_LENGTH];
+    char  FullSrcFileName[MAX_FILE_NAME_LENGTH][100];
+    char  AssertString[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventPb1[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventPb2[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -7332,25 +7483,38 @@ void Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename(void)
                    sizeof(WrActTrCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
-    WrActTrCmdMsg.Type = CF_ALL;
+    WrActTrCmdMsg.Type = CF_PLAYBACK;
     strcpy(WrActTrCmdMsg.Filename, "");
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
 
-    /* force the file create to return a valid file descriptor (5) */
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
-
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CLOSE_INDEX, OS_FS_SUCCESS, 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_CLOSE_INDEX);
-
-    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_WRITE_INDEX,
-                               sizeof(CF_QueueInfoFileEntry_t), 1);
-    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(UT_OSFILEAPI_WRITE_INDEX);
-
-    Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
-                            sizeof(CFE_FS_Header_t), 1);
-
     Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
                              (void *)&OS_CountSemGetIdByNameHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CREAT_INDEX,
+                                 (void *)&OS_creatHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_WRITE_INDEX,
+                                 (void *)&OS_writeHook);
+
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_CLOSE_INDEX,
+                                 (void *)&OS_closeHook);
+
+    Ut_CFE_FS_SetFunctionHook(UT_CFE_FS_WRITEHDR_INDEX,
+                              (void *)&CFE_FS_WriteHeaderHook);
+
+    /* return OS_FS_ERR_INVALID_FD: means that the file is not open */
+    Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_FDGETINFO_INDEX,
+                               OS_FS_ERR_INVALID_FD, 1);
+    Ut_OSFILEAPI_ContinueReturnCodeAfterCountZero(
+                               UT_OSFILEAPI_FDGETINFO_INDEX);
+
+    /* Return the offset pointer of the CF_AppData.Mem.Partition */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                              (void*)&CFE_ES_GetPoolBufHook);
+
+    /* Give a valid file size and return success */
+    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_STAT_INDEX,
+                                 (void*)&OS_statHook);
 
     /* Execute the function being tested */
     CF_AppInit();
@@ -7359,45 +7523,79 @@ void Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename(void)
     /* create two playback chan 0, active queue entry */
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
 
-    TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
-          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
-
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    TotalQEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
-          CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCnt = CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
+                CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt;
 
-    strcpy(FullSrcFileName1, PbFileCmdMsg1.SrcFilename);
+    fp = fopen(CF_DEFAULT_QUEUE_INFO_FILENAME, "rb");
+    if (fp != NULL)
+    {
+        fseek(fp, 0, SEEK_SET);
+        fread(&QInfoHdr, 1, sizeof(CFE_FS_Header_t), fp);
+        for (i = 0; i < QEntryCnt; i++)
+        {
+            fread(&QInfoEntry[i], 1, sizeof(CF_QueueInfoFileEntry_t), fp);
+        }
+        fclose(fp);
+    }
+    else
+    {
+        int errnum;
+
+        errnum = errno;
+        printf("fopen errno: %d\n", errno);
+        printf("fopen error string: %s\n", strerror(errnum));
+    }
+
+    strcpy(&FullSrcFileName[0][0], PbFileCmdMsg1.SrcFilename);
     sprintf(expEventPb1, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
             "Peer %s,File %s", PbFileCmdMsg1.Class, PbFileCmdMsg1.Channel,
             PbFileCmdMsg1.Priority, PbFileCmdMsg1.Preserve,
-            PbFileCmdMsg1.PeerEntityId, FullSrcFileName1);
+            PbFileCmdMsg1.PeerEntityId, &FullSrcFileName[0][0]);
 
-    strcpy(FullSrcFileName2, PbFileCmdMsg2.SrcFilename);
+    strcpy(&FullSrcFileName[0][1], PbFileCmdMsg2.SrcFilename);
     sprintf(expEventPb2, "Playback File Cmd Rcvd,Cl %d,Ch %d,Pri %d,Pre %d,"
             "Peer %s,File %s", PbFileCmdMsg2.Class, PbFileCmdMsg2.Channel,
             PbFileCmdMsg2.Priority, PbFileCmdMsg2.Preserve,
-            PbFileCmdMsg2.PeerEntityId, FullSrcFileName2);
+            PbFileCmdMsg2.PeerEntityId, &FullSrcFileName[0][1]);
 
     /* 1 header size + 2 entry size */
     WrittenBytes = sizeof(CFE_FS_Header_t) +
-                   (2 * sizeof(CF_QueueInfoFileEntry_t));
+                   (QEntryCnt * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEventWr, "%s written:Size=%d,Entries=%d",
-            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, 2);
+            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, (int)QEntryCnt);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 3) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename");
 
-    UtAssert_True((TotalQEntryCntBefore == 2) && (TotalQEntryCntAfter == 2),
-          "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename: TotalQEntryCnt");
+    UtAssert_True((QEntryCnt == 2),
+          "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename: QEntryCnt");
+
+    UtAssert_True(strcmp(QInfoHdr.Description,
+                  "CF Active Trans Information") == 0,
+      "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename: Written QInfoHdr");
+
+    for (i = 0; i < QEntryCnt; i++)
+    {
+        sprintf(AssertString, "CF_AppPipe, WriteActiveTransCmdPbDefault"
+                "Filename: Written QInfoEntry[%d]", i);
+
+        UtAssert_True((QInfoEntry[i].TransStatus == CF_STAT_ACTIVE)
+                && (QInfoEntry[i].TransNum == i + 1)
+                && (strcmp(QInfoEntry[i].SrcEntityId,
+                           CF_AppData.Tbl->FlightEntityId) == 0)
+                && (strcmp(QInfoEntry[i].SrcFile, &FullSrcFileName[0][i]) == 0),
+                AssertString);
+    }
 
     UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
       "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename: PbFile1 Event Sent");
 
-    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb1,
+    UtAssert_EventSent(CF_PLAYBACK_FILE_EID, CFE_EVS_DEBUG, expEventPb2,
       "CF_AppPipe, WriteActiveTransCmdPbDefaultFilename: PbFile2 Event Sent");
 
     UtAssert_EventSent(CF_WRACT_TRANS_EID, CFE_EVS_DEBUG, expEventWr,
@@ -7412,12 +7610,18 @@ void Test_CF_AppPipe_WriteActiveTransCmdPbDefaultFilename(void)
  */
 void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
 {
-    uint32                    TotalQEntryCntBefore;
-    uint32                    TotalQEntryCntAfter;
+    int                       i;
+    uint16                    PDataLen;
+    uint16                    hdr_len;
     int                       WrittenBytes;
+    uint32                    QEntryCnt;
+    FILE                      *fp;
+    CFE_FS_Header_t           QInfoHdr;
+    CF_QueueInfoFileEntry_t   QInfoEntry[100];
     CF_Test_InPDUInfo_t       InPDUInfo;
     CF_WriteActiveTransCmd_t  WrActTrCmdMsg;
     CF_Test_InPDUMsg_t        InMdPDUMsg;
+    char  AssertString[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEventWr[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Build CF_PPD_TO_CPD_PDU_MID (MD PDU) */
@@ -7427,26 +7631,31 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     InPDUInfo.direction = TEST_TO_RECEIVER;
     InPDUInfo.mode = TEST_UNACK_MODE;
     InPDUInfo.use_crc = NO;
-    InPDUInfo.trans.source_id.length = MAX_ID_LENGTH;
-    InPDUInfo.trans.source_id.value[0] = 0;  /* 0.2 */
-    InPDUInfo.trans.source_id.value[1] = 2;
+    cfdp_id_from_string(TestInSrcEntityId1, &InPDUInfo.trans.source_id);
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
-    InPDUInfo.dest_id.length = MAX_ID_LENGTH;
-    InPDUInfo.dest_id.value[0] = 0;   /* 0.3 */
-    InPDUInfo.dest_id.value[1] = 3;
+    cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
+    InPDUInfo.segmentation_control = NO;
     InPDUInfo.file_size = TEST_FILE_SIZE;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
-    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo);
+
+    PDataLen = 6;
+    PDataLen += strlen(InPDUInfo.src_filename) + 1;
+    PDataLen += strlen(InPDUInfo.dst_filename) + 1;
+    hdr_len = CF_TstUtil_GenPDUHeader(&InMdPDUMsg, &InPDUInfo, PDataLen);
+    CF_TstUtil_BuildMDPdu(&InMdPDUMsg, &InPDUInfo, hdr_len);
 
     /* build cmd to write all active entries to a file */
     CFE_SB_InitMsg((void*)&WrActTrCmdMsg, CF_CMD_MID,
                    sizeof(WrActTrCmdMsg), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&WrActTrCmdMsg,
                       (uint16)CF_WR_ACTIVE_TRANS_CC);
-    WrActTrCmdMsg.Type = CF_ALL;
+    WrActTrCmdMsg.Type = CF_UPLINK;
     strcpy(WrActTrCmdMsg.Filename, "");
     CF_Test_PrintCmdMsg((void*)&WrActTrCmdMsg, sizeof(WrActTrCmdMsg));
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
+                             (void *)&OS_CountSemGetIdByNameHook);
 
     /* force the file create to return a valid file descriptor (5) */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, 5, 1);
@@ -7461,9 +7670,6 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     Ut_CFE_FS_SetReturnCode(UT_CFE_FS_WRITEHDR_INDEX,
                             sizeof(CFE_FS_Header_t), 1);
 
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_COUNTSEMGETIDBYNAME_INDEX,
-                             (void *)&OS_CountSemGetIdByNameHook);
-
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
                               (void*)&CFE_ES_GetPoolBufHook);
@@ -7476,31 +7682,64 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InMdPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    TotalQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
-                   CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-                   CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt;
-
     /* Write Active Trans Cmd */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&WrActTrCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    TotalQEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt +
-                   CF_AppData.Chan[0].PbQ[CF_PB_ACTIVEQ].EntryCnt +
-                   CF_AppData.Chan[1].PbQ[CF_PB_ACTIVEQ].EntryCnt;
+    QEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+CF_ShowQs();
+machine_list__display_list();
+
+    fp = fopen(CF_DEFAULT_QUEUE_INFO_FILENAME, "rb");
+    if (fp != NULL)
+    {
+        fseek(fp, 0, SEEK_SET);
+        fread(&QInfoHdr, 1, sizeof(CFE_FS_Header_t), fp);
+        for (i = 0; i < QEntryCnt; i++)
+        {
+            fread(&QInfoEntry[i], 1, sizeof(CF_QueueInfoFileEntry_t), fp);
+        }
+        fclose(fp);
+    }
+    else
+    {
+        int errnum;
+
+        errnum = errno;
+        printf("fopen errno: %d\n", errno);
+        printf("fopen error string: %s\n", strerror(errnum));
+    }
 
     /* 1 header size + 1 entry size */
     WrittenBytes = sizeof(CFE_FS_Header_t) +
-                   (1 * sizeof(CF_QueueInfoFileEntry_t));
+                   (QEntryCnt * sizeof(CF_QueueInfoFileEntry_t));
     sprintf(expEventWr, "%s written:Size=%d,Entries=%d",
-            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, 1);
+            CF_DEFAULT_QUEUE_INFO_FILENAME, WrittenBytes, (int)QEntryCnt);
 
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 1) &&
                   (CF_AppData.Hk.ErrCounter == 0),
                   "CF_AppPipe, WriteActiveTransCmdUpDefaultFilename");
 
-    UtAssert_True((TotalQEntryCntBefore == 1) && (TotalQEntryCntAfter == 1),
-        "CF_AppPipe, WriteActiveTransCmdUpDefaultFilename: TotalQEntryCnt");
+    UtAssert_True(QEntryCnt == 1,
+            "CF_AppPipe, WriteActiveTransCmdUpDefaultFilename: QEntryCnt");
+
+    UtAssert_True(strcmp(QInfoHdr.Description,
+                         "CF Active Trans Information") == 0,
+         "CF_AppPipe, WriteActiveTransCmdUpDefaultFilename: Written QInfoHdr");
+
+    for (i = 0; i < QEntryCnt; i++)
+    {
+        sprintf(AssertString, "CF_AppPipe, WriteActiveTransCmdUpDefault"
+                "Filename: Written QInfoEntry[%d]", i);
+
+        UtAssert_True((QInfoEntry[i].TransStatus == CF_STAT_ACTIVE)
+               && (QInfoEntry[i].TransNum == TEST_IN_TRANS_NUMBER + i)
+               && (strcmp(QInfoEntry[i].SrcEntityId,
+                          cfdp_id_as_string(InPDUInfo.trans.source_id)) == 0)
+               && (strcmp(QInfoEntry[i].SrcFile, InPDUInfo.src_filename) == 0),
+               AssertString);
+    }
 
     UtAssert_EventSent(CF_WRACT_TRANS_EID, CFE_EVS_DEBUG, expEventWr,
       "CF_AppPipe, WriteActiveTransCmdUpDefaultFilename: Write Event Sent");
@@ -7509,6 +7748,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
 }
 
 
+#if 0
 /**
  * Test CF_AppPipe, WriteActiveTransCmdPbCustFilename
  */
@@ -12032,13 +12272,12 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutDefFilename,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutDefFilename");
-#if 0
     UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutCustomFilename,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteQueueCmdOutCustomFilename");
-    UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOneEntry,
+    UtTest_Add(Test_CF_AppPipe_WriteQueueCmdOutWithEntries,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
-               "Test_CF_AppPipe_WriteQueueCmdOneEntry");
+               "Test_CF_AppPipe_WriteQueueCmdOutWithEntries");
 
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdInvLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
@@ -12064,6 +12303,7 @@ void CF_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename");
+#if 0
     UtTest_Add(Test_CF_AppPipe_WriteActiveTransCmdPbCustFilename,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppPipe_WriteActiveTransCmdPbCustFilename");
