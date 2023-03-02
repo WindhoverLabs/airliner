@@ -67,6 +67,8 @@ const char TestPbFile6[] = "pbfile6.dat";
 
 const char TestInFile1[] = "infile1.dat";
 const char TestInFile2[] = "infile2.dat";
+const char TestInFile3[] = "infile3.dat";
+const char TestInFile4[] = "infile4.dat";
 const char TestInNoFile[] = "";
 
 const char TestQInfoFile1[] = "qinfo1.dat";
@@ -642,6 +644,50 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
     FileSize = pInfo->file_size;
     memset((void *)&pCmd->PduContent.Content[index], 0xff, FileSize);
+    index += FileSize;
+
+    return;
+}
+
+
+void CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
+                            CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
+{
+    uint8   byte0, byte1, byte2, byte3;
+    uint8   tmplength;
+    uint16  index;
+    uint32  Offset;
+    uint32  FileSize;
+    char    tmpString[TEST_FILE_CHUNK_SIZE + 1];
+
+    index = hdr_len;
+
+    /**** Data Field ****/
+    /* Byte 0 - 3 : Offset */
+    Offset = pInfo->offset;
+    byte0 = (Offset & 0xff000000) >> 24;
+    byte1 = (Offset & 0x00ff0000) >> 16;
+    byte2 = (Offset & 0x0000ff00) >> 8;
+    byte3 = Offset & 0x000000ff;
+    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
+    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+
+    /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
+    FileSize = pInfo->file_size;
+    if (FileSize < TEST_FILE_CHUNK_SIZE)
+    {
+        memset((void *)&pCmd->PduContent.Content[index], 0xcb, FileSize);
+    }
+    else
+    {
+        sprintf(tmpString, "%s", "This is a test file for class2");
+        tmplength = strlen(tmpString);
+        memcpy(&pCmd->PduContent.Content[index], tmpString, tmplength);
+        memset(&pCmd->PduContent.Content[index + tmplength], 0xcf,
+               FileSize - tmplength);
+    }
     index += FileSize;
 
     return;

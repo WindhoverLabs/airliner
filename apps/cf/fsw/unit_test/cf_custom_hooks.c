@@ -111,6 +111,43 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 }
 
 
+int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
+                              CFE_SB_ZeroCopyHandle_t BufferHandle)
+{
+    unsigned char       *pBuff = NULL;
+    uint16              msgLen = 0;
+    CFE_SB_MsgId_t      MsgId = 0;
+    int                 i;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+
+    pBuff = (unsigned char *)MsgPtr;
+    printf("###CFE_SB_ZeroCopySendHook(msgLen %u): ", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    switch(MsgId)
+    {
+        case CF_CPD_TO_PPD_PDU_MID:
+            printf("Received CF_CPD_TO_PPD_PDU_MID\n");
+            break;
+        case CF_CPD_TO_GND_PDU_MID:
+            printf("Received CF_CPD_TO_GND_PDU_MID\n");
+            break;
+        default:
+            printf("Received MID(0x%04X)\n", MsgId);
+            break;
+    }
+
+    return CFE_SUCCESS;
+}
+
+
 int32 CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr)
 {
     size_t bytesWritten = 0;
@@ -203,7 +240,7 @@ printf("!!!OS_closeHook: ret is %d\n", ret);
 
 int32 OS_statHook(const char *path, os_fstat_t *filestats)
 {
-    filestats->st_size = TEST_FILE_SIZE;
+    filestats->st_size = TEST_FILE_SIZE1;
 
     return OS_FS_SUCCESS;
 }

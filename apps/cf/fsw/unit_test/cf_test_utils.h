@@ -37,7 +37,9 @@
 #include "cf_app.h"
 
 #define      TEST_TRANS_SEQ_NUM_LENGTH          4
-#define      TEST_FILE_SIZE                     123
+#define      TEST_FILE_SIZE1                    123
+#define      TEST_FILE_SIZE2                    420
+#define      TEST_FILE_CHUNK_SIZE               200
 #define      TEST_IN_TRANS_NUMBER               500
 
 /* The last positive int32 number defined in CF app */
@@ -56,6 +58,8 @@ extern const char TestPbFile6[];
 
 extern const char TestInFile1[];
 extern const char TestInFile2[];
+extern const char TestInFile3[];
+extern const char TestInFile4[];
 extern const char TestInNoFile[];
 
 extern const char TestQInfoFile1[];
@@ -157,6 +161,8 @@ void   CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
+void   CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
+                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
                               CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 

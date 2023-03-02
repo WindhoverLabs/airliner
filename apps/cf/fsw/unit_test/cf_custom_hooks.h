@@ -57,8 +57,12 @@ extern "C" {
 int32   CFE_ES_GetPoolBufHook(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr,
                               uint32 Size);
 int32   CFE_ES_PutPoolBufHook(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr);
+
 int32   CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
                                   CFE_SB_ZeroCopyHandle_t *BufferHandle);
+int32   CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
+                                CFE_SB_ZeroCopyHandle_t BufferHandle);
+
 int32   CFE_FS_WriteHeaderHook(int32 FileDes, CFE_FS_Header_t *Hdr);
 
 int32        OS_creatHook(const char *path, int32  access);

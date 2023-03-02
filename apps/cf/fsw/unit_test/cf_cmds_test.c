@@ -2196,7 +2196,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -2218,7 +2218,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpFreezeWarn(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -2401,7 +2401,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -2416,7 +2416,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                    sizeof(InFdPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DATA_PDU;
     InPDUInfo1.offset = 0;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo1.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg1, &InPDUInfo1, PDataLen);
@@ -2427,7 +2427,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                    sizeof(InEofPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DIR_PDU;
     InPDUInfo1.cond_code = NO_ERROR;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     InPDUInfo1.checksum = 0;
 
     PDataLen = 10;
@@ -2446,7 +2446,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -2461,7 +2461,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                    sizeof(InFdPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DATA_PDU;
     InPDUInfo2.offset = 0;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo2.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg2, &InPDUInfo2, PDataLen);
@@ -2472,7 +2472,7 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
                    sizeof(InEofPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DIR_PDU;
     InPDUInfo2.cond_code = NO_ERROR;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     InPDUInfo2.checksum = 0;
 
     PDataLen = 10;
@@ -3250,7 +3250,7 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -3265,7 +3265,7 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
                    sizeof(InFdPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DATA_PDU;
     InPDUInfo.offset = 0;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
@@ -3276,7 +3276,7 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
                    sizeof(InEofPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.cond_code = NO_ERROR;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     InPDUInfo.checksum = 0;
 
     PDataLen = 10;
@@ -3617,7 +3617,7 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -3768,7 +3768,7 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -3783,7 +3783,7 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
                    sizeof(InFdPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DATA_PDU;
     InPDUInfo.offset = 0;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
@@ -3794,7 +3794,7 @@ void Test_CF_AppPipe_ResumeCmdAll(void)
                    sizeof(InEofPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.cond_code = NO_ERROR;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     InPDUInfo.checksum = 0;
 
     PDataLen = 10;
@@ -3951,7 +3951,7 @@ void Test_CF_AppPipe_CancelCmdNoTransId(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -4131,7 +4131,7 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -4153,7 +4153,7 @@ void Test_CF_AppPipe_CancelCmdAllUp(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -4325,7 +4325,7 @@ void Test_CF_AppPipe_AbandonCmdNoTransId(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -4516,7 +4516,7 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -4538,7 +4538,7 @@ void Test_CF_AppPipe_AbandonCmdAllUp(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -6320,7 +6320,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
     InPDUInfo[0].trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo[0].dest_id);
     InPDUInfo[0].segmentation_control = NO;
-    InPDUInfo[0].file_size = TEST_FILE_SIZE;
+    InPDUInfo[0].file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo[0].src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo[0].dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -6342,7 +6342,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpDefFilename(void)
     InPDUInfo[1].trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo[1].dest_id);
     InPDUInfo[1].segmentation_control = NO;
-    InPDUInfo[1].file_size = TEST_FILE_SIZE;
+    InPDUInfo[1].file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo[1].src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo[1].dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -6488,7 +6488,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -6503,7 +6503,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
                    sizeof(InFdPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DATA_PDU;
     InPDUInfo.offset = 0;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
@@ -6514,7 +6514,7 @@ void Test_CF_AppPipe_WriteQueueCmdUpCustomFilename(void)
                    sizeof(InEofPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.cond_code = NO_ERROR;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     InPDUInfo.checksum = 0;
 
     PDataLen = 10;
@@ -7588,7 +7588,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpDefaultFilename(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -7836,7 +7836,7 @@ void Test_CF_AppPipe_WriteActiveTransCmdUpCustFilename(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -8041,7 +8041,7 @@ void Test_CF_AppPipe_SendTransDiagCmdTransIdNotFound(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -9271,7 +9271,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdTransIdNotFound(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -9352,7 +9352,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpActive(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -9450,7 +9450,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -9465,7 +9465,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
                    sizeof(InFdPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DATA_PDU;
     InPDUInfo.offset = 0;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InPDUInfo, PDataLen);
@@ -9476,7 +9476,7 @@ void Test_CF_AppPipe_DeleteQueueNodeCmdUpHist(void)
                    sizeof(InEofPDUMsg), TRUE);
     InPDUInfo.pdu_type = FILE_DIR_PDU;
     InPDUInfo.cond_code = NO_ERROR;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     InPDUInfo.checksum = 0;
 
     PDataLen = 10;
@@ -10166,7 +10166,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     InPDUInfo1.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo1.dest_id);
     InPDUInfo1.segmentation_control = NO;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo1.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo1.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -10181,7 +10181,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                    sizeof(InFdPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DATA_PDU;
     InPDUInfo1.offset = 0;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo1.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg1, &InPDUInfo1, PDataLen);
@@ -10192,7 +10192,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                    sizeof(InEofPDUMsg1), TRUE);
     InPDUInfo1.pdu_type = FILE_DIR_PDU;
     InPDUInfo1.cond_code = NO_ERROR;
-    InPDUInfo1.file_size = TEST_FILE_SIZE;
+    InPDUInfo1.file_size = TEST_FILE_SIZE1;
     InPDUInfo1.checksum = 0;
 
     PDataLen = 10;
@@ -10211,7 +10211,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
     InPDUInfo2.trans.number = TEST_IN_TRANS_NUMBER + 1;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo2.dest_id);
     InPDUInfo2.segmentation_control = NO;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo2.src_filename, "%s%s", TestInDir0, TestInFile2);
     sprintf(InPDUInfo2.dst_filename, "%s%s", TestInDir0, TestInFile2);
 
@@ -10226,7 +10226,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                    sizeof(InFdPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DATA_PDU;
     InPDUInfo2.offset = 0;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
 
     PDataLen = InPDUInfo2.file_size + 4;
     hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg2, &InPDUInfo2, PDataLen);
@@ -10237,7 +10237,7 @@ void Test_CF_AppPipe_PurgeQueueCmdUpHistory(void)
                    sizeof(InEofPDUMsg2), TRUE);
     InPDUInfo2.pdu_type = FILE_DIR_PDU;
     InPDUInfo2.cond_code = NO_ERROR;
-    InPDUInfo2.file_size = TEST_FILE_SIZE;
+    InPDUInfo2.file_size = TEST_FILE_SIZE1;
     InPDUInfo2.checksum = 0;
 
     PDataLen = 10;
@@ -11668,7 +11668,7 @@ void Test_CF_AppPipe_QuickStatusCmdTransIdNotFound(void)
     InPDUInfo.trans.number = TEST_IN_TRANS_NUMBER;
     cfdp_id_from_string(TestFlightEntityId, &InPDUInfo.dest_id);
     InPDUInfo.segmentation_control = NO;
-    InPDUInfo.file_size = TEST_FILE_SIZE;
+    InPDUInfo.file_size = TEST_FILE_SIZE1;
     sprintf(InPDUInfo.src_filename, "%s%s", TestInDir0, TestInFile1);
     sprintf(InPDUInfo.dst_filename, "%s%s", TestInDir0, TestInFile1);
 
@@ -12354,7 +12354,7 @@ void Test_CF_AppPipe_AutoSuspendEnCmdInvLen(void)
 /**
  * Test CF_AppPipe, AutoSuspendEnCmdEnable
  */
-void Test_CF_AppPipe_AutoSuspendEnCmdEnable(void)
+void Test_CF_AppPipe_AutoSuspendEnCmdEnable(void)  // check this
 {
     uint32                 QEntryCnt;
     CF_NoArgsCmd_t         WakeUpReq;
