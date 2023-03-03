@@ -586,9 +586,13 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
 
     /* Byte 1: Segmentation control: not supported */
     byte = 0;
-    if (pInfo->segmentation_control)
+    if (pInfo->file_transfer)
     {
         byte = byte | 0x80;
+    }
+    if (pInfo->segmentation_control)
+    {
+        byte = byte | 0x40;
     }
     memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
 

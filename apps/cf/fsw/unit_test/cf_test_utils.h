@@ -102,6 +102,15 @@ typedef enum
     TEST_UNACK_MODE
 } TEST_PDU_MODE;
 
+typedef enum
+{
+    TEST_EOF_PDU = 4,
+    TEST_FIN_PDU,
+    TEST_ACK_PDU,
+    TEST_MD_PDU,
+    TEST_NAK_PDU
+} TEST_FILE_DIR_CODE;
+
 typedef struct
 {
     uint8         CmdHeader[CFE_SB_CMD_HDR_SIZE];
@@ -122,6 +131,7 @@ typedef struct
     boolean            use_crc;
     TRANSACTION        trans;
     ID                 dest_id;
+    boolean            file_transfer;
     boolean            segmentation_control;
     CONDITION_CODE     cond_code;
     uint32             offset;

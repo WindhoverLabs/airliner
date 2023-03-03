@@ -33,6 +33,7 @@
 
 #include "cf_custom_hooks.h"
 #include "cf_test_utils.h"
+#include "cf_utils.h"
 
 #include "cf_app.h"
 
@@ -54,6 +55,8 @@ uint32       CFE_ES_GetPoolBufHookCallCnt = 0;
 
 uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CFE_SB_MAX_SB_MSG_SIZE];
 uint8        *BufPtrs[128];
+
+CFDP_DATA    InPDU;
 
 
 /**************************************************************************
@@ -114,27 +117,121 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
                               CFE_SB_ZeroCopyHandle_t BufferHandle)
 {
-    unsigned char       *pBuff = NULL;
+    uint8               IdLen;
+    uint8               TransSeqNumLen;
+    uint8               PduHdrLen;
+    uint8               pdu_type;
+    uint8               file_dir_code, ack_dir_code;
+    uint8               condition_code, delivery_code, transaction_status;
+    uint8               *pduPtr;
+    uint8               *pBuff;
+    uint16              PDataLen;
     uint16              msgLen = 0;
     CFE_SB_MsgId_t      MsgId = 0;
     int                 i;
+    int                 index;
+    ID                  dest_id;
+    TRANSACTION         trans;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
 
-    pBuff = (unsigned char *)MsgPtr;
+    pBuff = (uint8 *)MsgPtr;
     printf("###CFE_SB_ZeroCopySendHook(msgLen %u): ", msgLen);
     for (i = 0; i < msgLen; i++)
     {
-        printf("0x%02x ", *pBuff);
-        pBuff++;
+        printf("%02x ", pBuff[i]);
     }
     printf("\n");
+
+    if (CF_GetPktType(CFE_SB_GetMsgId(MsgPtr))==CF_CMD)
+    {
+        pBuff += CFE_SB_CMD_HDR_SIZE;
+    }
+    else
+    {
+        pBuff += CFE_SB_TLM_HDR_SIZE;
+    }
+
+    pduPtr = pBuff;
+
+    PDataLen = (pduPtr[1] * 256) + pduPtr[2];
+
+    IdLen = ((pduPtr[3] >> 4) & 0x07) + 1;
+    TransSeqNumLen = (pduPtr[3] & 0x07) + 1;
+    PduHdrLen = CF_PDUHDR_FIXED_FIELD_BYTES + (IdLen * 2) +
+                  TransSeqNumLen;
+
+    InPDU.length = PDataLen + PduHdrLen;
+    memcpy(InPDU.content, pduPtr, InPDU.length);
+
+printf("!!!CFE_SB_ZeroCopySendHook: InPDU.length(%lu)\n", InPDU.length);
+for (i = 0; i < InPDU.length; i++)
+{
+    printf("%02x ", InPDU.content[i]);
+}
+printf("\n");
 
     switch(MsgId)
     {
         case CF_CPD_TO_PPD_PDU_MID:
             printf("Received CF_CPD_TO_PPD_PDU_MID\n");
+            pdu_type = (InPDU.content[0] & 0x10) ? FILE_DATA_PDU :
+                                                   FILE_DIR_PDU;
+
+            if (pdu_type == FILE_DIR_PDU)
+            {
+                trans.source_id.length = IdLen;
+                trans.source_id.value[0] = InPDU.content[4];
+                trans.source_id.value[1] = InPDU.content[5];
+
+                trans.number = 0;
+                for (i = 0; i < TransSeqNumLen; i++)
+                {
+                    trans.number = (trans.number * 256) + InPDU.content[6 + i];
+                }
+
+                dest_id.length = IdLen;
+                dest_id.value[0] = InPDU.content[10];
+                dest_id.value[1] = InPDU.content[11];
+
+                index = PduHdrLen;
+                file_dir_code = InPDU.content[index++];
+
+                if (file_dir_code == TEST_ACK_PDU)
+                {
+                    ack_dir_code = (InPDU.content[index++] & 0xf0) >> 4;
+                    if (ack_dir_code == TEST_EOF_PDU)
+                    {
+                        printf("Received ACK-EOF\n");
+                    }
+                    else
+                    {
+                        printf("Received ACK-Other\n");
+                    }
+
+                    condition_code = (InPDU.content[index] & 0xf0) >> 4;
+                    printf("Received condition_code: %u\n", condition_code);
+
+                    delivery_code = (InPDU.content[index] & 0x0c) >> 2;
+                    printf("Received delivery_code: %u\n", delivery_code);
+
+                    transaction_status = InPDU.content[index] & 0x03;
+                    printf("Received transaction_status: %u\n", transaction_status);
+                }
+                else if (file_dir_code == TEST_FIN_PDU)
+                {
+                }
+                else
+                {
+                    printf("!!!CFE_SB_ZeroCopySendHook: Received file_dir_code(%u)\n", file_dir_code);
+                }
+            }
+            else
+            {
+                printf("!!!CFE_SB_ZeroCopySendHook: Received FILE_DATA_PDU\n");
+            }
+
             break;
         case CF_CPD_TO_GND_PDU_MID:
             printf("Received CF_CPD_TO_GND_PDU_MID\n");
