@@ -34,8 +34,11 @@
 #include "cf_custom_hooks.h"
 #include "cf_test_utils.h"
 #include "cf_utils.h"
+#include "structures.h"
 
 #include "cf_app.h"
+
+#include "ut_cfe_sb_hooks.h"
 
 #include <string.h>
 
@@ -57,6 +60,18 @@ uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CFE_SB_MAX_SB_MSG_SIZE];
 uint8        *BufPtrs[128];
 
 CFDP_DATA    InPDU;
+CFDP_DATA    OutPDU;
+
+
+void Get_PduHeader(uint8 id_len, uint8 trans_seq_len,
+                   uint8 *pdu_ptr, HDR *pdu_hdr);
+int  Gen_PduHeader(uint8 trans_seq_len, uint16 data_field_len,
+                   HDR *pdu_hdr, CFDP_DATA *out_pdu);
+
+void Build_AckFinPdu(uint8 trans_seq_len, HDR *pdu_hdr,
+                     FIN *pdu_fin, CFDP_DATA *out_pdu);
+
+void Send_OutPdu(CFE_SB_MsgId_t MsgId, CFDP_DATA *out_pdu);
 
 
 /**************************************************************************
@@ -114,15 +129,226 @@ int32 CFE_SB_ZeroCopyGetPtrHook(uint16 MsgSize,
 }
 
 
+void Get_PduHeader(uint8 id_len, uint8 trans_seq_len,
+                   uint8 *pdu_ptr, HDR *pdu_hdr)
+{
+    int i;
+
+    pdu_hdr->pdu_type = (pdu_ptr[0] & 0x10) ? FILE_DATA_PDU : FILE_DIR_PDU;
+    pdu_hdr->direction = (pdu_ptr[0] & 0x08) ? TOWARD_SENDER : TOWARD_RECEIVER;
+    pdu_hdr->mode = (pdu_ptr[0] & 0x04) ? UNACK_MODE : ACK_MODE;
+    pdu_hdr->use_crc = NO;
+
+    pdu_hdr->trans.source_id.length = id_len;
+    pdu_hdr->trans.source_id.value[0] = pdu_ptr[4];
+    pdu_hdr->trans.source_id.value[1] = pdu_ptr[5];
+
+    pdu_hdr->trans.number = 0;
+    for (i = 0; i < trans_seq_len; i++)
+    {
+        pdu_hdr->trans.number = (pdu_hdr->trans.number * 256) + pdu_ptr[6 + i];
+    }
+
+    pdu_hdr->dest_id.length = id_len;
+    pdu_hdr->dest_id.value[0] = pdu_ptr[10];
+    pdu_hdr->dest_id.value[1] = pdu_ptr[11];
+
+printf("!!!CFE_SB_ZeroCopySendHook:pdu_type(%u)\n", pdu_hdr->pdu_type);
+printf("!!!CFE_SB_ZeroCopySendHook:direction(%u)\n", pdu_hdr->direction);
+printf("!!!CFE_SB_ZeroCopySendHook:mode(%u)\n", pdu_hdr->mode);
+printf("!!!CFE_SB_ZeroCopySendHook:use_crc(%u)\n", pdu_hdr->use_crc);
+printf("!!!CFE_SB_ZeroCopySendHook:source_id.len(%u)\n", pdu_hdr->trans.source_id.length);
+printf("!!!CFE_SB_ZeroCopySendHook:source_id.value[0](%u), value[1](%u)\n",
+           pdu_hdr->trans.source_id.value[0], pdu_hdr->trans.source_id.value[1]);
+printf("!!!CFE_SB_ZeroCopySendHook: trans.number(%lu)\n", pdu_hdr->trans.number);
+printf("!!!CFE_SB_ZeroCopySendHook: dest_id.len(%u)\n", pdu_hdr->dest_id.length);
+printf("!!!CFE_SB_ZeroCopySendHook: dest_id.value[0](%u), dest_id.value[1](%u)\n",
+           pdu_hdr->dest_id.value[0], pdu_hdr->dest_id.value[1]);
+}
+
+
+int Gen_PduHeader(uint8 trans_seq_len, uint16 data_field_len,
+                  HDR *pdu_hdr, CFDP_DATA *out_pdu)
+{
+    uint8   byte;
+    uint8   byte0, byte1, byte2, byte3;
+    uint8   upper_byte, lower_byte;
+    uint8   trans_seq_num_len;
+    int     i;
+    int     index;
+    uint32  trans_seq_num;
+    ID      src_id;
+    ID      dest_id;
+
+    src_id = pdu_hdr->trans.source_id;
+    dest_id = pdu_hdr->dest_id;
+    trans_seq_num_len = trans_seq_len;
+    trans_seq_num = pdu_hdr->trans.number;
+
+    index = 0;
+
+    /* Byte 0: pdu_type, direction, mode, crc */
+    byte = 0;
+    if (pdu_hdr->pdu_type == FILE_DATA_PDU)
+    {
+        byte = byte | 0x10;
+    }
+    if (pdu_hdr->direction == TOWARD_SENDER)
+    {
+        byte = byte | 0x80;
+    }
+    if (pdu_hdr->mode == UNACK_MODE)
+    {
+        byte = byte | 0x04;
+    }
+    if (pdu_hdr->use_crc)
+    {
+    }
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 1 - 2: Packet Data field length */
+    upper_byte = data_field_len / 256;
+    lower_byte = data_field_len % 256;
+    out_pdu->content[index] = upper_byte;
+    index ++;
+    out_pdu->content[index] = lower_byte;
+    index ++;
+
+    /* Byte 3: EntityID length and TransSeqNumber length */
+    byte = 0;
+    byte = byte | ((src_id.length - 1) << 4);
+    byte = byte | (trans_seq_num_len - 1);
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 4 - 5: Source Entity ID: Just in case, add zeros on the left */
+    byte = 0;
+    for (i = src_id.length; i < dest_id.length; i++)
+    {
+        out_pdu->content[index] = byte;
+        index ++;
+    }
+    memcpy(&out_pdu->content[index], src_id.value, src_id.length);
+    index += src_id.length;
+
+    /* Byte 6 - 9: Trans Sequence Number */
+    byte0 = (trans_seq_num & 0xff000000) >> 24;
+    byte1 = (trans_seq_num & 0x00ff0000) >> 16;
+    byte2 = (trans_seq_num & 0x0000ff00) >> 8;
+    byte3 = trans_seq_num & 0x000000ff;
+    out_pdu->content[index] = byte0;
+    index ++;
+    out_pdu->content[index] = byte1;
+    index ++;
+    out_pdu->content[index] = byte2;
+    index ++;
+    out_pdu->content[index] = byte3;
+    index ++;
+
+    /* Byte 10 - 11: Dest Entity ID: Just in case, add zeros on the left */
+    byte = 0;
+    for (i = dest_id.length; i < src_id.length; i++)
+    {
+        out_pdu->content[index] = byte;
+        index ++;
+    }
+    memcpy(&out_pdu->content[index], dest_id.value, dest_id.length);
+    index += dest_id.length;
+
+    return index;
+}
+
+
+void Build_AckFinPdu(uint8 trans_seq_len, HDR *pdu_hdr,
+                     FIN *pdu_fin, CFDP_DATA *out_pdu)
+{
+    uint8   byte;
+    uint8   dir_code, dir_subtype_code;
+    uint8   cond_code, deli_code, trans_stat;
+    uint16  data_field_len;
+    int     index;
+    int     hdr_len;
+
+    pdu_hdr->direction = TOWARD_RECEIVER;
+    data_field_len = 3;
+
+    hdr_len = Gen_PduHeader(trans_seq_len, data_field_len, pdu_hdr, out_pdu);
+    index = hdr_len;
+printf("!!Build_AckFinPdu: hdr_len(%d)\n", hdr_len);
+
+    /**** Data Field ****/
+    /* Byte 0: File directive code */
+    byte = ACK_PDU;
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 1: Ack directive_code*/
+    byte = 0;
+    dir_code = FIN_PDU;
+    dir_subtype_code = 0;
+    byte = byte | (dir_code << 4);
+    byte = byte | dir_subtype_code;
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 2: Ack condition code/delivery_code/transaction_status */
+    byte = 0;
+    cond_code = pdu_fin->condition_code;
+    deli_code = (cond_code == NO_ERROR) ? DATA_COMPLETE : DONT_CARE_0;
+    /* in case solely for ack_fin otherwise, TRANS_ACTIVE */
+    trans_stat = TRANS_UNDEFINED;
+    byte = byte | (cond_code << 4);
+    byte = byte | (deli_code << 2);
+    byte = byte | trans_stat;
+    out_pdu->content[index] = byte;
+    index ++;
+
+    out_pdu->length = index;
+
+printf("!!Build_AckFinPdu: Packet\n");
+for(int i = 0; i < out_pdu->length; i++)
+{
+    printf("%02x ", out_pdu->content[i]);
+}
+printf("\n");
+
+    return;
+}
+
+
+void Send_OutPdu(CFE_SB_MsgId_t MsgId, CFDP_DATA *out_pdu)
+{
+    int32               CmdPipe;
+    CF_NoArgsCmd_t      WakeupCmdMsg;
+    CF_Test_InPDUMsg_t  OutPDUMsg;
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&OutPDUMsg, MsgId, sizeof(OutPDUMsg), TRUE);
+    memcpy(OutPDUMsg.PduContent.Content, out_pdu->content, out_pdu->length);
+    Ut_CFE_SB_AddMsgToPipe((void*)&OutPDUMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+/*
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&OutPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+*/
+
+    CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
+                   sizeof(WakeupCmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+/*
+    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&OutPDUMsg;
+    CF_AppPipe(CF_AppData.MsgPtr);
+*/
+}
+
+
 int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
                               CFE_SB_ZeroCopyHandle_t BufferHandle)
 {
-    uint8               IdLen;
-    uint8               TransSeqNumLen;
-    uint8               PduHdrLen;
-    uint8               pdu_type;
-    uint8               file_dir_code, ack_dir_code;
-    uint8               condition_code, delivery_code, transaction_status;
+    uint8               IdLen, TransSeqNumLen, PduHdrLen;
+    uint8               file_dir_code;
     uint8               *pduPtr;
     uint8               *pBuff;
     uint16              PDataLen;
@@ -130,8 +356,9 @@ int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
     CFE_SB_MsgId_t      MsgId = 0;
     int                 i;
     int                 index;
-    ID                  dest_id;
-    TRANSACTION         trans;
+    HDR                 PduHdr;
+    ACK                 Ack;
+    FIN                 Fin;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
@@ -153,6 +380,7 @@ int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
         pBuff += CFE_SB_TLM_HDR_SIZE;
     }
 
+    /* Extract PDU Hdr */
     pduPtr = pBuff;
 
     PDataLen = (pduPtr[1] * 256) + pduPtr[2];
@@ -161,6 +389,8 @@ int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
     TransSeqNumLen = (pduPtr[3] & 0x07) + 1;
     PduHdrLen = CF_PDUHDR_FIXED_FIELD_BYTES + (IdLen * 2) +
                   TransSeqNumLen;
+
+    Get_PduHeader(IdLen, TransSeqNumLen, pduPtr, &PduHdr);
 
     InPDU.length = PDataLen + PduHdrLen;
     memcpy(InPDU.content, pduPtr, InPDU.length);
@@ -176,32 +406,21 @@ printf("\n");
     {
         case CF_CPD_TO_PPD_PDU_MID:
             printf("Received CF_CPD_TO_PPD_PDU_MID\n");
-            pdu_type = (InPDU.content[0] & 0x10) ? FILE_DATA_PDU :
-                                                   FILE_DIR_PDU;
 
-            if (pdu_type == FILE_DIR_PDU)
+            if (PduHdr.pdu_type == FILE_DIR_PDU)
             {
-                trans.source_id.length = IdLen;
-                trans.source_id.value[0] = InPDU.content[4];
-                trans.source_id.value[1] = InPDU.content[5];
-
-                trans.number = 0;
-                for (i = 0; i < TransSeqNumLen; i++)
-                {
-                    trans.number = (trans.number * 256) + InPDU.content[6 + i];
-                }
-
-                dest_id.length = IdLen;
-                dest_id.value[0] = InPDU.content[10];
-                dest_id.value[1] = InPDU.content[11];
-
                 index = PduHdrLen;
                 file_dir_code = InPDU.content[index++];
 
-                if (file_dir_code == TEST_ACK_PDU)
+                if (file_dir_code == ACK_PDU)
                 {
-                    ack_dir_code = (InPDU.content[index++] & 0xf0) >> 4;
-                    if (ack_dir_code == TEST_EOF_PDU)
+                    Ack.directive_code = (InPDU.content[index++] & 0xf0) >> 4;
+
+                    Ack.condition_code = (InPDU.content[index] & 0xf0) >> 4;
+                    Ack.delivery_code = (InPDU.content[index] & 0x0c) >> 2;
+                    Ack.transaction_status = InPDU.content[index] & 0x03;
+
+                    if (Ack.directive_code == EOF_PDU)
                     {
                         printf("Received ACK-EOF\n");
                     }
@@ -210,17 +429,25 @@ printf("\n");
                         printf("Received ACK-Other\n");
                     }
 
-                    condition_code = (InPDU.content[index] & 0xf0) >> 4;
-                    printf("Received condition_code: %u\n", condition_code);
-
-                    delivery_code = (InPDU.content[index] & 0x0c) >> 2;
-                    printf("Received delivery_code: %u\n", delivery_code);
-
-                    transaction_status = InPDU.content[index] & 0x03;
-                    printf("Received transaction_status: %u\n", transaction_status);
+                    printf("Received Ack.condition_code: %u\n", Ack.condition_code);
+                    printf("Received Ack.delivery_code: %u\n", Ack.delivery_code);
+                    printf("Received Ack.transaction_status: %u\n", Ack.transaction_status);
                 }
-                else if (file_dir_code == TEST_FIN_PDU)
+                else if (file_dir_code == FIN_PDU)
                 {
+                    printf("Received FIN\n");
+
+                    Fin.condition_code = (InPDU.content[index] & 0xf0) >> 4;
+                    Fin.end_system_status = (InPDU.content[index] & 0x08) >> 3;
+                    Fin.delivery_code = (InPDU.content[index] & 0x04) >> 2;
+
+                    printf("Received FIN.condition_code(%u)\n", Fin.condition_code);
+                    printf("Received FIN.end_system_status(%u)\n", Fin.end_system_status);
+                    printf("Received FIN.delivery_code(%u)\n", Fin.delivery_code);
+
+                    memset(&OutPDU, 0x00, sizeof(OutPDU));
+                    Build_AckFinPdu(TransSeqNumLen, &PduHdr, &Fin, &OutPDU);
+                    Send_OutPdu(CF_PPD_TO_CPD_PDU_MID, &OutPDU);
                 }
                 else
                 {

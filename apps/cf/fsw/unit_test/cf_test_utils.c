@@ -254,6 +254,7 @@ void CF_ResetEngine(void)
     CF_PurgeQueueCmd_t  PurgePbPendCmdMsg;
     CF_PurgeQueueCmd_t  PurgePbHistCmdMsg;
 
+printf("!!!CF_ResetEngine..........\n");
     CF_TstUtil_FinishPbActiveQueueEntries();
 
     /* Abandon Up/Down Active Queue Entries */
@@ -525,7 +526,7 @@ uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
     memcpy(&pCmd->PduContent.Content[index++], &lower_byte, 1);
 
-    /* Byte 3: EntityID length and TransID length */
+    /* Byte 3: EntityID length and TransSeqNumber length */
     byte = 0;
     byte = byte | ((pInfo->trans.source_id.length - 1) << 4);
     byte = byte | (TEST_TRANS_SEQ_NUM_LENGTH - 1);

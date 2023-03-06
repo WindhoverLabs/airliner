@@ -962,7 +962,7 @@ void Test_CF_AppMain_IncomingMsgClass2Nominal(void)
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_ZEROCOPYSEND_INDEX,
                               (void *)&CFE_SB_ZeroCopySendHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 6);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 10);
 
     /* Execute the function being tested */
     CF_AppMain();
