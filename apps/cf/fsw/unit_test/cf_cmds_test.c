@@ -37,12 +37,9 @@
 
 #include "cf_events.h"
 #include "cf_version.h"
-#include "structures.h"
-#include "timer.h"
-#include "machine.h"
-#include "machine_list.h"
-#include "misc.h"
 #include "cf_playback.h"
+
+#include "cfdp_provides.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -60,7 +57,6 @@
 #include "ut_cfe_fs_stubs.h"
 
 #include <string.h>
-#include <unistd.h>
 #include <errno.h>
 
 
@@ -2084,7 +2080,6 @@ void Test_CF_AppPipe_HousekeepingCmdPbSuccess(void)
         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
-machine_list__display_list();
 
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&HkCmdMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
@@ -2499,12 +2494,6 @@ void Test_CF_AppPipe_HousekeepingCmdUpSuccess(void)
 
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
-
-#if 0
-    /* Return the read bytes */
-    Ut_OSFILEAPI_SetFunctionHook(UT_OSFILEAPI_READ_INDEX,
-                                 (void *)&OS_readHook);
-#endif
 
     /* Return the offset pointer of the CF_AppData.Mem.Partition */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
@@ -3345,7 +3334,6 @@ void Test_CF_AppPipe_SuspendCmdAll(void)
     SuspendedCnt = EngStat.how_many_suspended;
 
     CF_ShowQs();
-machine_list__display_list();
 
     sprintf(FullTransString1, "%s%s", CF_AppData.Tbl->FlightEntityId, "_1");
     cfdp_trans_from_string(FullTransString1, &trans);
@@ -3677,7 +3665,6 @@ void Test_CF_AppPipe_ResumeCmdUpTransIdIgnore(void)
 
     QEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
     CF_ShowQs();
-machine_list__display_list();
 
     /* get engine status */
     EngStat = cfdp_summary_status();
@@ -8599,7 +8586,6 @@ void Test_CF_AppPipe_SendTransDiagCmdPbTransId(void)
 
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
     CF_ShowQs();
-machine_list__display_list();
 
     for (i = 0; i < CF_NUM_UPLINK_QUEUES; i++)
     {
@@ -12442,8 +12428,6 @@ void Test_CF_AppPipe_AutoSuspendEnCmdEnable(void)  // check this
     CF_GetHandshakeSemIds();
 
     CF_TstUtil_CreateTwoPbActiveQueueEntry(&PbFileCmdMsg1, &PbFileCmdMsg2);
-CF_ShowQs();
-machine_list__display_list();
 
     /* AutoSuspend */
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&AutoSusCmdMsg;
@@ -12473,8 +12457,6 @@ machine_list__display_list();
 
     QEntryCnt =
         CF_AppData.Chan[PbFileCmdMsg1.Channel].PbQ[CF_PB_ACTIVEQ].EntryCnt;
-CF_ShowQs();
-machine_list__display_list();
 
     sprintf(expEvent, "Auto Suspend enable flag set to %u",
             (unsigned int)AutoSusCmdMsg.EnableDisable);
