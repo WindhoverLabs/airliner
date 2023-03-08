@@ -60,10 +60,12 @@ uint8        CFE_SB_ZeroCopyGetPtrHook_Buf[CFE_SB_MAX_SB_MSG_SIZE];
 uint8        *BufPtrs[128];
 
 boolean      ZeroCopySendHook_AckEofNoErr_Rcvd = NO;
+boolean      ZeroCopySendHook_AckEofCancel_Rcvd = NO;
 boolean      ZeroCopySendHook_FinNoErr_Rcvd = NO;
 boolean      ZeroCopySendHook_FinInactTimeout_Rcvd = NO;
+boolean      ZeroCopySendHook_Nak_Rcvd = NO;
 CFDP_DATA    InPDU;
-CFDP_DATA    OutPDU;
+CFDP_DATA    HookOutPDU;
 
 
 void Get_PduHeader(uint8 id_len, uint8 trans_seq_len,
@@ -73,8 +75,6 @@ int  Gen_PduHeader(uint8 trans_seq_len, uint16 data_field_len,
 
 void Build_AckFinPdu(uint8 trans_seq_len, HDR *pdu_hdr,
                      ACK *ack, CFDP_DATA *out_pdu);
-
-void Send_OutPdu(CFE_SB_MsgId_t MsgId, CFDP_DATA *out_pdu);
 
 
 /**************************************************************************
@@ -297,7 +297,7 @@ printf("!!Build_AckFinPdu: hdr_len(%d)\n", hdr_len);
 
     out_pdu->length = index;
 
-printf("!!Build_AckFinPdu: Packet\n");
+printf("!!Build_AckFinPdu: Packet length(%lu)\n", out_pdu->length);
 for(int i = 0; i < out_pdu->length; i++)
 {
     printf("%02x ", out_pdu->content[i]);
@@ -308,23 +308,83 @@ printf("\n");
 }
 
 
-void Send_OutPdu(CFE_SB_MsgId_t MsgId, CFDP_DATA *out_pdu)
+void Build_EofCancelPdu(uint8 trans_seq_len, HDR *pdu_hdr,
+                        EOHF *eof, CFDP_DATA *out_pdu)
 {
-    CF_Test_InPDUMsg_t  OutPDUMsg;
+    uint8   byte;
+    uint8   byte0, byte1, byte2, byte3;
+    uint8   cond_code;
+    uint16  data_field_len;
+    int     index;
+    int     hdr_len;
+    uint32  Checksum;
+    uint32  FileSize;
 
-printf("!!!Send_OutPdu: Sending output PDU\n");
+    data_field_len = 10;
 
-    CFE_SB_InitMsg((void*)&OutPDUMsg, MsgId, sizeof(OutPDUMsg), TRUE);
-    memcpy(OutPDUMsg.PduContent.Content, out_pdu->content, out_pdu->length);
+    hdr_len = Gen_PduHeader(trans_seq_len, data_field_len, pdu_hdr, out_pdu);
+    index = hdr_len;
+printf("!!Build_EofCancelPdu: hdr_len(%d)\n", hdr_len);
 
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&OutPDUMsg;
-    CF_AppPipe(CF_AppData.MsgPtr);
+    /**** Data Field ****/
+    /* Byte 0: File Dir Code */
+    byte = EOF_PDU;
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 1: Condition Code */
+    cond_code = eof->condition_code;
+    byte = cond_code << 4;
+    out_pdu->content[index] = byte;
+    index ++;
+
+    /* Byte 2 - 5: Checksum: Not Supported */
+    Checksum = eof->file_checksum;
+    byte0 = (Checksum & 0xff000000) >> 24;
+    byte1 = (Checksum & 0x00ff0000) >> 16;
+    byte2 = (Checksum & 0x0000ff00) >> 8;
+    byte3 = Checksum & 0x000000ff;
+    out_pdu->content[index] = byte0;
+    index ++;
+    out_pdu->content[index] = byte1;
+    index ++;
+    out_pdu->content[index] = byte2;
+    index ++;
+    out_pdu->content[index] = byte3;
+    index ++;
+
+    /* Byte 6 - 9: File Size */
+    FileSize = eof->file_size;
+    byte0 = (FileSize & 0xff000000) >> 24;
+    byte1 = (FileSize & 0x00ff0000) >> 16;
+    byte2 = (FileSize & 0x0000ff00) >> 8;
+    byte3 = FileSize & 0x000000ff;
+    out_pdu->content[index] = byte0;
+    index ++;
+    out_pdu->content[index] = byte1;
+    index ++;
+    out_pdu->content[index] = byte2;
+    index ++;
+    out_pdu->content[index] = byte3;
+    index ++;
+
+    out_pdu->length = index;
+
+printf("!!Build_EofCancelPdu: Packet length(%lu)\n", out_pdu->length);
+for(int i = 0; i < out_pdu->length; i++)
+{
+    printf("%02x ", out_pdu->content[i]);
+}
+printf("\n");
+
+    return;
 }
 
 
 int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
                               CFE_SB_ZeroCopyHandle_t BufferHandle)
 {
+    uint8               byte;
     uint8               IdLen, TransSeqNumLen, PduHdrLen;
     uint8               file_dir_code;
     uint8               *pduPtr;
@@ -337,6 +397,8 @@ int32 CFE_SB_ZeroCopySendHook(CFE_SB_Msg_t *MsgPtr,
     HDR                 PduHdr;
     ACK                 Ack;
     FIN                 Fin;
+    NAK                 Nak;
+    EOHF                Eof;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     MsgId = CFE_SB_GetMsgId(MsgPtr);
@@ -388,22 +450,28 @@ printf("\n");
             if (PduHdr.pdu_type == FILE_DIR_PDU)
             {
                 index = PduHdrLen;
-                file_dir_code = InPDU.content[index++];
+                file_dir_code = InPDU.content[index];
+                index ++;
 
                 if (file_dir_code == ACK_PDU)
                 {
-                    Ack.directive_code = (InPDU.content[index++] & 0xf0) >> 4;
+                    Ack.directive_code = (InPDU.content[index] & 0xf0) >> 4;
+                    index ++;
 
                     Ack.condition_code = (InPDU.content[index] & 0xf0) >> 4;
                     Ack.delivery_code = (InPDU.content[index] & 0x0c) >> 2;
                     Ack.transaction_status = InPDU.content[index] & 0x03;
+                    index ++;
 
                     if (Ack.directive_code == EOF_PDU)
                     {
-                        if (Ack.condition_code == NO_ERROR &&
-                            Ack.delivery_code == DATA_COMPLETE)
+                        if (Ack.condition_code == NO_ERROR)
                         {
                             ZeroCopySendHook_AckEofNoErr_Rcvd = YES;
+                        }
+                        else if(Ack.condition_code == FILE_SIZE_ERROR)
+                        {
+                            ZeroCopySendHook_AckEofCancel_Rcvd = YES;
                         }
                         printf("Received ACK-EOF\n");
                         printf("directive_code: %u\n", Ack.directive_code);
@@ -421,6 +489,7 @@ printf("\n");
                     Fin.condition_code = (InPDU.content[index] & 0xf0) >> 4;
                     Fin.end_system_status = (InPDU.content[index] & 0x08) >> 3;
                     Fin.delivery_code = (InPDU.content[index] & 0x04) >> 2;
+                    index ++;
 
                     printf("Received FIN\n");
                     printf("condition_code(%u)\n", Fin.condition_code);
@@ -443,14 +512,31 @@ printf("Sending Ack-Fin: Ack.condition_code(%u)\n", Ack.condition_code);
 printf("Sending Ack-Fin: Ack.delivery_code(%u)\n", Ack.delivery_code);
 printf("Sending Ack-Fin: Ack.transaction_status(%u)\n", Ack.transaction_status);
 
-                        memset(&OutPDU, 0x00, sizeof(OutPDU));
+                        memset(&HookOutPDU, 0x00, sizeof(HookOutPDU));
                         PduHdr.direction = TOWARD_RECEIVER;
-                        Build_AckFinPdu(TransSeqNumLen, &PduHdr, &Ack, &OutPDU);
-                        Send_OutPdu(CF_PPD_TO_CPD_PDU_MID, &OutPDU);
+                        Build_AckFinPdu(TransSeqNumLen, &PduHdr, &Ack, &HookOutPDU);
+                        printf("##CFE_SB_ZeroCopySendHook: Sending output PDU\n");
                     }
                     else if (Fin.condition_code == INACTIVITY_DETECTED)
                     {
                         ZeroCopySendHook_FinInactTimeout_Rcvd = YES;
+
+                        Ack.directive_code = FIN_PDU;
+                        Ack.directive_subtype_code = 0;
+                        Ack.condition_code = Fin.condition_code;
+                        Ack.delivery_code = DONT_CARE_0;
+                        /* Solely for ack fin */
+                        Ack.transaction_status = TRANS_UNDEFINED;
+printf("Sending Ack-Fin Inact: Ack.directive_code(%u)\n", Ack.directive_code);
+printf("Sending Ack-Fin Inact: Ack.directive_subtype_code(%u)\n", Ack.directive_subtype_code);
+printf("Sending Ack-Fin Inact: Ack.condition_code(%u)\n", Ack.condition_code);
+printf("Sending Ack-Fin Inact: Ack.delivery_code(%u)\n", Ack.delivery_code);
+printf("Sending Ack-Fin Inact: Ack.transaction_status(%u)\n", Ack.transaction_status);
+
+                        memset(&HookOutPDU, 0x00, sizeof(HookOutPDU));
+                        PduHdr.direction = TOWARD_RECEIVER;
+                        Build_AckFinPdu(TransSeqNumLen, &PduHdr, &Ack, &HookOutPDU);
+                        printf("##CFE_SB_ZeroCopySendHook: Sending output PDU\n");
                     }
                     else
                     {
@@ -458,7 +544,42 @@ printf("Sending Ack-Fin: Ack.transaction_status(%u)\n", Ack.transaction_status);
                 }
                 else if (file_dir_code == NAK_PDU)
                 {
+                    Nak.start_of_scope = 0;
+                    for (i = 0; i < sizeof(u_int_4); i++)
+                    {
+                        Nak.start_of_scope = (Nak.start_of_scope * 256) +
+                                             InPDU.content[index + i];
+                    }
+                    index += sizeof(u_int_4);
+
+                    Nak.end_of_scope = 0;
+                    for (i = 0; i < sizeof(u_int_4); i++)
+                    {
+                        Nak.end_of_scope = (Nak.end_of_scope * 256) +
+                                           InPDU.content[index + i];
+                    }
+                    index += sizeof(u_int_4);
+
+                    byte = InPDU.content[index];
+                    Nak.is_metadata_missing = (byte & 0x80) >> 7 ;
+                    index ++;
+
                     printf("Received NAK\n");
+                    printf("Nak.start_of_scope(%lu)\n", Nak.start_of_scope);
+                    printf("Nak.end_of_scope(%lu)\n", Nak.end_of_scope);
+                    printf("Nak.is_metadata_missing(%u)\n",
+                            Nak.is_metadata_missing);
+
+                    ZeroCopySendHook_Nak_Rcvd = YES;
+
+                    Eof.condition_code = FILE_SIZE_ERROR;
+                    Eof.file_checksum = 0;
+                    Eof.file_size = TEST_FILE_SIZE2;
+
+                    memset(&HookOutPDU, 0x00, sizeof(HookOutPDU));
+                    PduHdr.direction = TOWARD_RECEIVER;
+                    Build_EofCancelPdu(TransSeqNumLen, &PduHdr, &Eof, &HookOutPDU);
+                    printf("##CFE_SB_ZeroCopySendHook: Sending output PDU\n");
                 }
                 else
                 {

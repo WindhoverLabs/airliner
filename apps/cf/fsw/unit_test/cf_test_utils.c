@@ -67,8 +67,9 @@ const char TestPbFile6[] = "pbfile6.dat";
 
 const char TestInFile1[] = "infile1.dat";
 const char TestInFile2[] = "infile2.dat";
-const char TestInFile3[] = "infile3.dat";
-const char TestInFile4[] = "infile4.dat";
+const char TestInFileNominal[] = "infileNominal.dat";
+const char TestInFileTimerExpired[] = "infileTimerExpired.dat";
+const char TestInFileDataLoss[] = "infileDataLoss.dat";
 const char TestInNoFile[] = "";
 
 const char TestQInfoFile1[] = "qinfo1.dat";
@@ -480,20 +481,24 @@ uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     {
         /* <NOT_SUPPORTED> CRC in PDUs */
     }
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Byte 1 - 2: Packet Data field length */
     data_field_len = PDataLen;
     upper_byte = data_field_len / 256;
     lower_byte = data_field_len % 256;
-    memcpy(&pCmd->PduContent.Content[index++], &upper_byte, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &lower_byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &upper_byte, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &lower_byte, 1);
+    index ++;
 
     /* Byte 3: EntityID length and TransSeqNumber length */
     byte = 0;
     byte = byte | ((pInfo->trans.source_id.length - 1) << 4);
     byte = byte | (TEST_TRANS_SEQ_NUM_LENGTH - 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Byte 4 - 5: Source Entity ID: Just in case, add zeros on the left */
     memcpy(&SrcEntityID, &pInfo->trans.source_id, sizeof(SrcEntityID));
@@ -501,7 +506,8 @@ uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     byte = 0;
     for (i = SrcEntityID.length; i < DstEntityID.length; i++)
     {
-        memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+        memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+        index ++;
     }
     memcpy(&pCmd->PduContent.Content[index], SrcEntityID.value,
            SrcEntityID.length);
@@ -513,16 +519,21 @@ uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (TransSeqNum & 0x00ff0000) >> 16;
     byte2 = (TransSeqNum & 0x0000ff00) >> 8;
     byte3 = TransSeqNum & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     /* Byte 10 - 11: Dest Entity ID: Just in case, add zeros on the left */
     byte = 0;
     for (i = DstEntityID.length; i < SrcEntityID.length; i++)
     {
-        memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+        memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+        index ++;
     }
     memcpy(&pCmd->PduContent.Content[index], DstEntityID.value,
            DstEntityID.length);
@@ -546,7 +557,8 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     /**** Data Field ****/
     /* Byte 0: File-dir code */
     byte = MD_PDU;
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Byte 1: Segmentation control: not supported */
     byte = 0;
@@ -558,7 +570,8 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     {
         byte = byte | 0x40;
     }
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Bytes 2 - 5 : file size */
     FileSize = pInfo->file_size;
@@ -566,20 +579,26 @@ void CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;
     byte3 = FileSize & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     /* Source file name */
     str_len = strlen(pInfo->src_filename);
-    memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
+    memcpy(&pCmd->PduContent.Content[index], &str_len, 1);
+    index ++;
     memcpy(&pCmd->PduContent.Content[index], pInfo->src_filename, str_len);
     index += str_len;
 
     /* Destination file name */
     str_len = strlen(pInfo->dst_filename);
-    memcpy(&pCmd->PduContent.Content[index++], &str_len, 1);
+    memcpy(&pCmd->PduContent.Content[index], &str_len, 1);
+    index ++;
     memcpy(&pCmd->PduContent.Content[index], pInfo->dst_filename, str_len);
     index += str_len;
 
@@ -604,10 +623,14 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (Offset & 0x00ff0000) >> 16;
     byte2 = (Offset & 0x0000ff00) >> 8;
     byte3 = Offset & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
     FileSize = pInfo->file_size;
@@ -637,10 +660,14 @@ void CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (Offset & 0x00ff0000) >> 16;
     byte2 = (Offset & 0x0000ff00) >> 8;
     byte3 = Offset & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
     FileSize = pInfo->file_size;
@@ -650,7 +677,8 @@ void CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
     }
     else
     {
-        sprintf(tmpString, "%s", "This is a test file for class2");
+        sprintf(tmpString, "%s%s",
+                "Class2 Filename is: ", pInfo->dst_filename);
         tmplength = strlen(tmpString);
         memcpy(&pCmd->PduContent.Content[index], tmpString, tmplength);
         memset(&pCmd->PduContent.Content[index + tmplength], 0xcf,
@@ -677,12 +705,14 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     /**** Data Field ****/
     /* Byte 0: File Dir Code */
     byte = EOF_PDU;
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Byte 1: Condition Code */
     cond_code = pInfo->cond_code;
     byte = cond_code << 4;
-    memcpy(&pCmd->PduContent.Content[index++], &byte, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte, 1);
+    index ++;
 
     /* Byte 2 - 5: Checksum: Not Supported */
     Checksum = pInfo->checksum;
@@ -690,10 +720,14 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (Checksum & 0x00ff0000) >> 16;
     byte2 = (Checksum & 0x0000ff00) >> 8;
     byte3 = Checksum & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     /* Byte 6 - 9: File Size */
     FileSize = pInfo->file_size;
@@ -701,10 +735,14 @@ void CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
     byte1 = (FileSize & 0x00ff0000) >> 16;
     byte2 = (FileSize & 0x0000ff00) >> 8;
     byte3 = FileSize & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index++], &byte0, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte1, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte2, 1);
-    memcpy(&pCmd->PduContent.Content[index++], &byte3, 1);
+    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
+    index ++;
+    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
+    index ++;
 
     return;
 }

@@ -58,8 +58,9 @@ extern const char TestPbFile6[];
 
 extern const char TestInFile1[];
 extern const char TestInFile2[];
-extern const char TestInFile3[];
-extern const char TestInFile4[];
+extern const char TestInFileNominal[];
+extern const char TestInFileTimerExpired[];
+extern const char TestInFileDataLoss[];
 extern const char TestInNoFile[];
 
 extern const char TestQInfoFile1[];

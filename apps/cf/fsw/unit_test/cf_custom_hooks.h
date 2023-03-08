@@ -36,6 +36,8 @@
 
 #include "cfe.h"
 
+#include "cfdp_data_structures.h"
+
 
 extern uint32       ReaddirHookReturnCnt;
 extern os_dirent_t  ReaddirHookDirEntry;
@@ -49,8 +51,11 @@ extern uint32       ZeroCopyGetPtrHookOffset;
 extern uint32       CFE_ES_GetPoolBufHookCallCnt;
 
 extern boolean      ZeroCopySendHook_AckEofNoErr_Rcvd;
+extern boolean      ZeroCopySendHook_AckEofCancel_Rcvd;
 extern boolean      ZeroCopySendHook_FinNoErr_Rcvd;
 extern boolean      ZeroCopySendHook_FinInactTimeout_Rcvd;
+extern boolean      ZeroCopySendHook_Nak_Rcvd;
+extern CFDP_DATA    HookOutPDU;
 
 
 #ifdef __cplusplus
