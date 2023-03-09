@@ -838,23 +838,26 @@ void Test_CF_AppMain_IncomingMsgClass1(void)
 
 
 /**
- * Test CF_AppMain, IncomingMsgClass2Nominal
+ * Test CF, IncomingMsgClass2Nominal
  */
-void Test_CF_AppMain_IncomingMsgClass2Nominal(void)
+void Test_CF_IncomingMsgClass2Nominal(void)
 {
     uint16              PDataLen;
     uint16              hdr_len;
     int                 i;
     uint32              offset;
     uint32              size_left;
-    uint32              UpActQEntryCnt;
-    uint32              UpHistQEntryCnt;
+    uint32              UpActQEntryCntBefore;
+    uint32              UpHistQEntryCntBefore;
+    uint32              UpActQEntryCntAfter;
+    uint32              UpHistQEntryCntAfter;
     CF_Test_InPDUInfo_t InMdPDUInfo;
     CF_Test_InPDUInfo_t InFdPDUInfo;
     CF_Test_InPDUInfo_t InEofPDUInfo;
     CF_Test_InPDUMsg_t  InMdPDUMsg;
     CF_Test_InPDUMsg_t  InFdPDUMsg;
     CF_Test_InPDUMsg_t  InEofPDUMsg;
+    CF_Test_InPDUMsg_t  InAckFinMsg;
     char   expEventInSt[CFE_EVS_MAX_MESSAGE_LENGTH];
     char   expEventInFin[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -967,7 +970,7 @@ void Test_CF_AppMain_IncomingMsgClass2Nominal(void)
 
         PDataLen = InFdPDUInfo.file_size + 4;
         hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InFdPDUInfo, PDataLen);
-        CF_TstUtil_BuildFDPduS(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
+        CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
 
         CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InFdPDUMsg;
         CF_AppPipe(CF_AppData.MsgPtr);
@@ -977,13 +980,31 @@ void Test_CF_AppMain_IncomingMsgClass2Nominal(void)
     CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InEofPDUMsg;
     CF_AppPipe(CF_AppData.MsgPtr);
 
-    UpActQEntryCnt = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
-    UpHistQEntryCnt = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+    UpActQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
 
     CF_ShowQs();
 
     cfdp_cycle_each_transaction();
     cfdp_cycle_each_transaction();
+
+    if (ZeroCopySendHook_FinNoErr_Rcvd == YES)
+    {
+        CFE_SB_InitMsg((void*)&InAckFinMsg, CF_PPD_TO_CPD_PDU_MID,
+                       sizeof(InAckFinMsg), TRUE);
+        memcpy(InAckFinMsg.PduContent.Content, HookOutPDU.content,
+               HookOutPDU.length);
+        CF_Test_PrintCmdMsg(&InAckFinMsg,
+                            CFE_SB_CMD_HDR_SIZE + HookOutPDU.length);
+
+        CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InAckFinMsg;
+        CF_AppPipe(CF_AppData.MsgPtr);
+    }
+
+    UpActQEntryCntAfter = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
+    UpHistQEntryCntAfter = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
+
+    CF_ShowQs();
 
     sprintf(expEventInSt, "Incoming trans started %d.%d_%d,dest %s",
             InMdPDUInfo.trans.source_id.value[0],
@@ -998,36 +1019,40 @@ void Test_CF_AppMain_IncomingMsgClass2Nominal(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppMain, IncomingMsgClass2Nominal: No ErrCounter");
+                  "CF, IncomingMsgClass2Nominal: No ErrCounter");
 
     UtAssert_True((CF_AppData.Hk.Up.MetaCount == 1) &&
                   (CF_AppData.Hk.Up.SuccessCounter == 1) &&
                   (CF_AppData.Hk.Up.FailedCounter == 0),
-                  "CF_AppMain, IncomingMsgClass2Nominal: Up Telemetry data");
+                  "CF, IncomingMsgClass2Nominal: Up Telemetry data");
 
-    UtAssert_True((UpActQEntryCnt == 1) && (UpHistQEntryCnt == 0),
-                  "CF_AppMain, IncomingMsgClass2Nominal: UpQueueEntry cnt");
+    UtAssert_True(CF_AppData.Hk.Chan[0].PDUsSent == 2,
+                  "CF, IncomingMsgClass2Nominal: Pb Telemetry data");
+
+    UtAssert_True((UpActQEntryCntBefore == 1) && (UpActQEntryCntAfter == 0)
+              && (UpHistQEntryCntBefore == 0) && (UpHistQEntryCntAfter == 1),
+              "CF, IncomingMsgClass2Nominal: UpQueueEntry cnt");
 
     UtAssert_True(ZeroCopySendHook_AckEofNoErr_Rcvd == YES,
-           "CF_AppMain, IncomingMsgClass2Nominal: ACK-EOF NoErr received");
+                  "CF, IncomingMsgClass2Nominal: ACK-EOF NoErr received");
 
     UtAssert_True(ZeroCopySendHook_FinNoErr_Rcvd == YES,
-           "CF_AppMain, IncomingMsgClass2Nominal: FIN COMPLETE received");
+                  "CF, IncomingMsgClass2Nominal: FIN COMPLETE received");
 
     UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION, expEventInSt,
-             "CF_AppMain, IncomingMsgClass2Nominal: Incoming Start Event Sent");
+                     "CF, IncomingMsgClass2Nominal: Incoming Start Event Sent");
 
     UtAssert_EventSent(CF_IN_TRANS_OK_EID, CFE_EVS_INFORMATION, expEventInFin,
-             "CF_AppMain, IncomingMsgClass2Nominal: Incoming Finish Event Sent");
+                    "CF, IncomingMsgClass2Nominal: Incoming Finish Event Sent");
 
     CF_ResetEngine();
 }
 
 
 /**
- * Test CF_AppMain, IncomingMsgClass2InactTimerExpired
+ * Test CF, IncomingMsgClass2InactTimerExpired
  */
-void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
+void Test_CF_IncomingMsgClass2InactTimerExpired(void)
 {
     uint16              PDataLen;
     uint16              hdr_len;
@@ -1064,7 +1089,7 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
     cfdp_id_from_string(TestFlightEntityId, &InMdPDUInfo.dest_id);
     InMdPDUInfo.file_transfer = YES;
     InMdPDUInfo.segmentation_control = NO;
-    InMdPDUInfo.file_size = TEST_FILE_SIZE2;   /* Total file size */
+    InMdPDUInfo.file_size = TEST_FILE_SIZE2;
     sprintf(InMdPDUInfo.src_filename, "%s%s",
             TestInDir1, TestInFileTimerExpired);
     sprintf(InMdPDUInfo.dst_filename, "%s%s",
@@ -1162,11 +1187,14 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
 
         PDataLen = InFdPDUInfo.file_size + 4;
         hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InFdPDUInfo, PDataLen);
-        CF_TstUtil_BuildFDPduS(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
+        CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
 
         CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InFdPDUMsg;
         CF_AppPipe(CF_AppData.MsgPtr);
     }
+
+    /* Do not send EOF PDU */
+    printf("Waiting for the timer expired..................\n");
 
     inactivity_timeout = (uint32)atoi(CF_AppData.Tbl->InactivityTimeout);
     time(&start_time);
@@ -1174,8 +1202,6 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
     {
         time(&elapsed_time);
     } while((elapsed_time - start_time) < (inactivity_timeout + 5));
-
-    /* Do not send EOF PDU */
 
     UpActQEntryCntBefore = CF_AppData.UpQ[CF_UP_ACTIVEQ].EntryCnt;
     UpHistQEntryCntBefore = CF_AppData.UpQ[CF_UP_HISTORYQ].EntryCnt;
@@ -1190,6 +1216,8 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
                        sizeof(InAckFinPDUMsg), TRUE);
         memcpy(InAckFinPDUMsg.PduContent.Content, HookOutPDU.content,
                HookOutPDU.length);
+        CF_Test_PrintCmdMsg(&InAckFinPDUMsg,
+                            CFE_SB_CMD_HDR_SIZE + HookOutPDU.length);
 
         CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InAckFinPDUMsg;
         CF_AppPipe(CF_AppData.MsgPtr);
@@ -1204,8 +1232,8 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
             InMdPDUInfo.trans.source_id.value[1],
             (int)InMdPDUInfo.trans.number, InMdPDUInfo.dst_filename);
 
-    sprintf(expEventInact, "Fault %d,%d.%d_%d,%s",
-            INACTIVITY_DETECTED, InMdPDUInfo.trans.source_id.value[0],
+    sprintf(expEventInact, "Flight Inactivity Timer Expired %d.%d_%d,%s",
+            InMdPDUInfo.trans.source_id.value[0],
             InMdPDUInfo.trans.source_id.value[1],
             (int)InMdPDUInfo.trans.number, InMdPDUInfo.src_filename);
 
@@ -1219,44 +1247,42 @@ void Test_CF_AppMain_IncomingMsgClass2InactTimerExpired(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-            "CF_AppMain, IncomingMsgClass2InactTimerExpired: No ErrCounter");
+                  "CF, IncomingMsgClass2InactTimerExpired: No ErrCounter");
 
     UtAssert_True((CF_AppData.Hk.Up.MetaCount == 1) &&
                   (CF_AppData.Hk.Up.SuccessCounter == 0) &&
                   (CF_AppData.Hk.Up.FailedCounter == 1),
-         "CF_AppMain, IncomingMsgClass2InactTimerExpired: Up Telemetry data");
+                 "CF, IncomingMsgClass2InactTimerExpired: Up Telemetry data");
 
     UtAssert_True(CF_AppData.Hk.Chan[0].PDUsSent == 1,
-         "CF_AppMain, IncomingMsgClass2InactTimerExpired: Pb Telemetry data");
+                 "CF, IncomingMsgClass2InactTimerExpired: Pb Telemetry data");
 
     UtAssert_True((UpActQEntryCntBefore == 1) && (UpActQEntryCntAfter == 0) &&
                   (UpHistQEntryCntBefore == 0) && (UpHistQEntryCntAfter == 1),
-         "CF_AppMain, IncomingMsgClass2InactTimerExpired: UpQueueEntry cnt");
+                  "CF, IncomingMsgClass2InactTimerExpired: UpQueueEntry cnt");
 
     UtAssert_True(ZeroCopySendHook_FinInactTimeout_Rcvd == YES,
-                  "CF_AppMain, IncomingMsgClass2InactTimerExpired: "
-                  "FIN-InactTimeout received");
+         "CF, IncomingMsgClass2InactTimerExpired: FIN-InactTimeout received");
 
     UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION,
-                       expEventInSt, "CF_AppMain, IncomingMsgClass2"
-                       "InactTimerExpired: Incoming Start Event Sent");
+                       expEventInSt, "CF, IncomingMsgClass2InactTimerExpired: "
+                       "Incoming Start Event Sent");
 
-    UtAssert_EventSent(CF_IND_XACT_FAU_EID, CFE_EVS_DEBUG, expEventInact,
-                       "CF_AppMain, IncomingMsgClass2InactTimerExpired: "
+    UtAssert_EventSent(CF_IND_INA_TIM_EXP_EID, CFE_EVS_INFORMATION,
+                       expEventInact, "CF, IncomingMsgClass2InactTimerExpired: "
                        "Inactivity Event Sent");
 
     UtAssert_EventSent(CF_IN_TRANS_FAILED_EID, CFE_EVS_ERROR, expEventInFail,
-                       "CF_AppMain, IncomingMsgClass2InactTimerExpired: "
-                       "Incoming Fail Event Sent");
+            "CF, IncomingMsgClass2InactTimerExpired: Incoming Fail Event Sent");
 
     CF_ResetEngine();
 }
 
 
 /**
- * Test CF_AppMain, IncomingMsgClass2DataLoss
+ * Test CF, IncomingMsgClass2DataLoss
  */
-void Test_CF_AppMain_IncomingMsgClass2DataLoss(void)
+void Test_CF_IncomingMsgClass2DataLoss(void)
 {
     uint16              PDataLen;
     uint16              hdr_len;
@@ -1388,7 +1414,7 @@ void Test_CF_AppMain_IncomingMsgClass2DataLoss(void)
 
         PDataLen = InFdPDUInfo.file_size + 4;
         hdr_len = CF_TstUtil_GenPDUHeader(&InFdPDUMsg, &InFdPDUInfo, PDataLen);
-        CF_TstUtil_BuildFDPduS(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
+        CF_TstUtil_BuildFDPdu(&InFdPDUMsg, &InFdPDUInfo, hdr_len);
 
         CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InFdPDUMsg;
         CF_AppPipe(CF_AppData.MsgPtr);
@@ -1411,6 +1437,8 @@ void Test_CF_AppMain_IncomingMsgClass2DataLoss(void)
                        sizeof(InEofCancelPDUMsg), TRUE);
         memcpy(InEofCancelPDUMsg.PduContent.Content, HookOutPDU.content,
                HookOutPDU.length);
+        CF_Test_PrintCmdMsg(&InEofCancelPDUMsg,
+                            CFE_SB_CMD_HDR_SIZE + HookOutPDU.length);
 
         CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&InEofCancelPDUMsg;
         CF_AppPipe(CF_AppData.MsgPtr);
@@ -1437,34 +1465,34 @@ void Test_CF_AppMain_IncomingMsgClass2DataLoss(void)
     /* Verify results */
     UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
                   (CF_AppData.Hk.ErrCounter == 0),
-                  "CF_AppMain, IncomingMsgClass2DataLoss: No ErrCounter");
+                  "CF, IncomingMsgClass2DataLoss: No ErrCounter");
 
     UtAssert_True((CF_AppData.Hk.Up.MetaCount == 1) &&
                   (CF_AppData.Hk.Up.SuccessCounter == 0) &&
                   (CF_AppData.Hk.Up.FailedCounter == 1),
-                  "CF_AppMain, IncomingMsgClass2DataLoss: Up Telemetry data");
+                  "CF, IncomingMsgClass2DataLoss: Up Telemetry data");
 
     UtAssert_True(CF_AppData.Hk.Chan[0].PDUsSent == 3,
-                  "CF_AppMain, IncomingMsgClass2DataLoss: Pb Telemetry data");
+                  "CF, IncomingMsgClass2DataLoss: Pb Telemetry data");
 
     UtAssert_True((UpActQEntryCntBefore == 1) && (UpActQEntryCntAfter == 0) &&
                   (UpHistQEntryCntBefore == 0) &&(UpHistQEntryCntAfter == 1),
-                  "CF_AppMain, IncomingMsgClass2DataLoss: UpQueueEntry cnt");
+                  "CF, IncomingMsgClass2DataLoss: UpQueueEntry cnt");
 
     UtAssert_True(ZeroCopySendHook_AckEofNoErr_Rcvd == YES,
-        "CF_AppMain, IncomingMsgClass2DataLoss: ACK-EOF NoErr received");
+                  "CF, IncomingMsgClass2DataLoss: ACK-EOF NoErr received");
 
     UtAssert_True(ZeroCopySendHook_Nak_Rcvd == YES,
-                  "CF_AppMain, IncomingMsgClass2DataLoss: NAK received");
+                  "CF, IncomingMsgClass2DataLoss: NAK received");
 
     UtAssert_True(ZeroCopySendHook_AckEofCancel_Rcvd == YES,
-             "CF_AppMain, IncomingMsgClass2DataLoss: ACK-EOF Cancel received");
+                  "CF, IncomingMsgClass2DataLoss: ACK-EOF Cancel received");
 
     UtAssert_EventSent(CF_IN_TRANS_START_EID, CFE_EVS_INFORMATION, expEventInSt,
-             "CF_AppMain, IncomingMsgClass2DataLoss: Incoming Start Event Sent");
+                    "CF, IncomingMsgClass2DataLoss: Incoming Start Event Sent");
 
     UtAssert_EventSent(CF_IN_TRANS_FAILED_EID, CFE_EVS_ERROR, expEventInFail,
-             "CF_AppMain, IncomingMsgClass2DataLoss: Incoming Fail Event Sent");
+                     "CF, IncomingMsgClass2DataLoss: Incoming Fail Event Sent");
 
     CF_ResetEngine();
 }
@@ -2096,15 +2124,15 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppMain_IncomingMsgClass1,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_IncomingMsgClass1");
-    UtTest_Add(Test_CF_AppMain_IncomingMsgClass2Nominal,
+    UtTest_Add(Test_CF_IncomingMsgClass2Nominal,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
-               "Test_CF_AppMain_IncomingMsgClass2Nominal");
-    UtTest_Add(Test_CF_AppMain_IncomingMsgClass2InactTimerExpired,
+               "Test_CF_IncomingMsgClass2Nominal");
+    UtTest_Add(Test_CF_IncomingMsgClass2InactTimerExpired,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
-               "Test_CF_AppMain_IncomingMsgClass2InactTimerExpired");
-    UtTest_Add(Test_CF_AppMain_IncomingMsgClass2DataLoss,
+               "Test_CF_IncomingMsgClass2InactTimerExpired");
+    UtTest_Add(Test_CF_IncomingMsgClass2DataLoss,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
-               "Test_CF_AppMain_IncomingMsgClass2DataLoss");
+               "Test_CF_IncomingMsgClass2DataLoss");
 
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
                CF_Test_SetupUnitTest, CF_Test_TearDown,

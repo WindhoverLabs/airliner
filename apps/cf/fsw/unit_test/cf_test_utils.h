@@ -164,7 +164,6 @@ void  CF_TstUtil_CreateOnePbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 void  CF_TstUtil_CreateTwoPbActiveQueueEntry(CF_PlaybackFileCmd_t *pCmd1,
                                              CF_PlaybackFileCmd_t *pCmd2);
 void  CF_TstUtil_FinishPbActiveQueueEntries();
-void  CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd);
 
 uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
                                CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen);
@@ -172,8 +171,6 @@ void   CF_TstUtil_BuildMDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
-void   CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
-                              CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 void   CF_TstUtil_BuildEOFPdu(CF_Test_InPDUMsg_t *pCmd,
                               CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len);
 

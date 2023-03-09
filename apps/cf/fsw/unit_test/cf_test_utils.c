@@ -427,27 +427,6 @@ void CF_TstUtil_FinishPbActiveQueueEntries()
 }
 
 
-void CF_TstUtil_CreateOnePbHistoryQueueEntry(CF_PlaybackFileCmd_t *pCmd)
-{
-    CF_CARSCmd_t    CARSCmdMsg;
-
-    CF_TstUtil_CreateOnePbActiveQueueEntry(pCmd);
-
-    cfdp_cycle_each_transaction();
-
-    /* Send Abandon Cmd */
-    CFE_SB_InitMsg((void*)&CARSCmdMsg, CF_CMD_MID, sizeof(CF_CARSCmd_t), TRUE);
-    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CARSCmdMsg, CF_ABANDON_CC);
-    strcpy(CARSCmdMsg.Trans, "All");
-
-    CF_AppData.MsgPtr = (CFE_SB_MsgPtr_t)&CARSCmdMsg;
-    CF_AppPipe(CF_AppData.MsgPtr);
-
-    cfdp_cycle_each_transaction();
-    cfdp_cycle_each_transaction();
-}
-
-
 uint16 CF_TstUtil_GenPDUHeader(CF_Test_InPDUMsg_t *pCmd,
                                CF_Test_InPDUInfo_t *pInfo, uint16 PDataLen)
 {
@@ -610,41 +589,6 @@ void CF_TstUtil_BuildFDPdu(CF_Test_InPDUMsg_t *pCmd,
                            CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
 {
     uint8   byte0, byte1, byte2, byte3;
-    uint16  index;
-    uint32  Offset;
-    uint32  FileSize;
-
-    index = hdr_len;
-
-    /**** Data Field ****/
-    /* Byte 0 - 3 : Offset */
-    Offset = pInfo->offset;
-    byte0 = (Offset & 0xff000000) >> 24;
-    byte1 = (Offset & 0x00ff0000) >> 16;
-    byte2 = (Offset & 0x0000ff00) >> 8;
-    byte3 = Offset & 0x000000ff;
-    memcpy(&pCmd->PduContent.Content[index], &byte0, 1);
-    index ++;
-    memcpy(&pCmd->PduContent.Content[index], &byte1, 1);
-    index ++;
-    memcpy(&pCmd->PduContent.Content[index], &byte2, 1);
-    index ++;
-    memcpy(&pCmd->PduContent.Content[index], &byte3, 1);
-    index ++;
-
-    /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
-    FileSize = pInfo->file_size;
-    memset((void *)&pCmd->PduContent.Content[index], 0xff, FileSize);
-    index += FileSize;
-
-    return;
-}
-
-
-void CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
-                            CF_Test_InPDUInfo_t *pInfo, uint16 hdr_len)
-{
-    uint8   byte0, byte1, byte2, byte3;
     uint8   tmplength;
     uint16  index;
     uint32  Offset;
@@ -671,18 +615,17 @@ void CF_TstUtil_BuildFDPduS(CF_Test_InPDUMsg_t *pCmd,
 
     /* Byte 4 - Byte (FileSize + 4 - 1) : File buffer */
     FileSize = pInfo->file_size;
-    if (FileSize < TEST_FILE_CHUNK_SIZE)
+    sprintf(tmpString, "%s%s", "Filename is: ", pInfo->dst_filename);
+    tmplength = strlen(tmpString);
+    if (FileSize >= tmplength)
     {
-        memset((void *)&pCmd->PduContent.Content[index], 0xcb, FileSize);
+        memcpy(&pCmd->PduContent.Content[index], tmpString, tmplength);
+        memset(&pCmd->PduContent.Content[index + tmplength], 0xcb,
+               FileSize - tmplength);
     }
     else
     {
-        sprintf(tmpString, "%s%s",
-                "Class2 Filename is: ", pInfo->dst_filename);
-        tmplength = strlen(tmpString);
-        memcpy(&pCmd->PduContent.Content[index], tmpString, tmplength);
-        memset(&pCmd->PduContent.Content[index + tmplength], 0xcf,
-               FileSize - tmplength);
+        memset(&pCmd->PduContent.Content[index], 0xcb, FileSize);
     }
     index += FileSize;
 
