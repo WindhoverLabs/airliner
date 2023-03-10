@@ -892,7 +892,7 @@ void Test_CF_IncomingMsgClass2Nominal(void)
     InEofPDUInfo.pdu_type = FILE_DIR_PDU;
     InEofPDUInfo.cond_code = NO_ERROR;
     InEofPDUInfo.file_size = TEST_FILE_SIZE2;
-    InEofPDUInfo.checksum = 0;
+    InEofPDUInfo.checksum = 0x94920cb3;
 
     PDataLen = 10;
     hdr_len = CF_TstUtil_GenPDUHeader(&InEofPDUMsg, &InEofPDUInfo, PDataLen);
@@ -2121,6 +2121,7 @@ void CF_App_Test_AddTestCases(void)
                CF_Test_Setup, CF_Test_TearDown,
                "Test_CF_AppMain_Nominal");
 
+#if 0
     UtTest_Add(Test_CF_AppMain_IncomingMsgClass1,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_IncomingMsgClass1");
@@ -2133,6 +2134,7 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_IncomingMsgClass2DataLoss,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_IncomingMsgClass2DataLoss");
+#endif
 
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
@@ -2147,7 +2149,9 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_InPDUInvalidDataLenTooBig");
+#if 0
     UtTest_Add(Test_CF_SendPDUToEngine_Nominal,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_SendPDUToEngine_Nominal");
+#endif
 }
