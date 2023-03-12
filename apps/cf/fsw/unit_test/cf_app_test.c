@@ -1766,6 +1766,39 @@ void Test_CF_AppMain_WakeupReqCmdPollingEnabled(void)
 
 
 /**
+ * Test CF_AppMain, WakeupReqCmdInvLen
+ */
+void Test_CF_AppMain_WakeupReqCmdInvLen(void)
+{
+    int32               CmdPipe;
+    CF_NoArgsCmd_t      WakeupCmdMsg;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CmdPipe = Ut_CFE_SB_CreatePipe(CF_PIPE_NAME);
+
+    CFE_SB_InitMsg((void*)&WakeupCmdMsg, CF_WAKE_UP_REQ_CMD_MID,
+                   sizeof(WakeupCmdMsg) + 5, TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupCmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CF_Test_PrintCmdMsg((void*)&WakeupCmdMsg, sizeof(WakeupCmdMsg));
+
+    /* Execute the function being tested */
+    CF_AppMain();
+
+    sprintf(expEvent, "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, "
+            "Exp Len = %d, Len = %d", CF_WAKE_UP_REQ_CMD_MID, 0,
+            sizeof(WakeupCmdMsg), sizeof(WakeupCmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((CF_AppData.Hk.CmdCounter == 0) &&
+                  (CF_AppData.Hk.ErrCounter == 1),
+                  "CF_AppMain, WakeupReqCmdInvLen");
+
+    UtAssert_EventSent(CF_CMD_LEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "CF_AppMain, WakeupReqCmdInvLen: Event Sent");
+}
+
+
+/**
  * Test CF_SendPDUToEngine, InPDUInvalidHeaderLen
  */
 void Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen(void)
@@ -2139,6 +2172,9 @@ void CF_App_Test_AddTestCases(void)
     UtTest_Add(Test_CF_AppMain_WakeupReqCmd,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
                "Test_CF_AppMain_WakeupReqCmd");
+    UtTest_Add(Test_CF_AppMain_WakeupReqCmdInvLen,
+               CF_Test_SetupUnitTest, CF_Test_TearDown,
+               "Test_CF_AppMain_WakeupReqCmdInvLen");
 
     UtTest_Add(Test_CF_SendPDUToEngine_InPDUInvalidHeaderLen,
                CF_Test_SetupUnitTest, CF_Test_TearDown,
