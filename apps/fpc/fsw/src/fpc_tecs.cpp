@@ -58,7 +58,7 @@ using math::min;
  */
 void TECS::update_vehicle_state_estimates(float airspeed,
         const math::Matrix3F3 &rotMat, const math::Vector3F &accel_body,
-        bool altitude_lock, bool in_air, float altitude, bool vz_valid,
+        bool altitude_lock, bool in_air, float altitude, bool vz_valid, bool vz_bypass_enabled,
         float vz, float az)
 {
 
@@ -103,8 +103,9 @@ void TECS::update_vehicle_state_estimates(float airspeed,
 
     _in_air = in_air;
 
+    // This bypass allows us to force tecs to always use T_HGT_OMEGA. Can be enabled/disabled with commands
     // Genrate the height and climb rate state estimates
-    if(vz_valid)
+    if(vz_valid && !vz_bypass_enabled)
     {
         // Set the velocity and position state to the the INS data
         _vert_vel_state = -vz;
@@ -113,6 +114,7 @@ void TECS::update_vehicle_state_estimates(float airspeed,
     }
     else
     {
+        // printf("VZ_Bypassed.\n");
         // Get height acceleration
         float hgt_ddot_mea = -az;
 
@@ -309,7 +311,8 @@ void TECS::_update_height_setpoint(float desired, float state)
     _hgt_setpoint_prev = _hgt_setpoint;
 
     // Apply a first order noise filter
-    _hgt_setpoint_adj = 0.1f * _hgt_setpoint + 0.9f * _hgt_setpoint_adj_prev;
+    _hgt_setpoint_adj = _hgt_noise_filter_coeff * _hgt_setpoint + (1 - _hgt_noise_filter_coeff) * _hgt_setpoint_adj_prev;
+    //_hgt_setpoint_adj = 0.1f * _hgt_setpoint + 0.9f * _hgt_setpoint_adj_prev;
 
     // Calculate the demanded climb rate proportional to height error plus a feedforward term to provide
     // tight tracking during steady climb and descent manouvres.
@@ -328,6 +331,8 @@ void TECS::_update_height_setpoint(float desired, float state)
     {
         _hgt_rate_setpoint = -_max_sink_rate;
     }
+
+    // printf("_hgt_rate_setpoint -> %f\n", _hgt_rate_setpoint);
 }
 
 void TECS::_detect_underspeed()
@@ -384,8 +389,10 @@ void TECS::_update_throttle_setpoint(const float throttle_cruise,
 
     // Calculate the total energy rate error, applying a first order IIR filter
     // to reduce the effect of accelerometer noise
-    _STE_rate_error = 0.2f * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
-            + 0.8f * _STE_rate_error;
+    _STE_rate_error = _STE_rate_error_filter_coeff * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
+            + (1 - _STE_rate_error_filter_coeff) * _STE_rate_error;
+    // _STE_rate_error = 0.2f * (STE_rate_setpoint - _SPE_rate - _SKE_rate)
+    //         + 0.8f * _STE_rate_error;
 
     // Calculate the throttle demand
     if(_underspeed_detected)

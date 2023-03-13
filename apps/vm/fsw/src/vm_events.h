@@ -937,6 +937,7 @@ typedef enum {
      */
     VM_HOMESET_ERROR_EID,
 
+    VM_NAVSN_ENTERED_AUTO_MISSION_INFO_EID       = 63,
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     VM_EVT_CNT
 } VM_EventIds_t;

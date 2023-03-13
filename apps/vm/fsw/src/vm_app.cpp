@@ -871,6 +871,25 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
             }
 
+            case VM_SET_NAV_AUTO_MISSION_CC:
+            {
+                try
+                {
+                    NavigationSM.FSM.trAutoMission();
+                    HkTlm.usCmdCnt++;
+                }
+                catch (statemap::TransitionUndefinedException e)
+                {
+                    HkTlm.usCmdErrCnt++;
+                    uint32 PrevState = NavigationSM.GetCurrentStateID();
+                    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID,
+                        CFE_EVS_ERROR,
+                        "Illegal Nav transition [%s -> AUTOMISSION].  Command rejected.",
+                        GetNavStateAsString(PrevState));
+                }
+                break;
+            }
+
             case VM_SET_NAV_AUTO_LOITER_CC:
             {
                 try

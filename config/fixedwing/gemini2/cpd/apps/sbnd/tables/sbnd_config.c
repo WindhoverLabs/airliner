@@ -229,7 +229,8 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
     	/* 181 */  PX4_SENSOR_CORRECTION_MID,
     	/* 182 */  PX4_POSITION_CONTROL_STATUS_MID,
     	/* 183 */  HS_HK_TLM_MID,
-    	/* 184 */  ASPD4525_HK_TLM_MID
+    	/* 184 */  ASPD4525_HK_TLM_MID,
+    	/* 185 */  HES_HK_TLM_MID
     },
     /* MaxSentMsgsPerWakeup */
     1,

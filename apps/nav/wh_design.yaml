@@ -33,28 +33,32 @@
       id: 13
     NAV_MSN_FAILED_ERR_EID: 
       id: 14
-    NAV_HIGH_ALT_EID: 
+    NAV_LOW_CLEARANCE_ALT_EID:
       id: 15
-    NAV_ACTION_ST_EID: 
+    NAV_HIGH_ALT_EID: 
       id: 16
-    NAV_RTL_CLIMB_ST_EID: 
+    NAV_ACTION_ST_EID: 
       id: 17
-    NAV_RTL_RETURN_ST_EID: 
+    NAV_RTL_CLIMB_ST_EID: 
       id: 18
-    NAV_RTL_DESCEND_ST_EID: 
+    NAV_RTL_RETURN_ST_EID: 
       id: 19
-    NAV_RTL_LOITER_ST_EID: 
+    NAV_RTL_DESCEND_ST_EID: 
       id: 20
-    NAV_RTL_LOITER_EN_EID: 
+    NAV_RTL_LOITER_ST_EID: 
       id: 21
-    NAV_RTL_LAND_ST_EID: 
+    NAV_RTL_LOITER_EN_EID: 
       id: 22
-    NAV_RTL_LAND_EN_EID: 
+    NAV_RTL_LAND_ST_EID: 
       id: 23
-    NAV_RTL_LND_SFGA_EID: 
+    NAV_RTL_LAND_EN_EID: 
       id: 24
-    NAV_SUBSEQ_TAKEOFF_EID: 
+    NAV_RTL_LND_SFGA_EID: 
       id: 25
+    NAV_SUBSEQ_TAKEOFF_EID: 
+      id: 26
+    NAV_AUTO_MISSION_STATE_EID: 
+      id: 27
   telemetry: 
     NAV_HK_TLM_MID: 
       msgID: 
@@ -68,6 +72,18 @@
           struct: NAV_NoArgCmd_t
         Reset: 
           cc: 1
+          struct: NAV_NoArgCmd_t
+        Arrakis:
+          cc: 2
+          struct: NAV_NoArgCmd_t
+        Beethoven:
+          cc: 3
+          struct: NAV_NoArgCmd_t
+        Caladan:
+          cc: 4
+          struct: NAV_NoArgCmd_t
+        Dumbledore:
+          cc: 5
           struct: NAV_NoArgCmd_t
     NAV_SEND_HK_MID: 
       msgID: 

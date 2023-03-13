@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Procedure1</name>
+  <widget type="group" version="2.0.0">
+    <name>Card</name>
+    <x>30</x>
+    <y>20</y>
+    <width>1433</width>
+    <height>420</height>
+    <style>2</style>
+    <transparent>true</transparent>
+    <widget type="group" version="2.0.0">
+      <name>Procedure - Handover Verification</name>
+      <x>2</x>
+      <y>12</y>
+      <width>577</width>
+      <height>370</height>
+      <widget type="group" version="2.0.0">
+        <name>$(STEP)</name>
+        <macros>
+          <STEP>1-1</STEP>
+        </macros>
+        <x>13</x>
+        <y>3</y>
+        <width>518</width>
+        <height>28</height>
+        <style>3</style>
+        <widget type="checkbox" version="2.0.0">
+          <name>Check Box</name>
+          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
+          <label>Step $(STEP): Transfer control to aircraft, verify no anomalous behavior (RC Pilot)</label>
+          <width>496</width>
+          <actions>
+          </actions>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
+        </widget>
+      </widget>
+      <widget type="group" version="2.0.0">
+        <name>$(STEP)</name>
+        <macros>
+          <STEP>1-2</STEP>
+        </macros>
+        <x>13</x>
+        <y>36</y>
+        <width>518</width>
+        <height>28</height>
+        <style>3</style>
+        <widget type="checkbox" version="2.0.0">
+          <name>Check Box_2</name>
+          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
+          <label>Step $(STEP): Retake control of aircraft, verify full manual control (RC Pilot)</label>
+          <width>496</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
+        </widget>
+      </widget>
+      <widget type="group" version="2.0.0">
+        <x>60</x>
+        <y>270</y>
+        <width>261</width>
+        <height>39</height>
+        <style>3</style>
+        <widget type="led" version="2.0.0">
+          <name>LED_2</name>
+          <pv_name>loc://step_1-1&lt;VLong&gt;(0)</pv_name>
+          <bit>0</bit>
+          <x>2</x>
+          <labels_from_pv>true</labels_from_pv>
+        </widget>
+        <widget type="led" version="2.0.0">
+          <name>LED_3</name>
+          <class>ON_OFF</class>
+          <pv_name>loc://step_1-2&lt;VLong&gt;(0)</pv_name>
+          <bit>0</bit>
+          <x>32</x>
+          <off_color use_class="true">
+            <color name="Off" red="60" green="100" blue="60">
+            </color>
+          </off_color>
+          <on_color use_class="true">
+            <color name="On" red="0" green="255" blue="0">
+            </color>
+          </on_color>
+        </widget>
+        <widget type="led" version="2.0.0">
+          <name>LED_4</name>
+          <class>ON_OFF</class>
+          <pv_name>loc://step_1-3&lt;VLong&gt;(0)</pv_name>
+          <bit>0</bit>
+          <x>62</x>
+          <off_color use_class="true">
+            <color name="Off" red="60" green="100" blue="60">
+            </color>
+          </off_color>
+          <on_color use_class="true">
+            <color name="On" red="0" green="255" blue="0">
+            </color>
+          </on_color>
+        </widget>
+      </widget>
+      <widget type="group" version="2.0.0">
+        <name>$(STEP)</name>
+        <macros>
+          <STEP>1-3</STEP>
+        </macros>
+        <x>13</x>
+        <y>69</y>
+        <width>518</width>
+        <height>28</height>
+        <style>3</style>
+        <widget type="checkbox" version="2.0.0">
+          <name>Check Box_3</name>
+          <pv_name>loc://step_$(STEP)&lt;VLong&gt;(0)</pv_name>
+          <label>Step $(STEP): Monitor transmitter signal strength around flight circuit</label>
+          <width>496</width>
+          <scripts>
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+from com.windhoverlabs.yamcs.script import Yamcs
+
+if PVUtil.getInt(pvs[0]) == 1:
+	Yamcs.issueEvent(widget, widget.getPropertyValue('label'))
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+              <pv_name>$(pv_name)</pv_name>
+            </script>
+          </scripts>
+        </widget>
+      </widget>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Parameters</name>
+      <file>Parameters.bob</file>
+      <x>629</x>
+      <y>7</y>
+      <width>670</width>
+      <height>407</height>
+    </widget>
+  </widget>
+</display>

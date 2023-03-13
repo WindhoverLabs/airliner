@@ -325,7 +325,7 @@ flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace q
 
 python-env::
 	virtualenv -p python3 venv || exit -1
-	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install pyyaml || exit -1; pip install numpy || exit)
+	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install -r requirements.txt || exit)
 	@echo 'Created python3 virtual environment.                                            '
 	@echo '                                                                                '
 	@echo 'Activate:                                                                       '

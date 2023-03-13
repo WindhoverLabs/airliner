@@ -93,7 +93,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FPC_DIAG_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {FPC_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
     //    {PX4_POSITION_CONTROL_STATUS_MID,      1, TO_PQUEUE_CPD_HK_IDX        },
-      //  {NAV_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
+        {NAV_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
         //{PE_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },
         {PE_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
         {RCIN_HK_TLM_MID,                      1, TO_PQUEUE_CPD_HK_IDX        },

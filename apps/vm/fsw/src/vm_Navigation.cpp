@@ -47,7 +47,8 @@ typedef enum
     VM_NAVSM_STAB         = 6,
     VM_NAVSM_RATTITUDE    = 7,
     VM_NAVSM_AUTO_TAKEOFF = 8,
-    VM_NAVSM_AUTO_LAND    = 9
+    VM_NAVSM_AUTO_LAND    = 9,
+    VM_NAVSM_AUTO_MISSION = 10
 } VM_NavSM_StateType;
 
 
@@ -135,6 +136,21 @@ void VM_Navigation::EnteredPositionControl()
             "Navigation::PositionControl");
 }
 
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/*  EnteredAutoMission Function                                    */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void VM_Navigation::EnteredAutoMission()
+{
+    App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_MISSION;
+    App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_MISSION;
+
+    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_MISSION_INFO_EID, CFE_EVS_INFORMATION,
+            "Navigation::AutoMission");
+}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -277,6 +293,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = false;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -293,6 +310,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = false;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -309,8 +327,30 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
+            //printf("--------------------------------- POSCTL -------------------------------\n");
             break;
         }
+
+        case VM_NavSM_StateType::VM_NAVSM_AUTO_MISSION:
+        {
+            App.VehicleControlModeMsg.ControlManualEnabled = true;
+            App.VehicleControlModeMsg.ControlAutoEnabled = true;
+            App.VehicleControlModeMsg.ControlRatesEnabled = true;
+            App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+            App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+            App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
+            App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+            App.VehicleControlModeMsg.ControlPositionEnabled = !App.VehicleStatusMsg.InTransitionMode;
+            App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
+            App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+            App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = true;
+            
+            // printf("--------------------------------- Auto Mission -------------------------------\n");
+            break;
+        }
+
 
         /* Fall through */
         case VM_NavSM_StateType::VM_NAVSM_AUTO_RTL:
@@ -329,6 +369,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -345,6 +386,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = false;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -362,6 +404,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
             App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -378,6 +421,7 @@ void VM_Navigation::DoAction()
             App.VehicleControlModeMsg.ControlVelocityEnabled = false;
             App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
             App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+            App.VehicleControlModeMsg.ControlAutoMissionEnabled = false;
             break;
         }
 
@@ -521,6 +565,35 @@ osalbool VM_Navigation::IsTransitionPosCtlValid(void)
     return validity;
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/*  IsTransitionAutoMissionValid Function                               */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM_Navigation::IsTransitionAutoMissionValid(void)
+{
+    osalbool validity = false;
+    PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
+
+    /* Position Hold Requirement Validation */
+    if (App.VehicleLocalPositionMsg.Timestamp > 0
+        && App.VehicleLocalPositionMsg.XY_Valid
+        && App.VehicleLocalPositionMsg.V_XY_Valid
+        && App.VehicleLocalPositionMsg.Z_Valid
+        && App.VehicleLocalPositionMsg.V_Z_Valid)
+    {
+        validity = true;
+    }
+
+    if (!validity)
+    {
+        /* Send event */
+        CFE_EVS_SendEvent(VM_REQ_POS_CTL_ERR_EID, CFE_EVS_ERROR,
+                "Auto Mission mode requirement failed");
+    }
+
+    return validity;
+}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

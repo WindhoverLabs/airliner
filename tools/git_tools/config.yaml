@@ -31,15 +31,10 @@ core:
       branch: develop
       path:   core/psp/pc-linux-wh
       strategy: subtree
-    obc-cpd:
-      url:    git@github.com:WindhoverLabs/psp-obc-cpd.git
+    obc-ppd:
+      url:    git@github.com:WindhoverLabs/psp-obc-ppd.git
       branch: develop
-      path:   core/psp/obc-cpd
-      strategy: submodule
-    pc-linux-wh:
-      url:    git@github.com:WindhoverLabs/psp-ocpoc-linux.git
-      branch: develop
-      path:   core/psp/ocpoc-linux
+      path:   core/psp/obc-ppd
       strategy: subtree
 
 tools:
@@ -146,10 +141,25 @@ apps:
     branch:   develop
     path:     apps/cvt
     strategy: subtree
+  hes:
+    url:      git@github.com:WindhoverLabs/hes.git
+    branch:   main
+    path:     apps/hes
+    strategy: subtree
   ea:
     url:      git@github.com:WindhoverLabs/ea.git
     branch:   develop
     path:     apps/ea
+    strategy: subtree
+  fac:
+    url:      git@github.com:WindhoverLabs/fac.git
+    branch:   main
+    path:     apps/fac
+    strategy: subtree
+  fpc:
+    url:      git@github.com:WindhoverLabs/fpc.git
+    branch:   main
+    path:     apps/fpc
     strategy: subtree
   flow:
     url:      git@github.com:WindhoverLabs/flow.git
@@ -165,6 +175,11 @@ apps:
     url:      git@github.com:WindhoverLabs/hmc5883.git
     branch:   develop
     path:     apps/hmc5883
+    strategy: subtree
+  iolib:
+    url:      git@github.com:WindhoverLabs/CFS_IO_LIB.git
+    branch:   master
+    path:     apps/io_lib
     strategy: subtree
   ld:
     url:      git@github.com:WindhoverLabs/ld.git
@@ -226,6 +241,11 @@ apps:
     branch:   develop
     path:     apps/pe
     strategy: subtree
+  pq_lib:
+    url:      git@github.com:WindhoverLabs/pq_lib.git
+    branch:   main
+    path:     apps/pq_lib
+    strategy: subtree
   prmlib:
     url:      git@github.com:WindhoverLabs/prmlib.git
     branch:   develop
@@ -251,6 +271,11 @@ apps:
     branch:   develop
     path:     apps/rcin
     strategy: subtree
+  rfd900x:
+    url:      git@github.com:WindhoverLabs/rfd900x.git
+    branch:   main
+    path:     apps/rfd900x
+    strategy: subtree
   rgbled:
     url:      git@github.com:WindhoverLabs/rgbled.git
     branch:   develop
@@ -270,6 +295,16 @@ apps:
     url:      git@github.com:WindhoverLabs/sim.git
     branch:   develop
     path:     apps/sim
+    strategy: subtree
+  simlink:
+    url:      git@github.com:WindhoverLabs/simlink.git
+    branch:   main
+    path:     apps/simlink
+    strategy: subtree
+  sliplib:
+    url:      git@github.com:WindhoverLabs/sliplib.git
+    branch:   develop
+    path:     apps/sliplib
     strategy: subtree
   sonar:
     url:      git@github.com:WindhoverLabs/sonar.git

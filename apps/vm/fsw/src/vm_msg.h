@@ -618,6 +618,9 @@ extern "C" {
  */
 #define VM_SEND_CONFIGURATION_CC    (58)
 
+#define VM_SET_NAV_AUTO_MISSION_CC  (59)
+
+
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/

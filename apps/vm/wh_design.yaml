@@ -7,129 +7,129 @@
   events: 
     VM_INIT_INF_EID: 
       id: 1
-    VM_INIT_ERR_EID: 
-      id: 2
     VM_CMD_NOOP_EID: 
-      id: 3
+      id: 2
     VM_SUBSCRIBE_ERR_EID: 
-      id: 4
+      id: 3
     VM_PIPE_INIT_ERR_EID: 
-      id: 5
+      id: 4
     VM_PARAM_UPDATE_ERR_EID: 
-      id: 6
+      id: 5
     VM_CFGTBL_MANAGE_ERR_EID: 
-      id: 7
+      id: 6
     VM_CFGTBL_GETADDR_ERR_EID: 
-      id: 8
+      id: 7
     VM_RCVMSG_ERR_EID: 
-      id: 9
+      id: 8
     VM_MSGID_ERR_EID: 
-      id: 10
+      id: 9
     VM_CC_ERR_EID: 
-      id: 11
+      id: 10
     VM_MSGLEN_ERR_EID: 
-      id: 12
+      id: 11
     VM_CFGTBL_REG_ERR_EID: 
-      id: 13
+      id: 12
     VM_CFGTBL_LOAD_ERR_EID: 
-      id: 14
+      id: 13
     VM_ARMING_ILLEGAL_TRANSITION_ERR_EID: 
-      id: 15
+      id: 14
     VM_NAV_ILLEGAL_TRANSITION_ERR_EID: 
-      id: 16
+      id: 15
     VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID: 
-      id: 17
+      id: 16
     VM_ARMING_ENTERED_ARMED_STATE_INFO_EID : 
-      id: 18
+      id: 17
     VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID: 
-      id: 19
+      id: 18
     VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID: 
-      id: 20
+      id: 19
     VM_NAVSM_ENTERED_MANUAL_INFO_EID: 
-      id: 21
+      id: 20
     VM_NAVSN_ENTERED_ALTCTL_INFO_EID: 
-      id: 22
+      id: 21
     VM_NAVSN_ENTERED_POSCTL_INFO_EID: 
-      id: 23
+      id: 22
     VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID: 
-      id: 24
+      id: 23
     VM_NAVSN_ENTERED_RTL_INFO_EID: 
-      id: 25
+      id: 24
     VM_NAVSN_ENTERED_ACRO_INFO_EID : 
-      id: 26
+      id: 25
     VM_NAVSN_ENTERED_STABILIZE_INFO_EID: 
-      id: 27
+      id: 26
     VM_NAVSN_ENTERED_RATTITUDE_INFO_EID: 
-      id: 28
+      id: 27
     VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID: 
-      id: 29
+      id: 28
     VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID: 
-      id: 30
+      id: 29
     VM_IN_UNKNOWN_STATE_ERR_EID: 
-      id: 31
+      id: 30
     VM_HOMESET_INFO_EID: 
-      id: 32
+      id: 31
     VM_LND_INIT_INFO_EID: 
-      id: 33
+      id: 32
     VM_SAFETY_DISARM_INFO_EID: 
-      id: 34
+      id: 33
     VM_SAFETY_INFO_EID: 
-      id: 35
+      id: 34
     VM_LOW_BAT_INFO_EID: 
-      id: 36
+      id: 35
     VM_CRITICAL_BAT_INFO_EID: 
-      id: 37
+      id: 36
     VM_DANGER_BAT_LEVEL_INFO_EID: 
-      id: 38
+      id: 37
     VM_RC_SIGN_REGAINED_INFO_EID : 
-      id: 39
+      id: 38
     VM_RC_SIGN_LOST_INFO_EID: 
-      id: 40
+      id: 39
     VM_RC_STK_DISARM_REJ_INFO_EID: 
-      id: 41
+      id: 40
     VM_RC_STK_ARM_REJ_INFO_EID: 
-      id: 42
+      id: 41
     VM_RC_DISARM_INFO_EID: 
-      id: 43
+      id: 42
     VM_RC_ARM_INFO_EID: 
-      id: 44
+      id: 43
     VM_RC_KIL_SWTCH_INFO_EID: 
-      id: 45
+      id: 44
     VM_RC_LTR_INFO_EID: 
-      id: 46
+      id: 45
     VM_RC_RTL_INFO_EID: 
-      id: 47
+      id: 46
     VM_RC_POSCTL_INFO_EID: 
-      id: 48
+      id: 47
     VM_RC_MAN_INFO_EID: 
-      id: 49
+      id: 48
     VM_RC_TAKE_OFF_INFO_EID : 
-      id: 50
+      id: 49
     VM_PRE_ARM_BAT_CHECK_INFO_EID: 
-      id: 51
+      id: 50
     VM_PRE_ARM_SAFETY_CHECK_INFO_EID: 
-      id: 52
+      id: 51
     VM_PRE_ARM_SENSORS_CHECK_INFO_EID: 
-      id: 53
+      id: 52
     VM_SEN_NOT_READY_INFO_EID: 
-      id: 54
+      id: 53
     VM_REQ_POS_CTL_ERR_EID: 
-      id: 55
+      id: 54
     VM_REQ_ALT_CTL_ERR_EID : 
-      id: 56
+      id: 55
     VM_REQ_ACRO_ERR_EID : 
-      id: 57
+      id: 56
     VM_NOPE_ERR_EID: 
-      id: 58
+      id: 57
     VM_CONFIG_CHANGE_EID: 
-      id: 59
+      id: 58
     VM_CONFIG_PARAMETER_OUT_OF_BOUNDS_EID : 
-      id: 60
+      id: 59
     VM_PARAM_INIT_ERR_EID: 
-      id: 61
+      id: 60
     VM_INVALID_CONFIG_TABLE_ERR_EID: 
-      id: 62
+      id: 61
     VM_HOMESET_ERROR_EID: 
+      id: 62
+    VM_NAVSN_ENTERED_AUTO_MISSION_INFO_EID:
       id: 63
   telemetry: 
     VM_CONFIG_TLM_MID: 
@@ -186,6 +186,9 @@
           struct: VM_NoArgCmd_t
         SendConfig: 
           cc: 58
+          struct: VM_NoArgCmd_t
+        AutoMission: 
+          cc: 59
           struct: VM_NoArgCmd_t
     VM_SEND_HK_MID: 
       msgID: 
