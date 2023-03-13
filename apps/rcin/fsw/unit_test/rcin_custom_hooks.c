@@ -206,3 +206,44 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
 
     return SEDLIB_MSG_FRESH_OK;
 }
+
+
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void)
+{
+    int                 iStatus;
+    CFE_TIME_SysTime_t  CfeTime;
+    struct timespec     time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        CfeTime.Seconds = time.tv_sec;
+        CfeTime.Subseconds = time.tv_nsec / 1000;
+    }
+
+    return CfeTime;
+}
+
+
+void CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
+{
+    CFE_SB_SetMsgTime(MsgPtr, CFE_TIME_GetTime());
+
+    return;
+}
+
+
+void CFE_PSP_GetTimeHook(OS_time_t *LocalTime)
+{
+    int              iStatus;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        LocalTime->seconds = time.tv_sec;
+        LocalTime->microsecs = time.tv_nsec / 1000;
+    }
+
+    return;
+}

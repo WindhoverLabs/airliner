@@ -41,6 +41,9 @@ extern "C" {
 
 #include "rcin_custom_stubs.h"
 
+#include <time.h>
+
+
 extern uint32  SEDLIB_ReadMsg_Cnt;
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
@@ -57,6 +60,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
                                                  CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
+void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
+
+void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
 
 
 #ifdef __cplusplus

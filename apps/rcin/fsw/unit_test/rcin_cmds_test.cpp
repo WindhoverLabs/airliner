@@ -57,7 +57,7 @@
  * Tests for RCIN ProcessCmdPipe()
  **************************************************************************/
 /**
- * Test RCIN_ProcessCmdPipe, InvalidCmd
+ * Test RCIN ProcessCmdPipe(), InvalidCmd
  */
 void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
 {
@@ -85,15 +85,15 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
     /* Verify results */
     UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
                   (oRCIN.HkTlm.usCmdErrCnt == 1),
-                  "RCIN_ProcessCmdPipe, InvalidCmd");
+                  "ProcessCmdPipe, InvalidCmd");
 
     UtAssert_EventSent(RCIN_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_ProcessCmdPipe, InvalidCmd Event Sent");
+                       "ProcessCmdPipe, InvalidCmd: Event Sent");
 }
 
 
 /**
- * Test RCIN_ProcessCmdPipe, InvalidCmdCode
+ * Test RCIN ProcessCmdPipe(), InvalidCmdCode
  */
 void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
 {
@@ -122,15 +122,15 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
     /* Verify results */
     UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
                   (oRCIN.HkTlm.usCmdErrCnt == 1),
-                  "RCIN_ProcessCmdPipe, InvalidCmdCode");
+                  "ProcessCmdPipe, InvalidCmdCode");
 
     UtAssert_EventSent(RCIN_CC_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_ProcessCmdPipe, InvalidCmdCode Event Sent");
+                       "ProcessCmdPipe, InvalidCmdCode: Event Sent");
 }
 
 
 /**
- * Test RCIN_ProcessCmdPipe, NoMessage
+ * Test RCIN ProcessCmdPipe(), NoMessage
  */
 void Test_RCIN_ProcessCmdPipe_NoMessage(void)
 {
@@ -154,7 +154,7 @@ void Test_RCIN_ProcessCmdPipe_NoMessage(void)
 
 
 /**
- * Test RCIN_ProcessCmdPipe, PipeError
+ * Test RCIN ProcessCmdPipe(), PipeError
  */
 void Test_RCIN_ProcessCmdPipe_PipeError(void)
 {
@@ -181,12 +181,12 @@ void Test_RCIN_ProcessCmdPipe_PipeError(void)
 
     /* Verify results */
     UtAssert_EventSent(RCIN_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_ProcessCmdPipe, PipeError Event Sent");
+                       "ProcessCmdPipe, PipeError: Event Sent");
 }
 
 
 /**
- * Test RCIN_ProcessCmdPipe, Noop
+ * Test RCIN ProcessCmdPipe(), Noop
  */
 void Test_RCIN_ProcessCmdPipe_Noop(void)
 {
@@ -217,15 +217,15 @@ void Test_RCIN_ProcessCmdPipe_Noop(void)
     /* Verify results */
     UtAssert_True((oRCIN.HkTlm.usCmdCnt == 1) &&
                   (oRCIN.HkTlm.usCmdErrCnt == 0),
-                  "RCIN_ProcessCmdPipe, Noop");
+                  "ProcessCmdPipe, Noop");
 
     UtAssert_EventSent(RCIN_CMD_NOOP_EID, CFE_EVS_INFORMATION, expEvent,
-                       "RCIN_ProcessCmdPipe, Noop Event Sent");
+                       "ProcessCmdPipe, Noop: Event Sent");
 }
 
 
 /**
- * Test RCIN_ProcessCmdPipe, Reset
+ * Test RCIN ProcessCmdPipe(), Reset
  */
 void Test_RCIN_ProcessCmdPipe_Reset(void)
 {
@@ -252,7 +252,7 @@ void Test_RCIN_ProcessCmdPipe_Reset(void)
     /* Verify results */
     UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
                   (oRCIN.HkTlm.usCmdErrCnt == 0),
-                  "RCIN_ProcessCmdPipe, Reset");
+                  "ProcessCmdPipe, Reset");
 }
 
 
@@ -287,10 +287,10 @@ void Test_RCIN_VerifyCmdLength_Fail_CmdLength(void)
     UtAssert_True((bResult == bExpected) &&
                   (oRCINut.HkTlm.usCmdCnt == 0) &&
                   (oRCINut.HkTlm.usCmdErrCnt == 1),
-                  "VerifyCmdLength(), Fail CmdLength");
+                  "VerifyCmdLength, Fail CmdLength");
 
     UtAssert_EventSent(RCIN_MSGLEN_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "VerifyCmdLength(), Fail CmdLength Event Sent");
+                       "VerifyCmdLength, Fail CmdLength: Event Sent");
 }
 
 

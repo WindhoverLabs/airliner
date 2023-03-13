@@ -33,6 +33,7 @@
 
 #include "cfe.h"
 #include "rcin_app.h"
+#include "rcin_version.h"
 
 #include "rcin_test_utils.h"
 #include "rcin_custom_stubs.h"
@@ -59,33 +60,18 @@
 
 
 CFE_SB_MsgId_t SendHK_SendMsgHook_MsgId = 0;
-CFE_SB_MsgId_t Wakeup_SendMsgHook_MsgId = 0;
+RCIN_HkTlm_t   HkHookMsg;
 
+CFE_SB_MsgId_t    Wakeup_SendMsgHook_MsgId = 0;
+PX4_InputRcMsg_t  WHookInRcMsg;
 
-/**
- * Test RCIN GetPSPTimeHook
- */
-void Test_RCIN_GetPSPTimeHook(OS_time_t *LocalTime)
-{
-    int              iStatus;
-    struct timespec  time;
-
-    iStatus = clock_gettime(CLOCK_REALTIME, &time);
-    if (iStatus == 0)
-    {
-        LocalTime->seconds = time.tv_sec;
-        LocalTime->microsecs = time.tv_nsec / 1000;
-    }
-
-    return;
-}
 
 
 /**************************************************************************
- * Tests for RCIN_InitEvent()
+ * Tests for RCIN InitEvent()
  **************************************************************************/
 /**
- * Test RCIN_InitEvent() with failed CFE_EVS_Register
+ * Test RCIN InitEvent() with failed CFE_EVS_Register
  */
 void Test_RCIN_InitEvent_Fail_Register(void)
 {
@@ -106,18 +92,18 @@ void Test_RCIN_InitEvent_Fail_Register(void)
                        (long unsigned int)expected);
 
     /* Verify results */
-    UtAssert_True(result == expected, "InitEvent, failed EVS Register");
+    UtAssert_True(result == expected, "InitEvent, failed CFE_EVS_Register");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
-                  "InitEvent, failed EVS Register SysLog Written");
+                  "InitEvent, failed CFE_EVS_Register: SysLog Written");
 }
 
 
 /**************************************************************************
- * Tests for RCIN_InitPipe()
+ * Tests for RCIN InitPipe()
  **************************************************************************/
 /**
- * Test RCIN_InitPipe(), fail SCH CFE_SB_CreatePipe
+ * Test RCIN InitPipe(), fail SCH CFE_SB_CreatePipe
  */
 void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
 {
@@ -138,15 +124,15 @@ void Test_RCIN_InitPipe_Fail_CreateSCHPipe(void)
                       (long unsigned int)expected);
 
     /* Verify results */
-    UtAssert_True(result == expected, "InitPipe, fail SB create SCH pipe");
+    UtAssert_True(result == expected, "InitPipe, fail SCH CFE_SB_CreatePipe");
 
     UtAssert_EventSent(RCIN_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "InitPipe, fail SB create SCH pipe Event Sent");
+                       "InitPipe, fail SCH CFE_SB_CreatePipe: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitPipe(), fail CFE_SB_SubscribeEx for wakeup
+ * Test RCIN InitPipe(), fail CFE_SB_SubscribeEx for wakeup
  */
 void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
 {
@@ -172,12 +158,12 @@ void Test_RCIN_InitPipe_Fail_SubscribeWakeup(void)
                   "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                "InitPipe, fail CFE_SB_SubscribeEx for wakeup Event Sent");
+                "InitPipe, fail CFE_SB_SubscribeEx for wakeup: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitPipe(), fail CFE_SB_SubscribeEx for sendhk
+ * Test RCIN InitPipe(), fail CFE_SB_SubscribeEx for sendhk
  */
 void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
 {
@@ -203,12 +189,12 @@ void Test_RCIN_InitPipe_Fail_SubscribeSendHK(void)
                   "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                "InitPipe, fail CFE_SB_SubscribeEx for sendhk Event Sent");
+                "InitPipe, fail CFE_SB_SubscribeEx for sendhk: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitPipe(), fail CMD CFE_SB_CreatePipe
+ * Test RCIN InitPipe(), fail CMD CFE_SB_CreatePipe
  */
 void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
 {
@@ -229,15 +215,15 @@ void Test_RCIN_InitPipe_Fail_CreateCMDPipe(void)
                       (long unsigned int)expected);
 
     /* Verify results */
-    UtAssert_True(result == expected, "InitPipe, fail SB create CMD pipe");
+    UtAssert_True(result == expected, "InitPipe, fail CMD CFE_SB_CreatePipe");
 
     UtAssert_EventSent(RCIN_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "InitPipe, fail SB create CMD pipe Event Sent");
+                       "InitPipe, fail CMD CFE_SB_CreatePipe: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitPipe(), fail CFE_SB_Subscribe for CMD msg
+ * Test RCIN InitPipe(), fail CFE_SB_Subscribe for CMD msg
  */
 void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
 {
@@ -263,15 +249,15 @@ void Test_RCIN_InitPipe_Fail_SubscribeCMD(void)
                   "InitPipe, fail CFE_SB_Subscribe for CMD");
 
     UtAssert_EventSent(RCIN_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR, expEvent,
-                     "InitPipe, fail CFE_SB_Subscribe for CMD Event Sent");
+                     "InitPipe, fail CFE_SB_Subscribe for CMD: Event Sent");
 }
 
 
 /**************************************************************************
- * Tests for RCIN_InitData()
+ * Tests for RCIN InitData()
  **************************************************************************/
 /**
- * Test RCIN_InitData()
+ * Test RCIN InitData()
  */
 void Test_RCIN_InitData(void)
 {
@@ -289,10 +275,10 @@ void Test_RCIN_InitData(void)
 
 
 /**************************************************************************
- * Tests for RCIN_InitApp()
+ * Tests for RCIN InitApp()
  **************************************************************************/
 /**
- * Test RCIN_InitApp(), fail init event
+ * Test RCIN InitApp(), fail init event
  */
 void Test_RCIN_InitApp_Fail_InitEvent(void)
 {
@@ -314,15 +300,15 @@ void Test_RCIN_InitApp_Fail_InitEvent(void)
     UtAssert_True(result == expected, "InitApp, fail init event");
 
     UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
-                  "InitApp, fail init event Sys Log QueueDepth");
+                  "InitApp, fail init event: Sys Log QueueDepth");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
-                  "InitApp, fail init event Sys Log Written");
+                  "InitApp, fail init event: Sys Log Written");
 }
 
 
 /**
- * Test RCIN_InitApp(), fail init pipe
+ * Test RCIN InitApp(), fail init pipe
  */
 void Test_RCIN_InitApp_Fail_InitPipe(void)
 {
@@ -330,19 +316,26 @@ void Test_RCIN_InitApp_Fail_InitPipe(void)
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oRCINut.InitApp();
 
+    sprintf(expEvent, "Failed to create SCH pipe (0x%08lX)",
+            CFE_SB_BAD_ARGUMENT);
+
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail init pipe");
+
+    UtAssert_EventSent(RCIN_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitApp, fail init pipe: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitApp(), fail init data.
+ * Test RCIN InitApp(), fail init data.
  * NOTE: no current way to fail RCIN_InitData() in default
  */
 void Test_RCIN_InitApp_Fail_InitData(void)
@@ -361,10 +354,12 @@ void Test_RCIN_InitApp_Fail_InitData(void)
 
 
 /**
- * Test RCIN_InitApp(), fail Custom_Init
+ * Test RCIN InitApp(), fail Custom_Init
  */
 void Test_RCIN_InitApp_Fail_Custom_Init(void)
 {
+    RCIN oRCINut;
+
     int32 result = CFE_SUCCESS;
     int32 expected = RCIN_ERROR;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -373,61 +368,73 @@ void Test_RCIN_InitApp_Fail_Custom_Init(void)
                                  SEDLIB_PIPE_NOT_FOUND, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
 
     sprintf(expEvent, "Failed to initialize UART MsgPort. (0x%08lX)",
                       (long unsigned int)SEDLIB_PIPE_NOT_FOUND);
 
     /* Verify results */
-    UtAssert_True(result == expected, "RCIN_InitApp(), fail Custom_Init");
+    UtAssert_True(result == expected, "InitApp, fail Custom_Init");
 
     UtAssert_EventSent(RCIN_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_InitApp(), fail Custom_Init Event Sent");
+                       "InitApp, fail Custom_Init: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitApp(), fail OS_TaskInstallDeleteHandler
+ * Test RCIN InitApp(), fail OS_TaskInstallDeleteHandler
  */
 void Test_RCIN_InitApp_Fail_OS_TaskInstallDeleteHandler(void)
 {
+    RCIN  oRCINut;
+
     int32 result = CFE_SUCCESS;
-    int32 expected = CFE_OS_ERROR;
+    int32 expected = OS_ERROR;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
                            expected, 1);
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
 
     sprintf(expEvent, "Failed to init register cleanup callback (0x%08X)",
                       (unsigned int)expected);
 
     /* Verify results */
     UtAssert_True(result == expected,
-                  "RCIN_InitApp(), fail OS_TaskInstallDeleteHandler");
+                  "InitApp, fail OS_TaskInstallDeleteHandler");
 
     UtAssert_EventSent(RCIN_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
-            "RCIN_InitApp(), fail OS_TaskInstallDeleteHandler Event Sent");
+                 "InitApp, fail OS_TaskInstallDeleteHandler: Event Sent");
 }
 
 
 /**
- * Test RCIN_InitApp(), Nominal
+ * Test RCIN InitApp(), Nominal
  */
 void Test_RCIN_InitApp_Nominal(void)
 {
+    RCIN  oRCINut;
+
     /* Set a fail result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
     int32 expected = CFE_SUCCESS;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
-    result = oRCIN.InitApp();
+    result = oRCINut.InitApp();
+
+    sprintf(expEvent, "Initialized.  Version %d.%d.%d.%d",
+            RCIN_MAJOR_VERSION, RCIN_MINOR_VERSION,
+            RCIN_REVISION, RCIN_MISSION_REV);
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, nominal");
+    UtAssert_True(result == expected, "InitApp, Nominal");
+
+    UtAssert_EventSent(RCIN_INIT_INF_EID, CFE_EVS_INFORMATION, expEvent,
+                       "InitApp, Nominal: Event Sent");
 }
 
 
@@ -439,10 +446,20 @@ void Test_RCIN_InitApp_Nominal(void)
  */
 void Test_Extern_RCIN_AppMain(void)
 {
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
     RCIN_AppMain();
+
+    sprintf(expEvent, "Initialized.  Version %d.%d.%d.%d",
+            RCIN_MAJOR_VERSION, RCIN_MINOR_VERSION,
+            RCIN_REVISION, RCIN_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_EventSent(RCIN_INIT_INF_EID, CFE_EVS_INFORMATION, expEvent,
+                       "RCIN_AppMain: Event Sent");
 }
 
 
@@ -450,7 +467,7 @@ void Test_Extern_RCIN_AppMain(void)
  * Tests for RCIN AppMain()
  **************************************************************************/
 /**
- * Test RCIN_AppMain(), Fail RegisterApp
+ * Test RCIN AppMain(), Fail RegisterApp
  */
 void Test_RCIN_AppMain_Fail_RegisterApp(void)
 {
@@ -470,12 +487,12 @@ void Test_RCIN_AppMain_Fail_RegisterApp(void)
 
     /* Verify results */
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
-                  "RCIN_AppMain, Fail RegisterApp SysLog Written");
+                  "AppMain, Fail RegisterApp: SysLog Written");
 }
 
 
 /**
- * Test RCIN_AppMain(), Fail InitApp
+ * Test RCIN AppMain(), Fail InitApp
  */
 void Test_RCIN_AppMain_Fail_InitApp(void)
 {
@@ -494,18 +511,20 @@ void Test_RCIN_AppMain_Fail_InitApp(void)
 
     /* Verify results */
     UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
-                  "RCIN_AppMain, Fail InitApp SysLog Queue Depth");
+                  "AppMain, Fail InitApp: SysLog QueueDepth");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog),
-                  "RCIN_AppMain, Fail InitApp SysLog Written");
+                  "AppMain, Fail InitApp: SysLog Written");
 }
 
 
 /**
- * Test RCIN_AppMain(), Invalid Schedule Message
+ * Test RCIN AppMain(), Invalid Schedule Message
  */
 void Test_RCIN_AppMain_InvalidSchMessage(void)
 {
+    RCIN  oRCINut;
+
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will the emulate behavior of receiving a SCH message */
@@ -515,69 +534,83 @@ void Test_RCIN_AppMain_InvalidSchMessage(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "Recvd invalid SCH msgId (0x%04X)", 0);
 
     /* Verify results */
     UtAssert_EventSent(RCIN_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
-                  "RCIN_AppMain, Invalid Schedule Message Event Sent");
+                  "AppMain, Invalid Schedule Message: Event Sent");
 }
 
 
 /**
- * Test RCIN_AppMain(), NoSchMessage
+ * Test RCIN AppMain(), NoSchMessage
  */
 void Test_RCIN_AppMain_NoSchMessage(void)
 {
+    RCIN  oRCINut;
+
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "AppMain, NoSchMessage: Event QueueDepth");
 }
 
 
 /**
- * Test RCIN_AppMain(), SB_Timeout
+ * Test RCIN AppMain(), SB_Timeout
  */
 void Test_RCIN_AppMain_SB_Timeout(void)
 {
+    RCIN  oRCINut;
+
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_TIME_OUT, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "AppMain, SB_Timeout: Event QueueDepth");
 }
 
 
 /**
- * Test RCIN_AppMain(), SchPipeError
+ * Test RCIN AppMain(), SchPipeError
  */
 void Test_RCIN_AppMain_SchPipeError(void)
 {
-    char expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    RCIN  oRCINut;
+
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "SCH pipe read error (0x%08lX).",
                       (long unsigned int)CFE_SB_PIPE_RD_ERR);
 
     /* Verify results */
     UtAssert_EventSent(RCIN_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_AppMain, SchPipeError Event Sent");
+                       "AppMain, SchPipeError: Event Sent");
 }
 
 
 /**
- * Hook to support: RCIN_AppMain(), Nominal - SendHK
+ * Hook to support: RCIN AppMain(), Nominal - SendHK
  */
 int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -588,7 +621,6 @@ int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     time_t             localTime;
     struct tm          *loc_time;
     CFE_TIME_SysTime_t TimeFromMsg;
-    RCIN_HkTlm_t       HkMsg;
 
     pBuff = (unsigned char*)MsgPtr;
 
@@ -612,12 +644,13 @@ int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
         case RCIN_HK_TLM_MID:
         {
             SendHK_SendMsgHook_MsgId = RCIN_HK_TLM_MID;
-            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+            CFE_PSP_MemCpy((void*)&HkHookMsg, (void*)MsgPtr,
+                           sizeof(HkHookMsg));
 
             printf("Sent RCIN_HK_TLM_MID:\n");
-            printf("usCmdCnt: %u\n", HkMsg.usCmdCnt);
-            printf("usCmdErrCnt: %u\n", HkMsg.usCmdErrCnt);
-            printf("State: %u\n", HkMsg.State);
+            printf("usCmdCnt: %u\n", HkHookMsg.usCmdCnt);
+            printf("usCmdErrCnt: %u\n", HkHookMsg.usCmdErrCnt);
+            printf("State: %u\n", HkHookMsg.State);
             break;
         }
         default:
@@ -631,13 +664,22 @@ int32 Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 }
 
 /**
- * Test RCIN_AppMain(), Nominal - SendHK
+ * Test RCIN AppMain(), Nominal - SendHK
  */
 void Test_RCIN_AppMain_Nominal_SendHK(void)
 {
+    RCIN  oRCINut;
+
     /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
@@ -647,16 +689,16 @@ void Test_RCIN_AppMain_Nominal_SendHK(void)
                      (void*)&Test_RCIN_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     /* Verify results */
     UtAssert_True(SendHK_SendMsgHook_MsgId == RCIN_HK_TLM_MID,
-                  "AppMain_Nominal_SendHK");
+                  "AppMain, Nominal_SendHK: Sent RCIN_HK_TLM_MID");
 }
 
 
 /**
- * Hook to support: RCIN_AppMain(), Nominal - Wakeup
+ * Hook to support: RCIN AppMain(), Nominal - Wakeup
  */
 int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -667,7 +709,6 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     time_t             localTime;
     struct tm          *loc_time;
     CFE_TIME_SysTime_t TimeFromMsg;
-    PX4_InputRcMsg_t   InputRcMsg;
 
     pBuff = (unsigned char*)MsgPtr;
 
@@ -691,28 +732,29 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
         case PX4_INPUT_RC_MID:
         {
             Wakeup_SendMsgHook_MsgId = PX4_INPUT_RC_MID;
-            CFE_PSP_MemCpy((void*)&InputRcMsg, (void*)MsgPtr,
-                           sizeof(InputRcMsg));
+            CFE_PSP_MemCpy((void*)&WHookInRcMsg, (void*)MsgPtr,
+                           sizeof(WHookInRcMsg));
 
             printf("Sent PX4_INPUT_RC_MID:\n");
-            localTime = RCIN_Test_GetTimeFromTimestamp(InputRcMsg.Timestamp);
+            localTime = RCIN_Test_GetTimeFromTimestamp(
+                                           WHookInRcMsg.Timestamp);
             loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
-            printf("LastSignal: %" PRIu64"\n", InputRcMsg.LastSignal);
-            printf("ChannelCount: %lu\n", InputRcMsg.ChannelCount);
-            printf("RSSI: %ld\n", InputRcMsg.RSSI);
-            printf("RcLostFrameCount: %u\n", InputRcMsg.RcLostFrameCount);
-            printf("RcTotalFrameCount: %u\n", InputRcMsg.RcTotalFrameCount);
-            printf("RcPpmFrameLength: %u\n", InputRcMsg.RcPpmFrameLength);
+            printf("LastSignal: %" PRIu64"\n", WHookInRcMsg.LastSignal);
+            printf("ChannelCount: %lu\n", WHookInRcMsg.ChannelCount);
+            printf("RSSI: %ld\n", WHookInRcMsg.RSSI);
+            printf("RcLostFrameCount: %u\n", WHookInRcMsg.RcLostFrameCount);
+            printf("RcTotalFrameCount: %u\n", WHookInRcMsg.RcTotalFrameCount);
+            printf("RcPpmFrameLength: %u\n", WHookInRcMsg.RcPpmFrameLength);
             printf("Values: ");
             for (i = 0; i < PX4_RC_INPUT_MAX_CHANNELS; i++)
             {
-                printf("%02x ", InputRcMsg.Values[i]);
+                printf("%02x ", WHookInRcMsg.Values[i]);
             }
             printf("\n");
-            printf("RcFailsafe: %u\n", InputRcMsg.RcFailsafe);
-            printf("RcLost: %u\n", InputRcMsg.RcLost);
-            printf("InputSource: %d\n", InputRcMsg.InputSource);
+            printf("RcFailsafe: %u\n", WHookInRcMsg.RcFailsafe);
+            printf("RcLost: %u\n", WHookInRcMsg.RcLost);
+            printf("InputSource: %d\n", WHookInRcMsg.InputSource);
             break;
         }
         default:
@@ -727,7 +769,7 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
 
 /**
- * Test RCIN_AppMain(), Nominal - Wakeup
+ * Test RCIN AppMain(), Nominal - Wakeup
  */
 void Test_RCIN_AppMain_Nominal_Wakeup(void)
 {
@@ -737,7 +779,15 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_WAKEUP_MID, 1);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                      (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
@@ -749,12 +799,15 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
 
     /* Verify results */
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "RCIN_AppMain(), Nominal - Wakeup");
+                  "AppMain, Nominal - Wakeup: Sent PX4_INPUT_RC_MID");
 }
 
 
+/**************************************************************************
+ * Tests for RCIN ReadDevice()
+ **************************************************************************/
 /**
- * Test RCIN_ReadDevice(), 1Msg_Normal
+ * Test RCIN ReadDevice(), 1Msg_Normal
  */
 void Test_RCIN_ReadDevice_1Msg_Normal(void)
 {
@@ -786,7 +839,7 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
                                    (void*)&SEDLIB_ReadMsgHook_1Msg_Normal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -814,15 +867,15 @@ void Test_RCIN_ReadDevice_1Msg_Normal(void)
                   "ReadDevice, 1Msg_Normal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "RCIN_ReadDevice(), 1Msg_Normal: StrikeCount");
+                  "ReadDevice, 1Msg_Normal: StrikeCount");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-        expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
+                       expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
 }
 
 
 /**
- * Test RCIN_ReadDevice(), 2Msg_Normal
+ * Test RCIN ReadDevice(), 2Msg_Normal
  */
 void Test_RCIN_ReadDevice_2Msg_Normal(void)
 {
@@ -854,7 +907,7 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
                                    (void*)&SEDLIB_ReadMsgHook_2Msg_Normal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -882,7 +935,7 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
                   "ReadDevice, 2Msg_Normal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "RCIN_ReadDevice(), 2Msg_Normal: StrikeCount");
+                  "ReadDevice, 2Msg_Normal: StrikeCount");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
                        expEvent, "ReadDevice, 2Msg_Normal: Event Sent");
@@ -890,7 +943,7 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
 
 
 /**
- * Test RCIN_ReadDevice(), 2Msg_RcLost
+ * Test RCIN ReadDevice(), 2Msg_RcLost
  */
 void Test_RCIN_ReadDevice_2Msg_RcLost(void)
 {
@@ -920,7 +973,7 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
                                    (void*)&SEDLIB_ReadMsgHook_2Msg_RcLost);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -943,12 +996,12 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
 
     /* Verify results */
     UtAssert_True(oRCIN.StrikeCount > 0,
-                  "RCIN_ReadDevice(), 2Msg_RcLost: StrikeCount");
+                  "ReadDevice, 2Msg_RcLost: StrikeCount");
 }
 
 
 /**
- * Test RCIN_ReadDevice(), 2Msg_1NoFooter
+ * Test RCIN ReadDevice(), 2Msg_1NoFooter
  */
 void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
 {
@@ -977,10 +1030,10 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
 
     SEDLIB_ReadMsg_Cnt = 2;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_2Msg_1NoFooter);
+                                  (void*)&SEDLIB_ReadMsgHook_2Msg_1NoFooter);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -1006,15 +1059,15 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
                   "ReadDevice, 2Msg_1NoFooter: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount > 0,
-                  "RCIN_ReadDevice_2Msg_1NoFooter: StrikeCount");
+                  "ReadDevice, 2Msg_1NoFooter: StrikeCount");
 
-    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR,
-                    expEvent, "RCIN_ReadDevice_2Msg_1NoFooter Event Sent");
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
+                       "ReadDevice, 2Msg_1NoFooter: Event Sent");
 }
 
 
 /**
- * Test RCIN_ReadDevice(), 2Msg_1NoHdr
+ * Test RCIN ReadDevice(), 2Msg_1NoHdr
  */
 void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
 {
@@ -1044,7 +1097,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
                                    (void*)&SEDLIB_ReadMsgHook_2Msg_1NoHdr);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -1072,7 +1125,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
 
 
 /**
- * Test RCIN_ReadDevice(), 10Msg_1NoHdr1NoFooter
+ * Test RCIN ReadDevice(), 10Msg_1NoHdr1NoFooter
  */
 void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 {
@@ -1104,7 +1157,7 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
                          (void*)&SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&Test_RCIN_GetPSPTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     Wakeup_SendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
@@ -1129,15 +1182,15 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 
     /* Verify results */
     UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
+               "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
 
-    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR,
-         expEvent, "RCIN_ReadDevice_10Msg_1NoHdr1NoFooter Event Sent");
+    UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
+                       "ReadDevice, 10Msg_1NoHdr1NoFooter: Event Sent");
 }
 
 
 /**
- * Test RCIN_ReadDevice, Custom_Measure_Error
+ * Test RCIN ReadDevice(), Custom_Measure_Error
  */
 void Test_RCIN_ReadDevice_Custom_Measure_Error(void)
 {
@@ -1176,7 +1229,7 @@ void Test_RCIN_ReadDevice_Custom_Measure_Error(void)
 
     /* Verify results */
     UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR, expEvent,
-                       "RCIN_ReadDevice, Custom_Measure_Error Event Sent");
+                       "ReadDevice, Custom_Measure_Error: Event Sent");
 }
 
 
