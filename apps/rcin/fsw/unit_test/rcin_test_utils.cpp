@@ -77,6 +77,44 @@ void RCIN_Test_TearDown(void) {
 }
 
 
+void RCIN_Util_Stream_Task(void)
+{
+    uint32 iStatus = 0;
+
+    /* Task should continue forever until cleanup. */
+    while (RCIN_AppCustomData.ContinueFlag == TRUE)
+    {
+        SEDLIB_ReturnCode_t rc = (SEDLIB_ReturnCode_t)0;
+
+        /* SBUS data should be 25 bytes every 7ms (highspeed mode). */
+        OS_TaskDelay(7);
+
+        rc = SEDLIB_ReadMsg(RCIN_AppCustomData.MsgPortHandle,
+                            (CFE_SB_MsgPtr_t)&RCIN_AppCustomData.UartStatusTlm);
+        if(SEDLIB_MSG_FRESH_OK == rc)
+        {
+            /* Fresh data. */
+            RCIN_Custom_Parse((uint8 *)RCIN_AppCustomData.UartStatusTlm.RxBuffer,
+                              RCIN_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer);
+        }
+        else if(SEDLIB_MSG_STALE_OK == rc)
+        {
+            /* No data. */
+            RCIN_Custom_RC_Lost(TRUE);
+            continue;
+        }
+        else
+        {
+            /* An error occurred. We can't read from the incoming port. */
+            RCIN_Custom_RC_Lost(TRUE);
+            continue;
+        }
+    } /* end while loop */
+
+    return;
+}
+
+
 void RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
     unsigned char *pBuff;

@@ -48,10 +48,10 @@ extern uint32  SEDLIB_ReadMsg_Cnt;
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
                                        uint32 *PipeHandle);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
-                                                  CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
-                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Nominal(uint32 PipeHandle,
+                                                    CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Nominal(uint32 PipeHandle,
+                                                    CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
@@ -65,6 +65,8 @@ CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
 void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
 
 void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
+
+int32               OS_TaskDelayHook(uint32 millisecond);
 
 
 #ifdef __cplusplus

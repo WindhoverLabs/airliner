@@ -62,8 +62,8 @@
 CFE_SB_MsgId_t SendHK_SendMsgHook_MsgId = 0;
 RCIN_HkTlm_t   HkHookMsg;
 
-CFE_SB_MsgId_t    Wakeup_SendMsgHook_MsgId = 0;
-PX4_InputRcMsg_t  WHookInRcMsg;
+CFE_SB_MsgId_t    InputRcMsgHook_MsgId = 0;
+PX4_InputRcMsg_t  HookInRcMsg;
 
 
 
@@ -423,6 +423,9 @@ void Test_RCIN_InitApp_Nominal(void)
     int32 expected = CFE_SUCCESS;
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
     /* Execute the function being tested */
     result = oRCINut.InitApp();
 
@@ -447,6 +450,9 @@ void Test_RCIN_InitApp_Nominal(void)
 void Test_Extern_RCIN_AppMain(void)
 {
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
@@ -698,9 +704,9 @@ void Test_RCIN_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Hook to support: RCIN AppMain(), Nominal - Wakeup
+ * Hook to support: RCIN InputRcMsgHook
  */
-int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
+int32 Test_RCIN_InputRcMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
     unsigned char*     pBuff = NULL;
     uint16             msgLen = 0;
@@ -713,7 +719,7 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     pBuff = (unsigned char*)MsgPtr;
 
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
-    printf("###AppMain_Wakeup_SendMsgHook: MsgLen(%u)\n", msgLen);
+    printf("###InputRcMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
         printf("0x%02x ", *pBuff);
@@ -731,30 +737,30 @@ int32 Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     {
         case PX4_INPUT_RC_MID:
         {
-            Wakeup_SendMsgHook_MsgId = PX4_INPUT_RC_MID;
-            CFE_PSP_MemCpy((void*)&WHookInRcMsg, (void*)MsgPtr,
-                           sizeof(WHookInRcMsg));
+            InputRcMsgHook_MsgId = PX4_INPUT_RC_MID;
+            CFE_PSP_MemCpy((void*)&HookInRcMsg, (void*)MsgPtr,
+                           sizeof(HookInRcMsg));
 
             printf("Sent PX4_INPUT_RC_MID:\n");
             localTime = RCIN_Test_GetTimeFromTimestamp(
-                                           WHookInRcMsg.Timestamp);
+                                           HookInRcMsg.Timestamp);
             loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
-            printf("LastSignal: %" PRIu64"\n", WHookInRcMsg.LastSignal);
-            printf("ChannelCount: %lu\n", WHookInRcMsg.ChannelCount);
-            printf("RSSI: %ld\n", WHookInRcMsg.RSSI);
-            printf("RcLostFrameCount: %u\n", WHookInRcMsg.RcLostFrameCount);
-            printf("RcTotalFrameCount: %u\n", WHookInRcMsg.RcTotalFrameCount);
-            printf("RcPpmFrameLength: %u\n", WHookInRcMsg.RcPpmFrameLength);
+            printf("LastSignal: %" PRIu64"\n", HookInRcMsg.LastSignal);
+            printf("ChannelCount: %lu\n", HookInRcMsg.ChannelCount);
+            printf("RSSI: %ld\n", HookInRcMsg.RSSI);
+            printf("RcLostFrameCount: %u\n", HookInRcMsg.RcLostFrameCount);
+            printf("RcTotalFrameCount: %u\n", HookInRcMsg.RcTotalFrameCount);
+            printf("RcPpmFrameLength: %u\n", HookInRcMsg.RcPpmFrameLength);
             printf("Values: ");
             for (i = 0; i < PX4_RC_INPUT_MAX_CHANNELS; i++)
             {
-                printf("%02x ", WHookInRcMsg.Values[i]);
+                printf("%04x ", HookInRcMsg.Values[i]);
             }
             printf("\n");
-            printf("RcFailsafe: %u\n", WHookInRcMsg.RcFailsafe);
-            printf("RcLost: %u\n", WHookInRcMsg.RcLost);
-            printf("InputSource: %d\n", WHookInRcMsg.InputSource);
+            printf("RcFailsafe: %u\n", HookInRcMsg.RcFailsafe);
+            printf("RcLost: %u\n", HookInRcMsg.RcLost);
+            printf("InputSource: %d\n", HookInRcMsg.InputSource);
             break;
         }
         default:
@@ -788,9 +794,10 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
@@ -798,7 +805,7 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
     oRCIN.AppMain();
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "AppMain, Nominal - Wakeup: Sent PX4_INPUT_RC_MID");
 }
 
@@ -807,77 +814,83 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
  * Tests for RCIN ReadDevice()
  **************************************************************************/
 /**
- * Test RCIN ReadDevice(), 1Msg_Normal
+ * Test RCIN ReadDevice(), 1Msg_Nominal
  */
-void Test_RCIN_ReadDevice_1Msg_Normal(void)
+void Test_RCIN_ReadDevice_1Msg_Nominal(void)
 {
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_DELETECHILDTASK_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX,
-                            CFE_SUCCESS, 1);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_EXITCHILDTASK_INDEX, CFE_SUCCESS, 1);
-
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMCREATE_INDEX);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMTAKE_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMTAKE_INDEX);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMGIVE_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_MUTSEMGIVE_INDEX);
-
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKINSTALLDELETEHANDLER_INDEX,
-                           CFE_SUCCESS, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_TASKDELAY_INDEX, CFE_SUCCESS, 1);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_TASKDELAY_INDEX);
+    int     i;
+    uint32  checksum;
+    char    expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
                                  SEDLIB_OK, 1);
 
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_TASKDELAY_INDEX,
+                             (void *)&OS_TaskDelayHook);
+
     SEDLIB_ReadMsg_Cnt = 2;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_1Msg_Normal);
+                                   (void*)&SEDLIB_ReadMsgHook_1Msg_Nominal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Stream_Task();
-    /* To recover the streaming status after the ChildTask is finished,
-       Because all the status will be reset */
-    RCIN_AppCustomData.Status = RCIN_CUSTOM_STREAMING;
-    RCIN_AppCustomData.Measure.RcFailsafe = TRUE;
-    RCIN_AppCustomData.Measure.RcLost = FALSE;
+    RCIN_Util_Stream_Task();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
 
     RCIN_CleanupCallback();
 
+    checksum = 0;
+    for (i = 0; i < 16; i++)
+    {
+        checksum += HookInRcMsg.Values[i];
+    }
+
     sprintf(expEvent, "%s", "RCIN is publishing fresh data");
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 1Msg_Normal: Sent PX4_INPUT_RC_MID");
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 1Msg_Nominal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "ReadDevice, 1Msg_Normal: StrikeCount");
+                  "ReadDevice, 1Msg_Nominal: StrikeCount");
+
+    UtAssert_True((HookInRcMsg.ChannelCount == RCIN_SBUS_CHANNEL_COUNT) &&
+                  (HookInRcMsg.RSSI == 100) &&
+                  (HookInRcMsg.RcLostFrameCount == 0) &&
+                  (HookInRcMsg.RcTotalFrameCount == 1) &&
+                  (HookInRcMsg.RcPpmFrameLength == 100) &&
+                  (HookInRcMsg.RcFailsafe == TRUE) &&
+                  (HookInRcMsg.RcLost == FALSE) &&
+                  (checksum == 0x5765),
+                  "ReadDevice, 1Msg_Nominal: InputRc Data");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-                       expEvent, "ReadDevice, 1Msg_Normal: Event Sent");
+                       expEvent, "ReadDevice, 1Msg_Nominal: Event Sent");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 2Msg_Normal
+ * Test RCIN ReadDevice(), 2Msg_Nominal
  */
-void Test_RCIN_ReadDevice_2Msg_Normal(void)
+void Test_RCIN_ReadDevice_2Msg_Nominal(void)
 {
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -904,14 +917,15 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
 
     SEDLIB_ReadMsg_Cnt = 2;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_2Msg_Normal);
+                                   (void*)&SEDLIB_ReadMsgHook_2Msg_Nominal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                     (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
@@ -931,14 +945,14 @@ void Test_RCIN_ReadDevice_2Msg_Normal(void)
     sprintf(expEvent, "%s", "RCIN is publishing fresh data");
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 2Msg_Normal: Sent PX4_INPUT_RC_MID");
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, 2Msg_Nominal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "ReadDevice, 2Msg_Normal: StrikeCount");
+                  "ReadDevice, 2Msg_Nominal: StrikeCount");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-                       expEvent, "ReadDevice, 2Msg_Normal: Event Sent");
+                       expEvent, "ReadDevice, 2Msg_Nominal: Event Sent");
 }
 
 
@@ -975,9 +989,10 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
@@ -1035,9 +1050,10 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
@@ -1055,7 +1071,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     sprintf(expEvent, "%s", "RCIN out of sync.");
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 2Msg_1NoFooter: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(oRCIN.StrikeCount > 0,
@@ -1099,9 +1115,10 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
@@ -1119,7 +1136,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
     RCIN_CleanupCallback();
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, 2Msg_1NoHdr: Sent PX4_INPUT_RC_MID");
 }
 
@@ -1159,9 +1176,10 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
 
-    Wakeup_SendMsgHook_MsgId = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-                     (void*)&Test_RCIN_AppMain_Nominal_Wakeup_SendMsgHook);
+                              (void*)&Test_RCIN_InputRcMsgHook);
 
     /* Execute the function being tested */
     oRCIN.InitApp();
@@ -1181,7 +1199,7 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
     sprintf(expEvent, "%s", "RCIN out of sync.");
 
     /* Verify results */
-    UtAssert_True(Wakeup_SendMsgHook_MsgId == PX4_INPUT_RC_MID,
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
 
     UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
@@ -1311,12 +1329,12 @@ void RCIN_App_Test_AddTestCases(void)
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Nominal_Wakeup");
 
-    UtTest_Add(Test_RCIN_ReadDevice_1Msg_Normal,
+    UtTest_Add(Test_RCIN_ReadDevice_1Msg_Nominal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_1Msg_Normal");
-    UtTest_Add(Test_RCIN_ReadDevice_2Msg_Normal,
+               "Test_RCIN_ReadDevice_1Msg_Nominal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Msg_Nominal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_2Msg_Normal");
+               "Test_RCIN_ReadDevice_2Msg_Nominal");
     UtTest_Add(Test_RCIN_ReadDevice_2Msg_RcLost,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_2Msg_RcLost");

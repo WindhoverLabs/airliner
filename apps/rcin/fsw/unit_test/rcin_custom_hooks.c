@@ -35,6 +35,8 @@
 #include "rcin_custom_stubs.h"
 
 #include <string.h>
+#include <time.h>
+#include <inttypes.h>
 
 #define UT_TEST_BUFFER_SIZE_1MSG         25
 #define UT_TEST_BUFFER_SIZE_2MSG         50
@@ -42,11 +44,11 @@
 
 uint32  SEDLIB_ReadMsg_Cnt = 0;
 
-uint8 Ut_RxBuffer_1Msg_Normal[UT_TEST_BUFFER_SIZE_1MSG] = {
+uint8 Ut_RxBuffer_1Msg_Nominal[UT_TEST_BUFFER_SIZE_1MSG] = {
     15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0
 };
 
-uint8 Ut_RxBuffer_2Msg_Normal[UT_TEST_BUFFER_SIZE_2MSG] = {
+uint8 Ut_RxBuffer_2Msg_Nominal[UT_TEST_BUFFER_SIZE_2MSG] = {
     15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0,
     15, 173, 165,  56,  54,   3, 190, 148, 166,  60,  32, 104, 252, 226,  29, 248, 168, 235, 140,  99,  86, 102, 188,   3,  0
 };
@@ -87,8 +89,8 @@ SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName,
 }
 
 
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
-                                                  CFE_SB_MsgPtr_t Msg)
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Nominal(uint32 PipeHandle,
+                                                    CFE_SB_MsgPtr_t Msg)
 {
     UART_StatusTlm_t  *pMsg;
 
@@ -99,7 +101,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
     }
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_1Msg_Normal,
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_1Msg_Nominal,
            UT_TEST_BUFFER_SIZE_1MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_1MSG;
 
@@ -107,8 +109,8 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Normal(uint32 PipeHandle,
 }
 
 
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
-                                                  CFE_SB_MsgPtr_t Msg)
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Nominal(uint32 PipeHandle,
+                                                    CFE_SB_MsgPtr_t Msg)
 {
     UART_StatusTlm_t  *pMsg;
 
@@ -119,7 +121,7 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Normal(uint32 PipeHandle,
     }
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Normal,
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Nominal,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
@@ -246,4 +248,21 @@ void CFE_PSP_GetTimeHook(OS_time_t *LocalTime)
     }
 
     return;
+}
+
+
+int32 OS_TaskDelayHook(uint32 millisecond)
+{
+    struct timespec  start_time;
+    struct timespec  end_time;
+    uint64           elapsed_time;
+
+    clock_gettime(CLOCK_REALTIME, &start_time);
+    do
+    {
+        clock_gettime(CLOCK_REALTIME, &end_time);
+        elapsed_time = ((end_time.tv_sec * 1000) + (end_time.tv_nsec / 1000000))
+               - ((start_time.tv_sec * 1000) + (start_time.tv_nsec / 1000000));
+    } while(elapsed_time < millisecond);
+printf("!!!OS_TaskDelayHook: elapsed_time(%" PRId64")\n", elapsed_time);
 }

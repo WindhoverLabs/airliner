@@ -56,6 +56,8 @@ extern "C" {
 void RCIN_Test_Setup(void);
 void RCIN_Test_TearDown(void);
 
+void RCIN_Util_Stream_Task(void);
+
 void   RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
