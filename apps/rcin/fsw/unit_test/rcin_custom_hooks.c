@@ -42,7 +42,7 @@
 #define UT_TEST_BUFFER_SIZE_2MSG         50
 #define UT_TEST_BUFFER_SIZE_10MSG        250 
 
-uint32  SEDLIB_ReadMsg_Cnt = 0;
+int32  SEDLIB_ReadMsg_Cnt = 0;
 
 uint8 Ut_RxBuffer_1Msg_Nominal[UT_TEST_BUFFER_SIZE_1MSG] = {
     15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0
@@ -94,16 +94,16 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Nominal(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_1Msg_Nominal,
+           UT_TEST_BUFFER_SIZE_1MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_1MSG;
+
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
-
-    pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_1Msg_Nominal,
-           UT_TEST_BUFFER_SIZE_1MSG);
-    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_1MSG;
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -114,16 +114,16 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Nominal(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Nominal,
+           UT_TEST_BUFFER_SIZE_2MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
+
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
-
-    pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Nominal,
-           UT_TEST_BUFFER_SIZE_2MSG);
-    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -134,16 +134,16 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_RcLost,
+           UT_TEST_BUFFER_SIZE_2MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
+
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
-
-    pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_RcLost,
-           UT_TEST_BUFFER_SIZE_2MSG);
-    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -154,16 +154,16 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoFooter,
+           UT_TEST_BUFFER_SIZE_2MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
+
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
-
-    pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoFooter,
-           UT_TEST_BUFFER_SIZE_2MSG);
-    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -174,18 +174,24 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
 {
     UART_StatusTlm_t  *pMsg;
 
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoHdr,
+           UT_TEST_BUFFER_SIZE_2MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
+
     SEDLIB_ReadMsg_Cnt --;
     if (SEDLIB_ReadMsg_Cnt <= 0)
     {
         RCIN_AppCustomData.ContinueFlag = FALSE;
     }
 
-    pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoHdr,
-           UT_TEST_BUFFER_SIZE_2MSG);
-    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
-
     return SEDLIB_MSG_FRESH_OK;
+}
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg)
+{
 }
 
 
@@ -194,19 +200,139 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
 {
     UART_StatusTlm_t  *pMsg;
 
-    SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
-
     pMsg = (UART_StatusTlm_t *)Msg;
     memcpy((void *)pMsg->RxBuffer,
            (void *)Ut_RxBuffer_10Msg_1NoHdr1NoFooter,
            UT_TEST_BUFFER_SIZE_10MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_10MSG;
 
+    SEDLIB_ReadMsg_Cnt --;
+    if (SEDLIB_ReadMsg_Cnt <= 0)
+    {
+        RCIN_AppCustomData.ContinueFlag = FALSE;
+    }
+
     return SEDLIB_MSG_FRESH_OK;
+}
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
+                                              CFE_SB_MsgPtr_t Msg)
+{
+printf("!!!SEDLIB_ReadMsgHook_NoData: SEDLIB_ReadMsg_Cnt(%d)\n", SEDLIB_ReadMsg_Cnt);
+    SEDLIB_ReadMsg_Cnt --;
+    if (SEDLIB_ReadMsg_Cnt <= 0)
+    {
+        RCIN_AppCustomData.ContinueFlag = FALSE;
+    }
+
+    return SEDLIB_MSG_STALE_OK;
+}
+
+
+void GetMeasureValues(uint8 *data, uint16 *Values)
+{
+    Values[0] = (uint16)(((data[1] | data[2] << 8)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[1] = (uint16)(((data[2] >> 3 | data[3] << 5)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[2] = (uint16)(((data[3] >> 6 | data[4] << 2
+          | data[5] << 10) & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f)
+          + RCIN_SBUS_SCALE_OFFSET;
+    Values[3] = (uint16)(((data[5] >> 1 | data[6] << 7)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[4] = (uint16)(((data[6] >> 4 | data[7] << 4)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[5] = (uint16)(((data[7] >> 7 | data[8] << 1
+          | data[9] << 9) & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f)
+          + RCIN_SBUS_SCALE_OFFSET;
+    Values[6] = (uint16)(((data[9] >> 2 | data[10] << 6)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[7] = (uint16)(((data[10] >> 5 | data[11] << 3)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[8] = (uint16)(((data[12] | data[13] << 8)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[9] = (uint16)(((data[13] >> 3 | data[14] << 5)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[10] = (uint16)(((data[14] >> 6 | data[15] << 2
+          | data[16] << 10) & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f)
+          + RCIN_SBUS_SCALE_OFFSET;
+    Values[11] = (uint16)(((data[16] >> 1 | data[17] << 7)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[12] = (uint16)(((data[17] >> 4 | data[18] << 4)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[13] = (uint16)(((data[18] >> 7 | data[19] << 1
+          | data[20] << 9) & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f)
+          + RCIN_SBUS_SCALE_OFFSET;
+    Values[14] = (uint16)(((data[20] >> 2 | data[21] << 6)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+    Values[15] = (uint16)(((data[21] >> 5 | data[22] << 3)
+          & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
+
+    return;
+}
+
+
+uint32 GetChecksum_1Msg_Nominal(void)
+{
+    int     i;
+    uint32  checksum;
+    uint8   *data;
+    uint16  Values[PX4_RC_INPUT_MAX_CHANNELS];
+
+    data = Ut_RxBuffer_1Msg_Nominal;
+
+    GetMeasureValues(data, Values);
+
+    checksum = 0;
+    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    {
+        checksum += Values[i];
+    }
+
+    return (checksum);
+}
+
+
+uint32 GetChecksum_2Msg_Nominal(void)
+{
+    int     i;
+    uint32  checksum;
+    uint8   *data;
+    uint16  Values[PX4_RC_INPUT_MAX_CHANNELS];
+
+    data = &Ut_RxBuffer_2Msg_Nominal[UT_TEST_BUFFER_SIZE_2MSG/2];
+
+    GetMeasureValues(data, Values);
+
+    checksum = 0;
+    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    {
+        checksum += Values[i];
+    }
+
+    return (checksum);
+}
+
+
+uint32 GetChecksum_2Msg_RcLost(void)
+{
+    int     i;
+    uint32  checksum;
+    uint8   *data;
+    uint16  Values[PX4_RC_INPUT_MAX_CHANNELS];
+
+    data = &Ut_RxBuffer_2Msg_RcLost[UT_TEST_BUFFER_SIZE_2MSG/2];
+
+    GetMeasureValues(data, Values);
+
+    checksum = 0;
+    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    {
+        checksum += Values[i];
+    }
+
+    return (checksum);
 }
 
 

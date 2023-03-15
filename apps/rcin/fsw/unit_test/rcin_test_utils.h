@@ -45,6 +45,8 @@ extern "C" void RCIN_AppMain();
 
 extern RCIN oRCIN;
 
+#define RCIN_TEST_DEV_ERR_EID  RCIN_EVT_CNT
+
 #ifdef __cplusplus
 extern "C" {
 #endif
