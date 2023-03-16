@@ -34,17 +34,21 @@
 #ifndef RCIN_CUSTOM_HOOKS_H
 #define RCIN_CUSTOM_HOOKS_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 
 #include "rcin_custom_stubs.h"
 
 #include <time.h>
 
 
-extern int32  SEDLIB_ReadMsg_Cnt;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+extern uint32  SEDLIB_ReadMsg_Cnt;
+
+
+int32  RCIN_Util_Stream_Emulator(void);
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
                                        uint32 *PipeHandle);
@@ -58,21 +62,23 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
                                                  CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
                                               CFE_SB_MsgPtr_t Msg);
 
-uint32              GetChecksum_1Msg_Nominal(void);
-uint32              GetChecksum_2Msg_Nominal(void);
-uint32              GetChecksum_2Msg_RcLost(void);
+uint32  GetChecksum_1Msg_Nominal(void);
+uint32  GetChecksum_2Msg_Nominal(void);
+uint32  GetChecksum_2Msg_RcLost(void);
 
 CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
 void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
 
 void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
 
-int32               OS_TaskDelayHook(uint32 millisecond);
+int32  OS_TaskDelayHook(uint32 millisecond);
 
 
 #ifdef __cplusplus

@@ -62,6 +62,7 @@
 CFE_SB_MsgId_t SendHK_SendMsgHook_MsgId = 0;
 RCIN_HkTlm_t   HkHookMsg;
 
+uint32            InputRcMsgHook_CalledCnt = 0;
 CFE_SB_MsgId_t    InputRcMsgHook_MsgId = 0;
 PX4_InputRcMsg_t  HookInRcMsg;
 
@@ -737,6 +738,7 @@ int32 Test_RCIN_InputRcMsgHook(CFE_SB_Msg_t *MsgPtr)
     {
         case PX4_INPUT_RC_MID:
         {
+            InputRcMsgHook_CalledCnt ++;
             InputRcMsgHook_MsgId = PX4_INPUT_RC_MID;
             CFE_PSP_MemCpy((void*)&HookInRcMsg, (void*)MsgPtr,
                            sizeof(HookInRcMsg));
@@ -852,7 +854,7 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Util_Stream_Task();
+    RCIN_Util_Stream_Emulator();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -860,7 +862,7 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
     RCIN_CleanupCallback();
 
     hookmsg_checksum = 0;
-    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    for (i = 0; i < TEST_RCIN_BUS_CHANNEL_CNT; i++)
     {
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
@@ -876,7 +878,7 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
     UtAssert_True(oRCIN.StrikeCount == 0,
                   "ReadDevice, 1Msg_Nominal: StrikeCount");
 
-    UtAssert_True((HookInRcMsg.ChannelCount == RCIN_SBUS_CHANNEL_COUNT) &&
+    UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
                   (HookInRcMsg.RcLostFrameCount == 0) &&
                   (HookInRcMsg.RcTotalFrameCount == 1) &&
@@ -928,7 +930,7 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Util_Stream_Task();
+    RCIN_Util_Stream_Emulator();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -936,7 +938,7 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
     RCIN_CleanupCallback();
 
     hookmsg_checksum = 0;
-    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    for (i = 0; i < TEST_RCIN_BUS_CHANNEL_CNT; i++)
     {
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
@@ -952,7 +954,7 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
     UtAssert_True(oRCIN.StrikeCount == 0,
                   "ReadDevice, 2Msg_Nominal: StrikeCount");
 
-    UtAssert_True((HookInRcMsg.ChannelCount == RCIN_SBUS_CHANNEL_COUNT) &&
+    UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
                   (HookInRcMsg.RcLostFrameCount == 0) &&
                   (HookInRcMsg.RcTotalFrameCount == 1) &&
@@ -1003,7 +1005,7 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Util_Stream_Task();
+    RCIN_Util_Stream_Emulator();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -1011,7 +1013,7 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
     RCIN_CleanupCallback();
 
     hookmsg_checksum = 0;
-    for (i = 0; i < RCIN_SBUS_CHANNEL_COUNT; i++)
+    for (i = 0; i < TEST_RCIN_BUS_CHANNEL_CNT; i++)
     {
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
@@ -1025,7 +1027,7 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
     UtAssert_True(oRCIN.StrikeCount == 1,
                   "ReadDevice, 2Msg_RcLost: StrikeCount");
 
-    UtAssert_True((HookInRcMsg.ChannelCount == RCIN_SBUS_CHANNEL_COUNT) &&
+    UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
                   (HookInRcMsg.RcLostFrameCount == 0) &&
                   (HookInRcMsg.RcTotalFrameCount == 1) &&
@@ -1069,7 +1071,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Util_Stream_Task();
+    RCIN_Util_Stream_Emulator();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -1121,7 +1123,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    RCIN_Util_Stream_Task();
+    RCIN_Util_Stream_Emulator();
 
     oRCIN.ReadDevice();
     oRCIN.SendInputRcMsg();
@@ -1143,13 +1145,95 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
  */
 void Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter(void)
 {
+    int     i;
+    uint32  task_count;
+    uint32  total_err_count;
+    char    expEventSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventPublish[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_TASKDELAY_INDEX,
+                             (void *)&OS_TaskDelayHook);
+
+    SEDLIB_ReadMsg_Cnt = 1;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                      (void*)&SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    InputRcMsgHook_CalledCnt = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_RCIN_InputRcMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    task_count = 30;
+    total_err_count = 0;
+    for (i = 0; i < task_count; i++)
+    {
+        SEDLIB_ReadMsg_Cnt = 1;
+        if (RCIN_Util_Stream_Emulator() == RCIN_ERROR)
+        {
+            total_err_count ++;
+        }
+
+        oRCIN.ReadDevice();
+        oRCIN.SendInputRcMsg();
+    }
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEventSync, "%s", "RCIN in sync.");
+    sprintf(expEventOutSync, "%s", "RCIN out of sync.");
+    sprintf(expEventPublish, "%s", "RCIN is publishing fresh data");
+
+printf("!!!!Test_Multiple: total_err_count(%lu)\n", total_err_count);
+    /* Verify results */
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+             "ReadDevice, Multiple_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_True(oRCIN.StrikeCount == 0,
+                  "ReadDevice, Multiple_1NoHdr1NoFooter: StrikeCount");
+
+    UtAssert_True(total_err_count == 11,
+                  "ReadDevice, Multiple_1NoHdr1NoFooter: total_err_count");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == task_count,
+          "ReadDevice, Multiple_1NoHdr1NoFooter: InputRcMsgHook_CalledCnt");
+
+    UtAssert_EventSent(TEST_RCIN_IN_SYNC_INF_EID, CFE_EVS_INFORMATION,
+                expEventSync,
+                "ReadDevice, Multiple_1NoHdr1NoFooter: In Sync Event Sent");
+
+    UtAssert_EventSent(TEST_RCIN_OUT_SYNC_ERR_EID, CFE_EVS_ERROR,
+                expEventOutSync,
+                "ReadDevice, Multiple_1NoHdr1NoFooter: Out sync Event Sent");
+
+    UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
+        expEventPublish,
+        "ReadDevice, Multiple_1NoHdr1NoFooter: Fresh Publishing Event Sent");
 }
 
 
+#if 0
 /**
- * Test RCIN ReadDevice(), 10Msg_1NoHdr1NoFooter
+ * Test RCIN ReadDevice(), 10Msg_Nominal
  */
-void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
+void Test_RCIN_ReadDevice_10Msg_Nominal(void)
 {
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -1210,6 +1294,7 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
     UtAssert_EventSent(RCIN_EVT_CNT + 1, CFE_EVS_ERROR, expEvent,
                        "ReadDevice, 10Msg_1NoHdr1NoFooter: Event Sent");
 }
+#endif
 
 
 /**
@@ -1218,7 +1303,7 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 void Test_RCIN_ReadDevice_NoData(void)
 {
     int   i;
-    int   read_count;
+    int   task_count;
     char  expEventLost[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -1249,11 +1334,11 @@ void Test_RCIN_ReadDevice_NoData(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    read_count = 30;
-    for (i = 0; i < read_count; i++)
+    task_count = TEST_RCIN_MAX_ERROR_CNT + 1;
+    for (i = 0; i < task_count; i++)
     {
         SEDLIB_ReadMsg_Cnt = 1;
-        RCIN_Util_Stream_Task();
+        RCIN_Util_Stream_Emulator();
 
         oRCIN.ReadDevice();
         oRCIN.SendInputRcMsg();
@@ -1270,14 +1355,14 @@ void Test_RCIN_ReadDevice_NoData(void)
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, NoData: Sent PX4_INPUT_RC_MID");
 
-    UtAssert_True(oRCIN.StrikeCount == read_count,
+    UtAssert_True(oRCIN.StrikeCount == task_count,
                   "ReadDevice, NoData: StrikeCount");
 
     UtAssert_True((HookInRcMsg.RcFailsafe == TRUE) &&
                   (HookInRcMsg.RcLost == TRUE),
                   "ReadDevice, NoData: InputRc RcFailsafe/RcLost Data");
 
-    UtAssert_EventSent(RCIN_TEST_DEV_ERR_EID, CFE_EVS_ERROR, expEventLost,
+    UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventLost,
                    "ReadDevice, NoData: RcFailsafe/RcLost flag Event Sent");
 
     UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR, expEvent,
@@ -1378,9 +1463,14 @@ void RCIN_App_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoHdr,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_2Msg_1NoHdr");
+    UtTest_Add(Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter");
+#if 0
     UtTest_Add(Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter");
+#endif
     UtTest_Add(Test_RCIN_ReadDevice_NoData,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_NoData");

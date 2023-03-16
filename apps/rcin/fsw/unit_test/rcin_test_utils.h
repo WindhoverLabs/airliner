@@ -45,7 +45,6 @@ extern "C" void RCIN_AppMain();
 
 extern RCIN oRCIN;
 
-#define RCIN_TEST_DEV_ERR_EID  RCIN_EVT_CNT
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,8 +56,6 @@ extern "C" {
 
 void RCIN_Test_Setup(void);
 void RCIN_Test_TearDown(void);
-
-void RCIN_Util_Stream_Task(void);
 
 void   RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);

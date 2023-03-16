@@ -38,11 +38,19 @@
 extern "C" {
 #endif
 
-#include "cfe.h"
+
 #include "rcin_sed.h"
 
 
 extern RCIN_AppCustomData_t RCIN_AppCustomData;
+
+
+#define TEST_RCIN_MAX_ERROR_CNT        RCIN_MAX_ERROR_COUNT
+#define TEST_RCIN_BUS_CHANNEL_CNT      RCIN_SBUS_CHANNEL_COUNT
+
+#define TEST_RCIN_DEV_ERR_EID          RCIN_EVT_CNT
+#define TEST_RCIN_OUT_SYNC_ERR_EID     (RCIN_EVT_CNT + 1)
+#define TEST_RCIN_IN_SYNC_INF_EID      (RCIN_EVT_CNT + 3)
 
 
 typedef enum
