@@ -31,18 +31,27 @@
 *
 *****************************************************************************/
 
+#include "cfe.h"
+//#include "rcin_app.h"
+
 #include "rcin_custom_hooks.h"
-#include "rcin_custom_stubs.h"
 
 #include <string.h>
 #include <time.h>
 #include <inttypes.h>
 
-#define UT_TEST_BUFFER_SIZE_1MSG         25
-#define UT_TEST_BUFFER_SIZE_2MSG         50
-#define UT_TEST_BUFFER_SIZE_10MSG        250 
+#if 1
+#define RCIN_ERROR  (-1)
+#endif
 
-int32  SEDLIB_ReadMsg_Cnt = 0;
+#define UT_TEST_BUFFER_SIZE_1MSG         25
+#define UT_TEST_BUFFER_SIZE_2MSG         UT_TEST_BUFFER_SIZE_1MSG * 2
+#define UT_TEST_BUFFER_SIZE_10MSG        UT_TEST_BUFFER_SIZE_1MSG * 10
+#define UT_TEST_BUFFER_SIZE_30MSG        UT_TEST_BUFFER_SIZE_1MSG * 30
+
+
+uint32  SEDLIB_ReadMsg_Cnt = 0;
+uint32  Measure_False_Cnt = 0;
 
 uint8 Ut_RxBuffer_1Msg_Nominal[UT_TEST_BUFFER_SIZE_1MSG] = {
     15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0
@@ -81,6 +90,122 @@ uint8 Ut_RxBuffer_10Msg_1NoHdr1NoFooter[UT_TEST_BUFFER_SIZE_10MSG] = {
     15, 119,   4,  42, 244, 130, 183, 138,  50,  10, 142, 136,  17,  97,  22,  11,  67,  19, 247, 162, 103, 116, 168,  44,  0
 };
 
+uint8 Ut_RxBuffer_Multiple_1NoHdr1NoFooter[UT_TEST_BUFFER_SIZE_30MSG] = {
+    15, 229, 137, 165, 171, 140,  33,  64,  25,  96,  65, 229,  69,  65,  88,   9, 207,  38, 211,  84, 190, 189,   3, 104,  0,
+    15, 145, 151, 234, 183, 149, 129, 152, 128,  77,  31, 243, 239,  58, 197, 162, 177, 117, 186,  25,  39, 140, 122, 106,  0,
+    15,  88, 168, 102, 150,  71,  49,  59,  46,  76, 114, 181,  23, 226, 144,  17, 160, 253, 126,  47, 184, 202, 225,  47,  0,
+    15, 215, 191,  83,  10, 166, 171, 186, 143, 160, 234, 141, 223, 111,  17,  31, 102, 251,  92, 223, 200, 251, 191, 228,  0,
+    15, 205, 104,   0, 128,  86, 231,  15, 112, 130, 133, 203,  34, 241, 250,   1, 163, 158,  36,  99, 152, 114,  89,  70,  0,
+    /* Missing header */
+    42,  60,   8,  46,  25, 208,  91,  76, 234,   9, 246, 251, 176, 105,  50, 151, 246, 149, 227,   9,   9,  90, 112, 155,  0,
+    15, 164, 169,  76,  26,  98,  97,  17, 206,  73, 115, 161,  86, 229, 132, 245, 223, 251, 117,  25,  64,  50,  54, 217,  0,
+    15, 173, 165,  56,  54,   3, 190, 148, 166,  60,  32, 104, 252, 226,  29, 248, 168, 235, 140,  99,  86, 102, 188,   3,  0,
+    15, 243, 156,   9, 243, 143, 143, 170, 122, 141,  25,  21, 167, 166, 103, 199,  37, 119,  64, 127, 155, 135,  83, 159,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15,  47, 166,  30, 156,   6,  16,  73,  73, 152,  30,  25, 202,  47, 171, 191, 194, 253, 161,  16, 112, 126,   7, 216,  0,
+    /* Missing footer */
+    15,  60,   8,  46,  25, 208,  91,  76, 234,   9, 246, 251, 176, 105,  50, 151, 246, 149, 227,   9,   9,  90, 112, 155, 10,
+    15,  46,  56,  58, 198,  30, 131,  81,   9, 146, 166,  73,  57, 219,   9,  92, 200,  29, 145, 205,  20,  16, 106, 239,  0,
+    15, 157,  44,  76, 182, 157, 149,   0, 236, 236, 193, 230, 139, 166,  96, 160,  53, 160,  94,  90, 117, 251,   5, 104,  0,
+    15, 236,  31, 119, 239, 174, 162, 247, 126, 238, 254,  73,  61, 138, 213, 149,  35,  20, 148, 224, 199,  99,  39,  45,  0,
+    15, 206, 200, 132,  55, 226,  14, 196, 216, 163,  94, 123, 113, 253,  45,  94,  86, 229, 153, 234, 239, 225, 242,  54,  0,
+    15, 230,  35,  63, 195, 226, 255, 126,  74, 180, 238,  22, 133, 136, 183,  12,  50,  15,  62, 253, 226,   6, 252,  76,  0,
+    15, 149, 112,  47,  47,  90, 230,  69,  77,  43,  60, 211, 243, 181,  58,  69,  55, 244, 190, 190,  98, 236,  73,  84,  0,
+    15, 237, 202,  89, 163, 234,  27, 154,  65, 219, 175, 231, 218, 185,   5, 219, 149,  25, 116,  94,  77,  40,  48, 138,  0,
+    15,  65, 246, 214,  13, 182, 171, 190,  33, 231, 136,  38, 113,   2,  23,  16, 115, 152,  76,  67, 131, 180, 119,  82,  0,
+    15, 126, 11,  198, 176,  78, 230, 239,  19, 110,  48, 216,  18, 183, 178,  23,  76, 124,  32,  94, 191,  97, 160, 106,  0,
+    15, 180, 230,  15, 150,  24, 147, 117, 161,  95,  54,  59,  88, 145, 132,  32, 214, 189, 255,  74, 204, 180, 225, 144,  0,
+    15, 138, 118,  76,  72, 239, 127, 112, 233,  77, 169,  85, 132, 152, 123, 182,  93, 226, 191, 107, 131, 185, 158, 239,  0,
+    15,   8,  90,  24,  40, 159, 113, 100, 190,  17,  15, 211, 189,  82,  61,  22, 168,  51,   8, 133,  50, 238, 205, 255,  0,
+    15, 119,   4,  42, 244, 130, 183, 138,  50,  10, 142, 136,  17,  97,  22,  11,  67,  19, 247, 162, 103, 116, 168,  44,  0,
+    15,  86,  37,  99, 220, 243,   6, 104, 185, 158, 202,  40, 201, 171, 246, 141,  49, 250,  97,  14, 194, 192,  32, 129,  0,
+    15,  75, 218, 130, 113, 126, 231, 229, 226, 171, 125,  73, 230,  62, 170, 228, 120,  30, 118, 102, 181, 230, 215, 185,  0,
+    15,   3, 137,  23, 166,  56,  27, 117,  37,  44,  81, 176,  95, 166, 161, 235,  24,  16,  81, 252, 147,   5, 109, 143,  0,
+    15,  50, 104,  34,  64, 248, 148, 150, 113, 131, 123, 219, 116,  45, 214, 226, 105, 110, 122,  64, 227,  66,  66,  99,  0,
+    15, 229, 137, 165, 171, 140,  33,  64,  25,  96,  65, 229,  69,  65,  88,   9, 207,  38, 211,  84, 190, 189,   3, 104,  0
+};
+
+uint8 Ut_RxBuffer_Multiple_Stale[UT_TEST_BUFFER_SIZE_30MSG] = {
+    15, 229, 137, 165, 171, 140,  33,  64,  25,  96,  65, 229,  69,  65,  88,   9, 207,  38, 211,  84, 190, 189,   3, 104,  0,
+    15, 145, 151, 234, 183, 149, 129, 152, 128,  77,  31, 243, 239,  58, 197, 162, 177, 117, 186,  25,  39, 140, 122, 106,  0,
+    15,  88, 168, 102, 150,  71,  49,  59,  46,  76, 114, 181,  23, 226, 144,  17, 160, 253, 126,  47, 184, 202, 225,  47,  0,
+    15, 215, 191,  83,  10, 166, 171, 186, 143, 160, 234, 141, 223, 111,  17,  31, 102, 251,  92, 223, 200, 251, 191, 228,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+    15, 201,  79, 134, 180, 124, 146, 222, 242, 250, 170,  94,  55, 122, 247,  87, 172,  96,  85, 122,  76, 220,  37,  72,  0,
+};
+
+
+int32 RCIN_Util_Stream_Emulator(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    while(SEDLIB_ReadMsg_Cnt > 0)
+    {
+        SEDLIB_ReturnCode_t rc = (SEDLIB_ReturnCode_t)0;
+
+        /* SBUS data should be 25 bytes every 7ms (highspeed mode). */
+        OS_TaskDelay(7);
+
+        rc = SEDLIB_ReadMsg(RCIN_AppCustomData.MsgPortHandle,
+                            (CFE_SB_MsgPtr_t)&RCIN_AppCustomData.UartStatusTlm);
+        if(SEDLIB_MSG_FRESH_OK == rc)
+        {
+            /* Fresh data. */
+            RCIN_Custom_Parse((uint8 *)RCIN_AppCustomData.UartStatusTlm.RxBuffer,
+                              RCIN_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer);
+        }
+        else if(SEDLIB_MSG_STALE_OK == rc)
+        {
+            /* No data. */
+            RCIN_Custom_RC_Lost(TRUE);
+            continue;
+        }
+        else
+        {
+            /* An error occurred. We can't read from the incoming port. */
+            RCIN_Custom_RC_Lost(TRUE);
+            continue;
+        }
+    } /* end while loop */
+
+    if(RCIN_CUSTOM_STREAMING != RCIN_AppCustomData.Status)
+    {
+        iStatus = RCIN_ERROR;
+    }
+
+    if (RCIN_AppCustomData.Measure.RcFailsafe == TRUE &&
+       RCIN_AppCustomData.Measure.RcLost == TRUE)
+    {
+        iStatus = RCIN_ERROR;
+    }
+
+    return iStatus;
+}
+
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName,
                                        uint32 Size, uint32 *PipeHandle)
@@ -95,15 +220,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Nominal(uint32 PipeHandle,
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_1Msg_Nominal,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_1Msg_Nominal,
            UT_TEST_BUFFER_SIZE_1MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_1MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -115,15 +236,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Nominal(uint32 PipeHandle,
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_Nominal,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_2Msg_Nominal,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -135,15 +252,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_RcLost,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_2Msg_RcLost,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -155,15 +268,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoFooter,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_2Msg_1NoFooter,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -175,15 +284,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer, (void *)Ut_RxBuffer_2Msg_1NoHdr,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_2Msg_1NoHdr,
            UT_TEST_BUFFER_SIZE_2MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_2MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -192,6 +297,23 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg)
 {
+    static int        index = 0;
+    UART_StatusTlm_t  *pMsg;
+
+printf("!!!SEDLIB_ReadMsgHook_Multiple: index(%d), SEDLIB_ReadMsg_Cnt(%ld)\n", index, SEDLIB_ReadMsg_Cnt);
+    pMsg = (UART_StatusTlm_t *)Msg;
+    memcpy((void *)pMsg->RxBuffer, &Ut_RxBuffer_Multiple_1NoHdr1NoFooter[index],
+           UT_TEST_BUFFER_SIZE_1MSG);
+    pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_1MSG;
+    index += UT_TEST_BUFFER_SIZE_1MSG;
+    if (index >= UT_TEST_BUFFER_SIZE_30MSG)
+    {
+        index = 0;
+    }
+
+    SEDLIB_ReadMsg_Cnt --;
+
+    return SEDLIB_MSG_FRESH_OK;
 }
 
 
@@ -201,16 +323,11 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
     UART_StatusTlm_t  *pMsg;
 
     pMsg = (UART_StatusTlm_t *)Msg;
-    memcpy((void *)pMsg->RxBuffer,
-           (void *)Ut_RxBuffer_10Msg_1NoHdr1NoFooter,
+    memcpy((void *)pMsg->RxBuffer, Ut_RxBuffer_10Msg_1NoHdr1NoFooter,
            UT_TEST_BUFFER_SIZE_10MSG);
     pMsg->Hdr.BytesInBuffer = UT_TEST_BUFFER_SIZE_10MSG;
 
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_FRESH_OK;
 }
@@ -219,12 +336,8 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
                                               CFE_SB_MsgPtr_t Msg)
 {
-printf("!!!SEDLIB_ReadMsgHook_NoData: SEDLIB_ReadMsg_Cnt(%d)\n", SEDLIB_ReadMsg_Cnt);
+printf("!!!SEDLIB_ReadMsgHook_NoData: SEDLIB_ReadMsg_Cnt(%ld)\n", SEDLIB_ReadMsg_Cnt);
     SEDLIB_ReadMsg_Cnt --;
-    if (SEDLIB_ReadMsg_Cnt <= 0)
-    {
-        RCIN_AppCustomData.ContinueFlag = FALSE;
-    }
 
     return SEDLIB_MSG_STALE_OK;
 }
