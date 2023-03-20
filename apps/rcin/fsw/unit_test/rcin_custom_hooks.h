@@ -48,35 +48,44 @@ extern "C" {
 extern uint32  SEDLIB_ReadMsg_Cnt;
 
 
+#define UT_TEST_BUF_SIZE_12BYTES        12
+#define UT_TEST_BUF_SIZE_1FRAME         25
+#define UT_TEST_BUF_SIZE_2FRAME         UT_TEST_BUF_SIZE_1FRAME * 2
+#define UT_TEST_BUF_SIZE_10FRAME        UT_TEST_BUF_SIZE_1FRAME * 10
+#define UT_TEST_BUF_SIZE_30FRAME        UT_TEST_BUF_SIZE_1FRAME * 30
+
+
 int32  RCIN_Util_Stream_Emulator(void);
 
 SEDLIB_ReturnCode_t SEDLIB_GetPipeHook(char *PipeName, uint32 Size,
                                        uint32 *PipeHandle);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Msg_Nominal(uint32 PipeHandle,
-                                                    CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_Nominal(uint32 PipeHandle,
-                                                    CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_RcLost(uint32 PipeHandle,
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_1Frame_Nominal(uint32 PipeHandle,
+                                                   CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Frame_Nominal(uint32 PipeHandle,
+                                                   CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Frame_RcLost(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoFooter(uint32 PipeHandle,
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Frame_1NoFooter(uint32 PipeHandle,
+                                                     CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Frame_1NoHdr(uint32 PipeHandle,
                                                   CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_2Msg_1NoHdr(uint32 PipeHandle,
-                                                 CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter(
-                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_10Frame_1NoHdr1NoFooter(
+                               uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25NoHdr(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_10Bytes(
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_12Bytes(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25Bytes(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
                                               CFE_SB_MsgPtr_t Msg);
 
-uint32  GetChecksum_1Msg_Nominal(void);
-uint32  GetChecksum_2Msg_Nominal(void);
-uint32  GetChecksum_2Msg_RcLost(void);
+uint32  GetChecksum_1Frame_Nominal(void);
+uint32  GetChecksum_2Frame_Nominal(void);
+uint32  GetChecksum_2Frame_RcLost(void);
 
 CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
 void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
