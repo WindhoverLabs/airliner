@@ -817,9 +817,9 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
  * Tests for RCIN ReadDevice()
  **************************************************************************/
 /**
- * Test RCIN ReadDevice(), 1Msg_Nominal
+ * Test RCIN ReadDevice(), 1Frame_Nominal
  */
-void Test_RCIN_ReadDevice_1Msg_Nominal(void)
+void Test_RCIN_ReadDevice_1Frame_Nominal(void)
 {
     int     i;
     uint32  total_error_count;
@@ -836,7 +836,7 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
     /* To make the custom parser find the footer */
     SEDLIB_ReadMsg_Cnt = 2;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_1Msg_Nominal);
+                              (void*)&SEDLIB_ReadMsgHook_1Frame_Nominal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -874,22 +874,22 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
 
-    checksum = GetChecksum_1Msg_Nominal();
+    checksum = GetChecksum_1Frame_Nominal();
 
     sprintf(expEvent, "%s", "RCIN is publishing fresh data");
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 1Msg_Nominal: Sent PX4_INPUT_RC_MID");
+                  "ReadDevice, 1Frame_Nominal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(total_error_count == 0,
-                  "ReadDevice, 1Msg_Nominal: total_error_count");
+                  "ReadDevice, 1Frame_Nominal: total_error_count");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "ReadDevice, 1Msg_Nominal: StrikeCount");
+                  "ReadDevice, 1Frame_Nominal: StrikeCount");
 
     UtAssert_True(InputRcMsgHook_CalledCnt == 1,
-                  "ReadDevice, 1Msg_Nominal: InputRcMsgHook_CalledCnt");
+                  "ReadDevice, 1Frame_Nominal: InputRcMsgHook_CalledCnt");
 
     UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
@@ -899,17 +899,17 @@ void Test_RCIN_ReadDevice_1Msg_Nominal(void)
                   (HookInRcMsg.RcFailsafe == TRUE) &&
                   (HookInRcMsg.RcLost == FALSE) &&
                   (hookmsg_checksum == checksum),
-                  "ReadDevice, 1Msg_Nominal: InputRc Data");
+                  "ReadDevice, 1Frame_Nominal: InputRc Data");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-                       expEvent, "ReadDevice, 1Msg_Nominal: Event Sent");
+                       expEvent, "ReadDevice, 1Frame_Nominal: Event Sent");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 2Msg_Nominal
+ * Test RCIN ReadDevice(), 2Frame_Nominal
  */
-void Test_RCIN_ReadDevice_2Msg_Nominal(void)
+void Test_RCIN_ReadDevice_2Frame_Nominal(void)
 {
     int     i;
     uint32  total_error_count;
@@ -925,7 +925,7 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_2Msg_Nominal);
+                              (void*)&SEDLIB_ReadMsgHook_2Frame_Nominal);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -962,22 +962,22 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
 
-    checksum = GetChecksum_2Msg_Nominal();
+    checksum = GetChecksum_2Frame_Nominal();
 
     sprintf(expEvent, "%s", "RCIN is publishing fresh data");
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 2Msg_Nominal: Sent PX4_INPUT_RC_MID");
+                  "ReadDevice, 2Frame_Nominal: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(total_error_count == 0,
-                  "ReadDevice, 2Msg_Nominal: total_error_count");
+                  "ReadDevice, 2Frame_Nominal: total_error_count");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-                  "ReadDevice, 2Msg_Nominal: StrikeCount");
+                  "ReadDevice, 2Frame_Nominal: StrikeCount");
 
     UtAssert_True(InputRcMsgHook_CalledCnt == 1,
-                  "ReadDevice, 2Msg_Nominal: InputRcMsgHook_CalledCnt");
+                  "ReadDevice, 2Frame_Nominal: InputRcMsgHook_CalledCnt");
 
     UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
@@ -987,17 +987,17 @@ void Test_RCIN_ReadDevice_2Msg_Nominal(void)
                   (HookInRcMsg.RcFailsafe == FALSE) &&
                   (HookInRcMsg.RcLost == FALSE) &&
                   (hookmsg_checksum == checksum),
-                  "ReadDevice, 2Msg_Nominal: InputRc Data");
+                  "ReadDevice, 2Frame_Nominal: InputRc Data");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-                       expEvent, "ReadDevice, 2Msg_Nominal: Event Sent");
+                       expEvent, "ReadDevice, 2Frame_Nominal: Event Sent");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 2Msg_RcLost
+ * Test RCIN ReadDevice(), 2Frame_RcLost
  */
-void Test_RCIN_ReadDevice_2Msg_RcLost(void)
+void Test_RCIN_ReadDevice_2Frame_RcLost(void)
 {
     int     i;
     uint32  total_error_count;
@@ -1012,7 +1012,7 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_2Msg_RcLost);
+                              (void*)&SEDLIB_ReadMsgHook_2Frame_RcLost);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -1049,37 +1049,38 @@ void Test_RCIN_ReadDevice_2Msg_RcLost(void)
         hookmsg_checksum += HookInRcMsg.Values[i];
     }
 
-    checksum = GetChecksum_2Msg_RcLost();
+    checksum = GetChecksum_2Frame_RcLost();
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 2Msg_RcLost: Sent PX4_INPUT_RC_MID");
+                  "ReadDevice, 2Frame_RcLost: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(total_error_count == 1,
-                  "ReadDevice, 2Msg_RcLost: total_error_count");
+                  "ReadDevice, 2Frame_RcLost: total_error_count");
 
     UtAssert_True(oRCIN.StrikeCount == 1,
-                  "ReadDevice, 2Msg_RcLost: StrikeCount");
+                  "ReadDevice, 2Frame_RcLost: StrikeCount");
 
     UtAssert_True(InputRcMsgHook_CalledCnt == 1,
-                  "ReadDevice, 2Msg_RcLost: InputRcMsgHook_CalledCnt");
+                  "ReadDevice, 2Frame_RcLost: InputRcMsgHook_CalledCnt");
 
     UtAssert_True((HookInRcMsg.ChannelCount == TEST_RCIN_BUS_CHANNEL_CNT) &&
                   (HookInRcMsg.RSSI == 100) &&
+                  /* Should be 1?(Need clarification) */
                   (HookInRcMsg.RcLostFrameCount == 0) &&
                   (HookInRcMsg.RcTotalFrameCount == 1) &&
                   (HookInRcMsg.RcPpmFrameLength == 100) &&
                   (HookInRcMsg.RcFailsafe == TRUE) &&
                   (HookInRcMsg.RcLost == TRUE) &&
                   (hookmsg_checksum == checksum),
-                  "ReadDevice, 2Msg_RcLost: InputRc Data");
+                  "ReadDevice, 2Frame_RcLost: InputRc Data");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 2Msg_1NoFooter
+ * Test RCIN ReadDevice(), 2Frame_1NoFooter
  */
-void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
+void Test_RCIN_ReadDevice_2Frame_1NoFooter(void)
 {
     uint32  total_error_count;
 
@@ -1091,7 +1092,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                  (void*)&SEDLIB_ReadMsgHook_2Msg_1NoFooter);
+                              (void*)&SEDLIB_ReadMsgHook_2Frame_1NoFooter);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -1124,27 +1125,27 @@ void Test_RCIN_ReadDevice_2Msg_1NoFooter(void)
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 2Msg_1NoFooter: Sent PX4_INPUT_RC_MID");
+                  "ReadDevice, 2Frame_1NoFooter: Sent PX4_INPUT_RC_MID");
 
     UtAssert_True(total_error_count == 1,
-                  "ReadDevice, 2Msg_1NoFooter: total_error_count");
+                  "ReadDevice, 2Frame_1NoFooter: total_error_count");
 
     UtAssert_True(oRCIN.StrikeCount == 1,
-                  "ReadDevice, 2Msg_1NoFooter: StrikeCount");
+                  "ReadDevice, 2Frame_1NoFooter: StrikeCount");
 
     UtAssert_True(InputRcMsgHook_CalledCnt == 1,
-                  "ReadDevice, 2Msg_1NoFooter: InputRcMsgHook_CalledCnt");
+                  "ReadDevice, 2Frame_1NoFooter: InputRcMsgHook_CalledCnt");
 
     UtAssert_True((HookInRcMsg.RcFailsafe == TRUE) &&
                   (HookInRcMsg.RcLost == TRUE),
-             "ReadDevice, 2Msg_1NoFooter: InputRc RcFailsafe/RcLost Data");
+             "ReadDevice, 2Frame_1NoFooter: InputRc RcFailsafe/RcLost Data");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 2Msg_1NoHdr
+ * Test RCIN ReadDevice(), 2Frame_1NoHdr
  */
-void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
+void Test_RCIN_ReadDevice_2Frame_1NoHdr(void)
 {
     uint32  total_error_count;
 
@@ -1156,7 +1157,7 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                                   (void*)&SEDLIB_ReadMsgHook_2Msg_1NoHdr);
+                              (void*)&SEDLIB_ReadMsgHook_2Frame_1NoHdr);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -1189,30 +1190,30 @@ void Test_RCIN_ReadDevice_2Msg_1NoHdr(void)
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-                  "ReadDevice, 2Msg_1NoHdr: Sent PX4_INPUT_RC_MID");
+                  "ReadDevice, 2Frame_1NoHdr: Sent PX4_INPUT_RC_MID");
 
     /* This depends on the previous streaming status */
     UtAssert_True(total_error_count == 1,
-                  "ReadDevice, 2Msg_1NoHdr: total_error_count");
+                  "ReadDevice, 2Frame_1NoHdr: total_error_count");
 
     /* This depends on the previous streaming status */
     UtAssert_True(oRCIN.StrikeCount == 1,
-                  "ReadDevice, 2Msg_1NoHdr: StrikeCount");
+                  "ReadDevice, 2Frame_1NoHdr: StrikeCount");
 
     UtAssert_True(InputRcMsgHook_CalledCnt == 1,
-                  "ReadDevice, 2Msg_1NoHdr: InputRcMsgHook_CalledCnt");
+                  "ReadDevice, 2Frame_1NoHdr: InputRcMsgHook_CalledCnt");
 
     /* This depends on the previous streaming status */
     UtAssert_True((HookInRcMsg.RcFailsafe == TRUE) &&
-                  (HookInRcMsg.RcLost == TRUE),
-                  "ReadDevice, 2Msg_1NoHdr: InputRc RcFailsafe/RcLost Data");
+             (HookInRcMsg.RcLost == TRUE),
+             "ReadDevice, 2Frame_1NoHdr: InputRc RcFailsafe/RcLost Data");
 }
 
 
 /**
- * Test RCIN ReadDevice(), 10Msg_1NoHdr1NoFooter
+ * Test RCIN ReadDevice(), 10Frame_1NoHdr1NoFooter
  */
-void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
+void Test_RCIN_ReadDevice_10Frame_1NoHdr1NoFooter(void)
 {
     uint32  total_error_count;
     char    expEventSync[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -1227,7 +1228,7 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                         (void*)&SEDLIB_ReadMsgHook_10Msg_1NoHdr1NoFooter);
+                      (void*)&SEDLIB_ReadMsgHook_10Frame_1NoHdr1NoFooter);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -1265,25 +1266,30 @@ void Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter(void)
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-               "ReadDevice, 10Msg_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
+               "ReadDevice, 10Frame_1NoHdr1NoFooter: Sent PX4_INPUT_RC_MID");
 
+    /* Current Stream Task can detect only the last frame error status
+       in this case */
     UtAssert_True(total_error_count == 0,
-               "ReadDevice, 10Msg_1NoHdr1NoFooter: total_error_count");
+               "ReadDevice, 10Frame_1NoHdr1NoFooter: total_error_count");
 
     UtAssert_True(oRCIN.StrikeCount == 0,
-               "ReadDevice, 10Msg_1NoHdr1NoFooter: StrikeCount");
+               "ReadDevice, 10Frame_1NoHdr1NoFooter: StrikeCount");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == 1,
+            "ReadDevice, 10Frame_1NoHdr1NoFooter: InputRcMsgHook_CalledCnt");
 
     UtAssert_EventSent(TEST_RCIN_IN_SYNC_INF_EID, CFE_EVS_INFORMATION,
                   expEventSync,
-                  "ReadDevice, 10Msg_1NoHdr1NoFooter: In Sync Event Sent");
+                  "ReadDevice, 10Frame_1NoHdr1NoFooter: In Sync Event Sent");
 
     UtAssert_EventSent(TEST_RCIN_OUT_SYNC_ERR_EID, CFE_EVS_ERROR,
-                  expEventOutSync,
-                  "ReadDevice, 10Msg_1NoHdr1NoFooter: Out Sync Event Sent");
+                 expEventOutSync,
+                 "ReadDevice, 10Frame_1NoHdr1NoFooter: Out Sync Event Sent");
 
     UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
-          expEventPublish,
-          "ReadDevice, 10Msg_1NoHdr1NoFooter: Fresh Publishing Event Sent");
+         expEventPublish,
+         "ReadDevice, 10Frame_1NoHdr1NoFooter: Fresh Publishing Event Sent");
 }
 
 
@@ -1328,7 +1334,7 @@ void Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    emulator_count = 30;
+    emulator_count = UT_TEST_BUF_SIZE_30FRAME / UT_TEST_BUF_SIZE_1FRAME;
     total_error_count = 0;
     for (i = 0; i < emulator_count; i++)
     {
@@ -1414,7 +1420,7 @@ void Test_RCIN_ReadDevice_Multiple_25NoHdr(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    emulator_count = 30;
+    emulator_count = UT_TEST_BUF_SIZE_30FRAME / UT_TEST_BUF_SIZE_1FRAME;
     total_error_count = 0;
     for (i = 0; i < emulator_count; i++)
     {
@@ -1430,6 +1436,7 @@ void Test_RCIN_ReadDevice_Multiple_25NoHdr(void)
 
     RCIN_CleanupCallback();
 
+    /* Should know the threshold of total_error_count in case of NoHdr */
     printf("Test_RCIN_ReadDevice_Multiple_25NoHdr: total_error_count(%lu)\n",
             total_error_count);
 
@@ -1449,13 +1456,16 @@ void Test_RCIN_ReadDevice_Multiple_25NoHdr(void)
 
 
 /**
- * Test RCIN ReadDevice(), Multiple_10Bytes
+ * Test RCIN ReadDevice(), Multiple_25Bytes
  */
-void Test_RCIN_ReadDevice_Multiple_10Bytes(void)
+void Test_RCIN_ReadDevice_Multiple_25Bytes(void)
 {
     int     i;
     uint32  emulator_count;
     uint32  total_error_count;
+    char    expEventSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventPublish[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
                                  SEDLIB_OK, 1);
@@ -1465,7 +1475,7 @@ void Test_RCIN_ReadDevice_Multiple_10Bytes(void)
 
     SEDLIB_ReadMsg_Cnt = 1;
     Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
-                      (void*)&SEDLIB_ReadMsgHook_Multiple_10Bytes);
+                              (void*)&SEDLIB_ReadMsgHook_Multiple_25Bytes);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
@@ -1486,7 +1496,7 @@ void Test_RCIN_ReadDevice_Multiple_10Bytes(void)
     /* Execute the function being tested */
     oRCIN.InitApp();
 
-    emulator_count = 30;
+    emulator_count = UT_TEST_BUF_SIZE_30FRAME / UT_TEST_BUF_SIZE_1FRAME;
     total_error_count = 0;
     for (i = 0; i < emulator_count; i++)
     {
@@ -1502,9 +1512,121 @@ void Test_RCIN_ReadDevice_Multiple_10Bytes(void)
 
     RCIN_CleanupCallback();
 
+printf("!!!Multiple_25Bytes: total_error_count(%lu)\n", total_error_count);
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
-             "ReadDevice, Multiple_10Bytes: Sent PX4_INPUT_RC_MID");
+             "ReadDevice, Multiple_25Bytes: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_True(total_error_count == 13,
+                  "ReadDevice, Multiple_25Bytes: total_error_count");
+
+    UtAssert_True(oRCIN.StrikeCount == 0,
+                  "ReadDevice, Multiple_25Bytes: StrikeCount");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
+                  "ReadDevice, Multiple_25Bytes: InputRcMsgHook_CalledCnt");
+
+}
+
+
+/**
+ * Test RCIN ReadDevice(), Multiple_12Bytes
+ */
+void Test_RCIN_ReadDevice_Multiple_12Bytes(void)
+{
+    int     i;
+    uint32  emulator_count;
+    uint32  total_error_count;
+    char    expEventSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventOutSync[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventPublish[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_TASKDELAY_INDEX,
+                             (void *)&OS_TaskDelayHook);
+
+    SEDLIB_ReadMsg_Cnt = 1;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                              (void*)&SEDLIB_ReadMsgHook_Multiple_12Bytes);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    InputRcMsgHook_CalledCnt = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_RCIN_InputRcMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    emulator_count = UT_TEST_BUF_SIZE_30FRAME % UT_TEST_BUF_SIZE_12BYTES;
+    if (emulator_count > 0)
+    {
+         emulator_count = (UT_TEST_BUF_SIZE_30FRAME
+                            / UT_TEST_BUF_SIZE_12BYTES) + 1;
+    }
+    else
+    {
+        emulator_count = UT_TEST_BUF_SIZE_30FRAME / UT_TEST_BUF_SIZE_12BYTES;
+    }
+
+    total_error_count = 0;
+    for (i = 0; i < emulator_count; i++)
+    {
+        SEDLIB_ReadMsg_Cnt = 1;
+        if (RCIN_Util_Stream_Emulator() == RCIN_ERROR)
+        {
+            total_error_count ++;
+        }
+
+        oRCIN.ReadDevice();
+        oRCIN.SendInputRcMsg();
+    }
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEventSync, "%s", "RCIN in sync.");
+    sprintf(expEventOutSync, "%s", "RCIN out of sync.");
+    sprintf(expEventPublish, "%s", "RCIN is publishing fresh data");
+
+printf("!!!Multiple_12Bytes: total_error_count(%lu)\n", total_error_count);
+    /* Verify results */
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+             "ReadDevice, Multiple_12Bytes: Sent PX4_INPUT_RC_MID");
+
+    /* if received a complete frame(25 bytes) every time: 13 */
+    UtAssert_True(total_error_count == 30,
+                  "ReadDevice, Multiple_12Bytes: total_error_count");
+
+    /* Variable depending on the previous frame: 0 in this case */
+    UtAssert_True(oRCIN.StrikeCount == 0,
+                  "ReadDevice, Multiple_12Bytes: StrikeCount");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
+                  "ReadDevice, Multiple_12Bytes: InputRcMsgHook_CalledCnt");
+
+    UtAssert_EventSent(TEST_RCIN_IN_SYNC_INF_EID, CFE_EVS_INFORMATION,
+                       expEventSync,
+                       "ReadDevice, Multiple_12Bytes: In Sync Event Sent");
+
+    UtAssert_EventSent(TEST_RCIN_OUT_SYNC_ERR_EID, CFE_EVS_ERROR,
+                       expEventOutSync,
+                       "ReadDevice, Multiple_12Bytes: Out Sync Event Sent");
+
+    UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
+               expEventPublish,
+               "ReadDevice, Multiple_12Bytes: Fresh Publishing Event Sent");
 }
 
 
@@ -1514,7 +1636,8 @@ void Test_RCIN_ReadDevice_Multiple_10Bytes(void)
 void Test_RCIN_ReadDevice_NoData(void)
 {
     int   i;
-    int   emulator_count;
+    uint32   emulator_count;
+    uint32   total_error_count;
     char  expEventLost[CFE_EVS_MAX_MESSAGE_LENGTH];
     char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
@@ -1547,10 +1670,14 @@ void Test_RCIN_ReadDevice_NoData(void)
     oRCIN.InitApp();
 
     emulator_count = TEST_RCIN_MAX_ERROR_CNT + 1;
+    total_error_count = 0;
     for (i = 0; i < emulator_count; i++)
     {
         SEDLIB_ReadMsg_Cnt = 1;
-        RCIN_Util_Stream_Emulator();
+        if (RCIN_Util_Stream_Emulator() == RCIN_ERROR)
+        {
+            total_error_count ++;
+        }
 
         oRCIN.ReadDevice();
         oRCIN.SendInputRcMsg();
@@ -1567,12 +1694,14 @@ void Test_RCIN_ReadDevice_NoData(void)
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "ReadDevice, NoData: Sent PX4_INPUT_RC_MID");
 
+    UtAssert_True(total_error_count == emulator_count,
+                  "ReadDevice, NoData: total_error_count");
+
     UtAssert_True(oRCIN.StrikeCount == emulator_count,
                   "ReadDevice, NoData: StrikeCount");
 
-    UtAssert_True((HookInRcMsg.RcFailsafe == TRUE) &&
-                  (HookInRcMsg.RcLost == TRUE),
-                  "ReadDevice, NoData: InputRc RcFailsafe/RcLost Data");
+    UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
+                  "ReadDevice, NoData: InputRcMsgHook_CalledCnt");
 
     UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventLost,
                    "ReadDevice, NoData: RcFailsafe/RcLost flag Event Sent");
@@ -1660,33 +1789,36 @@ void RCIN_App_Test_AddTestCases(void)
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_AppMain_Nominal_Wakeup");
 
-    UtTest_Add(Test_RCIN_ReadDevice_1Msg_Nominal,
+    UtTest_Add(Test_RCIN_ReadDevice_1Frame_Nominal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_1Msg_Nominal");
-    UtTest_Add(Test_RCIN_ReadDevice_2Msg_Nominal,
+               "Test_RCIN_ReadDevice_1Frame_Nominal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Frame_Nominal,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_2Msg_Nominal");
-    UtTest_Add(Test_RCIN_ReadDevice_2Msg_RcLost,
+               "Test_RCIN_ReadDevice_2Frame_Nominal");
+    UtTest_Add(Test_RCIN_ReadDevice_2Frame_RcLost,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_2Msg_RcLost");
-    UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoFooter,
+               "Test_RCIN_ReadDevice_2Frame_RcLost");
+    UtTest_Add(Test_RCIN_ReadDevice_2Frame_1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_2Msg_1NoFooter");
-    UtTest_Add(Test_RCIN_ReadDevice_2Msg_1NoHdr,
+               "Test_RCIN_ReadDevice_2Frame_1NoFooter");
+    UtTest_Add(Test_RCIN_ReadDevice_2Frame_1NoHdr,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_2Msg_1NoHdr");
-    UtTest_Add(Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter,
+               "Test_RCIN_ReadDevice_2Frame_1NoHdr");
+    UtTest_Add(Test_RCIN_ReadDevice_10Frame_1NoHdr1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_10Msg_1NoHdr1NoFooter");
+               "Test_RCIN_ReadDevice_10Frame_1NoHdr1NoFooter");
     UtTest_Add(Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_Multiple_1NoHdr1NoFooter");
     UtTest_Add(Test_RCIN_ReadDevice_Multiple_25NoHdr,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_Multiple_25NoHdr");
-    UtTest_Add(Test_RCIN_ReadDevice_Multiple_10Bytes,
+    UtTest_Add(Test_RCIN_ReadDevice_Multiple_25Bytes,
                RCIN_Test_Setup, RCIN_Test_TearDown,
-               "Test_RCIN_ReadDevice_Multiple_10Bytes");
+               "Test_RCIN_ReadDevice_Multiple_25Bytes");
+    UtTest_Add(Test_RCIN_ReadDevice_Multiple_12Bytes,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_Multiple_12Bytes");
     UtTest_Add(Test_RCIN_ReadDevice_NoData,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_NoData");
