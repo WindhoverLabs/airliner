@@ -265,12 +265,13 @@ int32 RCIN_Util_Stream_Emulator(void)
         OS_TaskDelay(7);
 
         rc = SEDLIB_ReadMsg(RCIN_AppCustomData.MsgPortHandle,
-                            (CFE_SB_MsgPtr_t)&RCIN_AppCustomData.UartStatusTlm);
+                    (CFE_SB_MsgPtr_t)&RCIN_AppCustomData.UartStatusTlm);
         if(SEDLIB_MSG_FRESH_OK == rc)
         {
             /* Fresh data. */
-            RCIN_Custom_Parse((uint8 *)RCIN_AppCustomData.UartStatusTlm.RxBuffer,
-                              RCIN_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer);
+            RCIN_Custom_Parse(
+                        (uint8 *)RCIN_AppCustomData.UartStatusTlm.RxBuffer,
+                        RCIN_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer);
         }
         else if(SEDLIB_MSG_STALE_OK == rc)
         {
@@ -281,6 +282,9 @@ int32 RCIN_Util_Stream_Emulator(void)
         else
         {
             /* An error occurred. We can't read from the incoming port. */
+            (void) CFE_EVS_SendEvent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR,
+                               "Failed to read UART MsgPort. (0x%08lX)",
+                               (long unsigned int)rc);
             RCIN_Custom_RC_Lost(TRUE);
             continue;
         }
@@ -410,7 +414,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
     static int        index1 = 0;
     UART_StatusTlm_t  *pMsg;
 
-printf("!!!SEDLIB_ReadMsgHook_Multiple: index1(%d), SEDLIB_ReadMsg_Cnt(%ld)\n", index1, SEDLIB_ReadMsg_Cnt);
     pMsg = (UART_StatusTlm_t *)Msg;
     memcpy((void *)pMsg->RxBuffer,
            &Ut_RxBuffer_Multiple_1NoHdr1NoFooter[index1],
@@ -434,7 +437,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25NoHdr(
     static int        index25 = 0;
     UART_StatusTlm_t  *pMsg;
 
-printf("!!!SEDLIB_ReadMsgHook_Multiple_25NoHdr: index25(%d), SEDLIB_ReadMsg_Cnt(%ld)\n", index25, SEDLIB_ReadMsg_Cnt);
     pMsg = (UART_StatusTlm_t *)Msg;
     memcpy((void *)pMsg->RxBuffer, &Ut_RxBuffer_Multiple_25NoHdr[index25],
            UT_TEST_BUF_SIZE_1FRAME);
@@ -457,7 +459,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25Bytes(
     static int        index = 0;
     UART_StatusTlm_t  *pMsg;
 
-printf("!!!SEDLIB_ReadMsgHook_Multiple_25Bytes: index(%d), SEDLIB_ReadMsg_Cnt(%ld)\n", index, SEDLIB_ReadMsg_Cnt);
     pMsg = (UART_StatusTlm_t *)Msg;
     memcpy((void *)pMsg->RxBuffer, &Ut_RxBuffer_Multiple_25Bytes[index],
            UT_TEST_BUF_SIZE_1FRAME);
@@ -481,7 +482,6 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_12Bytes(
     int               length;
     UART_StatusTlm_t  *pMsg;
 
-printf("!!!SEDLIB_ReadMsgHook_Multiple_12Bytes: index12(%d), SEDLIB_ReadMsg_Cnt(%ld)\n", index12, SEDLIB_ReadMsg_Cnt);
     if ((UT_TEST_BUF_SIZE_30FRAME - index12) < UT_TEST_BUF_SIZE_12BYTES)
     {
         length = UT_TEST_BUF_SIZE_30FRAME - index12;
@@ -500,11 +500,20 @@ printf("!!!SEDLIB_ReadMsgHook_Multiple_12Bytes: index12(%d), SEDLIB_ReadMsg_Cnt(
     {
         index12 = 0;
     }
-for (int i = 0; i < length; i++)
-{
-    printf("%u ", pMsg->RxBuffer[i]);
+
+    SEDLIB_ReadMsg_Cnt --;
+
+    return SEDLIB_MSG_FRESH_OK;
 }
-printf("\n");
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_0Byte(uint32 PipeHandle,
+                                             CFE_SB_MsgPtr_t Msg)
+{
+    UART_StatusTlm_t  *pMsg;
+
+    pMsg = (UART_StatusTlm_t *)Msg;
+    pMsg->Hdr.BytesInBuffer = 0;
 
     SEDLIB_ReadMsg_Cnt --;
 
@@ -515,10 +524,18 @@ printf("\n");
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
                                               CFE_SB_MsgPtr_t Msg)
 {
-printf("!!!SEDLIB_ReadMsgHook_NoData: SEDLIB_ReadMsg_Cnt(%ld)\n", SEDLIB_ReadMsg_Cnt);
     SEDLIB_ReadMsg_Cnt --;
 
     return SEDLIB_MSG_STALE_OK;
+}
+
+
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_ReadErr(uint32 PipeHandle,
+                                               CFE_SB_MsgPtr_t Msg)
+{
+    SEDLIB_ReadMsg_Cnt --;
+
+    return SEDLIB_PLATFORM_SPECIFIC_FAILURE_ERR;
 }
 
 
@@ -682,5 +699,4 @@ int32 OS_TaskDelayHook(uint32 millisecond)
         elapsed_time = ((end_time.tv_sec * 1000) + (end_time.tv_nsec / 1000000))
                - ((start_time.tv_sec * 1000) + (start_time.tv_nsec / 1000000));
     } while(elapsed_time < millisecond);
-printf("!!!OS_TaskDelayHook: elapsed_time(%" PRId64")\n", elapsed_time);
 }
