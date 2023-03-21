@@ -76,12 +76,16 @@ SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_1NoHdr1NoFooter(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25NoHdr(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
-SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_12Bytes(
-                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_25Bytes(
                             uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_Multiple_12Bytes(
+                            uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_0Byte(uint32 PipeHandle,
+                                             CFE_SB_MsgPtr_t Msg);
 SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_NoData(uint32 PipeHandle,
                                               CFE_SB_MsgPtr_t Msg);
+SEDLIB_ReturnCode_t SEDLIB_ReadMsgHook_ReadErr(uint32 PipeHandle,
+                                               CFE_SB_MsgPtr_t Msg);
 
 uint32  GetChecksum_1Frame_Nominal(void);
 uint32  GetChecksum_2Frame_Nominal(void);

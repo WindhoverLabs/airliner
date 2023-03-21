@@ -677,6 +677,18 @@ void Test_RCIN_AppMain_Nominal_SendHK(void)
 {
     RCIN  oRCINut;
 
+    int32            CmdPipe;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char  expEventCmd[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(RCIN_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)RCIN_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
     /* The following will emulate the behavior of receiving a SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
@@ -698,9 +710,21 @@ void Test_RCIN_AppMain_Nominal_SendHK(void)
     /* Execute the function being tested */
     oRCINut.AppMain();
 
+    sprintf(expEventCmd, "Recvd NOOP. Version %d.%d.%d.%d",
+            RCIN_MAJOR_VERSION, RCIN_MINOR_VERSION,
+            RCIN_REVISION, RCIN_MISSION_REV);
+
     /* Verify results */
     UtAssert_True(SendHK_SendMsgHook_MsgId == RCIN_HK_TLM_MID,
                   "AppMain, Nominal_SendHK: Sent RCIN_HK_TLM_MID");
+
+    UtAssert_True((HkHookMsg.usCmdCnt == 1) &&
+                  (HkHookMsg.usCmdErrCnt == 0) &&
+                  (HkHookMsg.State == RCIN_INITIALIZED),
+                  "AppMain, Nominal_SendHK: Housekeeping Data");
+
+    UtAssert_EventSent(RCIN_CMD_NOOP_EID, CFE_EVS_INFORMATION, expEventCmd,
+                       "AppMain, Nominal_SendHK: Noop Event Sent");
 }
 
 
@@ -781,6 +805,8 @@ int32 Test_RCIN_InputRcMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_RCIN_AppMain_Nominal_Wakeup(void)
 {
+    RCIN  oRCINut;
+
     /* The following will emulate the behavior of receiving a SCH message
        to WAKEUP */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -805,11 +831,17 @@ void Test_RCIN_AppMain_Nominal_Wakeup(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
                   "AppMain, Nominal - Wakeup: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == 1,
+                  "AppMain, Nominal - Wakeup: InputRcMsgHook_CalledCnt");
+
+    UtAssert_True(oRCINut.StrikeCount == 1,
+                  "AppMain, Nominal - Wakeup: StrikeCount");
 }
 
 
@@ -1512,7 +1544,10 @@ void Test_RCIN_ReadDevice_Multiple_25Bytes(void)
 
     RCIN_CleanupCallback();
 
-printf("!!!Multiple_25Bytes: total_error_count(%lu)\n", total_error_count);
+    sprintf(expEventSync, "%s", "RCIN in sync.");
+    sprintf(expEventOutSync, "%s", "RCIN out of sync.");
+    sprintf(expEventPublish, "%s", "RCIN is publishing fresh data");
+
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
              "ReadDevice, Multiple_25Bytes: Sent PX4_INPUT_RC_MID");
@@ -1526,6 +1561,17 @@ printf("!!!Multiple_25Bytes: total_error_count(%lu)\n", total_error_count);
     UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
                   "ReadDevice, Multiple_25Bytes: InputRcMsgHook_CalledCnt");
 
+    UtAssert_EventSent(TEST_RCIN_IN_SYNC_INF_EID, CFE_EVS_INFORMATION,
+                       expEventSync,
+                       "ReadDevice, Multiple_25Bytes: In Sync Event Sent");
+
+    UtAssert_EventSent(TEST_RCIN_OUT_SYNC_ERR_EID, CFE_EVS_ERROR,
+                       expEventOutSync,
+                       "ReadDevice, Multiple_25Bytes: Out Sync Event Sent");
+
+    UtAssert_EventSent(RCIN_PUBLISHING_INF_EID, CFE_EVS_INFORMATION,
+             expEventPublish,
+             "ReadDevice, Multiple_25Bytes: Fresh Publishing Event Sent");
 }
 
 
@@ -1600,7 +1646,6 @@ void Test_RCIN_ReadDevice_Multiple_12Bytes(void)
     sprintf(expEventOutSync, "%s", "RCIN out of sync.");
     sprintf(expEventPublish, "%s", "RCIN is publishing fresh data");
 
-printf("!!!Multiple_12Bytes: total_error_count(%lu)\n", total_error_count);
     /* Verify results */
     UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
              "ReadDevice, Multiple_12Bytes: Sent PX4_INPUT_RC_MID");
@@ -1631,15 +1676,111 @@ printf("!!!Multiple_12Bytes: total_error_count(%lu)\n", total_error_count);
 
 
 /**
+ * Test RCIN ReadDevice(), 0Byte
+ */
+void Test_RCIN_ReadDevice_0Byte(void)
+{
+    int     i;
+    uint32  emulator_count;
+    uint32  total_error_count;
+    char    expEventPErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventPublish[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char    expEventRcLost[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_TASKDELAY_INDEX,
+                             (void *)&OS_TaskDelayHook);
+
+    SEDLIB_ReadMsg_Cnt = 1;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_0Byte);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    InputRcMsgHook_CalledCnt = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_RCIN_InputRcMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    emulator_count = TEST_RCIN_MAX_ERROR_CNT + 1;
+    total_error_count = 0;
+    for (i = 0; i < emulator_count; i++)
+    {
+        SEDLIB_ReadMsg_Cnt = 1;
+        if (RCIN_Util_Stream_Emulator() == RCIN_ERROR)
+        {
+            total_error_count ++;
+        }
+
+        oRCIN.ReadDevice();
+        oRCIN.SendInputRcMsg();
+    }
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEventPErr, "%s", "RCIN_Custom_Parse zero bytes read error");
+    sprintf(expEventPublish, "%s", "RCIN is NOT publishing fresh data");
+    sprintf(expEventRcLost, "%s",
+            "RCIN RC LOST, setting failsafe and lost flags");
+
+    /* Verify results */
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+             "ReadDevice, 0Byte: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_True(total_error_count == emulator_count,
+                  "ReadDevice, 0Byte: total_error_count");
+
+    if (emulator_count < UCHAR_MAX)
+    {
+        UtAssert_True(oRCIN.StrikeCount == emulator_count,
+                      "ReadDevice, 0Byte: StrikeCount");
+    }
+    else
+    {
+        UtAssert_True(oRCIN.StrikeCount ==
+                      (((emulator_count - 1) % UCHAR_MAX) + 1),
+                      "ReadDevice, 0Byte: StrikeCount");
+    }
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
+                  "ReadDevice, 0Byte: InputRcMsgHook_CalledCnt");
+
+    UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventPErr,
+                       "ReadDevice, 0Byte: Parse Error Event Sent");
+
+    UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR,
+                  expEventPublish,
+                  "ReadDevice, 0Byte: Not Publishing Fresh Data Event Sent");
+
+    UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventRcLost,
+                       "ReadDevice, 0Byte: RcLost Event Sent");
+}
+
+
+/**
  * Test RCIN ReadDevice(), NoData
  */
 void Test_RCIN_ReadDevice_NoData(void)
 {
-    int   i;
+    int      i;
     uint32   emulator_count;
     uint32   total_error_count;
-    char  expEventLost[CFE_EVS_MAX_MESSAGE_LENGTH];
-    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char     expEventLost[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char     expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
                                  SEDLIB_OK, 1);
@@ -1708,6 +1849,93 @@ void Test_RCIN_ReadDevice_NoData(void)
 
     UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR, expEvent,
                      "ReadDevice, NoData: Not publishing fresh Event Sent");
+}
+
+
+/**
+ * Test RCIN ReadDevice(), ReadErr
+ */
+void Test_RCIN_ReadDevice_ReadErr(void)
+{
+    int      i;
+    uint32   emulator_count;
+    uint32   total_error_count;
+    char     expEventRdErr[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char     expEventPublish[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char     expEventRcLost[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_RCIN_Custom_SetReturnCode(UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+                                 SEDLIB_OK, 1);
+
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_TASKDELAY_INDEX,
+                             (void *)&OS_TaskDelayHook);
+
+    SEDLIB_ReadMsg_Cnt = 1;
+    Ut_RCIN_Custom_SetFunctionHook(UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+                                   (void*)&SEDLIB_ReadMsgHook_ReadErr);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    InputRcMsgHook_CalledCnt = 0;
+    InputRcMsgHook_MsgId = 0;
+    memset(&HookInRcMsg, 0x00, sizeof(HookInRcMsg));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_RCIN_InputRcMsgHook);
+
+    /* Execute the function being tested */
+    oRCIN.InitApp();
+
+    emulator_count = TEST_RCIN_MAX_ERROR_CNT + 1;
+    total_error_count = 0;
+    for (i = 0; i < emulator_count; i++)
+    {
+        SEDLIB_ReadMsg_Cnt = 1;
+        if (RCIN_Util_Stream_Emulator() == RCIN_ERROR)
+        {
+            total_error_count ++;
+        }
+
+        oRCIN.ReadDevice();
+        oRCIN.SendInputRcMsg();
+    }
+
+    RCIN_CleanupCallback();
+
+    sprintf(expEventRdErr, "Failed to read UART MsgPort. (0x%08lX)",
+            (long unsigned int)SEDLIB_PLATFORM_SPECIFIC_FAILURE_ERR);
+    sprintf(expEventPublish, "%s", "RCIN is NOT publishing fresh data");
+    sprintf(expEventRcLost, "%s",
+            "RCIN RC LOST, setting failsafe and lost flags");
+
+    /* Verify results */
+    UtAssert_True(InputRcMsgHook_MsgId == PX4_INPUT_RC_MID,
+                  "ReadDevice, ReadErr: Sent PX4_INPUT_RC_MID");
+
+    UtAssert_True(total_error_count == emulator_count,
+                  "ReadDevice, ReadErr: total_error_count");
+
+    UtAssert_True(oRCIN.StrikeCount == emulator_count,
+                  "ReadDevice, ReadErr: StrikeCount");
+
+    UtAssert_True(InputRcMsgHook_CalledCnt == emulator_count,
+                  "ReadDevice, ReadErr: InputRcMsgHook_CalledCnt");
+
+    UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventRdErr,
+                       "ReadDevice, ReadErr: Read Error Event Sent");
+
+    UtAssert_EventSent(RCIN_NOT_PUBLISHING_ERR_EID, CFE_EVS_ERROR,
+              expEventPublish,
+              "ReadDevice, ReadErr: Not Publishing Fresh Data Event Sent");
+
+    UtAssert_EventSent(TEST_RCIN_DEV_ERR_EID, CFE_EVS_ERROR, expEventRcLost,
+                       "ReadDevice, ReadErr: Rc Lost Event Sent");
 }
 
 
@@ -1819,7 +2047,13 @@ void RCIN_App_Test_AddTestCases(void)
     UtTest_Add(Test_RCIN_ReadDevice_Multiple_12Bytes,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_Multiple_12Bytes");
+    UtTest_Add(Test_RCIN_ReadDevice_0Byte,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_0Byte");
     UtTest_Add(Test_RCIN_ReadDevice_NoData,
                RCIN_Test_Setup, RCIN_Test_TearDown,
                "Test_RCIN_ReadDevice_NoData");
+    UtTest_Add(Test_RCIN_ReadDevice_ReadErr,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ReadDevice_ReadErr");
 }

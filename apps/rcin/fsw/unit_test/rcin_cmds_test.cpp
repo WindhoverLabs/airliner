@@ -61,6 +61,8 @@
  */
 void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
 {
+    RCIN oRCINut;
+
     int32            CmdPipe;
     RCIN_NoArgCmd_t  CmdMsg;
     char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -78,13 +80,13 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "Recvd invalid CMD msgId (0x%04X)", 0);
 
     /* Verify results */
-    UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
-                  (oRCIN.HkTlm.usCmdErrCnt == 1),
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
                   "ProcessCmdPipe, InvalidCmd");
 
     UtAssert_EventSent(RCIN_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
@@ -97,6 +99,8 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
  */
 void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
 {
+    RCIN oRCINut;
+
     int32            CmdPipe;
     RCIN_NoArgCmd_t  CmdMsg;
     char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -115,13 +119,13 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "Recvd invalid command code (%u)", 100);
 
     /* Verify results */
-    UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
-                  (oRCIN.HkTlm.usCmdErrCnt == 1),
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
                   "ProcessCmdPipe, InvalidCmdCode");
 
     UtAssert_EventSent(RCIN_CC_ERR_EID, CFE_EVS_ERROR, expEvent,
@@ -134,6 +138,8 @@ void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
  */
 void Test_RCIN_ProcessCmdPipe_NoMessage(void)
 {
+    RCIN oRCINut;
+
     int32            SchPipe;
     RCIN_NoArgCmd_t  SchMsg;
 
@@ -149,7 +155,7 @@ void Test_RCIN_ProcessCmdPipe_NoMessage(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 }
 
 
@@ -158,6 +164,8 @@ void Test_RCIN_ProcessCmdPipe_NoMessage(void)
  */
 void Test_RCIN_ProcessCmdPipe_PipeError(void)
 {
+    RCIN oRCINut;
+
     int32            SchPipe;
     RCIN_NoArgCmd_t  SchMsg;
     char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -174,7 +182,7 @@ void Test_RCIN_ProcessCmdPipe_PipeError(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "CMD pipe read error (0x%08lX)",
                       (long unsigned int)CFE_SB_PIPE_RD_ERR);
@@ -190,6 +198,8 @@ void Test_RCIN_ProcessCmdPipe_PipeError(void)
  */
 void Test_RCIN_ProcessCmdPipe_Noop(void)
 {
+    RCIN oRCINut;
+
     int32            CmdPipe;
     RCIN_NoArgCmd_t  CmdMsg;
     char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -208,15 +218,15 @@ void Test_RCIN_ProcessCmdPipe_Noop(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oRCIN.AppMain();
+    oRCINut.AppMain();
 
     sprintf(expEvent, "Recvd NOOP. Version %d.%d.%d.%d",
                       RCIN_MAJOR_VERSION, RCIN_MINOR_VERSION,
                       RCIN_REVISION, RCIN_MISSION_REV);
 
     /* Verify results */
-    UtAssert_True((oRCIN.HkTlm.usCmdCnt == 1) &&
-                  (oRCIN.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 1) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, Noop");
 
     UtAssert_EventSent(RCIN_CMD_NOOP_EID, CFE_EVS_INFORMATION, expEvent,
@@ -229,6 +239,8 @@ void Test_RCIN_ProcessCmdPipe_Noop(void)
  */
 void Test_RCIN_ProcessCmdPipe_Reset(void)
 {
+    RCIN oRCINut;
+
     int32            CmdPipe;
     RCIN_NoArgCmd_t  CmdMsg;
     char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -242,16 +254,16 @@ void Test_RCIN_ProcessCmdPipe_Reset(void)
     RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oRCIN.InitApp();
+    oRCINut.InitApp();
 
-    oRCIN.HkTlm.usCmdCnt = 3;
-    oRCIN.HkTlm.usCmdErrCnt = 1;
+    oRCINut.HkTlm.usCmdCnt = 3;
+    oRCINut.HkTlm.usCmdErrCnt = 1;
 
-    oRCIN.ProcessCmdPipe();
+    oRCINut.ProcessCmdPipe();
 
     /* Verify results */
-    UtAssert_True((oRCIN.HkTlm.usCmdCnt == 0) &&
-                  (oRCIN.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, Reset");
 }
 
