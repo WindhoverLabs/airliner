@@ -47,22 +47,30 @@ import subprocess
 def add_remote(module_name, prefix, config):
     if not module_name in config:
         print("" + module_name + " module not found.")
+        print('')
+        print('*****************************************')
         return -1
 
     module = config[module_name]
 
     if not 'url' in module:
         print("" + module_name + " URL not defined.")
+        print('')
+        print('*****************************************')
         return -1
     url = module['url']
 
     if not 'path' in module:
         print("" + module_name + " path not defined.")
+        print('')
+        print('*****************************************')
         return -1
     path = module['path']
 
     if not 'strategy' in module:
         print("" + module_name + " strategy not defined.")
+        print('')
+        print('*****************************************')
         return -1
     strategy = module['strategy']
 
@@ -70,10 +78,14 @@ def add_remote(module_name, prefix, config):
     if strategy == 'subtree':
         remote_name = prefix + module_name
         subprocess.call(["git", "remote", "add", "-f", remote_name, url])
+        print('')
+        print('*****************************************')
     elif strategy == 'submodule':
         pass
     else:
         print('Undefined strategy of ' + strategy)
+        print('')
+        print('*****************************************')
         return -1
 
     return 0
@@ -100,7 +112,7 @@ def main():
                 print('OSAL module not found')
                 return -1
             for osal_name in config['core']['osal']:
-                result = add_remote(osal_name, '', config['core']['osal'])
+                result = add_remote(osal_name, 'core-osal-', config['core']['osal'])
                 if result != 0:
                     return result
 
@@ -108,7 +120,7 @@ def main():
                 print('PSP module not found')
                 return -1
             for psp_name in config['core']['psp']:
-                result = add_remote(psp_name, '', config['core']['psp'])
+                result = add_remote(psp_name, 'core-psp-', config['core']['psp'])
                 if result != 0:
                     return result
 

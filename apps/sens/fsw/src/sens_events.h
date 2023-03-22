@@ -74,6 +74,19 @@ typedef enum {
 */
 	SENS_INIT_INF_EID,
 
+/** \brief <tt> 'Application failed to initialize' </tt>
+**  \event <tt> 'Application failed to initialize' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the application has
+**  had an error in initialization.
+**
+*/
+	SENS_INIT_ERR_EID,
+
 /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
 **  

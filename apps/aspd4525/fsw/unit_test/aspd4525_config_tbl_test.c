@@ -50,15 +50,172 @@
 #include "ut_cfe_time_stubs.h"
 
 
-void ASPD4525_Config_Tbl_Test_Case1(void)
+/**************************************************************************
+ * Tests for ASPD4525 InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test ASPD4525 InitConfigTbl(), fail TBL Register
+ */
+void Test_ASPD4525_InitConfigTbl_Fail_TblRegister(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
 
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), ValidateConfigTbl_Nominal
+ */
+void Test_ASPD4525_InitConfigTbl_ValidateConfigTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, ValidateConfigTbl_Nominal");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), fail TBL Load
+ */
+void Test_ASPD4525_InitConfigTbl_Fail_TblLoad(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), fail TBL Manage
+ */
+void Test_ASPD4525_InitConfigTbl_Fail_TblManage(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), fail TBL GetAddress
+ */
+void Test_ASPD4525_InitConfigTbl_Fail_TblGetAddress(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), fail AcquireConfigPtrs
+ */
+void Test_ASPD4525_InitConfigTbl_Fail_AcquireConfigPtrs(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPtrs");
+}
+
+
+/**
+ * Test ASPD4525 InitConfigTbl(), Nominal
+ */
+void Test_ASPD4525_InitConfigTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = ASPD4525_InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, Nominal");
 }
 
 
 void ASPD4525_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(ASPD4525_Config_Tbl_Test_Case1, ASPD4525_Test_Setup, ASPD4525_Test_TearDown, "ASPD4525_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Fail_TblRegister,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_ValidateConfigTbl_Nominal,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_ValidateConfigTbl_Nominal");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Fail_TblLoad,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Fail_TblLoad");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Fail_TblManage,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Fail_TblGetAddress,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Fail_TblGetAddress");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Fail_AcquireConfigPtrs,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_ASPD4525_InitConfigTbl_Nominal,
+               ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_InitConfigTbl_Nominal");
 }
-
-

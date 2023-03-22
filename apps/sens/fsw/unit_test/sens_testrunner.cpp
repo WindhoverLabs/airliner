@@ -31,10 +31,11 @@
 *
 *****************************************************************************/
 
+#include "sens_app_test.hpp"
+#include "sens_cmds_test.hpp"
+#include "sens_config_tbl_test.hpp"
+
 #include "uttest.h"
-#include "sens_app_test.h"
-#include "sens_cmds_test.h"
-#include "sens_config_tbl_test.h"
 
 int main(void)
 {   

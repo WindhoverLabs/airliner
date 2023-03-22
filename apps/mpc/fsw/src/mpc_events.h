@@ -73,7 +73,20 @@ typedef enum
 **  The fourth \c %d field contains the application revision number defined
 **      in #MPC_MISSION_REV.
 */
-    MPC_INIT_INF_EID                             = 1,
+    MPC_INIT_INF_EID,
+
+/** \brief <tt> 'Application failed to initialize' </tt>
+**  \event <tt> 'Application failed to initialize' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the application has
+**  had an error in initialization.
+**
+*/
+	MPC_INIT_ERR_EID,
 
 /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
@@ -96,7 +109,7 @@ typedef enum
 **  The fourth \c %d field contains the application revision number defined
 **      in #MPC_MISSION_REV.
 */
-    MPC_CMD_NOOP_EID                             = 2,
+    MPC_CMD_NOOP_EID,
 
     /** \brief <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
     **  \event <tt> '\%s Pipe failed to subscribe to \%s. (0x\%08X)' </tt>
@@ -113,7 +126,7 @@ typedef enum
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-    MPC_SUBSCRIBE_ERR_EID                        = 3,
+    MPC_SUBSCRIBE_ERR_EID,
 
 /** \brief <tt> 'Failed to create \%s pipe (0x\%08X)' </tt>
 **  \event <tt> 'Failed to create \%s pipe (0x\%08X' </tt>
@@ -129,7 +142,7 @@ typedef enum
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-    MPC_PIPE_INIT_ERR_EID                        = 4,
+    MPC_PIPE_INIT_ERR_EID,
 
 /** \brief <tt> 'Failed to manage Config table (0x\%08X)' </tt>
 **  \event <tt> 'Failed to manage Config table (0x\%08X)' </tt>
@@ -142,7 +155,7 @@ typedef enum
 **  #CFE_TBL_Manage function.
 **
 */
-    MPC_CFGTBL_MANAGE_ERR_EID                    = 5,
+    MPC_CFGTBL_MANAGE_ERR_EID,
 
 /** \brief <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
 **  \event <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
@@ -155,7 +168,7 @@ typedef enum
 **  #CFE_TBL_GetAddress function.
 **
 */
-    MPC_CFGTBL_GETADDR_ERR_EID                   = 6,
+    MPC_CFGTBL_GETADDR_ERR_EID,
 
 /** \brief <tt> '\%s pipe read error (0x\%08X).' </tt>
 **  \event <tt> '\%s pipe read error (0x\%08X).' </tt>
@@ -171,7 +184,7 @@ typedef enum
 **  The 32 bit hexadecimal number is the error code returned by CFE.
 **
 */
-    MPC_RCVMSG_ERR_EID                           = 7,
+    MPC_RCVMSG_ERR_EID,
 
 /** \brief <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
 **  \event <tt> 'Recvd invalid \%s msgId (0x\%04X)' </tt>
@@ -186,7 +199,7 @@ typedef enum
 **  The \c %s field contains the name of the pipe.
 **  The 16 bit hexadecimal number is the actual message ID received.
 */
-    MPC_MSGID_ERR_EID                            = 8,
+    MPC_MSGID_ERR_EID,
 
 /** \brief <tt> 'Recvd invalid command code (\%u)' </tt>
 **  \event <tt> 'Recvd invalid command code (\%u)' </tt>
@@ -200,7 +213,7 @@ typedef enum
 **
 **  The %u field contains the actual command code received.
 */
-    MPC_CC_ERR_EID                               = 9,
+    MPC_CC_ERR_EID,
 
 /** \brief <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
 **  \event <tt> 'Rcvd invalid msgLen: msgId=0x\%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d" </tt>
@@ -217,7 +230,7 @@ typedef enum
 **  The third \c %d field contains the actual length.
 **  The fourth \c %d field contains the expected length.
 */
-    MPC_MSGLEN_ERR_EID                           = 10,
+    MPC_MSGLEN_ERR_EID,
 
 /** \brief <tt> 'Failed to register config table (0x%08X)' </tt>
 **  \event <tt> 'Failed to register config table (0x%08X)' </tt>
@@ -233,7 +246,7 @@ typedef enum
 **  #CFE_TBL_Register function.
 **
 */
-    MPC_CFGTBL_REG_ERR_EID                       = 11,
+    MPC_CFGTBL_REG_ERR_EID,
 
 /** \brief <tt> 'Failed to load Config Table (0x%08X)' </tt>
 **  \event <tt> 'Failed to load Config Table (0x%08X)' </tt>
@@ -249,7 +262,7 @@ typedef enum
 **  #CFE_TBL_Load function.
 **
 */
-    MPC_CFGTBL_LOAD_ERR_EID                      = 12,
+    MPC_CFGTBL_LOAD_ERR_EID,
 
 /** \brief <tt> 'Unknown velocity offboard coordinate frame. (%u)' </tt>
 **  \event <tt> 'Unknown velocity offboard coordinate frame. (%u)' </tt>
@@ -263,7 +276,7 @@ typedef enum
 **  enumeration received is presented in parenthesis.
 **
 */
-    MPC_UNK_VEL_FRM_ERR_EID                      = 13,
+    MPC_UNK_VEL_FRM_ERR_EID,
 
 /** \brief <tt> "Updated <XY,Z> PID values. Gain: %f, P: %f, I: %f, D: %f" </tt>
 **  \event <tt> "Updated XY PID values. Gain: %f, P: %f, I: %f, D: %f" </tt>
@@ -281,7 +294,7 @@ typedef enum
 **
 **  This event message is issued when
 */
-    MPC_PID_UPDATE_EID                           = 14,
+    MPC_PID_UPDATE_EID,
 
 /** \brief <tt> "Sending Diag packet." </tt>
 **  \event <tt> "Sending Diag packet." </tt>
@@ -295,7 +308,7 @@ typedef enum
 **
 **  \sa #MPC_SEND_DIAG_CC, #ReportDiagnostic
 */
-    MPC_SEND_DIAG_EID                            = 15,
+    MPC_SEND_DIAG_EID,
     
 /** \brief <tt> "Updated HOLD_DZ value: %f" </tt>
 **  \event <tt> "Updated HOLD_DZ value: %f" </tt>
@@ -309,7 +322,7 @@ typedef enum
 **
 **  \sa #MPC_SET_HOLD_DZ_CC, #UpdateHoldDz
 */
-    MPC_SET_DZ_EID                               = 16,
+    MPC_SET_DZ_EID,
 
 /** \brief <tt> "Updated stick expo values: XY: %f Z: %f" </tt>
 **  \event <tt> "Updated stick expo values: XY: %f Z: %f" </tt>
@@ -323,7 +336,7 @@ typedef enum
 **
 **  /sa #MPC_SET_STICK_EXPO_CC, #UpdateStickExpo
 */
-    MPC_SET_EXPO_EID                             = 17,
+    MPC_SET_EXPO_EID,
 
 /** \brief <tt> "Updated takeoff ramp time: %f" </tt>
 **  \event <tt> "Updated takeoff ramp time: %f" </tt>
@@ -337,7 +350,7 @@ typedef enum
 **
 **  /sa #MPC_SET_TKO_RAMP_CC, #UpdateTakeoffRampTime
 */
-    MPC_SET_TKO_RAMP_EID                         = 18,
+    MPC_SET_TKO_RAMP_EID,
 
     /** \brief <tt> "User intention not recognized. %u" </tt>
     **  \event <tt> "User intention not recognized. %u" </tt>
@@ -351,7 +364,7 @@ typedef enum
     **
     **  /sa #m_UserIntentionXY
     */
-    MPC_UNKNOWN_USER_INTENTION_ERR_EID           = 19,
+    MPC_UNKNOWN_USER_INTENTION_ERR_EID,
 
     /** \brief <tt> "Auto: Position setpoint not finite." </tt>
     **  \event <tt> "Auto: Position setpoint not finite." </tt>
@@ -366,7 +379,7 @@ typedef enum
     **
     **  /sa #m_PositionSetpoint
     */
-    MPC_POS_SP_NOT_FINITE_ERR_EID                = 20,
+    MPC_POS_SP_NOT_FINITE_ERR_EID,
 
     /** \brief <tt> "Parameter %s is invalid." </tt>
     **  \event <tt> "Parameter %s is invalid." </tt>
@@ -379,12 +392,7 @@ typedef enum
     **  fails to validate a parameter.
     **
     */
-	MPC_INVLD_PARAM_ERR_EID                      = 21,
-
-
-
-
-
+	MPC_INVLD_PARAM_ERR_EID,
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     MPC_EVT_CNT

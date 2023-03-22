@@ -73,6 +73,9 @@
     CI_HK_TLM_MID: 
       msgID: 
       struct: CI_HkTlm_t
+    CI_CUSTOM_HK_TLM_MID:
+      msgID:
+      struct: CI_CustomHkMsg_t
   commands: 
     CI_CMD_MID: 
       msgID: 

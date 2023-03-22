@@ -266,6 +266,7 @@ void NAV::InitData()
     /* Initialize member attributes */
     RtlState = RTL_STATE_NONE;
     NewCommandArrived = false;
+    NewCCArrived = false;
     CanLoiterAtSetpoint = false;
     LoiterPositionSet = false;
     WaypointPositionReached = false;
@@ -336,7 +337,11 @@ NAV_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_ES_WriteToSysLog("NAV - Application failed to initialize\n");
+            CFE_EVS_SendEvent(NAV_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            CFE_ES_WriteToSysLog("NAV - Application failed to initialize\n");
         }
     }
 
@@ -514,6 +519,31 @@ void NAV::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             case NAV_RESET_CC:
                 HkTlm.usCmdCnt = 0;
                 HkTlm.usCmdErrCnt = 0;
+                break;
+
+            case NAV_MISSION_ARRAKIS_CC:
+                HkTlm.usCmdCnt++;
+                NewCCArrived = true;
+                missionId = ARRAKIS;
+                // printf("---------------------Start Arrakis %d-----------------------\n", missionId);
+                break;
+            case NAV_MISSION_BEETHOVEN_CC:
+                HkTlm.usCmdCnt++;
+                NewCCArrived = true;
+                missionId = BEETHOVEN;
+                // printf("---------------------Start Beethoven %d-----------------------\n", missionId);
+                break;
+            case NAV_MISSION_CALADAN_CC:
+                HkTlm.usCmdCnt++;
+                NewCCArrived = true;
+                missionId = CALADAN;
+                // printf("---------------------Start Caladan %d-----------------------\n", missionId);
+                break;
+            case NAV_MISSION_DUMBLEDORE_CC:
+                HkTlm.usCmdCnt++;
+                NewCCArrived = true;
+                missionId = DUMBLEDORE;
+                // printf("---------------------Start Dumbledore %d-----------------------\n", missionId);
                 break;
 
             default:
@@ -804,6 +834,14 @@ int32 NAV::Execute()
         }
     }
 
+    /* Execute only on command code event*/
+    if (NewCCArrived) {
+        NewCCArrived = false;
+        waypointIndex = 0;
+        missionStarted = true;
+        waypointStarted = true;
+    }
+
     /* Detect events for navigation actions. Find if a state is seen for first
      * time or has been active since a while */
     PX4_NavigationState_t CurrentState = CVT.VehicleStatusMsg.NavState;
@@ -857,6 +895,13 @@ int32 NAV::Execute()
             Rtl();
 
         }
+        else if (CurrentState
+                == PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_MISSION)
+        {
+            (void) CFE_EVS_SendEvent(NAV_ACTION_ST_EID, CFE_EVS_INFORMATION,
+                    "Commencing %s", "Auto Mission");
+            DoMission();
+        }
         else
         {
             CanLoiterAtSetpoint = FALSE;
@@ -867,6 +912,7 @@ int32 NAV::Execute()
             HkTlm.WaypointYawReached = FALSE;
         }
     }
+
 
     /* If the mode is active */
     if (Active)
@@ -890,6 +936,11 @@ int32 NAV::Execute()
                 == PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_RTL)
         {
             RtlActive();
+        }
+        else if (CurrentState
+                == PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_MISSION)
+        {
+            DoMissionActive();
         }
         else
         {
@@ -931,6 +982,69 @@ int32 NAV::Execute()
 
     return 0;
 }
+
+void NAV::DoMission()
+{
+    NAV_MissionItem_t nextMissionItem;
+    uint8 wpIndex = waypointIndex;
+    MissionItem.NavCmd=PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
+    MissionItem.Lat = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lat;
+    MissionItem.Lon = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lon;
+    MissionItem.Altitude = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].alt;
+    MissionItem.CruisingSpeed = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].cruisingSpeed;
+
+    if (missionStarted || waypointStarted) {
+        (void) CFE_EVS_SendEvent(NAV_AUTO_MISSION_STATE_EID, CFE_EVS_INFORMATION,
+            "DoMission missionId, waypointIndex, Lat, Lon, Alt, speed -> %d, %d, %lf, %lf, %f, %f",
+            missionId, 
+            wpIndex, 
+            MissionItem.Lat, 
+            MissionItem.Lon, 
+            MissionItem.Altitude,
+            MissionItem.CruisingSpeed);
+
+        // printf(
+        //     "DoMission missionId, waypointIndex, Lat, Lon, Alt, speed -> %d, %d, %lf, %lf, %f, %f\n", 
+        //     missionId, 
+        //     wpIndex, 
+        //     MissionItem.Lat, 
+        //     MissionItem.Lon, 
+        //     MissionItem.Altitude,
+        //     MissionItem.CruisingSpeed);
+        
+        missionStarted = false;
+        waypointStarted = false;
+    }
+
+    ConvertMissionItemToCurrentSetpoint(
+            &PositionSetpointTripletMsg.Current, &MissionItem);
+    PositionSetpointTripletMsg.Current.Type = PX4_SetpointType_t::PX4_SETPOINT_TYPE_POSITION;
+    PositionSetpointTripletMsg.Current.Valid = true;
+    // printf("DoMission: Setting Current Set Point to Valid\n");
+
+    wpIndex = (wpIndex + 1) % NAV_NUM_WPS_IN_MISSION;
+    nextMissionItem.NavCmd = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
+    nextMissionItem.Lat = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lat;
+    nextMissionItem.Lon = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].Lon;
+    nextMissionItem.Altitude = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].alt;
+    nextMissionItem.CruisingSpeed = ConfigTblPtr->NAV_MISSIONS[missionId].navWayPoints[wpIndex].cruisingSpeed;
+    ConvertMissionItemToCurrentSetpoint(
+            &PositionSetpointTripletMsg.Next, &nextMissionItem);
+    PositionSetpointTripletMsg.Next.Type = PX4_SetpointType_t::PX4_SETPOINT_TYPE_POSITION;
+    PositionSetpointTripletMsg.Next.Valid = true;
+    PositionSetpointTripletUpdated = true;
+}
+
+void NAV::DoMissionActive()
+{
+    osalbool MissionItemReachedFlag = IsMissionItemReached();
+    if (MissionItemReachedFlag) {
+        waypointIndex = (waypointIndex + 1)%NAV_NUM_WPS_IN_MISSION;
+        waypointStarted = true;
+    }
+    DoMission();
+}
+
 
 void NAV::Takeoff()
 {
@@ -1868,57 +1982,58 @@ osalbool NAV::IsMissionItemReached()
         }
     }
 
-    /* Once the position and yaw waypoint have been set we can start the loiter time countdown */
-    if (WaypointPositionReached && WaypointYawReached)
-    {
-        if (TimeFirstInsideOrbit == 0)
-        {
-            TimeFirstInsideOrbit = Now;
-        }
+    // /* Once the position and yaw waypoint have been set we can start the loiter time countdown */
+    // if (WaypointPositionReached && WaypointYawReached)
+    // {
+    //     if (TimeFirstInsideOrbit == 0)
+    //     {
+    //         TimeFirstInsideOrbit = Now;
+    //     }
 
-        /* Check if the MAV was long enough inside the waypoint orbit */
-        TimeInside = GetTimeInside(&MissionItem);
-        if ((TimeInside < FLT_EPSILON)
-                || Now - TimeFirstInsideOrbit >= (uint64) TimeInside * 1e6f)
-        {
-            /* Exit xtrack location */
-            if (MissionItem.LoiterExitXTrack
-                    && (MissionItem.NavCmd
-                            == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TO_ALT
-                            || MissionItem.NavCmd
-                                    == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TIME))
-            {
-                /* Reset lat/lon of loiter waypoint so wehicle follows tangent */
-                CurrentSetpoint = PositionSetpointTripletMsg.Current;
-                NextSetpoint = PositionSetpointTripletMsg.Next;
+    //     /* Check if the MAV was long enough inside the waypoint orbit */
+    //     TimeInside = GetTimeInside(&MissionItem);
+    //     if ((TimeInside < FLT_EPSILON)
+    //             || Now - TimeFirstInsideOrbit >= (uint64) TimeInside * 1e6f)
+    //     {
+    //         /* Exit xtrack location */
+    //         if (MissionItem.LoiterExitXTrack
+    //                 && (MissionItem.NavCmd
+    //                         == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TO_ALT
+    //                         || MissionItem.NavCmd
+    //                                 == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TIME))
+    //         {
+    //             /* Reset lat/lon of loiter waypoint so wehicle follows tangent */
+    //             CurrentSetpoint = PositionSetpointTripletMsg.Current;
+    //             NextSetpoint = PositionSetpointTripletMsg.Next;
 
-                Range = get_distance_to_next_waypoint(CurrentSetpoint.Lat,
-                        CurrentSetpoint.Lon, NextSetpoint.Lat, NextSetpoint.Lon);
-                Bearing = get_bearing_to_next_waypoint(CurrentSetpoint.Lat,
-                        CurrentSetpoint.Lon, NextSetpoint.Lat, NextSetpoint.Lon);
-                InnerAngle = M_PI_2_F
-                        - asinf(MissionItem.LoiterRadius / Range);
+    //             Range = get_distance_to_next_waypoint(CurrentSetpoint.Lat,
+    //                     CurrentSetpoint.Lon, NextSetpoint.Lat, NextSetpoint.Lon);
+    //             Bearing = get_bearing_to_next_waypoint(CurrentSetpoint.Lat,
+    //                     CurrentSetpoint.Lon, NextSetpoint.Lat, NextSetpoint.Lon);
+    //             InnerAngle = M_PI_2_F
+    //                     - asinf(MissionItem.LoiterRadius / Range);
 
-                /* Compute ideal tangent origin */
-                if (CurrentSetpoint.LoiterDirection > 0)
-                {
-                    Bearing -= InnerAngle;
+    //             /* Compute ideal tangent origin */
+    //             if (CurrentSetpoint.LoiterDirection > 0)
+    //             {
+    //                 Bearing -= InnerAngle;
 
-                }
-                else
-                {
-                    Bearing += InnerAngle;
-                }
+    //             }
+    //             else
+    //             {
+    //                 Bearing += InnerAngle;
+    //             }
 
-                /* Replace current setpoint Lat/Lon with tangent coordinate */
-                waypoint_from_heading_and_distance(CurrentSetpoint.Lat, CurrentSetpoint.Lon,
-                        Bearing, CurrentSetpoint.LoiterRadius, &CurrentSetpoint.Lat,
-                        &CurrentSetpoint.Lon);
-            }
-            isMissionItemReached = TRUE;
-        }
-    }
+    //             /* Replace current setpoint Lat/Lon with tangent coordinate */
+    //             waypoint_from_heading_and_distance(CurrentSetpoint.Lat, CurrentSetpoint.Lon,
+    //                     Bearing, CurrentSetpoint.LoiterRadius, &CurrentSetpoint.Lat,
+    //                     &CurrentSetpoint.Lon);
+    //         }
+    //         isMissionItemReached = TRUE;
+    //     }
+    // }
 
+    isMissionItemReached = WaypointPositionReached;
     /* Copy values to HK */
     HkTlm.MissionItemReached = isMissionItemReached;
     HkTlm.WaypointPositionReached = WaypointPositionReached;
@@ -1951,6 +2066,7 @@ void NAV::ConvertMissionItemToCurrentSetpoint(PX4_PositionSetpoint_t *PosSetpoin
             || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LAND
             || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF))
     {
+        // printf("\n\n\nItem->NavCmd : %d\n\n\n", Item->NavCmd);
         PosSetpoint->Lat = Item->Lat;
         PosSetpoint->Lon = Item->Lon;
         PosSetpoint->Alt =
@@ -1964,7 +2080,8 @@ void NAV::ConvertMissionItemToCurrentSetpoint(PX4_PositionSetpoint_t *PosSetpoin
         PosSetpoint->AcceptanceRadius = Item->AcceptanceRadius;
         PosSetpoint->DisableMcYawControl = Item->DisableMcYaw;
 
-        PosSetpoint->CruisingSpeed = GetCruisingSpeed();
+        // PosSetpoint->CruisingSpeed = GetCruisingSpeed();
+        PosSetpoint->CruisingSpeed = Item->CruisingSpeed;
         PosSetpoint->CruisingThrottle = GetCruisingThrottle();
 
         switch (Item->NavCmd)

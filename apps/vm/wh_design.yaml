@@ -129,6 +129,8 @@
       id: 61
     VM_HOMESET_ERROR_EID: 
       id: 62
+    VM_NAVSN_ENTERED_AUTO_MISSION_INFO_EID:
+      id: 63
   telemetry: 
     VM_CONFIG_TLM_MID: 
       msgID: 
@@ -184,6 +186,9 @@
           struct: VM_NoArgCmd_t
         SendConfig: 
           cc: 58
+          struct: VM_NoArgCmd_t
+        AutoMission: 
+          cc: 59
           struct: VM_NoArgCmd_t
     VM_SEND_HK_MID: 
       msgID: 

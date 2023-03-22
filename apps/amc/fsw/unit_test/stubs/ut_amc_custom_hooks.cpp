@@ -34,19 +34,50 @@
 #include "cfe.h"
 #include "pwm_limit/pwm_limit.h"
 
-uint32 UT_InitDevice(void)
+#include "amc_platform_cfg.h"
+
+#include <time.h>
+
+
+uint32 SetMotorOutputs_CalledCnt = 0;
+
+int32 UT_InitDevice(void)
 {
-    return 0;
+    printf("Device is initialized successfully!\n");
+
+    return CFE_SUCCESS;
 }
 
 
 void UT_SetMotorOutputs(const uint16 *PWM)
 {
+    int  i = 0;
 
+    SetMotorOutputs_CalledCnt ++;
+
+    printf("### SetMotorOutputs:\n");
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        printf("PWM[%d]: %u\n", i, PWM[i]);
+    }
+
+    return;
 }
 
 
 uint64 UT_PX4LIB_GetPX4TimeUs(void)
 {
-    return 0;
+    int              iStatus;
+    uint64           outTime = 0;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        outTime = static_cast<uint64>(static_cast<uint64>(time.tv_sec)
+                   * static_cast<uint64>(1000000))
+                   + static_cast<uint64>(time.tv_nsec / 1000);
+    }
+
+    return outTime;
 }

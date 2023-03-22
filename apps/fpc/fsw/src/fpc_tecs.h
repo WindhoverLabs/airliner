@@ -82,7 +82,7 @@ public:
      */
     void update_vehicle_state_estimates(float airspeed,
             const math::Matrix3F3 &rotMat, const math::Vector3F &accel_body,
-            bool altitude_lock, bool in_air, float altitude, bool vz_valid,
+            bool altitude_lock, bool in_air, float altitude, bool vz_valid, bool vz_bypass_enabled,
             float vz, float az);
 
     /**
@@ -162,6 +162,12 @@ public:
         _height_error_gain = heightrate_p;
     }
 
+
+    void set_height_noise_filter_coeff(float height_noise_filter_coeff)
+    {
+        _hgt_noise_filter_coeff = height_noise_filter_coeff;
+    }
+
     void set_indicated_airspeed_max(float airspeed)
     {
         _indicated_airspeed_max = airspeed;
@@ -209,6 +215,11 @@ public:
     void set_roll_throttle_compensation(float compensation)
     {
         _load_factor_correction = compensation;
+    }
+
+    void set_ste_rate_error_filter_coeff(float ste_rate_error_filter_coeff)
+    {
+        _STE_rate_error_filter_coeff = ste_rate_error_filter_coeff;
     }
 
     // TECS status
@@ -344,6 +355,8 @@ private:
     { 0.0f };///< gain from normal load factor increase to total energy rate demand (m**2/sec**3)
     float _pitch_speed_weight
     { 1.0f };	///< speed control weighting used by pitch demand calculation
+    float _hgt_noise_filter_coeff
+    { 0.1f};    ///< IIR 1st order height set point noise cancellation
     float _height_error_gain
     { 0.0f };		///< gain from height error to demanded climb rate (1/sec)
     float _height_setpoint_gain_ff
@@ -458,6 +471,8 @@ private:
     { 0.0f };					///< specific total energy error (m**2/sec**2)
     float _STE_rate_error
     { 0.0f };				///< specific total energy rate error (m**2/sec**3)
+    float _STE_rate_error_filter_coeff
+    { 0.2f };               ///< specific total energy rate IIR filter coeff
     float _SEB_error
     { 0.0f };					///< specific energy balance error (m**2/sec**2)
     float _SEB_rate_error

@@ -309,6 +309,7 @@ typedef struct
     float CLMBOUT_DIFF;
     float T_HRATE_P;
     float T_HRATE_FF;
+    float T_HGT_NOISE_FILTER_COEFF;
     float T_SRATE_P;
     float T_THR_DAMP;
     float T_INTEG_GAIN;
@@ -318,6 +319,7 @@ typedef struct
     float T_RLL2THR;
     float T_SPDWEIGHT;
     float T_PTCH_DAMP;
+    float T_STE_RATE_ERROR_FILTER_COEFF;
 
     float AIRSPD_MIN;
     float AIRSPD_TRIM;

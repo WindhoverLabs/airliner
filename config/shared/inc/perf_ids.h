@@ -93,6 +93,7 @@
 #define CVT_MAIN_TASK_PERF_ID       (121)
 #define SBUS_MAIN_TASK_PERF_ID      (122)
 #define ASPD4525_MAIN_TASK_PERF_ID  (123)
+#define HES_MAIN_TASK_PERF_ID       (124)
 #define SBN_PERF_SEND_ID            (SBN_PERF_MIN_ID)
 #define SBN_PERF_RECV_ID            (SBN_PERF_MIN_ID + 1)
 #define SBN_PERF_MAX_ID             (SBN_PERF_MIN_ID + 100)

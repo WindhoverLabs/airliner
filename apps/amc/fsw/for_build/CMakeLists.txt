@@ -74,18 +74,18 @@ buildliner_add_app_unit_test(amc-ut
 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_app_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_app_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_app_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_cmds_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_cmds_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_config_tbl_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_config_tbl_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_mixer_config_tbl_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_mixer_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_mixer_config_tbl_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_motor_update_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_motor_update_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_motor_update_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_test_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/amc_test_utils.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_amc_custom_hooks.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_amc_custom_hooks.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_amc_custom_stubs.cpp

@@ -578,6 +578,7 @@ void FPC::ProcessNewData()
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
+                    // printf("PX4_POSITION_SETPOINT_TRIPLET_MID: %d\n", PX4_POSITION_SETPOINT_TRIPLET_MID);
                     CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, dataMsgPtr,
                             sizeof(m_PositionSetpointTripletMsg));
                     HkTlm.m_PositionSetpointTripletMsgCount++;
@@ -1039,6 +1040,56 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
                     CFE_EVS_INFORMATION, "T_HRATE_FF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_HGT_NOISE_FILTER_COEFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    ConfigTblPtr->T_HGT_NOISE_FILTER_COEFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                        CFE_EVS_ERROR, "CFE_TBL_Modified error (%d)",
+                                (unsigned int) returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "T_HGT_NOISE_FILTER_COEFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_STE_RATE_ERROR_FILTER_COEFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    ConfigTblPtr->T_STE_RATE_ERROR_FILTER_COEFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                        CFE_EVS_ERROR, "CFE_TBL_Modified error (%d)",
+                                (unsigned int) returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "T_STE_RATE_ERROR_FILTER_COEFF Modified.");
                 }
                 else
                 {
@@ -2369,6 +2420,40 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 
                 break;
             }
+
+            case FPC_ENABLE_VZ_BYPASS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                {
+                    HkTlm.vz_bypass_enabled = true;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
+                    CFE_EVS_INFORMATION, "VZBypass Enabled cmd (%u)",
+                            (unsigned int) uiCmdCode);
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+
+            }
+
+            case FPC_DISABLE_VZ_BYPASS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                {
+                    HkTlm.vz_bypass_enabled = false;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
+                    CFE_EVS_INFORMATION, "VZBypass Disabled cmd (%u)",
+                            (unsigned int) uiCmdCode);
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+
+            }
             default:
             {
                 HkTlm.usCmdErrCnt++;
@@ -2438,7 +2523,9 @@ void FPC::UpdateParamsFromTable(void)
         _tecs.set_max_climb_rate(ConfigTblPtr->T_CLMB_MAX);
         _tecs.set_heightrate_p(ConfigTblPtr->T_HRATE_P);
         _tecs.set_heightrate_ff(ConfigTblPtr->T_HRATE_FF);
+        _tecs.set_height_noise_filter_coeff(ConfigTblPtr->T_HGT_NOISE_FILTER_COEFF);
         _tecs.set_speedrate_p(ConfigTblPtr->T_SRATE_P);
+        _tecs.set_ste_rate_error_filter_coeff(ConfigTblPtr->T_STE_RATE_ERROR_FILTER_COEFF);
 
     }
 
@@ -2958,14 +3045,22 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
         _tecs.reset_state();
     }
 
+    // printf("pos_sp_curr.Valid - > %d\n", (pos_sp_curr.Valid==true)?1:0);
+    // printf("m_VehicleControlModeMsg.ControlAutoEnabled - > %d\n", m_VehicleControlModeMsg.ControlAutoEnabled?1:0);
+    // printf("m_VehicleControlModeMsg.ControlVelocityEnabled - > %d\n", m_VehicleControlModeMsg.ControlVelocityEnabled?1:0);
+    // printf("m_VehicleControlModeMsg.ControlAltitudeEnabled - > %d\n", m_VehicleControlModeMsg.ControlAltitudeEnabled?1:0);
     if(m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid)
     {
-        /* reset hold altitude */
-        _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+        if (!m_VehicleControlModeMsg.ControlAutoMissionEnabled) {
+            /* reset hold altitude */
+            _hold_alt = m_VehicleGlobalPositionMsg.Alt;
 
-        /* reset hold yaw */
-        _hdg_hold_yaw = _yaw;
-        /* AUTONOMOUS FLIGHT */
+            /* reset hold yaw */
+            _hdg_hold_yaw = _yaw;
+            /* AUTONOMOUS FLIGHT */
+
+            // printf("Came Here - > %f, %f\n", pos_sp_curr.Alt, _hold_alt);
+        }
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;
 
@@ -4098,8 +4193,10 @@ void FPC::TecsUpdatePitchThrottle(float alt_sp, float airspeed_sp,
     /* update TECS vehicle state estimates */
     _tecs.update_vehicle_state_estimates(_airspeed, _R_nb, accel_body,
             (m_VehicleGlobalPositionMsg.Timestamp > 0), in_air_alt_control,
-            m_VehicleGlobalPositionMsg.Alt, m_VehicleLocalPositionMsg.V_Z_Valid,
+            m_VehicleGlobalPositionMsg.Alt, m_VehicleLocalPositionMsg.V_Z_Valid, HkTlm.vz_bypass_enabled,
             m_VehicleLocalPositionMsg.VZ, m_VehicleLocalPositionMsg.AZ);
+    
+    
 
     /* scale throttle cruise by baro pressure */
     if(ConfigTblPtr->THR_ALT_SCL > FLT_EPSILON)

@@ -325,7 +325,7 @@ flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace q
 
 python-env::
 	virtualenv -p python3 venv || exit -1
-	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install pyyaml || exit -1; pip install numpy || exit)
+	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install -r requirements.txt || exit)
 	@echo 'Created python3 virtual environment.                                            '
 	@echo '                                                                                '
 	@echo 'Activate:                                                                       '
@@ -369,6 +369,17 @@ quad-local-install::
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/multirotor/quad/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/multirotor/quad/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
+
+quad-hitl-local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/home/windhover/hitl
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/cpd
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/ppd
+	sudo mkdir -p /media/${USER}/rootfs/home/windhover/hitl/simlink
+	sudo cp -R build/multirotor/quad/ppd/target/target/exe /media/${USER}/rootfs/home/windhover/hitl/ppd
+	sudo cp build/multirotor/quad/cpd/hitl/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware/airliner.elf
+	sudo cp build/multirotor/quad/cpd/hitl/target/target/exe/airliner.elf /media/${USER}/rootfs/home/windhover/hitl/cpd/airliner.elf
+	sudo cp -R build/multirotor/quad/simlink/hitl/target/target/exe /media/${USER}/rootfs/home/windhover/hitl/simlink
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '

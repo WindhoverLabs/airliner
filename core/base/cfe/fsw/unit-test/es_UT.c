@@ -253,10 +253,10 @@ void TestStartupErrorPaths(void)
 
     /* Set up the startup script for reading */
     strncpy(StartupScript,
-            "CFE_LIB, /cf/apps/tst_lib.bundle, TST_LIB_Init, TST_LIB, 0, 0, 0x0, 1; "
-            "CFE_APP, /cf/apps/ci.bundle, CI_task_main, CI_APP, 70, 4096, 0x0, 1; "
-            "CFE_APP, /cf/apps/sch.bundle, SCH_TaskMain, SCH_APP, 120, 4096, 0x0, 1; "
-            "CFE_APP, /cf/apps/to.bundle, TO_task_main, TO_APP, 74, 4096, 0x0, 1; !",
+            "CFE_LIB, /cf/apps/tst_lib.bundle, TST_LIB_Init, TST_LIB, 0, 0, 0x0, 1, 0; "
+            "CFE_APP, /cf/apps/ci.bundle, CI_task_main, CI_APP, 70, 4096, 0x0, 1, 0; "
+            "CFE_APP, /cf/apps/sch.bundle, SCH_TaskMain, SCH_APP, 120, 4096, 0x0, 1, 0; "
+            "CFE_APP, /cf/apps/to.bundle, TO_task_main, TO_APP, 74, 4096, 0x0, 1, 0; !",
             MAX_STARTUP_SCRIPT);
     StartupScript[MAX_STARTUP_SCRIPT - 1] = '\0';
 
@@ -275,6 +275,7 @@ void TestStartupErrorPaths(void)
               "Mutex create failure");
 
     /* Perform ES main startup with a file open failure */
+    OSPrintRtn.value = 0;
     UT_SetDummyFuncRtn(OS_SUCCESS);
     UT_SetOSFail(OS_OPEN_FAIL);
     CFE_ES_Main(CFE_ES_POWERON_RESET, 1, 1,

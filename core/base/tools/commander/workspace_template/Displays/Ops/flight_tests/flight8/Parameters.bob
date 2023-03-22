@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Parameters</name>
+  <height>200</height>
+  <widget type="group" version="2.0.0">
+    <name>Parameters</name>
+    <width>670</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_15</name>
+      <macros>
+        <ParamName>T_TIME_CONST</ParamName>
+      </macros>
+      <y>122</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_42</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_TIME_CONST
+* TECS time 
+* This is the time constant of the TECS control algorithm (in seconds).
+* Smaller values make it faster to respond, larger values make it slower
+* to respond.
+*
+* @unit s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_41</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_42</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_13</name>
+        <text>seconds</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_21</name>
+      <macros>
+        <ParamName>T_HRATE_P</ParamName>
+      </macros>
+      <y>62</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_48</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_P
+* Height rate proportional factor
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_47</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>1.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_48</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_19</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_22</name>
+      <macros>
+        <ParamName>T_HRATE_FF</ParamName>
+      </macros>
+      <y>42</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_49</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_FF
+* Height rate feed forward
+*
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_48</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>1.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_49</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_20</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_25</name>
+      <macros>
+        <ParamName>T_INTEG_GAIN</ParamName>
+      </macros>
+      <y>82</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_52</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_INTEG_GAIN
+* Integrator gain
+* @min 0.0
+* @max 2.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_51</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>2.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_52</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_23</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_27</name>
+      <macros>
+        <ParamName>T_HGT_OMEGA</ParamName>
+      </macros>
+      <y>22</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_54</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HGT_OMEGA
+* Complementary filter "omega" parameter for height
+* @unit rad/s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_53</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>10.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_54</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_28</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_30</name>
+      <macros>
+        <ParamName>T_PTCH_DAMP</ParamName>
+      </macros>
+      <y>102</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_57</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_PTCH_DAMP
+* Pitch damping factor
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 0.1
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_56</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>2.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_57</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_31</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Parameters_2</name>
+    <y>200</y>
+    <width>670</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_16</name>
+      <macros>
+        <ParamName>T_STE_RATE_ERROR_FILTER_COEFF</ParamName>
+      </macros>
+      <y>122</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_43</name>
+        <text>$(ParamName)</text>
+        <width>242</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_TIME_CONST
+* TECS time 
+* This is the time constant of the TECS control algorithm (in seconds).
+* Smaller values make it faster to respond, larger values make it slower
+* to respond.
+*
+* @unit s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_14</name>
+        <text>seconds</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_42</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>1.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_43</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_22</name>
+      <macros>
+        <ParamName>T_SINK_MIN</ParamName>
+      </macros>
+      <y>62</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_50</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_P
+* Height rate proportional factor
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_21</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_49</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>5.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_50</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_23</name>
+      <macros>
+        <ParamName>T_CLMB_MAX</ParamName>
+      </macros>
+      <y>42</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_51</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HRATE_FF
+* Height rate feed forward
+*
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_22</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_50</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>1.0</minimum>
+        <maximum>15.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_51</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_26</name>
+      <macros>
+        <ParamName>T_SINK_MAX</ParamName>
+      </macros>
+      <y>82</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_53</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_INTEG_GAIN
+* Integrator gain
+* @min 0.0
+* @max 2.0
+* @decimal 2
+* @increment 0.05
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_24</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_52</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <minimum>2.0</minimum>
+        <maximum>15.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_53</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_28</name>
+      <macros>
+        <ParamName>T_SPDWEIGHT</ParamName>
+      </macros>
+      <y>22</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_55</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_HGT_OMEGA
+* Complementary filter "omega" parameter for height
+* @unit rad/s
+* @min 1.0
+* @max 10.0
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_29</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_54</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>2.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_55</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_31</name>
+      <macros>
+        <ParamName>T_HGT_NOISE_FILTER_COEFF</ParamName>
+      </macros>
+      <y>102</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_58</name>
+        <text>$(ParamName)</text>
+        <width>222</width>
+        <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* T_PTCH_DAMP
+* Pitch damping factor
+* @min 0.0
+* @max 2.0
+* @decimal 1
+* @increment 0.1
+* @group FW TECS
+*/</tooltip>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_32</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_57</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>252</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>382</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <maximum>1.0</maximum>
+        <limits_from_pv>false</limits_from_pv>
+        <increment>0.1</increment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_58</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>482</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+  </widget>
+</display>

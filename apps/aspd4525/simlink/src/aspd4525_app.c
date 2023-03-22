@@ -289,17 +289,6 @@ ASPD4525_InitPipe_Exit_Tag:
         (void) CFE_EVS_SendEvent(ASPD4525_INIT_INF_EID, CFE_EVS_INFORMATION,
                                  "Initialized Pipes.");
     }
-    else
-    {
-        if (hasEvents == 1)
-        {
-            (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
-        }
-        else
-        {
-            (void) CFE_ES_WriteToSysLog("ASPD4525 - Application failed to initialize\n");
-        }
-    }
     return (iStatus);
 }
     

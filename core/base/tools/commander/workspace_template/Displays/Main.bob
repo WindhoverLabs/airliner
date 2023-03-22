@@ -278,7 +278,6 @@
       <name>Label_70</name>
       <text>PPD</text>
       <x>150</x>
-      <y>-5</y>
       <width>73</width>
       <height>25</height>
       <font>
@@ -1339,7 +1338,7 @@
     <x>495</x>
     <y>17</y>
     <width>501</width>
-    <height>317</height>
+    <height>340</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -1613,7 +1612,7 @@
       <name>NoOp_95</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mac/Main.bob</file>
+          <file>cpd/apps/fac/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1720,13 +1719,47 @@
         </color>
       </border_color>
     </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_105</name>
+      <text>Hawk Eye Server</text>
+      <y>279</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_97</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/hes/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>277</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Drivers</name>
     <x>495</x>
-    <y>334</y>
+    <y>425</y>
     <width>501</width>
-    <height>247</height>
+    <height>168</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -1844,7 +1877,6 @@
       <name>Label_118</name>
       <text>PPD</text>
       <x>204</x>
-      <y>-13</y>
       <width>73</width>
       <height>25</height>
       <font>
@@ -1887,7 +1919,6 @@
       <name>Label_120</name>
       <text>Simlink</text>
       <x>382</x>
-      <y>-13</y>
       <width>73</width>
       <height>25</height>
       <font>

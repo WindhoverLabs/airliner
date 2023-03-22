@@ -101,7 +101,7 @@ dataLinks:
         initialClcwWait: 3600 #how many seconds to wait at startup for an initial CLCW, before going to state 6(initial). If not configured or negative, start directly in state 6
                     
   - name: tm_cpd
-    class: org.yamcs.tctm.ccsds.UdpTmFrameLink
+    class: com.windhoverlabs.yamcs.tctm.UdpTmFrameLink
     stream: tm_realtime
     port: 5111
     frameType: TM
@@ -124,6 +124,7 @@ dataLinks:
         #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
         packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
         packetPreprocessorArgs:
+          checkSequence: false
           byteOrder: LITTLE_ENDIAN
           #errorDetection:
           #tcoService:
@@ -156,6 +157,7 @@ dataLinks:
       #errorDetection:
       #tcoService:
       timestampFormat: CFE_SB_TIME_32_16_SUBS
+      checkSequence: false
       timeEncoding:
         epoch: CUSTOM
         epochUTC: "1970-01-01T00:00:00Z"

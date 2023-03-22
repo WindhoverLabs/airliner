@@ -21,7 +21,8 @@ VM_NavigationMap_Stabilize VM_NavigationMap::Stabilize("VM_NavigationMap::Stabil
 VM_NavigationMap_Rattitude VM_NavigationMap::Rattitude("VM_NavigationMap::Rattitude", 7);
 VM_NavigationMap_AutoTakeoff VM_NavigationMap::AutoTakeoff("VM_NavigationMap::AutoTakeoff", 8);
 VM_NavigationMap_AutoLand VM_NavigationMap::AutoLand("VM_NavigationMap::AutoLand", 9);
-VM_NavigationMap_Init VM_NavigationMap::Init("VM_NavigationMap::Init", 10);
+VM_NavigationMap_AutoMission VM_NavigationMap::AutoMission("VM_NavigationMap::AutoMission", 10);
+VM_NavigationMap_Init VM_NavigationMap::Init("VM_NavigationMap::Init", 11);
 
 void VM_NavigationState::Reset(VM_NavigationContext& context)
 {
@@ -34,6 +35,11 @@ void VM_NavigationState::trAcrobatic(VM_NavigationContext& context)
 }
 
 void VM_NavigationState::trAltitudeControl(VM_NavigationContext& context)
+{
+    Default(context);
+}
+
+void VM_NavigationState::trAutoMission(VM_NavigationContext& context)
 {
     Default(context);
 }
@@ -256,6 +262,27 @@ void VM_NavigationMap_Manual::trPositionControl(VM_NavigationContext& context)
 
 }
 
+void VM_NavigationMap_Manual::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
+    }
+
+}
+
 void VM_NavigationMap_Manual::trRattitude(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
@@ -456,6 +483,27 @@ void VM_NavigationMap_AltitudeControl::trPositionControl(VM_NavigationContext& c
     else
     {
          VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+void VM_NavigationMap_AltitudeControl::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
     }
 
 }
@@ -665,6 +713,27 @@ void VM_NavigationMap_PositionControl::trManual(VM_NavigationContext& context)
 
 }
 
+void VM_NavigationMap_PositionControl::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
+    }
+
+}
+
 void VM_NavigationMap_PositionControl::trRattitude(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
@@ -687,6 +756,233 @@ void VM_NavigationMap_PositionControl::trRattitude(VM_NavigationContext& context
 }
 
 void VM_NavigationMap_PositionControl::trStabilize(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::Stabilize);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trStabilize(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::Entry(VM_NavigationContext& context)
+
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    ctxt.EnteredAutoMission();
+}
+
+void VM_NavigationMap_AutoMission::Reset(VM_NavigationContext& context)
+{
+
+    context.getState().Exit(context);
+    context.setState(VM_NavigationMap::Init);
+    context.getState().Entry(context);
+
+}
+
+void VM_NavigationMap_AutoMission::trAcrobatic(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::Acrobatic);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAcrobatic(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trAltitudeControl(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AltitudeControl);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAltitudeControl(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trAutoLand(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoLand);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoLand(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trAutoLoiter(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoLoiter);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoLoiter(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trAutoReturnToLaunch(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoReturnToLaunch);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoReturnToLaunch(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trAutoTakeoff(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsLocalPositionIsValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoTakeoff);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoTakeoff(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trManual(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::Manual);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trManual(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trPositionControl(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::PositionControl);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+
+void VM_NavigationMap_AutoMission::trRattitude(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::Rattitude);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trRattitude(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoMission::trStabilize(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
 
@@ -866,6 +1162,27 @@ void VM_NavigationMap_AutoLoiter::trPositionControl(VM_NavigationContext& contex
     else
     {
          VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoLoiter::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
     }
 
 }
@@ -1075,6 +1392,27 @@ void VM_NavigationMap_AutoReturnToLaunch::trPositionControl(VM_NavigationContext
 
 }
 
+void VM_NavigationMap_AutoReturnToLaunch::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
+    }
+
+}
+
 void VM_NavigationMap_AutoReturnToLaunch::trRattitude(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
@@ -1276,6 +1614,27 @@ void VM_NavigationMap_Acrobatic::trPositionControl(VM_NavigationContext& context
     else
     {
          VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+void VM_NavigationMap_Acrobatic::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
     }
 
 }
@@ -1506,6 +1865,27 @@ void VM_NavigationMap_Stabilize::trPositionControl(VM_NavigationContext& context
 
 }
 
+void VM_NavigationMap_Stabilize::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
+    }
+
+}
+
 void VM_NavigationMap_Stabilize::trRattitude(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
@@ -1711,6 +2091,27 @@ void VM_NavigationMap_Rattitude::trPositionControl(VM_NavigationContext& context
 
 }
 
+void VM_NavigationMap_Rattitude::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
+    }
+
+}
+
 void VM_NavigationMap_Rattitude::trStabilize(VM_NavigationContext& context)
 {
     VM_Navigation& ctxt = context.getOwner();
@@ -1891,6 +2292,27 @@ void VM_NavigationMap_AutoTakeoff::trPositionControl(VM_NavigationContext& conte
     else
     {
          VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoTakeoff::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
     }
 
 }
@@ -2096,6 +2518,27 @@ void VM_NavigationMap_AutoLand::trPositionControl(VM_NavigationContext& context)
     else
     {
          VM_NavigationMap_Default::trPositionControl(context);
+    }
+
+}
+
+void VM_NavigationMap_AutoLand::trAutoMission(VM_NavigationContext& context)
+{
+    VM_Navigation& ctxt = context.getOwner();
+
+    if ( 
+                             ctxt.IsTransitionAutoMissionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         )
+    {
+        context.getState().Exit(context);
+        // No actions.
+        context.setState(VM_NavigationMap::AutoMission);
+        context.getState().Entry(context);
+    }
+    else
+    {
+         VM_NavigationMap_Default::trAutoMission(context);
     }
 
 }

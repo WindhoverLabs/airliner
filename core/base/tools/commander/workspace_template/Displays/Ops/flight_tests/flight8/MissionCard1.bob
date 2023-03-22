@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Mission Card 1</name>
+  <widget type="webbrowser" version="2.0.0">
+    <name>Web Browser</name>
+    <url>file://$(DISPLAYS_ROOT_DIR)/Ops/flight_tests/flight7/card1.html</url>
+    <width>1150</width>
+    <show_toolbar>false</show_toolbar>
+  </widget>
+</display>
