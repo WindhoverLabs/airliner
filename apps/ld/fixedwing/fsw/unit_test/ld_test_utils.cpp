@@ -32,7 +32,9 @@
 *****************************************************************************/
 
 #include "cfe.h"
+
 #include "ld_test_utils.hpp"
+
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_timer_stubs.h"
@@ -50,6 +52,8 @@
 #include <time.h>
 #include <iostream>
 
+
+extern LD cpyLD;
 
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t        Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
@@ -98,6 +102,7 @@ LD_ConfigTbl_t LD_ConfigTblUnitTest_Invalid
 void LD_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
+    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -108,12 +113,7 @@ void LD_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 1
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *)&LD_ConfigTbl);
-#else
-    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME,
-                                          (void *)&LD_ConfigTblUnitTest);
-#endif
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
                                    sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
@@ -126,9 +126,38 @@ void LD_Test_Setup(void)
                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
-void LD_Test_Setup_Invalid(void)
+void LD_Test_SetupUT(void)
 {
     /* initialize test environment to default state for every test */
+    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
+
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+
+    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME,
+                                          (void *)&LD_ConfigTblUnitTest);
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
+                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void LD_Test_SetupUT_Invalid(void)
+{
+    /* initialize test environment to default state for every test */
+    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();

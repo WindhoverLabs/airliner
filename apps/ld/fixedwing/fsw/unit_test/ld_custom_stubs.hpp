@@ -42,5 +42,10 @@ extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
 extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
 extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
+void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
+
+void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
+
 
 #endif /* LD_CUSTOM_STUBS_HPP */

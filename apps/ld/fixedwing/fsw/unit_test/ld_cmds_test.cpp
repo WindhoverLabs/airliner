@@ -60,7 +60,7 @@
  */
 void Test_LD_ProcessCmdPipe_InvalidCmd(void)
 {
-    LD              oLD;
+    LD              oLDut;
 
     int32           CmdPipe;
     LD_NoArgCmd_t   CmdMsg;
@@ -80,12 +80,13 @@ void Test_LD_ProcessCmdPipe_InvalidCmd(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oLD.AppMain();
+    oLDut.AppMain();
 
     sprintf(expectedEvent, "Recvd invalid CMD msgId (0x%04X)", CI_CMD_MID);
 
     /* Verify results */
-    UtAssert_True(oLD.HkTlm.usCmdErrCnt == 1, "ProcessCmdPipe, InvalidCmd");
+    UtAssert_True(oLDut.HkTlm.usCmdErrCnt == 1, "ProcessCmdPipe, InvalidCmd");
+
     UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "ProcessCmdPipe, InvalidCmd Event Sent");
 }
@@ -96,7 +97,7 @@ void Test_LD_ProcessCmdPipe_InvalidCmd(void)
  */
 void Test_LD_ProcessCmdPipe_InvalidCmdCode(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -117,13 +118,14 @@ void Test_LD_ProcessCmdPipe_InvalidCmdCode(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oLD.AppMain();
+    oLDut.AppMain();
 
     sprintf(expectedEvent, "Recvd invalid command code (%u)", 100);
 
     /* Verify results */
-    UtAssert_True(oLD.HkTlm.usCmdErrCnt == 1,
+    UtAssert_True(oLDut.HkTlm.usCmdErrCnt == 1,
                   "ProcessCmdPipe, InvalidCmdCode");
+
     UtAssert_EventSent(LD_CC_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "ProcessCmdPipe, InvalidCmdCode Event Sent");
 }
@@ -134,7 +136,7 @@ void Test_LD_ProcessCmdPipe_InvalidCmdCode(void)
  */
 void Test_LD_ProcessCmdPipe_CmdPipeError(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              SchPipe;
     LD_NoArgCmd_t      InMsg;
@@ -149,7 +151,7 @@ void Test_LD_ProcessCmdPipe_CmdPipeError(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
      /* Execute the function being tested */
-    oLD.AppMain();
+    oLDut.AppMain();
 
     sprintf(expectedEvent, "CMD pipe read error (0x%08lX)",
                             CFE_SB_BAD_ARGUMENT);
@@ -165,7 +167,7 @@ void Test_LD_ProcessCmdPipe_CmdPipeError(void)
  */
 void Test_LD_ProcessCmdPipe_Noop(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -186,16 +188,18 @@ void Test_LD_ProcessCmdPipe_Noop(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oLD.AppMain();
+    oLDut.AppMain();
 
     sprintf(expectedEvent, "Recvd NOOP. Version %d.%d.%d.%d",
                            LD_MAJOR_VERSION, LD_MINOR_VERSION,
                            LD_REVISION, LD_MISSION_REV);
      /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
-                   "ProcessCmdPipe, Noop");
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 1) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Noop");
+
     UtAssert_EventSent(LD_CMD_NOOP_EID, CFE_EVS_INFORMATION, expectedEvent,
-                   "ProcessCmdPipe, Noop Event Sent");
+                       "ProcessCmdPipe, Noop Event Sent");
 }
 
 
@@ -204,7 +208,7 @@ void Test_LD_ProcessCmdPipe_Noop(void)
  */
 void Test_LD_ProcessCmdPipe_Reset(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -224,10 +228,11 @@ void Test_LD_ProcessCmdPipe_Reset(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oLD.AppMain();
+    oLDut.AppMain();
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) && (oLD.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 0) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, Reset");
 }
 
@@ -237,7 +242,7 @@ void Test_LD_ProcessCmdPipe_Reset(void)
  */
 void Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -253,15 +258,17 @@ void Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC(void)
     LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "%s", "Operational mode changed to auto.");
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 1) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, LD_MODE_AUTO_CC");
+
     UtAssert_EventSent(LD_MODE_CHANGED_EID, CFE_EVS_INFORMATION,
              expectedEvent, "ProcessCmdPipe, LD_MODE_AUTO_CC Event Sent");
 }
@@ -272,7 +279,7 @@ void Test_LD_ProcessCmdPipe_LD_MODE_AUTO_CC(void)
  */
 void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -288,14 +295,16 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto(void)
     LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "%s", "Command error LD already in auto mode.");
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) && (oLD.HkTlm.usCmdErrCnt == 1),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 0) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 1),
                   "ProcessCmdPipe, fail LD_MODE_AUTO_CC_AlreadyAuto");
+
     UtAssert_EventSent(LD_MODE_CHANGE_ERROR_EID, CFE_EVS_ERROR,
              expectedEvent,
              "ProcessCmdPipe, fail LD_MODE_AUTO_CC_AlreadyAuto Event Sent");
@@ -307,7 +316,7 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_AlreadyAuto(void)
  */
 void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -326,17 +335,18 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify(void)
                              CFE_TBL_ERR_INVALID_HANDLE, 1);
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "CFE_TBL_Modified error (%d)",
                            (int)CFE_TBL_ERR_INVALID_HANDLE);
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) &&
-                  (oLD.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 1) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, fail LD_MODE_AUTO_CC_TblModify");
+
     UtAssert_EventSent(LD_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
              expectedEvent,
              "ProcessCmdPipe, fail LD_MODE_AUTO_CC_TblModify Event Sent");
@@ -348,7 +358,7 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_AUTO_CC_TblModify(void)
  */
 void Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -364,14 +374,16 @@ void Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC(void)
     LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "%s", "Operational mode changed to manual.");
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) && (oLD.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 1) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, LD_MODE_MANUAL_CC");
+
     UtAssert_EventSent(LD_MODE_CHANGED_EID, CFE_EVS_INFORMATION,
              expectedEvent, "ProcessCmdPipe, LD_MODE_MANUAL_CC Event Sent");
 }
@@ -382,7 +394,7 @@ void Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC(void)
  */
 void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -398,17 +410,18 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual(void)
     LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "%s",
             "Command error LD already in manual mode.");
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 0) &&
-                  (oLD.HkTlm.usCmdErrCnt == 1),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 0) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 1),
                   "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_AlreadyManual");
+
     UtAssert_EventSent(LD_MODE_CHANGE_ERROR_EID, CFE_EVS_ERROR,
         expectedEvent,
         "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_AlreadyManual Event Sent");
@@ -420,7 +433,7 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual(void)
  */
 void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     int32              CmdPipe;
     LD_NoArgCmd_t      CmdMsg;
@@ -439,16 +452,17 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify(void)
                              CFE_TBL_ERR_INVALID_HANDLE, 1);
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    oLD.ProcessCmdPipe();
+    oLDut.InitApp();
+    oLDut.ProcessCmdPipe();
 
     sprintf(expectedEvent, "CFE_TBL_Modified error (%d)",
                            (int)CFE_TBL_ERR_INVALID_HANDLE);
 
     /* Verify results */
-    UtAssert_True((oLD.HkTlm.usCmdCnt == 1) &&
-                  (oLD.HkTlm.usCmdErrCnt == 0),
+    UtAssert_True((oLDut.HkTlm.usCmdCnt == 1) &&
+                  (oLDut.HkTlm.usCmdErrCnt == 0),
                   "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_TblModify");
+
     UtAssert_EventSent(LD_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
             expectedEvent,
             "ProcessCmdPipe, fail LD_MODE_MANUAL_CC_TblModify Event Sent");
@@ -460,7 +474,7 @@ void Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify(void)
  */
 void Test_LD_VerifyCmdLength_Fail_CmdLength(void)
 {
-    LD                 oLD;
+    LD                 oLDut;
 
     bool             bResult = TRUE;
     bool             bExpected = FALSE;
@@ -473,8 +487,8 @@ void Test_LD_VerifyCmdLength_Fail_CmdLength(void)
     LD_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    oLD.InitApp();
-    bResult = oLD.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
+    oLDut.InitApp();
+    bResult = oLDut.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
                                   sizeof(CmdMsg) + 5);
 
     sprintf(expectedEvent,
@@ -483,14 +497,18 @@ void Test_LD_VerifyCmdLength_Fail_CmdLength(void)
             sizeof(CmdMsg), sizeof(CmdMsg) + 5);
 
     /* Verify results */
-    UtAssert_True ((bResult == bExpected) && (oLD.HkTlm.usCmdErrCnt == 1),
+    UtAssert_True((bResult == bExpected) && (oLDut.HkTlm.usCmdErrCnt == 1),
                    "VerifyCmdLength, Fail CmdLength");
+
     UtAssert_EventSent(LD_MSGLEN_ERR_EID, CFE_EVS_ERROR, expectedEvent,
                        "VerifyCmdLength(), Fail CmdLength Event Sent");
 }
 
 
 
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void LD_Cmds_Test_AddTestCases(void)
 {
     UtTest_Add(Test_LD_ProcessCmdPipe_InvalidCmd,
@@ -521,8 +539,8 @@ void LD_Cmds_Test_AddTestCases(void)
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_ProcessCmdPipe_LD_MODE_MANUAL_CC");
     UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual,
-            LD_Test_Setup, LD_Test_TearDown,
-            "Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual");
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_AlreadyManual");
     UtTest_Add(Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_ProcessCmdPipe_Fail_LD_MODE_MANUAL_CC_TblModify");
@@ -530,4 +548,4 @@ void LD_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_LD_VerifyCmdLength_Fail_CmdLength,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_VerifyCmdLength_Fail_CmdLength");
-} /* end LD_Cmds_Test_AddTestCases */
+}

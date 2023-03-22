@@ -46,13 +46,16 @@ extern "C" void LD_AppMain();
 
 extern "C" LD_ConfigTbl_t LD_ConfigTbl;
 
+extern LD oLD;
+
 
 /*
  * Function Definitions
  */
 
 void    LD_Test_Setup(void);
-void    LD_Test_Setup_Invalid(void);
+void    LD_Test_SetupUT(void);
+void    LD_Test_SetupUT_Invalid(void);
 void    LD_Test_TearDown(void);
 
 void    LD_Test_PrintCmdMsg(void *pMsg, uint32 size);
