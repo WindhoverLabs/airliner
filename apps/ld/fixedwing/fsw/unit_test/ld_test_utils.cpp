@@ -195,6 +195,100 @@ void LD_Test_TearDown(void)
                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
+void GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg)
+{
+    pMsg->Timestamp = LD_Test_GetTimeUs();
+    pMsg->Armed = FALSE;
+    pMsg->Prearmed = FALSE;
+    pMsg->ReadyToArm = TRUE;
+    pMsg->Lockdown = FALSE;
+    pMsg->ManualLockdown = FALSE;
+    pMsg->ForceFailsafe = TRUE;
+    pMsg->InEscCalibrationMode = FALSE;
+
+    return;
+}
+
+void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
+{
+    pMsg->Timestamp = LD_Test_GetTimeUs();
+    pMsg->RefTimestamp = LD_Test_GetTimeUs();
+    pMsg->RefLat = 47.397741928975;
+    pMsg->RefLon = 8.545593979817;
+    pMsg->SurfaceBottomTimestamp = LD_Test_GetTimeUs();
+    pMsg->X = -1.995731f;
+    pMsg->Y = 1.565559f;
+    pMsg->Z = -0.826584f;
+    pMsg->Delta_XY[0] = 0.0f;
+    pMsg->Delta_XY[1] = 0.0f;
+    pMsg->Delta_Z = 0.0f;
+    pMsg->VX = -0.027511f;
+    pMsg->VY = 0.006788f;
+    pMsg->VZ = -0.051438f;
+    pMsg->Delta_VXY[0] = 0.0f;
+    pMsg->Delta_VXY[1] = 0.0f;
+    pMsg->Delta_VZ = 0.0f;
+    pMsg->AX = 0.0f;
+    pMsg->AY = 0.0f;
+    pMsg->AZ = 0.0f;
+    pMsg->Yaw = 1.547718f;
+    pMsg->RefAlt = 490.7512f;
+    pMsg->DistBottom = 1.155246f;
+    pMsg->DistBottomRate = 0.051438f;
+    pMsg->EpH = 0.369742f;
+    pMsg->EpV = 0.216528f;
+    pMsg->EvH = 0.0f;
+    pMsg->EvV = 0.0f;
+    pMsg->EstimatorType = 0;
+    pMsg->XY_Valid = TRUE;
+    pMsg->Z_Valid = TRUE;
+    pMsg->V_XY_Valid = TRUE;
+    pMsg->V_Z_Valid = TRUE;
+    pMsg->XY_ResetCounter = 0;
+    pMsg->Z_ResetCounter = 0;
+    pMsg->VXY_ResetCounter = 0;
+    pMsg->VZ_ResetCounter = 0;
+    pMsg->XY_Global = TRUE;
+    pMsg->Z_Global = TRUE;
+    pMsg->DistBottomValid = TRUE;
+
+    return;
+}
+
+void GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg)
+{
+    pMsg->Timestamp = LD_Test_GetTimeUs();
+    pMsg->IndicatedAirspeed = 1.0f;           /* m/s     */
+    pMsg->TrueAirspeed = 1.5f;                /* m/s     */
+    pMsg->TrueAirspeedUnfiltered = 0.0f;      /* m/s     */
+    pMsg->AirTemperature = 10.0f;             /* Celsius */
+    pMsg->Confidence = 0.0f;
+
+    return;
+}
+
+void GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg)
+{
+    pMsg->Timestamp = LD_Test_GetTimeUs();
+    pMsg->Voltage = 12.0f;                    /* V   */
+    pMsg->VoltageFiltered = 12.0f;            /* V   */
+    pMsg->Current = 5.0f;                     /* A   */
+    pMsg->CurrentFiltered = 5.0f;             /* A   */
+    pMsg->Discharged = 1000.0f;               /* mAh */
+    pMsg->Remaining = 0.15f;
+    pMsg->Scale = 1.0f;
+    pMsg->CellCount = 3;
+    pMsg->Connected = TRUE;
+    pMsg->Warning = PX4_BATTERY_WARNING_NONE;
+
+    return;
+}
+
+void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t pMsg)
+{
+    return;
+}
+
 void LD_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
     unsigned char *pBuff;

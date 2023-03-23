@@ -34,6 +34,7 @@
 #include "cfe.h"
 
 #include "ld_app.h"
+#include "ld_version.h"
 
 #include "ld_custom_stubs.hpp"
 #include "ld_test_utils.hpp"
@@ -54,6 +55,7 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <stdarg.h>
 #include <float.h>
 #include <time.h>
 
@@ -61,17 +63,21 @@
 uint16   RcvDataPipeMsgHook_MsgId = 0;
 uint16   SendHKSendMsgHook_MsgId = 0;
 uint16   DiagTlmSendMsgHook_MsgId = 0;
+
 int32    WriteToSysLog_HookCalledCnt = 0;
+uint32   WriteToSysLog_HookFlag = 0;
+
+PX4_VehicleLandDetectedMsg_t  HookVLndDetect;
 
 double   ConfigData_Checksum = 0.0;
 
 
 
 /**************************************************************************
- * Tests for LD_InitEvent()
+ * Tests for LD InitEvent()
  **************************************************************************/
 /**
- * Test LD_InitEvent() with failed CFE_EVS_Register
+ * Test LD InitEvent() with failed CFE_EVS_Register
  */
 void Test_LD_InitEvent_Fail_Register(void)
 {
@@ -100,10 +106,10 @@ void Test_LD_InitEvent_Fail_Register(void)
 
 
 /**************************************************************************
- * Tests for LD_InitPipe()
+ * Tests for LD InitPipe()
  **************************************************************************/
 /**
- * Test LD_InitPipe(), fail SCH CFE_SB_CreatePipe
+ * Test LD InitPipe(), fail SCH CFE_SB_CreatePipe
  */
 void Test_LD_InitPipe_Fail_CreateSCHPipe(void)
 {
@@ -131,7 +137,7 @@ void Test_LD_InitPipe_Fail_CreateSCHPipe(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for wakeup
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for wakeup
  */
 void Test_LD_InitPipe_Fail_SubscribeWakeup(void)
 {
@@ -162,7 +168,7 @@ void Test_LD_InitPipe_Fail_SubscribeWakeup(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for sendhk
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for sendhk
  */
 void Test_LD_InitPipe_Fail_SubscribeSendHK(void)
 {
@@ -193,7 +199,7 @@ void Test_LD_InitPipe_Fail_SubscribeSendHK(void)
 
 
 /**
- * Test LD_InitPipe(), fail CMD CFE_SB_CreatePipe
+ * Test LD InitPipe(), fail CMD CFE_SB_CreatePipe
  */
 void Test_LD_InitPipe_Fail_CreateCMDPipe(void)
 {
@@ -221,7 +227,7 @@ void Test_LD_InitPipe_Fail_CreateCMDPipe(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_Subscribe for CMD msg
+ * Test LD InitPipe(), fail CFE_SB_Subscribe for CMD msg
  */
 void Test_LD_InitPipe_Fail_SubscribeCMD(void)
 {
@@ -252,7 +258,7 @@ void Test_LD_InitPipe_Fail_SubscribeCMD(void)
 
 
 /**
- * Test LD_InitPipe(), fail DATA CFE_SB_CreatePipe
+ * Test LD InitPipe(), fail DATA CFE_SB_CreatePipe
  */
 void Test_LD_InitPipe_Fail_CreateDATAPipe(void)
 {
@@ -280,7 +286,7 @@ void Test_LD_InitPipe_Fail_CreateDATAPipe(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorArmed
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for ActuatorArmed
  */
 void Test_LD_InitPipe_Fail_SubscribeExActuatorArmed(void)
 {
@@ -309,7 +315,7 @@ void Test_LD_InitPipe_Fail_SubscribeExActuatorArmed(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for Airspeed
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for Airspeed
  */
 void Test_LD_InitPipe_Fail_SubscribeExAirspeed(void)
 {
@@ -338,7 +344,7 @@ void Test_LD_InitPipe_Fail_SubscribeExAirspeed(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls0
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls0
  */
 void Test_LD_InitPipe_Fail_SubscribeExActuatorControls0(void)
 {
@@ -368,7 +374,7 @@ void Test_LD_InitPipe_Fail_SubscribeExActuatorControls0(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ControlState
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for ControlState
  */
 void Test_LD_InitPipe_Fail_SubscribeExControlState(void)
 {
@@ -397,7 +403,7 @@ void Test_LD_InitPipe_Fail_SubscribeExControlState(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
  */
 void Test_LD_InitPipe_Fail_SubscribeExBatteryStatus(void)
 {
@@ -426,7 +432,7 @@ void Test_LD_InitPipe_Fail_SubscribeExBatteryStatus(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleAttitude
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for VehicleAttitude
  */
 void Test_LD_InitPipe_Fail_SubscribeExVehicleAttitude(void)
 {
@@ -455,7 +461,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleAttitude(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSetpoint
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSetpoint
  */
 void Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint(void)
 {
@@ -485,7 +491,7 @@ void Test_LD_InitPipe_Fail_SubscribeExManualControlSetpoint(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleLocalPosition
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for VehicleLocalPosition
  */
 void Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition(void)
 {
@@ -515,7 +521,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleLocalPosition(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleSensorCombined
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for VehicleSensorCombined
  */
 void Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined(void)
 {
@@ -545,7 +551,7 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleSensorCombined(void)
 
 
 /**
- * Test LD_InitPipe(), fail CFE_SB_SubscribeEx for VehicleControlMode
+ * Test LD InitPipe(), fail CFE_SB_SubscribeEx for VehicleControlMode
  */
 void Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode(void)
 {
@@ -576,16 +582,17 @@ void Test_LD_InitPipe_Fail_SubscribeExVehicleControlMode(void)
 
 
 /**************************************************************************
- * Tests for LD_InitData()
+ * Tests for LD InitData()
  **************************************************************************/
 /**
- * Test LD_InitData()
+ * Test LD InitData()
  */
 void Test_LD_InitData(void)
 {
     LD oLDut;
 
     /* Set a fail result */
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SUCCESS;
 
     /* Execute the function being tested */
@@ -597,10 +604,10 @@ void Test_LD_InitData(void)
 
 
 /**************************************************************************
- * Tests for LD_InitApp()
+ * Tests for LD InitApp()
  **************************************************************************/
 /**
- * Test LD_InitApp(), fail init event
+ * Test LD InitApp(), fail init event
  */
 void Test_LD_InitApp_Fail_InitEvent(void)
 {
@@ -627,18 +634,21 @@ void Test_LD_InitApp_Fail_InitEvent(void)
     UtAssert_True(result == expected, "InitApp, fail init event");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog1) == TRUE,
-                  "InitApp, fail init event: Sys Log1 Written");
+                  "InitApp, fail init event: SysLog1 Written");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog2) == TRUE,
-                  "InitApp, fail init event: Sys Log2 Written");
+                  "InitApp, fail init event: SysLog2 Written");
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog3) == TRUE,
-                  "InitApp, fail init event: Sys Log3 Written");
+                  "InitApp, fail init event: SysLog3 Written");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 3,
+                  "InitApp, fail init event: SysLog QueueDepth");
 }
 
 
 /**
- * Test LD_InitApp(), fail init pipe
+ * Test LD InitApp(), fail init pipe
  */
 void Test_LD_InitApp_Fail_InitPipe(void)
 {
@@ -646,19 +656,31 @@ void Test_LD_InitApp_Fail_InitPipe(void)
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oLDut.InitApp();
 
+    sprintf(expEvent, "Failed to create SCH pipe (0x%08lX)", expected);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init pipe");
+    UtAssert_True(result == expected, "InitApp, fail init pipe");
+
+    UtAssert_EventSent(LD_PIPE_INIT_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitApp, fail init pipe: Event Sent");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                  "InitApp, fail init pipe: SysLog QueueDepth");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "InitApp, fail init pipe: Event QueueDepth");
 }
 
 
 /**
- * Test LD_InitApp(), fail init data.
+ * Test LD InitApp(), fail init data.
  * NOTE: no current way to fail LD_InitData() in default
  */
 void Test_LD_InitApp_Fail_InitData(void)
@@ -672,12 +694,12 @@ void Test_LD_InitApp_Fail_InitData(void)
     result = oLDut.InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init data");
+    UtAssert_True(result == expected, "InitApp, fail init data");
 }
 
 
 /**
- * Test LD_InitApp(), fail init config table
+ * Test LD InitApp(), fail init config table
  */
 void Test_LD_InitApp_Fail_InitConfigTbl(void)
 {
@@ -685,19 +707,32 @@ void Test_LD_InitApp_Fail_InitConfigTbl(void)
 
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_NAME;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
     result = oLDut.InitApp();
 
+    sprintf(expEvent, "Failed to register config table (0x%08lX)",
+            expected);
+
     /* Verify results */
     UtAssert_True(result == expected, "InitApp, fail init config table");
+
+    UtAssert_EventSent(LD_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "InitApp, fail init config table: Event Sent");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                  "InitApp, fail init config table: SysLog QueueDepth");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 1,
+                  "InitApp, fail init config table: Event QueueDepth");
 }
 
 
 /**
- * Test LD_InitApp(), Nominal
+ * Test LD InitApp(), Nominal
  */
 void Test_LD_InitApp_Nominal(void)
 {
@@ -707,12 +742,40 @@ void Test_LD_InitApp_Nominal(void)
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
     int32 expected = CFE_SUCCESS;
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventOp[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Execute the function being tested */
     result = oLDut.InitApp();
 
+    if (oLDut.ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_AUTO)
+    {
+        sprintf(expEventOp, "%s", "Operational mode auto");
+    }
+    else if (oLDut.ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
+    {
+        sprintf(expEventOp, "%s", "Operational mode manual");
+    }
+
+    sprintf(expEvent, "Initialized.  Version %d.%d.%d.%d",
+            LD_MAJOR_VERSION, LD_MINOR_VERSION,
+            LD_REVISION, LD_MISSION_REV);
+
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, nominal");
+    UtAssert_True(result == expected, "InitApp, nominal");
+
+    UtAssert_EventSent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
+                       expEventOp,
+                       "InitApp, nominal: OpMode Event Sent");
+
+    UtAssert_EventSent(LD_INIT_INF_EID, CFE_EVS_INFORMATION, expEvent,
+                       "InitApp, nominal: Initialized Event Sent");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                  "InitApp, nominal: SysLog QueueDepth");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "InitApp, nominal: Event QueueDepth");
 }
 
 
@@ -724,53 +787,122 @@ void Test_LD_InitApp_Nominal(void)
  */
 void Test_LD_LD_AppMain_Nominal(void)
 {
+    char  expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char  expEventOp[CFE_EVS_MAX_MESSAGE_LENGTH];
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
+    /* Execute the function being tested */
     LD_AppMain();
+
+    if (oLD.ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_AUTO)
+    {
+        sprintf(expEventOp, "%s", "Operational mode auto");
+    }
+    else if (oLD.ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
+    {
+        sprintf(expEventOp, "%s", "Operational mode manual");
+    }
+
+    sprintf(expEvent, "Initialized.  Version %d.%d.%d.%d",
+            LD_MAJOR_VERSION, LD_MINOR_VERSION,
+            LD_REVISION, LD_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_EventSent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
+                       expEventOp,
+                       "extern LD_AppMain, Nominal: OpMode Event Sent");
+
+    UtAssert_EventSent(LD_INIT_INF_EID, CFE_EVS_INFORMATION, expEvent,
+                  "extern LD_AppMain, Nominal: Initialized Event Sent");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                  "extern LD_AppMain, Nominal: SysLog QueueDepth");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "extern LD_AppMain, Nominal: Event QueueDepth");
 }
 
 /**************************************************************************
- * Tests for LD_AppMain()
+ * Tests for LD AppMain()
  **************************************************************************/
+/**
+ * Test LD AppMain(), Fail RegisterApp
+ */
+void Test_LD_AppMain_Fail_RegisterApp(void)
+{
+    LD oLDut;
+
+    int32 expected = CFE_ES_ERR_APP_REGISTER;
+    char  expSysLog[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* fail the register app */
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    sprintf(expSysLog, "LD - Failed to register the app (0x%08lX)\n",
+            expected);
+
+    /* Verify results */
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(expSysLog) == TRUE,
+                  "AppMain, Fail RegisterApp: SysLog Written");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 1,
+                  "AppMain, Fail RegisterApp: SysLog QueueDepth");
+}
+
+
 /**
  * Test LD AppMain(), WriteToSysLogHook
  */
 int32 Test_LD_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
 {
     va_list   Ptr;
-    char      Buff[256];
+    char      Buff[CFE_ES_MAX_SYSLOG_MSG_SIZE];
+    char      expSysLog1[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char      expSysLog2[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     WriteToSysLog_HookCalledCnt++;
 
     va_start(Ptr, StringPtr);
-    vsnprintf(Buff, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, StringPtr, Ptr);
+    vsnprintf(Buff, (size_t)CFE_ES_MAX_SYSLOG_MSG_SIZE, StringPtr, Ptr);
     va_end(Ptr);
 
     printf("###AppMain_WriteToSysLogHook:\n");
     printf("%s", Buff);
+
+    snprintf(expSysLog1, CFE_EVS_MAX_MESSAGE_LENGTH,
+             "LD - Failed to register with EVS (0x%08lX)\n",
+             CFE_EVS_APP_NOT_REGISTERED);
+
+    snprintf(expSysLog2, CFE_EVS_MAX_MESSAGE_LENGTH,
+             "LD - Failed to init events (0x%08lX)\n",
+             CFE_EVS_APP_NOT_REGISTERED);
+
+    if (strncmp(Buff, expSysLog1, CFE_ES_MAX_SYSLOG_MSG_SIZE) == 0)
+    {
+        WriteToSysLog_HookFlag |= 0x00000001;
+    }
+
+    if (strncmp(Buff, expSysLog2, CFE_ES_MAX_SYSLOG_MSG_SIZE) == 0)
+    {
+        WriteToSysLog_HookFlag |= 0x00000002;
+    }
+
+    if (strncmp(Buff, "LD - Application failed to initialize\n",
+                CFE_ES_MAX_SYSLOG_MSG_SIZE) == 0)
+    {
+        WriteToSysLog_HookFlag |= 0x00000004;
+    }
 
     return CFE_SUCCESS;
 }
 
 
 /**
- * Test LD_AppMain(), Fail RegisterApp
- */
-void Test_LD_AppMain_Fail_RegisterApp(void)
-{
-    LD oLDut;
-
-    /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX,
-                            CFE_ES_ERR_APP_REGISTER, 1);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-}
-
-
-/**
- * Test LD_AppMain(), Fail InitApp
+ * Test LD AppMain(), Fail InitApp
  */
 void Test_LD_AppMain_Fail_InitApp(void)
 {
@@ -782,20 +914,24 @@ void Test_LD_AppMain_Fail_InitApp(void)
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     WriteToSysLog_HookCalledCnt = 0;
+    WriteToSysLog_HookFlag = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
-               (void*)&Test_LD_AppMain_WriteToSysLogHook);
+                              (void*)&Test_LD_AppMain_WriteToSysLogHook);
 
     /* Execute the function being tested */
     oLDut.AppMain();
 
     /* Verify results */
     UtAssert_True(WriteToSysLog_HookCalledCnt == 3,
-                  "AppMain, Fail_InitApp");
+                  "AppMain, Fail_InitApp: WriteToSysLog_HookCalledCnt");
+
+    UtAssert_True(WriteToSysLog_HookFlag == 0x00000007,
+                  "AppMain, Fail_InitApp: WriteToSysLog_HookFlag");
 }
 
 
 /**
- * Test LD_AppMain(), Fail AcquireConfigPtrs
+ * Test LD AppMain(), Fail AcquireConfigPtrs
  */
 void Test_LD_AppMain_Fail_AcquireConfigPtrs(void)
 {
@@ -816,18 +952,498 @@ void Test_LD_AppMain_Fail_AcquireConfigPtrs(void)
 
     /* Verify results */
     UtAssert_EventSent(LD_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
-                  expectedEvent, "LD_AppMain(), Fail AcquireConfigPtrs");
+                       expectedEvent,
+                       "AppMain, Fail AcquireConfigPtrs: Event Sent");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "AppMain, Fail AcquireConfigPtrs: Event QueueDepth");
+
+    UtAssert_True(Ut_CFE_ES_GetSysLogQueueDepth() == 0,
+                  "AppMain, Fail AcquireConfigPtrs: SysLog QueueDepth");
 }
 
 
 /**
- * Test LD_AppMain(), Invalid Schedule Message
+ * Test LD AppMain(), RcvDataPipeMsgHook
+ */
+int32 Test_LD_AppMain_RcvDataPipeMsgHook
+                    (void *dst, void *src, uint32 size)
+{
+    unsigned char   *pBuff = NULL;
+    int             i = 0;
+    CFE_SB_Msg_t*   dataMsgPtr=NULL;
+    CFE_SB_MsgId_t  DataMsgId;
+
+    pBuff = (unsigned char*)src;
+    printf("###RcvDataPipeMsgHook: ");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff ++;
+    }
+    printf("\n");
+
+    dataMsgPtr = (CFE_SB_Msg_t*)src;
+    DataMsgId = CFE_SB_GetMsgId(dataMsgPtr);
+    switch(DataMsgId)
+    {
+        case PX4_ACTUATOR_ARMED_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_ACTUATOR_ARMED_MID;
+            break;
+        case PX4_AIRSPEED_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_AIRSPEED_MID;
+            break;
+        case PX4_ACTUATOR_CONTROLS_0_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_ACTUATOR_CONTROLS_0_MID;
+            break;
+        case PX4_CONTROL_STATE_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_CONTROL_STATE_MID;
+            break;
+        case PX4_BATTERY_STATUS_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_BATTERY_STATUS_MID;
+            break;
+        case PX4_VEHICLE_ATTITUDE_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_ATTITUDE_MID;
+            break;
+        case PX4_MANUAL_CONTROL_SETPOINT_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_MANUAL_CONTROL_SETPOINT_MID;
+            break;
+        case PX4_VEHICLE_LOCAL_POSITION_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_LOCAL_POSITION_MID;
+            break;
+        case PX4_SENSOR_COMBINED_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_SENSOR_COMBINED_MID;
+            break;
+        case PX4_VEHICLE_CONTROL_MODE_MID:
+            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_CONTROL_MODE_MID;
+            break;
+        default:
+            RcvDataPipeMsgHook_MsgId = 0;
+            break;
+    }
+
+    return CFE_SUCCESS;
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - InvalidMsgID
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_InvalidMsgID(void)
+{
+    LD oLDut;
+
+    int32          DataPipe;
+    LD_NoArgCmd_t  InMsg;
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&InMsg, 0, sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    sprintf(expEvent, "Recvd invalid Data msgId (0x%04X)", 0);
+
+    /* Verify results */
+    UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "AppMain, RcvDataPipeMsg - InvalidMsgID");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+             "AppMain, RcvDataPipeMsg - InvalidMsgID: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - DataPipeError
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_DataPipeError(void)
+{
+    LD oLDut;
+
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    sprintf(expEvent, "Data pipe read error (0x%08lX).", CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "AppMain, RcvDataPipeMsg - DataPipeError");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                "AppMain, RcvDataPipeMsg - DataPipeError: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - ActuatorArmed
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_ActuatorArmed(void)
+{
+    LD oLDut;
+
+    int32                   DataPipe;
+    PX4_ActuatorArmedMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_ACTUATOR_ARMED_MID,
+             "AppMain, RcvDataPipeMsg - ActuatorArmed: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+             "AppMain, RcvDataPipeMsg - ActuatorArmed: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - Airspeed
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_Airspeed(void)
+{
+    LD oLDut;
+
+    int32              DataPipe;
+    PX4_AirspeedMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID,
+                     sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_AIRSPEED_MID,
+                  "AppMain, RcvDataPipeMsg - Airspeed: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                  "AppMain, RcvDataPipeMsg - Airspeed: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - ActuatorControls0
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_ActuatorControls0(void)
+{
+    LD oLDut;
+
+    int32                      DataPipe;
+    PX4_ActuatorControlsMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_0_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_ACTUATOR_CONTROLS_0_MID,
+             "AppMain, RcvDataPipeMsg - ActuatorControls0: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+            "AppMain, RcvDataPipeMsg - ActuatorControls0: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - ControlState
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_ControlState(void)
+{
+    LD oLDut;
+
+    int32                  DataPipe;
+    PX4_ControlStateMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_CONTROL_STATE_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_CONTROL_STATE_MID,
+                  "AppMain, RcvDataPipeMsg - ControlState: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                 "AppMain, RcvDataPipeMsg - ControlState: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - BatteryStatus
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_BatteryStatus(void)
+{
+    LD oLDut;
+
+    int32                   DataPipe;
+    PX4_BatteryStatusMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_BATTERY_STATUS_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_BATTERY_STATUS_MID,
+                  "AppMain, RcvDataPipeMsg - BatteryStatus: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+                "AppMain, RcvDataPipeMsg - BatteryStatus: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - VehicleAttitude
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_VehicleAttitude(void)
+{
+    LD oLDut;
+
+    int32                     DataPipe;
+    PX4_VehicleAttitudeMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_ATTITUDE_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_ATTITUDE_MID,
+             "AppMain, RcvDataPipeMsg - VehicleAttitude: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+             "AppMain, RcvDataPipeMsg - VehicleAttitude: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - ManualControlSetpoint
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_ManualControlSetpoint(void)
+{
+    LD oLDut;
+
+    int32                           DataPipe;
+    PX4_ManualControlSetpointMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_MANUAL_CONTROL_SETPOINT_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_MANUAL_CONTROL_SETPOINT_MID,
+           "AppMain, RcvDataPipeMsg - ManualControlSetpoint: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+         "AppMain, RcvDataPipeMsg - ManualControlSetpoint: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - VehicleLocalPosition
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_VehicleLocalPosition(void)
+{
+    LD oLDut;
+
+    int32                          DataPipe;
+    PX4_VehicleLocalPositionMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LOCAL_POSITION_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_LOCAL_POSITION_MID,
+           "AppMain, RcvDataPipeMsg - VehicleLocalPosition: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+         "AppMain, RcvDataPipeMsg - VehicleLocalPosition: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - VehicleSensorCombined
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_VehicleSensorCombined(void)
+{
+    LD oLDut;
+
+    int32 DataPipe;
+    PX4_SensorCombinedMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_COMBINED_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_SENSOR_COMBINED_MID,
+        "AppMain, RcvDataPipeMsg - VehicleSensorCombined: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+        "AppMain, RcvDataPipeMsg - VehicleSensorCombined: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), RcvDataPipeMsg - VehicleControlMode
+ */
+void Test_LD_AppMain_RcvDataPipeMsg_VehicleControlMode(void)
+{
+    LD oLDut;
+
+    int32                        DataPipe;
+    PX4_VehicleControlModeMsg_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                    sizeof(InMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    RcvDataPipeMsgHook_MsgId = 0;
+    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
+                               (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLDut.AppMain();
+
+    /* Verify results */
+    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_CONTROL_MODE_MID,
+           "AppMain, RcvDataPipeMsg - VehicleControlMode: Received MsgId");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 2,
+           "AppMain, RcvDataPipeMsg - VehicleControlMode: Event QueueDepth");
+}
+
+
+/**
+ * Test LD AppMain(), Invalid Schedule Message
  */
 void Test_LD_AppMain_InvalidSchMessage(void)
 {
     LD oLDut;
 
-    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate the behavior of receiving an
        invalid SCH message */
@@ -839,22 +1455,25 @@ void Test_LD_AppMain_InvalidSchMessage(void)
     /* Execute the function being tested */
     oLDut.AppMain();
 
-    sprintf(expectedEvent, "Recvd invalid SCH msgId (0x%04X)", 0);
+    sprintf(expEvent, "Recvd invalid SCH msgId (0x%04X)", 0);
 
     /* Verify results */
-    UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "LD_AppMain(), Invalid Schedule Message");
+    UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "AppMain, Invalid Schedule Message: Event Sent");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "AppMain, Invalid Schedule Message: Event QueueDepth");
 }
 
 
 /**
- * Test LD_AppMain(), SchPipeError
+ * Test LD AppMain(), SchPipeError
  */
 void Test_LD_AppMain_SchPipeError(void)
 {
     LD oLDut;
 
-    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+    char expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
 
@@ -863,17 +1482,19 @@ void Test_LD_AppMain_SchPipeError(void)
     /* Execute the function being tested */
     oLDut.AppMain();
 
-    sprintf(expectedEvent, "SCH pipe read error (0x%08lX).",
-                            CFE_SB_PIPE_RD_ERR);
+    sprintf(expEvent, "SCH pipe read error (0x%08lX).", CFE_SB_PIPE_RD_ERR);
 
     /* Verify results */
-    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "LD_AppMain(), SchPipeError");
+    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "AppMain, SchPipeError: Event Sent");
+
+    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth() == 3,
+                  "AppMain, SchPipeError: Event QueueDepth");
 }
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal_SendHK - SendMsg
+ * Hook to support: LD AppMain(), Nominal_SendHK - SendMsg
  */
 int32 Test_LD_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -949,7 +1570,7 @@ int32 Test_LD_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 }
 
 /**
- * Test LD_AppMain(), Nominal - SendHK
+ * Test LD AppMain(), Nominal - SendHK
  */
 void Test_LD_AppMain_Nominal_SendHK(void)
 {
@@ -958,12 +1579,13 @@ void Test_LD_AppMain_Nominal_SendHK(void)
     int32            SchPipe;
     LD_NoArgCmd_t    InMsg;
 
+    /* LD_SEND_HK_MID */
     SchPipe = Ut_CFE_SB_CreatePipe(LD_SCH_PIPE_NAME);
     CFE_SB_InitMsg ((void*)&InMsg, LD_SEND_HK_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
 
     /* The following will emulate the behavior of receiving
-       LD_SEND_HK_MID message */
+       LD_WAKEUP_MID message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, LD_WAKEUP_MID, 1);
 
@@ -971,8 +1593,16 @@ void Test_LD_AppMain_Nominal_SendHK(void)
     SendHKSendMsgHook_MsgId = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                  (void*)&Test_LD_AppMain_Nominal_SendHK_SendMsgHook);
+
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                      (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
 
     /* Execute the function being tested */
     oLDut.InitApp();
@@ -1039,7 +1669,7 @@ void Test_LD_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal_DiagTlm SendMsg
+ * Hook to support: LD AppMain(), Nominal_DiagTlm SendMsg
  */
 int32 Test_LD_AppMain_Nominal_DiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -1108,7 +1738,7 @@ int32 Test_LD_AppMain_Nominal_DiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     return CFE_SUCCESS;
 }
 /**
- * Test LD_AppMain(), Nominal - DiagTlm
+ * Test LD AppMain(), Nominal - DiagTlm
  */
 void Test_LD_AppMain_Nominal_DiagTlm(void)
 {
@@ -1139,7 +1769,7 @@ void Test_LD_AppMain_Nominal_DiagTlm(void)
 
 
 /**
- * Hook to support: LD_AppMain(), Nominal_Wakeup SendMsg
+ * Hook to support: LD AppMain(), Nominal_Wakeup SendMsg
  */
 int32 Test_LD_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -1152,7 +1782,7 @@ int32 Test_LD_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     CFE_TIME_SysTime_t TimeFromMsg;
 
     pBuff = (unsigned char*)MsgPtr;
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);  /* DataLenth + 7 */
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     printf("###Wakeup_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -1223,7 +1853,7 @@ int32 Test_LD_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     return CFE_SUCCESS;
 }
 /**
- * Test LD_AppMain(), Nominal - Wakeup
+ * Test LD AppMain(), Nominal - Wakeup
  */
 void Test_LD_AppMain_Nominal_Wakeup(void)
 {
@@ -1252,459 +1882,8 @@ void Test_LD_AppMain_Nominal_Wakeup(void)
 
     /* Execute the function being tested */
     oLDut.AppMain();
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsgHook
- */
-int32 Test_LD_AppMain_RcvDataPipeMsgHook
-                    (void *dst, void *src, uint32 size)
-{
-    unsigned char   *pBuff = NULL;
-    int             i = 0;
-    CFE_SB_Msg_t*   dataMsgPtr=NULL;
-    CFE_SB_MsgId_t  DataMsgId;
-
-    pBuff = (unsigned char*)src;
-    printf("###RcvDataPipeMsgHook: ");
-    for (i = 0; i < size; i++)
-    {
-        printf("0x%02x ", *pBuff);
-        pBuff ++;
-    }
-    printf("\n");
-
-    dataMsgPtr = (CFE_SB_Msg_t*)src;
-    DataMsgId = CFE_SB_GetMsgId(dataMsgPtr);
-    switch(DataMsgId)
-    {
-        case PX4_ACTUATOR_ARMED_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_ACTUATOR_ARMED_MID;
-            break;
-        case PX4_AIRSPEED_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_AIRSPEED_MID;
-            break;
-        case PX4_ACTUATOR_CONTROLS_0_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_ACTUATOR_CONTROLS_0_MID;
-            break;
-        case PX4_CONTROL_STATE_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_CONTROL_STATE_MID;
-            break;
-        case PX4_BATTERY_STATUS_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_BATTERY_STATUS_MID;
-            break;
-        case PX4_VEHICLE_ATTITUDE_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_ATTITUDE_MID;
-            break;
-        case PX4_MANUAL_CONTROL_SETPOINT_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_MANUAL_CONTROL_SETPOINT_MID;
-            break;
-        case PX4_VEHICLE_LOCAL_POSITION_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_LOCAL_POSITION_MID;
-            break;
-        case PX4_SENSOR_COMBINED_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_SENSOR_COMBINED_MID;
-            break;
-        case PX4_VEHICLE_CONTROL_MODE_MID:
-            RcvDataPipeMsgHook_MsgId = PX4_VEHICLE_CONTROL_MODE_MID;
-            break;
-        default:
-            RcvDataPipeMsgHook_MsgId = 0;
-            break;
-    }
-
-    return CFE_SUCCESS;
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - InvalidMsgID
- */
-void Test_LD_AppMain_RcvDataPipeMsg_InvalidMsgID(void)
-{
-    LD oLDut;
-
-    int32                          DataPipe;
-    PX4_DifferentialPressureMsg_t  InMsg;
-    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_DIFFERENTIAL_PRESSURE_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    sprintf(expectedEvent, "Recvd invalid Data msgId (0x%04X)",
-                           PX4_DIFFERENTIAL_PRESSURE_MID);
 
     /* Verify results */
-    UtAssert_EventSent(LD_MSGID_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "AppMain(), RcvDataPipeMsg - InvalidMsgID");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - DataPipeError
- */
-void Test_LD_AppMain_RcvDataPipeMsg_DataPipeError(void)
-{
-    LD oLDut;
-
-    char   expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 1);
-
-    /* Execute the function being tested */
-    oLDut.InitApp();
-    oLDut.RcvDataPipeMsg();
-
-    sprintf(expectedEvent, "Data pipe read error (0x%08lX).",
-                            CFE_SB_PIPE_RD_ERR);
-
-    /* Verify results */
-    UtAssert_EventSent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
-                       "LD_AppMain(), RcvDataPipeMsg - DataPipeError");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - ActuatorArmed
- */
-void Test_LD_AppMain_RcvDataPipeMsg_ActuatorArmed(void)
-{
-    LD oLDut;
-
-    int32                   DataPipe;
-    PX4_ActuatorArmedMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                         UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_ACTUATOR_ARMED_MID,
-                  "AppMain_RcvDataPipeMsg_ActuatorArmed");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - Airspeed
- */
-void Test_LD_AppMain_RcvDataPipeMsg_Airspeed(void)
-{
-    LD oLDut;
-
-    int32              DataPipe;
-    PX4_AirspeedMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID,
-                     sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                          UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                          (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_AIRSPEED_MID,
-                  "AppMain_RcvDataPipeMsg_Airspeed");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - ActuatorControls0
- */
-void Test_LD_AppMain_RcvDataPipeMsg_ActuatorControls0(void)
-{
-    LD oLDut;
-
-    int32                      DataPipe;
-    PX4_ActuatorControlsMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_CONTROLS_0_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(
-             RcvDataPipeMsgHook_MsgId == PX4_ACTUATOR_CONTROLS_0_MID,
-             "AppMain_RcvDataPipeMsg_ActuatorControls0");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - ControlState
- */
-void Test_LD_AppMain_RcvDataPipeMsg_ControlState(void)
-{
-    LD oLDut;
-
-    int32                  DataPipe;
-    PX4_ControlStateMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_CONTROL_STATE_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_CONTROL_STATE_MID,
-                  "AppMain_RcvDataPipeMsg_ControlState");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - BatteryStatus
- */
-void Test_LD_AppMain_RcvDataPipeMsg_BatteryStatus(void)
-{
-    LD oLDut;
-
-    int32                   DataPipe;
-    PX4_BatteryStatusMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_BATTERY_STATUS_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_BATTERY_STATUS_MID,
-                  "AppMain_RcvDataPipeMsg_BatteryStatus");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - VehicleAttitude
- */
-void Test_LD_AppMain_RcvDataPipeMsg_VehicleAttitude(void)
-{
-    LD oLDut;
-
-    int32                     DataPipe;
-    PX4_VehicleAttitudeMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_ATTITUDE_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_ATTITUDE_MID,
-                  "AppMain_RcvDataPipeMsg_VehicleAttitude");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - ManualControlSetpoint
- */
-void Test_LD_AppMain_RcvDataPipeMsg_ManualControlSetpoint(void)
-{
-    LD oLDut;
-
-    int32                           DataPipe;
-    PX4_ManualControlSetpointMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_MANUAL_CONTROL_SETPOINT_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(
-           RcvDataPipeMsgHook_MsgId == PX4_MANUAL_CONTROL_SETPOINT_MID,
-           "AppMain_RcvDataPipeMsg_ManualControlSetpoint");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - VehicleLocalPosition
- */
-void Test_LD_AppMain_RcvDataPipeMsg_VehicleLocalPosition(void)
-{
-    LD oLDut;
-
-    int32                          DataPipe;
-    PX4_VehicleLocalPositionMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LOCAL_POSITION_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(
-           RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_LOCAL_POSITION_MID,
-           "AppMain_RcvDataPipeMsg_VehicleLocalPosition");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - VehicleSensorCombined
- */
-void Test_LD_AppMain_RcvDataPipeMsg_VehicleSensorCombined(void)
-{
-    LD oLDut;
-
-    int32 DataPipe;
-    PX4_SensorCombinedMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_COMBINED_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(RcvDataPipeMsgHook_MsgId == PX4_SENSOR_COMBINED_MID,
-                  "AppMain_RcvDataPipeMsg_VehicleSensorCombined");
-}
-
-
-/**
- * Test LD AppMain(), RcvDataPipeMsg - VehicleControlMode
- */
-void Test_LD_AppMain_RcvDataPipeMsg_VehicleControlMode(void)
-{
-    LD oLDut;
-
-    int32                        DataPipe;
-    PX4_VehicleControlModeMsg_t  InMsg;
-
-    /* The following will emulate the behavior of receiving a message,
-       and gives it data to process. */
-    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
-                    sizeof(InMsg), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
-
-    RcvDataPipeMsgHook_MsgId = 0;
-    Ut_CFE_PSP_MEMUTILS_SetFunctionHook(
-                                    UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_LD_AppMain_RcvDataPipeMsgHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True(
-             RcvDataPipeMsgHook_MsgId == PX4_VEHICLE_CONTROL_MODE_MID,
-             "AppMain_RcvDataPipeMsg_VehicleControlMode");
 }
 
 
@@ -1725,7 +1904,7 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     CFE_TIME_SysTime_t TimeFromMsg;
 
     pBuff = (unsigned char*)MsgPtr;
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);  /* DataLenth + 7 */
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
     printf("###Execute_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -1744,20 +1923,18 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     {
         case PX4_VEHICLE_LAND_DETECTED_MID:
         {
-            PX4_VehicleLandDetectedMsg_t   VehicleLandDetected;
-            CFE_PSP_MemCpy((void*)&VehicleLandDetected,
-                         (void*)MsgPtr, sizeof(VehicleLandDetected));
+            CFE_PSP_MemCpy((void*)&HookVLndDetect,
+                         (void*)MsgPtr, sizeof(HookVLndDetect));
 
             printf("Sent PX4_VEHICLE_LAND_DETECTED_MID:\n");
             localTime = LD_Test_GetTimeFromTimestamp(
-                                      VehicleLandDetected.Timestamp);
+                                           HookVLndDetect.Timestamp);
             loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
-            printf("AltMax: %f\n", VehicleLandDetected.AltMax);
-            printf("Landed: %d\n", VehicleLandDetected.Landed);
-            printf("Freefall: %d\n", VehicleLandDetected.Freefall);
-            printf("GroundContact: %d\n",
-                    VehicleLandDetected.GroundContact);
+            printf("AltMax: %f\n", HookVLndDetect.AltMax);
+            printf("Landed: %d\n", HookVLndDetect.Landed);
+            printf("Freefall: %d\n", HookVLndDetect.Freefall);
+            printf("GroundContact: %d\n", HookVLndDetect.GroundContact);
             break;
         }
         case LD_DIAG_TLM_MID:
@@ -1798,19 +1975,60 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 
 
 /**
- * Test LD Execute()
+ * Test LD Execute(), Landed
  */
-void Test_LD_Execute(void)
+void Test_LD_Execute_Landed(void)
 {
     LD oLDut;
 
+    int32                         DataPipe;
+    PX4_ActuatorArmedMsg_t        ActArmedMsg;
+    PX4_VehicleLocalPositionMsg_t VLocalPosMsg;
+    PX4_AirspeedMsg_t             AirSpeedMsg;
+    PX4_BatteryStatusMsg_t        BatStatMsg;
+
+    DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
+
+    /* Send ActuatorArmedMsg */
+    CFE_SB_InitMsg((void*)&ActArmedMsg, PX4_ACTUATOR_ARMED_MID,
+                    sizeof(ActArmedMsg), TRUE);
+    GetActuatorArmedMsg(&ActArmedMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ActArmedMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    /* Send VehicleLocalPositionMsg */
+    CFE_SB_InitMsg((void*)&VLocalPosMsg, PX4_VEHICLE_LOCAL_POSITION_MID,
+                    sizeof(VLocalPosMsg), TRUE);
+    GetVehicleLocalPositionMsg(&VLocalPosMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLocalPosMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    /* Send AirspeedMsg */
+    CFE_SB_InitMsg((void*)&AirSpeedMsg, PX4_AIRSPEED_MID,
+                   sizeof(AirSpeedMsg), TRUE);
+    GetAirspeedMsg(&AirSpeedMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&AirSpeedMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    /* Send BatteryStatusMsg */
+    CFE_SB_InitMsg((void*)&BatStatMsg, PX4_BATTERY_STATUS_MID,
+                   sizeof(BatStatMsg), TRUE);
+    GetBatteryStatusMsg(&BatStatMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStatMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    /* Emulate LD_WAKEUP_MID */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, LD_WAKEUP_MID, 1);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                (void*)&Test_LD_Execute_SendMsgHook);
+
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
@@ -1989,9 +2207,9 @@ void LD_App_Test_AddTestCases(void)
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_RcvDataPipeMsg_VehicleControlMode");
 
-    UtTest_Add(Test_LD_Execute,
+    UtTest_Add(Test_LD_Execute_Landed,
                LD_Test_Setup, LD_Test_TearDown,
-               "Test_LD_Execute");
+               "Test_LD_Execute_Landed");
     UtTest_Add(Test_LD_ConfigData,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_ConfigData");
