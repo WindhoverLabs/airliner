@@ -64,10 +64,12 @@ uint16   RcvDataPipeMsgHook_MsgId = 0;
 uint16   SendHKSendMsgHook_MsgId = 0;
 uint16   DiagTlmSendMsgHook_MsgId = 0;
 
-int32    WriteToSysLog_HookCalledCnt = 0;
+uint32   WriteToSysLog_HookCalledCnt = 0;
 uint32   WriteToSysLog_HookFlag = 0;
 
+uint32   Execute_VLandDetRcvdCnt = 0;
 PX4_VehicleLandDetectedMsg_t  HookVLndDetect;
+LD_Diag_t                     HookDiag;
 
 double   ConfigData_Checksum = 0.0;
 
@@ -1669,106 +1671,6 @@ void Test_LD_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Hook to support: LD AppMain(), Nominal_DiagTlm SendMsg
- */
-int32 Test_LD_AppMain_Nominal_DiagTlm_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
-{
-    unsigned char      *pBuff = NULL;
-    uint16             msgLen = 0;
-    int                i = 0;
-    CFE_SB_MsgId_t     MsgId;
-    time_t             localTime;
-    struct tm          *loc_time;
-    CFE_TIME_SysTime_t TimeFromMsg;
-    LD_Diag_t          DiagMsg;
-
-    pBuff = (unsigned char*)MsgPtr;
-
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);   /* DataLenth + 7 */
-    printf("###AppMain_DiagTlm_SendMsgHook: MsgLen(%u)\n", msgLen);
-    for (i = 0; i < msgLen; i++)
-    {
-        printf("0x%02x ", *pBuff);
-        pBuff++;
-    }
-    printf("\n");
-
-    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
-    localTime = LD_Test_GetTimeFromMsg(TimeFromMsg);
-    loc_time = localtime(&localTime);
-    printf("TimeFromMessage: %s", asctime(loc_time));
-
-    MsgId = (((MsgPtr->Hdr).StreamId[0] << 8) +
-              ((MsgPtr->Hdr).StreamId[1]));
-    switch (MsgId)
-    {
-        case LD_DIAG_TLM_MID:
-        {
-            DiagTlmSendMsgHook_MsgId = LD_DIAG_TLM_MID;
-            CFE_PSP_MemCpy((void*)&DiagMsg, (void*)MsgPtr,
-                           sizeof(DiagMsg));
-
-            printf("Sent LD_DIAG_TLM_MID:\n");
-            printf("GC_MinThrust: %d\n", DiagMsg.GC_MinThrust);
-            printf("GC_AltitudeLock: %d\n", DiagMsg.GC_AltitudeLock);
-            printf("GC_PositionLock: %d\n", DiagMsg.GC_PositionLock);
-            printf("GC_InDescent: %d\n", DiagMsg.GC_InDescent);
-            printf("GC_HitGround: %d\n", DiagMsg.GC_HitGround);
-            printf("GC_HorMovement: %d\n", DiagMsg.GC_HorMovement);
-            printf("GC_VertMovement: %d\n", DiagMsg.GC_VertMovement);
-            printf("GC_ManualControlIdlingOrAutomatic: %d\n",
-                     DiagMsg.GC_ManualControlIdlingOrAutomatic);
-            printf("GroundContact: %d\n", DiagMsg.GroundContact);
-            printf("LD_GC_history_state: %d\n",
-                    DiagMsg.LD_GC_history_state);
-            printf("LD_MinThrust: %d\n", DiagMsg.LD_MinThrust);
-            printf("LD_Rotation: %d\n", DiagMsg.LD_Rotation);
-            printf("LD_HorMovement: %d\n", DiagMsg.LD_HorMovement);
-            printf("LD_PositionLock: %d\n", DiagMsg.LD_PositionLock);
-            printf("Landed: %d\n", DiagMsg.Landed);
-            break;
-        }
-        default:
-        {
-            printf("Sent MID(0x%04X)\n", MsgId);
-            break;
-        }
-    }
-
-    return CFE_SUCCESS;
-}
-/**
- * Test LD AppMain(), Nominal - DiagTlm
- */
-void Test_LD_AppMain_Nominal_DiagTlm(void)
-{
-    LD oLDut;
-
-    /* The following will emulate the behavior of receiving
-       LD_WAKEUP_MID message */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX,
-                            LD_WAKEUP_MID, 1);
-
-    /* Used to verify Diag Tlm was transmitted correctly. */
-    DiagTlmSendMsgHook_MsgId = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-               (void*)&Test_LD_AppMain_Nominal_DiagTlm_SendMsgHook);
-    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                     (void*)&CFE_PSP_GetTimeHook);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Execute the function being tested */
-    oLDut.AppMain();
-
-    /* Verify results */
-    UtAssert_True (DiagTlmSendMsgHook_MsgId == LD_DIAG_TLM_MID,
-                   "AppMain_Nominal_DiagTlm");
-}
-
-
-/**
  * Hook to support: LD AppMain(), Nominal_Wakeup SendMsg
  */
 int32 Test_LD_AppMain_Nominal_Wakeup_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
@@ -1861,15 +1763,14 @@ void Test_LD_AppMain_Nominal_Wakeup(void)
 
     /* The following will emulate behavior of receiving a
        SCH message to WAKEUP */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX,
-                            LD_WAKEUP_MID, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 3);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, LD_WAKEUP_MID, 1);
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-               (void*)&Test_LD_AppMain_Nominal_Wakeup_SendMsgHook);
+                    (void*)&Test_LD_AppMain_Nominal_Wakeup_SendMsgHook);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                   (void*)&CFE_PSP_GetTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     /* To give the unit test system time for SB Msg */
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
@@ -1878,7 +1779,7 @@ void Test_LD_AppMain_Nominal_Wakeup(void)
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 12);
 
     /* Execute the function being tested */
     oLDut.AppMain();
@@ -1923,6 +1824,7 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     {
         case PX4_VEHICLE_LAND_DETECTED_MID:
         {
+            Execute_VLandDetRcvdCnt ++;
             CFE_PSP_MemCpy((void*)&HookVLndDetect,
                          (void*)MsgPtr, sizeof(HookVLndDetect));
 
@@ -1939,28 +1841,27 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         }
         case LD_DIAG_TLM_MID:
         {
-            LD_Diag_t   Diag;
-            CFE_PSP_MemCpy((void*)&Diag, (void*)MsgPtr,
-                           sizeof(Diag));
+            CFE_PSP_MemCpy((void*)&HookDiag, (void*)MsgPtr,
+                           sizeof(HookDiag));
 
             printf("Sent LD_DIAG_TLM_MID:\n");
-            printf("GC_MinThrust: %d\n", Diag.GC_MinThrust);
-            printf("GC_AltitudeLock: %d\n", Diag.GC_AltitudeLock);
-            printf("GC_PositionLock: %d\n", Diag.GC_PositionLock);
-            printf("GC_InDescent: %d\n", Diag.GC_InDescent);
-            printf("GC_HitGround: %d\n", Diag.GC_HitGround);
-            printf("GC_HorMovement: %d\n", Diag.GC_HorMovement);
-            printf("GC_VertMovement: %d\n", Diag.GC_VertMovement);
+            printf("GC_MinThrust: %d\n", HookDiag.GC_MinThrust);
+            printf("GC_AltitudeLock: %d\n", HookDiag.GC_AltitudeLock);
+            printf("GC_PositionLock: %d\n", HookDiag.GC_PositionLock);
+            printf("GC_InDescent: %d\n", HookDiag.GC_InDescent);
+            printf("GC_HitGround: %d\n", HookDiag.GC_HitGround);
+            printf("GC_HorMovement: %d\n", HookDiag.GC_HorMovement);
+            printf("GC_VertMovement: %d\n", HookDiag.GC_VertMovement);
             printf("GC_ManualControlIdlingOrAutomatic: %d\n",
-                     Diag.GC_ManualControlIdlingOrAutomatic);
-            printf("GroundContact: %d\n", Diag.GroundContact);
+                     HookDiag.GC_ManualControlIdlingOrAutomatic);
+            printf("GroundContact: %d\n", HookDiag.GroundContact);
             printf("LD_GC_history_state: %d\n",
-                    Diag.LD_GC_history_state);
-            printf("LD_MinThrust: %d\n", Diag.LD_MinThrust);
-            printf("LD_Rotation: %d\n", Diag.LD_Rotation);
-            printf("LD_HorMovement: %d\n", Diag.LD_HorMovement);
-            printf("LD_PositionLock: %d\n", Diag.LD_PositionLock);
-            printf("Landed: %d\n", Diag.Landed);
+                    HookDiag.LD_GC_history_state);
+            printf("LD_MinThrust: %d\n", HookDiag.LD_MinThrust);
+            printf("LD_Rotation: %d\n", HookDiag.LD_Rotation);
+            printf("LD_HorMovement: %d\n", HookDiag.LD_HorMovement);
+            printf("LD_PositionLock: %d\n", HookDiag.LD_PositionLock);
+            printf("Landed: %d\n", HookDiag.Landed);
             break;
         }
         default:
@@ -1981,12 +1882,16 @@ void Test_LD_Execute_Landed(void)
 {
     LD oLDut;
 
+    int32                         SchPipe;
     int32                         DataPipe;
+    float                         AltMax;
+    LD_NoArgCmd_t                 WakeupMsg;
     PX4_ActuatorArmedMsg_t        ActArmedMsg;
     PX4_VehicleLocalPositionMsg_t VLocalPosMsg;
     PX4_AirspeedMsg_t             AirSpeedMsg;
     PX4_BatteryStatusMsg_t        BatStatMsg;
 
+    SchPipe = Ut_CFE_SB_CreatePipe(LD_SCH_PIPE_NAME);
     DataPipe = Ut_CFE_SB_CreatePipe(LD_DATA_PIPE_NAME);
 
     /* Send ActuatorArmedMsg */
@@ -2013,15 +1918,32 @@ void Test_LD_Execute_Landed(void)
     GetBatteryStatusMsg(&BatStatMsg);
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStatMsg, (CFE_SB_PipeId_t)DataPipe);
 
-    /* Emulate LD_WAKEUP_MID */
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, LD_WAKEUP_MID, 1);
+#if 0
+    CFE_SB_InitMsg((void*)&WakeupMsg, LD_WAKEUP_MID,
+                   sizeof(WakeupMsg), TRUE);
+    /* Wakeup #1 with No Data */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+    /* Wakeup #2 after receiving ActuatorArmedMsg */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+    /* Wakeup #3 after receiving VehicleLocalPositionMsg */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+    /* Wakeup #4 after receiving AirspeedMsg */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+    /* Wakeup #5 after receiving BatteryStatusMsg */
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+#else
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 9);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, LD_WAKEUP_MID, 5);
+#endif
 
+    Execute_VLandDetRcvdCnt = 0;
+    memset(&HookVLndDetect, 0x00, sizeof(HookVLndDetect));
+    memset(&HookDiag, 0x00, sizeof(HookDiag));
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-               (void*)&Test_LD_Execute_SendMsgHook);
+                              (void*)&Test_LD_Execute_SendMsgHook);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-                                    (void*)&CFE_PSP_GetTimeHook);
+                                     (void*)&CFE_PSP_GetTimeHook);
 
     /* To give the unit test system time for SB Msg */
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
@@ -2030,11 +1952,41 @@ void Test_LD_Execute_Landed(void)
     Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
                                 (void *)&CFE_TIME_GetTimeHook);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 10);
 
     /* Execute the function being tested */
     oLDut.AppMain();
+
+    if (BatStatMsg.Warning == PX4_BATTERY_WARNING_LOW)
+    {
+        AltMax = oLDut.ConfigTblPtr->LD_ALT_MAX * LD_75_PERCENT;
+    }
+    else if (BatStatMsg.Warning == PX4_BATTERY_WARNING_CRITICAL)
+    {
+        AltMax = oLDut.ConfigTblPtr->LD_ALT_MAX * LD_50_PERCENT;
+    }
+    else if (BatStatMsg.Warning == PX4_BATTERY_WARNING_EMERGENCY)
+    {
+        AltMax = oLDut.ConfigTblPtr->LD_ALT_MAX * LD_25_PERCENT;
+    }
+    else
+    {
+        AltMax = oLDut.ConfigTblPtr->LD_ALT_MAX;
+    }
+
+    /* Verify results */
+    UtAssert_True(Execute_VLandDetRcvdCnt == 1,
+                  "Execute, Landed: Execute_VLandDetRcvdCnt");
+
+    UtAssert_DoubleCmpAbs(HookVLndDetect.AltMax, AltMax, FLT_EPSILON,
+                          "Execute, Landed: AltitudeMax");
+
+    UtAssert_True((HookVLndDetect.Landed == TRUE) &&
+                  (HookVLndDetect.Freefall == FALSE) &&
+                  (HookVLndDetect.GroundContact == FALSE),
+                  "Execute, Landed: VehicleLandDetected Status");
 }
+
 
 
 /*********************************************************************
@@ -2164,9 +2116,6 @@ void LD_App_Test_AddTestCases(void)
     UtTest_Add(Test_LD_AppMain_Nominal_SendHK,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_LD_AppMain_Nominal_DiagTlm,
-               LD_Test_Setup, LD_Test_TearDown,
-               "Test_LD_AppMain_Nominal_DiagTlm");
     UtTest_Add(Test_LD_AppMain_Nominal_Wakeup,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_AppMain_Nominal_Wakeup");

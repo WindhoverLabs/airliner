@@ -216,9 +216,9 @@ void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
     pMsg->RefLat = 47.397741928975;
     pMsg->RefLon = 8.545593979817;
     pMsg->SurfaceBottomTimestamp = LD_Test_GetTimeUs();
-    pMsg->X = -1.995731f;
-    pMsg->Y = 1.565559f;
-    pMsg->Z = -0.826584f;
+    pMsg->X = 0.0000413358f;
+    pMsg->Y = -0.00021784112f;
+    pMsg->Z = 0.0003718244f;
     pMsg->Delta_XY[0] = 0.0f;
     pMsg->Delta_XY[1] = 0.0f;
     pMsg->Delta_Z = 0.0f;
@@ -231,26 +231,26 @@ void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
     pMsg->AX = 0.0f;
     pMsg->AY = 0.0f;
     pMsg->AZ = 0.0f;
-    pMsg->Yaw = 1.547718f;
-    pMsg->RefAlt = 490.7512f;
-    pMsg->DistBottom = 1.155246f;
+    pMsg->Yaw = 0.49531016f;
+    pMsg->RefAlt = 75.10329f;
+    pMsg->DistBottom = -0.0003718244f;
     pMsg->DistBottomRate = 0.051438f;
-    pMsg->EpH = 0.369742f;
-    pMsg->EpV = 0.216528f;
+    pMsg->EpH = 3.0f;
+    pMsg->EpV = 0.03878543f;
     pMsg->EvH = 0.0f;
     pMsg->EvV = 0.0f;
     pMsg->EstimatorType = 0;
-    pMsg->XY_Valid = TRUE;
+    pMsg->XY_Valid = FALSE;
     pMsg->Z_Valid = TRUE;
-    pMsg->V_XY_Valid = TRUE;
+    pMsg->V_XY_Valid = FALSE;
     pMsg->V_Z_Valid = TRUE;
     pMsg->XY_ResetCounter = 0;
     pMsg->Z_ResetCounter = 0;
     pMsg->VXY_ResetCounter = 0;
     pMsg->VZ_ResetCounter = 0;
-    pMsg->XY_Global = TRUE;
+    pMsg->XY_Global = FALSE;
     pMsg->Z_Global = TRUE;
-    pMsg->DistBottomValid = TRUE;
+    pMsg->DistBottomValid = FALSE;
 
     return;
 }
@@ -258,10 +258,10 @@ void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
 void GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg)
 {
     pMsg->Timestamp = LD_Test_GetTimeUs();
-    pMsg->IndicatedAirspeed = 1.0f;           /* m/s     */
-    pMsg->TrueAirspeed = 1.5f;                /* m/s     */
-    pMsg->TrueAirspeedUnfiltered = 0.0f;      /* m/s     */
-    pMsg->AirTemperature = 10.0f;             /* Celsius */
+    pMsg->IndicatedAirspeed = 11.772184f;        /* m/s     */
+    pMsg->TrueAirspeed = 11.777838f;             /* m/s     */
+    pMsg->TrueAirspeedUnfiltered = 11.777838f;   /* m/s     */
+    pMsg->AirTemperature = 15.0f;                /* Celsius */
     pMsg->Confidence = 0.0f;
 
     return;
@@ -279,13 +279,43 @@ void GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg)
     pMsg->Scale = 1.0f;
     pMsg->CellCount = 3;
     pMsg->Connected = TRUE;
-    pMsg->Warning = PX4_BATTERY_WARNING_NONE;
+    pMsg->Warning = PX4_BATTERY_WARNING_LOW;
 
     return;
 }
 
-void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t pMsg)
+void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg)
 {
+    pMsg->Timestamp = LD_Test_GetTimeUs();
+    pMsg->X = -0.32135728f;
+    pMsg->Y = 0.03976143f;
+    pMsg->Z = 0.00197238f;
+    pMsg->R = 0.0f;
+#if 0
+    pMsg->Flaps = 0.0f;
+    pMsg->Aux1 = 0.0f;
+    pMsg->Aux2 = 0.0f;
+    pMsg->Aux3 = 0.0f;
+    pMsg->Aux4 = 0.0f;
+    pMsg->Aux5 = 0.0f;
+    pMsg->ModeSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->ReturnSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->RattitudeSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->PosctlSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->LoiterSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->AcroSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->OffboardSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->KillSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->TransitionSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->GearSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->ArmSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->StabSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->ManSwitch = PX4_SWITCH_POS_NONE;
+    pMsg->ModeSlot = PX4_MODE_SLOT_NONE;
+    pMsg->DataSource = PX4_MANUAL_CONTROL_SOURCE_RC;
+    pMsg->AltctlSwitch = PX4_SWITCH_POS_NONE;
+#endif
+
     return;
 }
 
