@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its 
-*    contributors may be used to endorse or promote products derived 
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,40 +31,21 @@
 *
 *****************************************************************************/
 
-#include "rcin_custom_stubs.h"
-#include "px4_msgs.h"
+#include "cfe.h"
 
-void RCIN_Custom_InitData(void)
+#include <time.h>
+
+
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    
-}
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
 
+    CFE_PSP_GetTime(&localTime);
 
-boolean RCIN_Custom_Init(void)
-{
-    return TRUE;
-}
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
 
-
-boolean RCIN_Custom_Uninit(void)
-{
-    return TRUE;
-}
-
-
-boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
-{
-    return TRUE;
-}
-
-
-int32 RCIN_Custom_Init_EventFilters(int32 ind, CFE_EVS_BinFilter_t *EventTbl)
-{
-    return 0;
-}
-
-
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
+    return outTime;
 }

@@ -34,9 +34,14 @@
 #include "uttest.h"
 #include "rcin_app_test.h"
 #include "rcin_cmds_test.h"
+#include "rcin_test_utils.h"
+
+RCIN cpyRCIN;
 
 int main(void)
 {   
+    CFE_PSP_MemCpy((void*)&oRCIN, (void*)&cpyRCIN, sizeof(RCIN));
+
     RCIN_App_Test_AddTestCases();
     RCIN_Cmds_Test_AddTestCases();
 

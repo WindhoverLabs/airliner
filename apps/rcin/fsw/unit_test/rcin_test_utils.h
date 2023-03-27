@@ -41,6 +41,11 @@
 
 #include "rcin_app.h"
 
+extern "C" void RCIN_AppMain();
+
+extern RCIN oRCIN;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -52,6 +57,11 @@ extern "C" {
 void RCIN_Test_Setup(void);
 void RCIN_Test_TearDown(void);
 
+void   RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size);
+time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+uint64 PX4LIB_GetPX4TimeUs(void);
 
 #ifdef __cplusplus
 }
