@@ -1886,10 +1886,6 @@ int32 Test_LD_Execute_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
  */
 void Test_LD_Execute_AutoLanded(void)
 {
-#if 0
-    LD oLDut;
-#endif
-
     int32                         SchPipe;
     int32                         DataPipe;
     float                         AltMax;
@@ -1961,9 +1957,6 @@ void Test_LD_Execute_AutoLanded(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 10);
 
     /* Execute the function being tested */
-printf("###AutoFlying: Initial previous.AltMax(%f)\n", oLD.PreviousLandDetectedMsg.AltMax);
-printf("###AutoFlying: Landed(%u), Freefall(%u), GroundContact(%u)\n",
-        oLD.PreviousLandDetectedMsg.Landed, oLD.PreviousLandDetectedMsg.Freefall, oLD.PreviousLandDetectedMsg.GroundContact);
     oLD.InitApp();
 
     oLD.uiRunStatus = CFE_ES_APP_RUN;
@@ -2015,10 +2008,6 @@ printf("###AutoFlying: Landed(%u), Freefall(%u), GroundContact(%u)\n",
  */
 void Test_LD_Execute_AutoFlying(void)
 {
-#if 0
-    LD oLDut;
-#endif
-
     int32                         SchPipe;
     int32                         DataPipe;
     float                         AltMax;
@@ -2094,23 +2083,19 @@ void Test_LD_Execute_AutoFlying(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 10);
 
     /* Execute the function being tested */
-#if 0
-    oLDut.AppMain();
-#else
-printf("###AutoFlying: Initial previous.AltMax(%f)\n", oLD.PreviousLandDetectedMsg.AltMax);
-printf("###AutoFlying: Landed(%u), Freefall(%u), GroundContact(%u)\n",
-        oLD.PreviousLandDetectedMsg.Landed, oLD.PreviousLandDetectedMsg.Freefall, oLD.PreviousLandDetectedMsg.GroundContact);
     oLD.InitApp();
 
     oLD.uiRunStatus = CFE_ES_APP_RUN;
     oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_AUTO;
+
+//    oLD.landed_history.setState(FALSE);
+//    oLD.ground_contact_history.setState(FALSE);
 
     while (CFE_ES_RunLoop(&oLD.uiRunStatus) == TRUE)
     {
         oLD.RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
         oLD.RcvDataPipeMsg();
     }
-#endif
 
     if (BatStatMsg.Warning == PX4_BATTERY_WARNING_LOW)
     {
@@ -2148,10 +2133,130 @@ printf("###AutoFlying: Landed(%u), Freefall(%u), GroundContact(%u)\n",
 
 
 /**
- * Test LD Execute(), ManualFlying
+ * Test LD Execute(), AutoFreefall
  */
-void Test_LD_Execute_ManualFlying(void)
+void Test_LD_Execute_AutoFreefall(void)
 {
+    int32                         SchPipe;
+    LD_NoArgCmd_t                 WakeupMsg;
+    PX4_VehicleLandDetectedMsg_t  *pVldm;
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    SchPipe = Ut_CFE_SB_CreatePipe(LD_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&WakeupMsg, LD_WAKEUP_MID,
+                   sizeof(WakeupMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Execute_VLandDetRcvdCnt = 0;
+    Execute_DiagTlmRcvdCnt = 0;
+    memset(&HookVLndDetect[0], 0x00, sizeof(HookVLndDetect));
+    memset(&HookDiag, 0x00, sizeof(HookDiag));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_LD_Execute_SendMsgHook);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+
+    oLD.uiRunStatus = CFE_ES_APP_RUN;
+    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_AUTO;
+
+    oLD.freefall_history.setState(TRUE);
+
+    while (CFE_ES_RunLoop(&oLD.uiRunStatus) == TRUE)
+    {
+        oLD.RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
+        oLD.RcvDataPipeMsg();
+    }
+
+    sprintf(expEvent, "%s", "Freefall detected");
+
+    pVldm = &HookVLndDetect[Execute_VLandDetRcvdCnt - 1];
+
+    /* Verify results */
+    UtAssert_True((pVldm->Landed == FALSE) &&
+                  (pVldm->Freefall == TRUE) &&
+                  (pVldm->GroundContact == FALSE),
+                  "Execute, AutoFreefall: VehicleLandDetected Status");
+
+    UtAssert_EventSent(LD_FREEFALL_DETECTED_EID, CFE_EVS_INFORMATION,
+                       expEvent, "Execute, AutoFreefall: Event Sent");
+}
+
+
+/**
+ * Test LD Execute(), AutoGroundContact
+ */
+void Test_LD_Execute_AutoGroundContact(void)
+{
+    int32                         SchPipe;
+    LD_NoArgCmd_t                 WakeupMsg;
+    PX4_VehicleLandDetectedMsg_t  *pVldm;
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    SchPipe = Ut_CFE_SB_CreatePipe(LD_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&WakeupMsg, LD_WAKEUP_MID,
+                   sizeof(WakeupMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&WakeupMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Execute_VLandDetRcvdCnt = 0;
+    Execute_DiagTlmRcvdCnt = 0;
+    memset(&HookVLndDetect[0], 0x00, sizeof(HookVLndDetect));
+    memset(&HookDiag, 0x00, sizeof(HookDiag));
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void*)&Test_LD_Execute_SendMsgHook);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                                     (void*)&CFE_PSP_GetTimeHook);
+
+    /* To give the unit test system time for SB Msg */
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_TIMESTAMPMSG_INDEX,
+                              (void *)&CFE_SB_TimeStampMsgHook);
+
+    Ut_CFE_TIME_SetFunctionHook(UT_CFE_TIME_GETTIME_INDEX,
+                                (void *)&CFE_TIME_GetTimeHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oLD.InitApp();
+
+    oLD.uiRunStatus = CFE_ES_APP_RUN;
+    oLD.ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_AUTO;
+
+    oLD.landed_history.setState(FALSE);
+    oLD.ground_contact_history.setState(TRUE);
+
+    while (CFE_ES_RunLoop(&oLD.uiRunStatus) == TRUE)
+    {
+        oLD.RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
+        oLD.RcvDataPipeMsg();
+    }
+
+    sprintf(expEvent, "%s", "Ground contact detected");
+
+    pVldm = &HookVLndDetect[Execute_VLandDetRcvdCnt - 1];
+
+    /* Verify results */
+    UtAssert_True((pVldm->Landed == FALSE) &&
+                  (pVldm->Freefall == FALSE) &&
+                  (pVldm->GroundContact == TRUE),
+                  "Execute, AutoGroundContact: VehicleLandDetected Status");
+
+    UtAssert_EventSent(LD_GROUNDCONTACT_DETECTED_EID, CFE_EVS_INFORMATION,
+                       expEvent,
+                       "Execute, AutoGroundContact: Event Sent");
 }
 
 
@@ -2329,6 +2434,12 @@ void LD_App_Test_AddTestCases(void)
     UtTest_Add(Test_LD_Execute_AutoFlying,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_Execute_AutoFlying");
+    UtTest_Add(Test_LD_Execute_AutoFreefall,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_Execute_AutoFreefall");
+    UtTest_Add(Test_LD_Execute_AutoGroundContact,
+               LD_Test_Setup, LD_Test_TearDown,
+               "Test_LD_Execute_AutoGroundContact");
 
     UtTest_Add(Test_LD_ConfigData,
                LD_Test_Setup, LD_Test_TearDown,
