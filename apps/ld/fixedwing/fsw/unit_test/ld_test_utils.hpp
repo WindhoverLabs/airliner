@@ -54,7 +54,6 @@ extern LD oLD;
  */
 
 void    LD_Test_Setup(void);
-void    LD_Test_SetupUT(void);
 void    LD_Test_SetupUT_Invalid(void);
 void    LD_Test_TearDown(void);
 
@@ -62,10 +61,9 @@ void    GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg);
 void    GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg);
 void    GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg);
 void    GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg);
-void    GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t pMsg);
+void    GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg);
 
 void    LD_Test_PrintCmdMsg(void *pMsg, uint32 size);
-double  LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl);
 uint64  LD_Test_GetTimeUs(void);
 time_t  LD_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t  LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);

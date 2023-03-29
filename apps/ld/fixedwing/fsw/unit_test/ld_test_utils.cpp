@@ -64,21 +64,6 @@ extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
                 Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
 
 
-LD_ConfigTbl_t LD_ConfigTblUnitTest
-{
-    10.0f,            /* LD_Z_VEL_MAX */
-    2.0f,             /* LD_XY_VEL_MAX */
-    10000.0f,         /* LD_ALT_MAX */
-    0.35f,            /* LD_LOW_T_THR */
-    0.08f,            /* LD_MAN_MIN_THR */
-    0.65f,            /* LD_POS_STK_UP_THRES */
-    0.15f,            /* LD_POS_STK_DW_THRES */
-    0.5f,             /* LD_LANDSPEED */
-    8.0f,             /* LD_LNDFW_AIRSPD_MAX */
-    8000000,          /* LD_MIN_THR_NO_ALT_TIMEOUT */
-    LD_OP_MODE_AUTO   /* LD_OP_MODE */
-};
-
 LD_ConfigTbl_t LD_ConfigTblUnitTest_Invalid
 {
     LD_Z_VEL_MAX_MAX + 1.0f,                /* LD_Z_VEL_MAX */
@@ -117,42 +102,15 @@ void LD_Test_Setup(void)
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
                                    sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+    memset(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
                              sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
                                       sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+    memset(Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
-void LD_Test_SetupUT(void)
-{
-    /* initialize test environment to default state for every test */
-    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
-
-    Ut_CFE_EVS_Reset();
-    Ut_CFE_FS_Reset();
-    Ut_CFE_TIME_Reset();
-    Ut_CFE_TBL_Reset();
-    Ut_CFE_SB_Reset();
-    Ut_CFE_ES_Reset();
-    Ut_OSAPI_Reset();
-    Ut_OSFILEAPI_Reset();
-
-    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME,
-                                          (void *)&LD_ConfigTblUnitTest);
-
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
-                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
-
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
-                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
-}
 
 void LD_Test_SetupUT_Invalid(void)
 {
@@ -173,27 +131,20 @@ void LD_Test_SetupUT_Invalid(void)
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
                                    sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+    memset(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
                              sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
                                       sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+    memset(Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
                                 sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
+
 
 void LD_Test_TearDown(void)
 {
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
-                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
-
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
-                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
+
 
 void GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg)
 {
@@ -208,6 +159,7 @@ void GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg)
 
     return;
 }
+
 
 void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
 {
@@ -255,6 +207,7 @@ void GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg)
     return;
 }
 
+
 void GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg)
 {
     pMsg->Timestamp = LD_Test_GetTimeUs();
@@ -266,6 +219,7 @@ void GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg)
 
     return;
 }
+
 
 void GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg)
 {
@@ -284,6 +238,7 @@ void GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg)
     return;
 }
 
+
 void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg)
 {
     pMsg->Timestamp = LD_Test_GetTimeUs();
@@ -291,7 +246,6 @@ void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg)
     pMsg->Y = 0.03976143f;
     pMsg->Z = 0.00197238f;
     pMsg->R = 0.0f;
-#if 0
     pMsg->Flaps = 0.0f;
     pMsg->Aux1 = 0.0f;
     pMsg->Aux2 = 0.0f;
@@ -314,10 +268,10 @@ void GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg)
     pMsg->ModeSlot = PX4_MODE_SLOT_NONE;
     pMsg->DataSource = PX4_MANUAL_CONTROL_SOURCE_RC;
     pMsg->AltctlSwitch = PX4_SWITCH_POS_NONE;
-#endif
 
     return;
 }
+
 
 void LD_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
@@ -336,39 +290,6 @@ void LD_Test_PrintCmdMsg(void *pMsg, uint32 size)
     return;
 }
 
-double LD_Test_GetConfigDataChecksum(LD_ConfigTbl_t *pTbl)
-{
-    double checksum = 0.0;
-
-    checksum = (
-        (double)pTbl->LD_Z_VEL_MAX + (double)pTbl->LD_XY_VEL_MAX +
-        (double)pTbl->LD_ALT_MAX + (double)pTbl->LD_LOW_T_THR +
-        (double)pTbl->LD_MAN_MIN_THR + (double)pTbl->LD_POS_STK_UP_THRES +
-        (double)pTbl->LD_POS_STK_DW_THRES + (double)pTbl->LD_LANDSPEED +
-        (double)pTbl->LD_LNDFW_AIRSPD_MAX +
-        (double)pTbl->LD_MIN_THR_NO_ALT_TIMEOUT);
-
-    std::cout.precision(17);
-    std::cout << "\nConfigDataChecksum(with Max precision): " <<
-                 checksum << "\n";
-
-    std::cout.precision(7);
-    std::cout << "\nConfigTable Values:\n";
-    std::cout << "LD_Z_VEL_MAX: " << pTbl->LD_Z_VEL_MAX << "\n";
-    std::cout << "LD_XY_VEL_MAX: " << pTbl->LD_XY_VEL_MAX << "\n";
-    std::cout << "LD_ALT_MAX: " << pTbl->LD_ALT_MAX << "\n";
-    std::cout << "LD_LOW_T_THR: " << pTbl->LD_LOW_T_THR << "\n";
-    std::cout << "LD_MAN_MIN_THR: " << pTbl->LD_MAN_MIN_THR << "\n";
-    std::cout << "LD_POS_STK_UP_THRES: " << pTbl->LD_POS_STK_UP_THRES << "\n";
-    std::cout << "LD_POS_STK_DW_THRES: " << pTbl->LD_POS_STK_DW_THRES << "\n";
-    std::cout << "LD_LANDSPEED: " << pTbl->LD_LANDSPEED << "\n";
-    std::cout << "LD_LNDFW_AIRSPD_MAX: " << pTbl->LD_LNDFW_AIRSPD_MAX << "\n";
-    std::cout << "LD_MIN_THR_NO_ALT_TIMEOUT: " <<
-                  pTbl->LD_MIN_THR_NO_ALT_TIMEOUT << "\n";
-    std::cout << "LD_OP_MODE: " << pTbl->LD_OP_MODE << "\n";
-
-    return checksum;
-}
 
 uint64 LD_Test_GetTimeUs(void)
 {
@@ -388,6 +309,7 @@ uint64 LD_Test_GetTimeUs(void)
     return outTime;
 }
 
+
 time_t LD_Test_GetTimeFromTimestamp(uint64 timestamp)
 {
     time_t  local_time;
@@ -396,6 +318,7 @@ time_t LD_Test_GetTimeFromTimestamp(uint64 timestamp)
 
     return local_time;
 }
+
 
 time_t LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
 {
