@@ -51,6 +51,7 @@
 
 #include <time.h>
 #include <iostream>
+#include <string.h>
 
 
 extern LD cpyLD;
@@ -64,21 +65,6 @@ extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
                 Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
 
 
-LD_ConfigTbl_t LD_ConfigTblUnitTest_Invalid
-{
-    LD_Z_VEL_MAX_MAX + 1.0f,                /* LD_Z_VEL_MAX */
-    LD_XY_VEL_MAX_MAX + 1.0f,               /* LD_XY_VEL_MAX */
-    LD_ALT_MAX_MAX + 1.0f,                  /* LD_ALT_MAX */
-    LD_LOW_T_THR_MAX + 1.0f,                /* LD_LOW_T_THR */
-    LD_MAN_MIN_THR_MAX + 1.0f,              /* LD_MAN_MIN_THR */
-    LD_POS_STK_UP_THRES_MAX + 1.0f,         /* LD_POS_STK_UP_THRES */
-    LD_POS_STK_DW_THRES_MAX + 1.0f,         /* LD_POS_STK_DW_THRES */
-    LD_LANDSPEED_MAX + 1.0f,                /* LD_LANDSPEED */
-    8.0f,                                   /* LD_LNDFW_AIRSPD_MAX */
-    LD_MIN_THR_NO_ALT_TIMEOUT_MAX + 1,      /* LD_MIN_THR_NO_ALT_TIMEOUT */
-    LD_OP_MODE_AUTO                         /* LD_OP_MODE */
-};
-
 
 /*
  * Function Definitions
@@ -87,7 +73,7 @@ LD_ConfigTbl_t LD_ConfigTblUnitTest_Invalid
 void LD_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
-    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
+    memcpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -97,52 +83,24 @@ void LD_Test_Setup(void)
     Ut_CFE_ES_Reset();
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
+                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
+                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
+                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
+                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 
     Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *)&LD_ConfigTbl);
-
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
-                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
-
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
-                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
-}
-
-
-void LD_Test_SetupUT_Invalid(void)
-{
-    /* initialize test environment to default state for every test */
-    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
-
-    Ut_CFE_EVS_Reset();
-    Ut_CFE_FS_Reset();
-    Ut_CFE_TIME_Reset();
-    Ut_CFE_TBL_Reset();
-    Ut_CFE_SB_Reset();
-    Ut_CFE_ES_Reset();
-    Ut_OSAPI_Reset();
-    Ut_OSFILEAPI_Reset();
-
-    Ut_CFE_TBL_AddTable(LD_CONFIG_TABLE_FILENAME, (void *)
-                                           &LD_ConfigTblUnitTest_Invalid);
-
-    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0,
-                                   sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
-    memset(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0,
-                             sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
-
-    memset(&Ut_CFE_PSP_TIMER_HookTable, 0,
-                                      sizeof(Ut_CFE_PSP_TIMER_HookTable));
-    memset(Ut_CFE_PSP_TIMER_ReturnCodeTable, 0,
-                                sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 
 void LD_Test_TearDown(void)
 {
+    return;
 }
 
 

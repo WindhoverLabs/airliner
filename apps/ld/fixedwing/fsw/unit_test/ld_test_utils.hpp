@@ -54,7 +54,6 @@ extern LD oLD;
  */
 
 void    LD_Test_Setup(void);
-void    LD_Test_SetupUT_Invalid(void);
 void    LD_Test_TearDown(void);
 
 void    GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg);

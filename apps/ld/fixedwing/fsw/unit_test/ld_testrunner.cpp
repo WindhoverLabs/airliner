@@ -38,11 +38,13 @@
 #include "ld_cmds_test.hpp"
 #include "ld_config_tbl_test.hpp"
 
+#include <string.h>
+
 LD cpyLD;
 
 int main(void)
 {   
-    CFE_PSP_MemCpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
+    memcpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
 
     LD_App_Test_AddTestCases();
     LD_Cmds_Test_AddTestCases();
