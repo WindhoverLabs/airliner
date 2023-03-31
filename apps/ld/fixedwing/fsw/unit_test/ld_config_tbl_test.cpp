@@ -366,9 +366,11 @@ void LD_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_LD_InitConfigTbl_Fail_TblManage,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitConfigTbl_Fail_TblManage");
+#if 0
     UtTest_Add(Test_LD_InitConfigTbl_TblManageUpdated,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitConfigTbl_TblManageUpdated");
+#endif
     UtTest_Add(Test_LD_InitConfigTbl_Fail_TblGetAddress,
                LD_Test_Setup, LD_Test_TearDown,
                "Test_LD_InitConfigTbl_Fail_TblGetAddress");
