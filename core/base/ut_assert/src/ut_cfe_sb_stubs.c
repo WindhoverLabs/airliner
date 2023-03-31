@@ -308,7 +308,7 @@ CFE_SB_Msg_t  *CFE_SB_ZeroCopyGetPtr(uint16  MsgSize,CFE_SB_ZeroCopyHandle_t *Bu
 
     /* Check for Function Hook */
     if (Ut_CFE_SB_HookTable.CFE_SB_ZeroCopyGetPtr)
-        Ut_CFE_SB_HookTable.CFE_SB_ZeroCopyGetPtr(MsgSize, BufferHandle);
+        return (CFE_SB_Msg_t  *)Ut_CFE_SB_HookTable.CFE_SB_ZeroCopyGetPtr(MsgSize, BufferHandle);
 
     return NULL;
 }

@@ -31,41 +31,19 @@
 *
 *****************************************************************************/
 
-
-#ifndef RCIN_TEST_UTILS_H
-#define RCIN_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "rcin_app.h"
-
-extern "C" void RCIN_AppMain();
-
-extern RCIN oRCIN;
-
+#ifndef CF_CMDS_TEST_H
+#define CF_CMDS_TEST_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*
- * Function Definitions
- */
 
-void RCIN_Test_Setup(void);
-void RCIN_Test_TearDown(void);
+void CF_Cmds_Test_AddTestCases(void);
 
-void   RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size);
-time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);
-time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
-
-uint64 PX4LIB_GetPX4TimeUs(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* RCIN_TEST_UTILS_H */
-
+#endif /* CF_CMDS_TEST_H */

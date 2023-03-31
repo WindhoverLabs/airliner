@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its 
-*    contributors may be used to endorse or promote products derived 
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,40 +31,19 @@
 *
 *****************************************************************************/
 
-#include "rcin_custom_stubs.h"
-#include "px4_msgs.h"
+#ifndef CF_CONFIG_TBL_TEST_H
+#define CF_CONFIG_TBL_TEST_H
 
-void RCIN_Custom_InitData(void)
-{
-    
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+void CF_Config_Tbl_Test_AddTestCases(void);
+
+
+#ifdef __cplusplus
 }
+#endif
 
-
-boolean RCIN_Custom_Init(void)
-{
-    return TRUE;
-}
-
-
-boolean RCIN_Custom_Uninit(void)
-{
-    return TRUE;
-}
-
-
-boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
-{
-    return TRUE;
-}
-
-
-int32 RCIN_Custom_Init_EventFilters(int32 ind, CFE_EVS_BinFilter_t *EventTbl)
-{
-    return 0;
-}
-
-
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}
+#endif /* CF_CONFIG_TBL_TEST_H */

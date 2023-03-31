@@ -38,7 +38,48 @@
 extern "C" {
 #endif
 
-#include "cfe.h"
+
+#include "rcin_sed.h"
+
+
+extern RCIN_AppCustomData_t RCIN_AppCustomData;
+
+
+#define TEST_RCIN_MAX_ERROR_CNT        RCIN_MAX_ERROR_COUNT
+#define TEST_RCIN_BUS_CHANNEL_CNT      RCIN_SBUS_CHANNEL_COUNT
+
+#define TEST_RCIN_DEV_ERR_EID          RCIN_EVT_CNT
+#define TEST_RCIN_OUT_SYNC_ERR_EID     (RCIN_EVT_CNT + 1)
+#define TEST_RCIN_IN_SYNC_INF_EID      (RCIN_EVT_CNT + 3)
+
+
+typedef enum
+{
+    UT_RCIN_CUSTOM_SEDLIB_GETPIPE_INDEX,
+    UT_RCIN_CUSTOM_SEDLIB_READMSG_INDEX,
+    UT_RCIN_CUSTOM_MAX_INDEX
+} Ut_RCIN_Custom_INDEX_t;
+
+
+typedef struct
+{
+    SEDLIB_ReturnCode_t (*SEDLIB_GetPipe)(char *PipeName, uint32 Size, uint32 *PipeHandle);
+    SEDLIB_ReturnCode_t (*SEDLIB_ReadMsg)(uint32 PipeHandle, CFE_SB_MsgPtr_t Msg);
+} Ut_RCIN_Custom_HookTable_t;
+
+
+typedef struct
+{
+    int32   Value;
+    uint32  Count;
+    boolean ContinueReturnCodeAfterCountZero;
+} Ut_RCIN_Custom_ReturnCodeTable_t;
+
+
+void Ut_RCIN_Custom_Reset(void);
+void Ut_RCIN_Custom_SetFunctionHook(uint32 Index, void *FunPtr);
+void Ut_RCIN_Custom_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
+void Ut_RCIN_Custom_ContinueReturnCodeAfterCountZero(uint32 Index);
 
 
 #ifdef __cplusplus

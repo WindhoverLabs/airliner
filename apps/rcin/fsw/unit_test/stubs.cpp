@@ -31,41 +31,21 @@
 *
 *****************************************************************************/
 
+#include "cfe.h"
 
-#ifndef RCIN_TEST_UTILS_H
-#define RCIN_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "rcin_app.h"
-
-extern "C" void RCIN_AppMain();
-
-extern RCIN oRCIN;
+#include <time.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
 
-/*
- * Function Definitions
- */
+    CFE_PSP_GetTime(&localTime);
 
-void RCIN_Test_Setup(void);
-void RCIN_Test_TearDown(void);
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
 
-void   RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size);
-time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp);
-time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
-
-uint64 PX4LIB_GetPX4TimeUs(void);
-
-#ifdef __cplusplus
+    return outTime;
 }
-#endif
-
-#endif /* RCIN_TEST_UTILS_H */
-

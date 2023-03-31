@@ -32,7 +32,10 @@
 *****************************************************************************/
 
 #include "cfe.h"
+
 #include "rcin_test_utils.h"
+#include "rcin_custom_stubs.h"
+
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
@@ -48,13 +51,13 @@
 
 #include <time.h>
 
-/*
- * Function Definitions
- */
+
+extern RCIN cpyRCIN;
 
 void RCIN_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
+    CFE_PSP_MemCpy((void*)&oRCIN, (void*)&cpyRCIN, sizeof(RCIN));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
@@ -65,8 +68,46 @@ void RCIN_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
+    Ut_RCIN_Custom_Reset();
+
 }
 
 void RCIN_Test_TearDown(void) {
 
+}
+
+
+void RCIN_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
+}
+
+time_t RCIN_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t RCIN_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
 }

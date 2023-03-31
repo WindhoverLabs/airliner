@@ -33,11 +33,15 @@
 
 #include "cfe.h"
 #include "rcin_msg.h"
+#include "rcin_version.h"
+
 #include "rcin_cmds_test.h"
 #include "rcin_test_utils.h"
+
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_es_hooks.h"
 #include "ut_cfe_evs_stubs.h"
@@ -48,43 +52,286 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 RCIN_Cmds_Test_UT_CFE_SB_SubscribeHook1(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
+
+/**************************************************************************
+ * Tests for RCIN ProcessCmdPipe()
+ **************************************************************************/
+/**
+ * Test RCIN ProcessCmdPipe(), InvalidCmd
+ */
+void Test_RCIN_ProcessCmdPipe_InvalidCmd(void)
 {
-    return 5;
-}
+    RCIN oRCINut;
 
+    int32            CmdPipe;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-int32 RCIN_Cmds_Test_UT_CFE_SB_SubscribeHook2(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
-{
-    return 6;
-}
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(RCIN_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, 0, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
 
-void RCIN_Function2_Test_Case1(void)
-{
-/*    int32 Result;
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Variable3 = 3;
-
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SUBSCRIBE_INDEX, &RCIN_Cmds_Test_UT_CFE_SB_SubscribeHook1);
-*/
     /* Execute the function being tested */
-/*    Result = RCIN_Function2();*/
-    
+    oRCINut.AppMain();
+
+    sprintf(expEvent, "Recvd invalid CMD msgId (0x%04X)", 0);
+
     /* Verify results */
-/*    UtAssert_True (Variable4 == 4, "Variable4 == 4");
-    UtAssert_True (Result == 25, "Result == 25");
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmd");
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-*/
-} /* end RCIN_Function2_Test_Case1 */
+    UtAssert_EventSent(RCIN_MSGID_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "ProcessCmdPipe, InvalidCmd: Event Sent");
+}
 
 
+/**
+ * Test RCIN ProcessCmdPipe(), InvalidCmdCode
+ */
+void Test_RCIN_ProcessCmdPipe_InvalidCmdCode(void)
+{
+    RCIN oRCINut;
+
+    int32            CmdPipe;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(RCIN_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)100);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCINut.AppMain();
+
+    sprintf(expEvent, "Recvd invalid command code (%u)", 100);
+
+    /* Verify results */
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
+                  "ProcessCmdPipe, InvalidCmdCode");
+
+    UtAssert_EventSent(RCIN_CC_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "ProcessCmdPipe, InvalidCmdCode: Event Sent");
+}
+
+
+/**
+ * Test RCIN ProcessCmdPipe(), NoMessage
+ */
+void Test_RCIN_ProcessCmdPipe_NoMessage(void)
+{
+    RCIN oRCINut;
+
+    int32            SchPipe;
+    RCIN_NoArgCmd_t  SchMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe(RCIN_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&SchMsg, RCIN_SEND_HK_MID, sizeof(SchMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&SchMsg, (CFE_SB_PipeId_t)SchPipe);
+    RCIN_Test_PrintCmdMsg((void*)&SchMsg, sizeof(SchMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCINut.AppMain();
+}
+
+
+/**
+ * Test RCIN ProcessCmdPipe(), PipeError
+ */
+void Test_RCIN_ProcessCmdPipe_PipeError(void)
+{
+    RCIN oRCINut;
+
+    int32            SchPipe;
+    RCIN_NoArgCmd_t  SchMsg;
+    char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe(RCIN_SCH_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&SchMsg, RCIN_SEND_HK_MID, sizeof(SchMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&SchMsg, (CFE_SB_PipeId_t)SchPipe);
+    RCIN_Test_PrintCmdMsg((void*)&SchMsg, sizeof(SchMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_PIPE_RD_ERR, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCINut.AppMain();
+
+    sprintf(expEvent, "CMD pipe read error (0x%08lX)",
+                      (long unsigned int)CFE_SB_PIPE_RD_ERR);
+
+    /* Verify results */
+    UtAssert_EventSent(RCIN_RCVMSG_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "ProcessCmdPipe, PipeError: Event Sent");
+}
+
+
+/**
+ * Test RCIN ProcessCmdPipe(), Noop
+ */
+void Test_RCIN_ProcessCmdPipe_Noop(void)
+{
+    RCIN oRCINut;
+
+    int32            CmdPipe;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(RCIN_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)RCIN_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, RCIN_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oRCINut.AppMain();
+
+    sprintf(expEvent, "Recvd NOOP. Version %d.%d.%d.%d",
+                      RCIN_MAJOR_VERSION, RCIN_MINOR_VERSION,
+                      RCIN_REVISION, RCIN_MISSION_REV);
+
+    /* Verify results */
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 1) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Noop");
+
+    UtAssert_EventSent(RCIN_CMD_NOOP_EID, CFE_EVS_INFORMATION, expEvent,
+                       "ProcessCmdPipe, Noop: Event Sent");
+}
+
+
+/**
+ * Test RCIN ProcessCmdPipe(), Reset
+ */
+void Test_RCIN_ProcessCmdPipe_Reset(void)
+{
+    RCIN oRCINut;
+
+    int32            CmdPipe;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char             expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe(RCIN_CMD_PIPE_NAME);
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)RCIN_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oRCINut.InitApp();
+
+    oRCINut.HkTlm.usCmdCnt = 3;
+    oRCINut.HkTlm.usCmdErrCnt = 1;
+
+    oRCINut.ProcessCmdPipe();
+
+    /* Verify results */
+    UtAssert_True((oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 0),
+                  "ProcessCmdPipe, Reset");
+}
+
+
+/**
+ * Test RCIN VerifyCmdLength(), Fail CmdLength
+ */
+void Test_RCIN_VerifyCmdLength_Fail_CmdLength(void)
+{
+    RCIN oRCINut;
+
+    boolean          bResult = TRUE;
+    boolean          bExpected = FALSE;
+    RCIN_NoArgCmd_t  CmdMsg;
+    char   expEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg((void*)&CmdMsg, RCIN_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)RCIN_NOOP_CC);
+    RCIN_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    oRCINut.InitApp();
+
+    bResult = oRCINut.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg,
+                                      sizeof(CmdMsg) + 5);
+
+    sprintf(expEvent, "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+                      "msgLen=%d, expectedLen=%d",
+                      RCIN_CMD_MID, RCIN_NOOP_CC,
+                      sizeof(CmdMsg), sizeof(CmdMsg) + 5);
+
+    /* Verify results */
+    UtAssert_True((bResult == bExpected) &&
+                  (oRCINut.HkTlm.usCmdCnt == 0) &&
+                  (oRCINut.HkTlm.usCmdErrCnt == 1),
+                  "VerifyCmdLength, Fail CmdLength");
+
+    UtAssert_EventSent(RCIN_MSGLEN_ERR_EID, CFE_EVS_ERROR, expEvent,
+                       "VerifyCmdLength, Fail CmdLength: Event Sent");
+}
+
+
+
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void RCIN_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(RCIN_Function2_Test_Case1, RCIN_Test_Setup, RCIN_Test_TearDown, "RCIN_Function2_Test_Case1");
-} /* end RCIN_Cmds_Test_AddTestCases */
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_InvalidCmd,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_InvalidCmd");
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_InvalidCmdCode,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_InvalidCmdCode");
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_NoMessage,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_NoMessage");
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_PipeError,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_PipeError");
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_Noop,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_Noop");
+    UtTest_Add(Test_RCIN_ProcessCmdPipe_Reset,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_ProcessCmdPipe_Reset");
 
-
+    UtTest_Add(Test_RCIN_VerifyCmdLength_Fail_CmdLength,
+               RCIN_Test_Setup, RCIN_Test_TearDown,
+               "Test_RCIN_VerifyCmdLength_Fail_CmdLength");
+}
