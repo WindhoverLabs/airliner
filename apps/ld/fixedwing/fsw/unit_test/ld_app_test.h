@@ -31,66 +31,18 @@
 *
 *****************************************************************************/
 
-#include "ld_custom_stubs.h"
+#ifndef LD_APP_TEST_H
+#define LD_APP_TEST_H
 
-#include "ld_custom_stubs.hpp"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include <time.h>
+void LD_App_Test_AddTestCases(void);
 
 
-CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void)
-{
-    int                 iStatus;
-    CFE_TIME_SysTime_t  CfeTime;
-    struct timespec     time;
-
-    iStatus = clock_gettime(CLOCK_REALTIME, &time);
-    if (iStatus == 0)
-    {
-        CfeTime.Seconds = time.tv_sec;
-        CfeTime.Subseconds = time.tv_nsec / 1000;
-    }
-
-    return CfeTime;
+#ifdef __cplusplus
 }
+#endif
 
-
-void CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
-{
-    CFE_SB_SetMsgTime(MsgPtr, CFE_TIME_GetTime());
-
-    return;
-}
-
-
-void CFE_PSP_GetTimeHook(OS_time_t *LocalTime)
-{
-    int              iStatus;
-    struct timespec  time;
-
-    iStatus = clock_gettime(CLOCK_REALTIME, &time);
-    if (iStatus == 0)
-    {
-        LocalTime->seconds = time.tv_sec;
-        LocalTime->microsecs = time.tv_nsec / 1000;
-    }
-
-    return;
-}
-
-
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}
-
-
-uint64 PX4LIB_GetPX4TimeMs(void)
-{
-    return 0;
-}
-
-
-
-}
-
+#endif /* LD_APP_TEST_H */
