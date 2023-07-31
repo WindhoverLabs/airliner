@@ -32,8 +32,8 @@
 *****************************************************************************/
 
 
-#ifndef LD_TEST_UTILS_H
-#define LD_TEST_UTILS_H
+#ifndef LD_TEST_UTILS_HPP
+#define LD_TEST_UTILS_HPP
 
 /*
  * Includes
@@ -41,21 +41,31 @@
 
 #include "ld_app.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
+extern "C" void LD_AppMain();
+
+extern "C" LD_ConfigTbl_t LD_ConfigTbl;
+
+extern LD oLD;
+
 
 /*
  * Function Definitions
  */
 
-void LD_Test_Setup(void);
-void LD_Test_TearDown(void);
+void    LD_Test_Setup(void);
+void    LD_Test_TearDown(void);
+
+void    GetActuatorArmedMsg(PX4_ActuatorArmedMsg_t *pMsg);
+void    GetVehicleLocalPositionMsg(PX4_VehicleLocalPositionMsg_t *pMsg);
+void    GetAirspeedMsg(PX4_AirspeedMsg_t *pMsg);
+void    GetBatteryStatusMsg(PX4_BatteryStatusMsg_t *pMsg);
+void    GetManualControlSetpointMsg(PX4_ManualControlSetpointMsg_t *pMsg);
+
+void    LD_Test_PrintCmdMsg(void *pMsg, uint32 size);
+uint64  LD_Test_GetTimeUs(void);
+time_t  LD_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t  LD_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* LD_TEST_UTILS_H */
-
+#endif /* LD_TEST_UTILS_HPP */

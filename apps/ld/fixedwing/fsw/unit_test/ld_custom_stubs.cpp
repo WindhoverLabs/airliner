@@ -31,20 +31,86 @@
 *
 *****************************************************************************/
 
-#include "ld_custom_stubs.h"
+#include "ld_custom_stubs.hpp"
 
+#include <time.h>
+
+
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void)
+{
+    int                 iStatus;
+    CFE_TIME_SysTime_t  CfeTime;
+    struct timespec     time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        CfeTime.Seconds = time.tv_sec;
+        CfeTime.Subseconds = time.tv_nsec / 1000;
+    }
+
+    return CfeTime;
+}
+
+
+void CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr)
+{
+    CFE_SB_SetMsgTime(MsgPtr, CFE_TIME_GetTime());
+
+    return;
+}
+
+
+void CFE_PSP_GetTimeHook(OS_time_t *LocalTime)
+{
+    int              iStatus;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        LocalTime->seconds = time.tv_sec;
+        LocalTime->microsecs = time.tv_nsec / 1000;
+    }
+
+    return;
+}
 
 
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    return 0;
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
 }
 
 
 uint64 PX4LIB_GetPX4TimeMs(void)
 {
-    return 0;
+    uint64          outTime = 0;
+    OS_time_t       localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000))
+              + static_cast<uint64>(static_cast<uint64>(localTime.microsecs)
+              % static_cast<uint64>(1000));
+
+    return outTime;
 }
 
 
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
 
+    return delta;
+}

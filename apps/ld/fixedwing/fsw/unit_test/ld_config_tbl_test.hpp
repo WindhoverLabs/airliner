@@ -31,18 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef LD_CMDS_TEST_H
-#define LD_CMDS_TEST_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void LD_Cmds_Test_AddTestCases(void);
+#ifndef LD_CONFIG_TBL_TEST_HPP
+#define LD_CONFIG_TBL_TEST_HPP
 
 
-#ifdef __cplusplus
-}
-#endif
+void LD_Config_Tbl_Test_AddTestCases(void);
 
-#endif /* LD_CMDS_TEST_H */
+
+#endif /* LD_CONFIG_TBL_TEST_HPP */

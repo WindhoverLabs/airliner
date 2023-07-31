@@ -32,17 +32,23 @@
 *****************************************************************************/
 
 #include "uttest.h"
-#include "ld_app_test.h"
-#include "ld_cmds_test.h"
-#include "ld_config_tbl_test.h"
+
+#include "ld_test_utils.hpp"
+#include "ld_app_test.hpp"
+#include "ld_cmds_test.hpp"
+#include "ld_config_tbl_test.hpp"
+
+#include <string.h>
+
+LD cpyLD;
 
 int main(void)
 {   
+    memcpy((void *)&oLD, (void *)&cpyLD, sizeof(LD));
+
     LD_App_Test_AddTestCases();
     LD_Cmds_Test_AddTestCases();
     LD_Config_Tbl_Test_AddTestCases();
 
     return(UtTest_Run());
-
 }
-

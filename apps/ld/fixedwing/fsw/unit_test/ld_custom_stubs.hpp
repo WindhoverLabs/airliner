@@ -31,18 +31,21 @@
 *
 *****************************************************************************/
 
-#ifndef LD_CUSTOM_STUBS_H
-#define LD_CUSTOM_STUBS_H
+#ifndef LD_CUSTOM_STUBS_HPP
+#define LD_CUSTOM_STUBS_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include "cfe.h"
 
 
-#ifdef __cplusplus
-}
-#endif
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
-#endif /* LD_CUSTOM_STUBS_H */
+CFE_TIME_SysTime_t  CFE_TIME_GetTimeHook(void);
+void                CFE_SB_TimeStampMsgHook(CFE_SB_MsgPtr_t MsgPtr);
+
+void                CFE_PSP_GetTimeHook(OS_time_t *LocalTime);
+
+
+#endif /* LD_CUSTOM_STUBS_HPP */
