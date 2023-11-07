@@ -91,13 +91,13 @@ buildliner_add_app(
 )
 
 
-buildliner_add_app(
-    sbnd
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
-)
+# buildliner_add_app(
+#     sbnd
+#     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+#     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
+#     CONFIG_SOURCES
+#         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
+# )
 
 buildliner_add_app(
     cf

@@ -290,6 +290,9 @@ gemini2-sitl:: fixedwing/gemini2/ppd/sitl fixedwing/gemini2/cpd/sitl fixedwing/g
 	@ln -s cf build/fixedwing/gemini2/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
 
+gemini2-sitl-ppd:: fixedwing/gemini2/ppd/sitl
+	@echo 'Done'
+
 quad-hitl:: multirotor/quad/ppd multirotor/quad/cpd/hitl multirotor/quad/simlink/hitl
 	@echo 'Done'
 

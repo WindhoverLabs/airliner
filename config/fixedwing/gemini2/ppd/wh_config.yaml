@@ -479,21 +479,21 @@ modules:
                        depth: 1
                        pqueue: "CPD_HK"
 
-      sbnd:
-        definition: ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/wh_design.yaml
-        telemetry:
-          SBND_HK_TLM_MID:
-            msgID: 0x08a4              # TLM_MSG(  164 )
-        commands:
-          SBND_CMD_MID:
-            msgID: 0x18a5              # CMD_MSG(  165 )
-          SBND_SEND_HK_MID:
-            msgID: 0x18a6              # CMD_MSG(  166 )
-          SBND_WAKEUP_MID:
-            msgID: 0x18a7              # CMD_MSG(  167 )
-        perfids:
-          SBND_MAIN_TASK_PERF_ID:
-            id: 115
+      # sbnd:
+      #   definition: ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/wh_design.yaml
+      #   telemetry:
+      #     SBND_HK_TLM_MID:
+      #       msgID: 0x08a4              # TLM_MSG(  164 )
+      #   commands:
+      #     SBND_CMD_MID:
+      #       msgID: 0x18a5              # CMD_MSG(  165 )
+      #     SBND_SEND_HK_MID:
+      #       msgID: 0x18a6              # CMD_MSG(  166 )
+      #     SBND_WAKEUP_MID:
+      #       msgID: 0x18a7              # CMD_MSG(  167 )
+      #   perfids:
+      #     SBND_MAIN_TASK_PERF_ID:
+      #       id: 115
             
       vc:
         definition: ${PROJECT_SOURCE_DIR}/apps/vc/wh_design.yaml
