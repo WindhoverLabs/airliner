@@ -256,6 +256,22 @@ gemini2-sitl-workspace::
 	@echo 'Generating Simlink XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/simlink/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/simlink/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/sitl_commander_workspace/mdb/simlink.xml
 
+
+gemini2-sitl-ppd-workspace::
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/fixedwing/gemini2/ppd/sitl/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/fixedwing/gemini2/sitl_commander_workspace >/dev/null
+	@mkdir -p build/fixedwing/gemini2/sitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/fixedwing/gemini2/sitl_commander_workspace/etc/registry.yaml --yaml_input build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/fixedwing/gemini2/sitl_commander_workspace/etc/registry.yaml build/fixedwing/gemini2/sitl_commander_workspace/
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/ppd/sitl/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/sitl_commander_workspace/mdb/ppd.xml
+
+
 gemini2-hitl-workspace::
 	@echo 'Generating PPD ground tools data.'
 	@make -C build/fixedwing/gemini2/ppd/target ground-tools
